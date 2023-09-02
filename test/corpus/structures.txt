@@ -1,0 +1,27 @@
+================================================================================
+Structure
+================================================================================
+
+func add(x: Int, y: Int) -> Int {
+  return
+}
+
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (identifier)
+      (parameters
+        (parameter
+          (identifier)
+          (type_annotation
+            (type)))
+        (parameter
+          (identifier)
+          (type_annotation
+            (type))))
+      (retuern_type
+        (type))
+      (block_expression
+        (statement_expression)))))

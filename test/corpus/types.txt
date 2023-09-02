@@ -1,0 +1,33 @@
+================================================================================
+Type Definitions
+================================================================================
+
+type Mytype;
+type Gtype[T];
+priv type PrivType;
+pub type Pubtype;
+pub (readonly) type PubReadonlyType;
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (type_defintion
+      (identifier)))
+  (structure_item
+    (type_defintion
+      (identifier)
+      (type_parameters
+        (identifier))))
+  (structure_item
+    (type_defintion
+      (visibility)
+      (identifier)))
+  (structure_item
+    (type_defintion
+      (visibility)
+      (identifier)))
+  (structure_item
+    (type_defintion
+      (visibility
+        (pub_attr))
+      (identifier))))
