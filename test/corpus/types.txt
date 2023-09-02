@@ -2,32 +2,38 @@
 Type Definitions
 ================================================================================
 
-type Mytype;
-type Gtype[T];
-priv type PrivType;
-pub type Pubtype;
-pub (readonly) type PubReadonlyType;
+type Mytype
+type Gtype[T]
+priv type PrivType
+pub type Pubtype
+pub (readonly) type PubReadonlyType
 --------------------------------------------------------------------------------
 
 (structure
   (structure_item
     (type_defintion
-      (identifier)))
+      (identifier
+        (uppercase_identifier))))
   (structure_item
     (type_defintion
-      (identifier)
+      (identifier
+        (uppercase_identifier))
       (type_parameters
-        (identifier))))
+        (identifier
+          (uppercase_identifier)))))
   (structure_item
     (type_defintion
       (visibility)
-      (identifier)))
+      (identifier
+        (uppercase_identifier))))
   (structure_item
     (type_defintion
       (visibility)
-      (identifier)))
+      (identifier
+        (uppercase_identifier))))
   (structure_item
     (type_defintion
       (visibility
         (pub_attr))
-      (identifier))))
+      (identifier
+        (uppercase_identifier)))))

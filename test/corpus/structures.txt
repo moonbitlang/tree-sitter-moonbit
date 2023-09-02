@@ -1,27 +1,296 @@
 ================================================================================
-Structure
+Function
 ================================================================================
 
-func add(x: Int, y: Int) -> Int {
-  return
+pub func add(x: Int, y: Int) -> Int {}
+
+func id[T](x: T) -> T {}
+
+func answer() -> Int {}
+
+func print_i32(self: Int) = "spectest" "print_i32"
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (pub)
+      (identifier
+        (lowercase_identifier))
+      (parameters
+        (parameter
+          (identifier
+            (lowercase_identifier))
+          (type_annotation
+            (type
+              (qualified_type_identifer
+                (identifier
+                  (uppercase_identifier))))))
+        (parameter
+          (identifier
+            (lowercase_identifier))
+          (type_annotation
+            (type
+              (qualified_type_identifer
+                (identifier
+                  (uppercase_identifier)))))))
+      (retuern_type
+        (type
+          (qualified_type_identifer
+            (identifier
+              (uppercase_identifier)))))
+      (block_expression)))
+  (structure_item
+    (function_definition
+      (identifier
+        (lowercase_identifier))
+      (type_parameters
+        (identifier
+          (uppercase_identifier)))
+      (parameters
+        (parameter
+          (identifier
+            (lowercase_identifier))
+          (type_annotation
+            (type
+              (qualified_type_identifer
+                (identifier
+                  (uppercase_identifier)))))))
+      (retuern_type
+        (type
+          (qualified_type_identifer
+            (identifier
+              (uppercase_identifier)))))
+      (block_expression)))
+  (structure_item
+    (function_definition
+      (identifier
+        (lowercase_identifier))
+      (parameters)
+      (retuern_type
+        (type
+          (qualified_type_identifer
+            (identifier
+              (uppercase_identifier)))))
+      (block_expression)))
+  (structure_item
+    (function_definition
+      (identifier
+        (lowercase_identifier))
+      (parameters
+        (parameter
+          (identifier
+            (lowercase_identifier))
+          (type_annotation
+            (type
+              (qualified_type_identifer
+                (identifier
+                  (uppercase_identifier)))))))
+      (string_literal)
+      (string_literal))))
+
+================================================================================
+Struct
+================================================================================
+
+struct Empty {}
+
+struct Ref[T] {
+  内容: T
+}
+
+struct Vector[X] {
+  mut data : Array[X]
+  mut len : Int
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (struct_definition
+      (identifier
+        (uppercase_identifier))))
+  (structure_item
+    (struct_definition
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (identifier
+          (uppercase_identifier)))
+      (struct_field_definition
+        (lowercase_identifier)
+        (type
+          (qualified_type_identifer
+            (identifier
+              (uppercase_identifier)))))))
+  (structure_item
+    (struct_definition
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (identifier
+          (uppercase_identifier)))
+      (struct_field_definition
+        (mut)
+        (lowercase_identifier)
+        (type
+          (qualified_type_identifer
+            (identifier
+              (uppercase_identifier)))
+          (type_arguments
+            (type
+              (qualified_type_identifer
+                (identifier
+                  (uppercase_identifier)))))))
+      (struct_field_definition
+        (mut)
+        (lowercase_identifier)
+        (type
+          (qualified_type_identifer
+            (identifier
+              (uppercase_identifier))))))))
+
+================================================================================
+Enum
+================================================================================
+
+enum Empty {}
+
+enum List[T] {
+  Nil
+  Cons(T, List[T])
+}
+
+enum Two {
+  Left
+  Right
 }
 
 --------------------------------------------------------------------------------
 
 (structure
   (structure_item
-    (function_definition
-      (identifier)
-      (parameters
-        (parameter
-          (identifier)
-          (type_annotation
-            (type)))
-        (parameter
-          (identifier)
-          (type_annotation
-            (type))))
-      (retuern_type
-        (type))
-      (block_expression
-        (statement_expression)))))
+    (enum_definition
+      (identifier
+        (uppercase_identifier))))
+  (structure_item
+    (enum_definition
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (identifier
+          (uppercase_identifier)))
+      (enum_constructor
+        (uppercase_identifier))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (qualified_type_identifer
+            (identifier
+              (uppercase_identifier))))
+        (type
+          (qualified_type_identifer
+            (identifier
+              (uppercase_identifier)))
+          (type_arguments
+            (type
+              (qualified_type_identifer
+                (identifier
+                  (uppercase_identifier)))))))))
+  (structure_item
+    (enum_definition
+      (identifier
+        (uppercase_identifier))
+      (enum_constructor
+        (uppercase_identifier))
+      (enum_constructor
+        (uppercase_identifier)))))
+
+================================================================================
+Expression
+================================================================================
+
+let answer = 42
+let binary = 0b1101
+let octal = 0o777
+let hex = 0xabcd
+let sum = answer + binary + octal + hex
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (value_definition
+      (lowercase_identifier)
+      (expression
+        (literal
+          (integer_literal)))))
+  (structure_item
+    (value_definition
+      (lowercase_identifier)
+      (expression
+        (literal
+          (integer_literal)))))
+  (structure_item
+    (value_definition
+      (lowercase_identifier)
+      (expression
+        (literal
+          (integer_literal)))))
+  (structure_item
+    (value_definition
+      (lowercase_identifier)
+      (expression
+        (literal
+          (integer_literal)))))
+  (structure_item
+    (value_definition
+      (lowercase_identifier)
+      (expression
+        (binary_expression
+          (expression
+            (binary_expression
+              (expression
+                (binary_expression
+                  (expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (expression
+                    (qualified_identifier
+                      (lowercase_identifier)))))
+              (expression
+                (qualified_identifier
+                  (lowercase_identifier)))))
+          (expression
+            (qualified_identifier
+              (lowercase_identifier))))))))
+
+================================================================================
+dot
+================================================================================
+
+let x = "hello".print()
+let x = "hello".print()
+
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (value_definition
+      (lowercase_identifier)
+      (expression
+        (dot_apply_expression
+          (expression
+            (literal
+              (string_literal)))
+          (identifier
+            (lowercase_identifier))))))
+  (structure_item
+    (value_definition
+      (lowercase_identifier)
+      (expression
+        (dot_apply_expression
+          (expression
+            (literal
+              (string_literal)))
+          (identifier
+            (lowercase_identifier)))))))
