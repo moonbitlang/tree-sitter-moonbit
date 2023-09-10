@@ -2,11 +2,17 @@
 Function
 ================================================================================
 
-pub func add(x: Int, y: Int) -> Int {}
+pub func add(x: Int, y: Int) -> Int {
+  x + y
+}
 
-func id[T](x: T) -> T {}
+func id[T](x: T) -> T {
+  x
+}
 
-func answer() -> Int {}
+func answer() -> Int {
+  42
+}
 
 func print_i32(self: Int) = "spectest" "print_i32"
 --------------------------------------------------------------------------------
@@ -15,77 +21,96 @@ func print_i32(self: Int) = "spectest" "print_i32"
   (structure_item
     (function_definition
       (pub)
-      (identifier
+      (function_identifier
         (lowercase_identifier))
       (parameters
         (parameter
-          (identifier
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (type
-              (qualified_type_identifer
-                (identifier
-                  (uppercase_identifier))))))
+              (apply_type
+                (qualified_type_identifier
+                  (identifier))))))
         (parameter
-          (identifier
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (type
-              (qualified_type_identifer
-                (identifier
-                  (uppercase_identifier)))))))
+              (apply_type
+                (qualified_type_identifier
+                  (identifier)))))))
       (retuern_type
         (type
-          (qualified_type_identifer
-            (identifier
-              (uppercase_identifier)))))
-      (block_expression)))
+          (apply_type
+            (qualified_type_identifier
+              (identifier)))))
+      (block_expression
+        (statement_expression
+          (expression
+            (simple_expression
+              (binary_expression
+                (expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier))))
+                (expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))))))))))
   (structure_item
     (function_definition
-      (identifier
+      (function_identifier
         (lowercase_identifier))
       (type_parameters
-        (identifier
-          (uppercase_identifier)))
+        (type_identifier
+          (identifier)))
       (parameters
         (parameter
-          (identifier
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (type
-              (qualified_type_identifer
-                (identifier
-                  (uppercase_identifier)))))))
+              (apply_type
+                (qualified_type_identifier
+                  (identifier)))))))
       (retuern_type
         (type
-          (qualified_type_identifer
-            (identifier
-              (uppercase_identifier)))))
-      (block_expression)))
+          (apply_type
+            (qualified_type_identifier
+              (identifier)))))
+      (block_expression
+        (statement_expression
+          (expression
+            (simple_expression
+              (qualified_identifier
+                (lowercase_identifier))))))))
   (structure_item
     (function_definition
-      (identifier
+      (function_identifier
         (lowercase_identifier))
       (parameters)
       (retuern_type
         (type
-          (qualified_type_identifer
-            (identifier
-              (uppercase_identifier)))))
-      (block_expression)))
+          (apply_type
+            (qualified_type_identifier
+              (identifier)))))
+      (block_expression
+        (statement_expression
+          (expression
+            (simple_expression
+              (atomic_expression
+                (literal
+                  (integer_literal)))))))))
   (structure_item
     (function_definition
-      (identifier
+      (function_identifier
         (lowercase_identifier))
       (parameters
         (parameter
-          (identifier
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (type
-              (qualified_type_identifer
-                (identifier
-                  (uppercase_identifier)))))))
+              (apply_type
+                (qualified_type_identifier
+                  (identifier)))))))
       (string_literal)
       (string_literal))))
 
@@ -108,47 +133,44 @@ struct Vector[X] {
 (structure
   (structure_item
     (struct_definition
-      (identifier
-        (uppercase_identifier))))
+      (identifier)))
   (structure_item
     (struct_definition
-      (identifier
-        (uppercase_identifier))
+      (identifier)
       (type_parameters
-        (identifier
-          (uppercase_identifier)))
-      (struct_field_definition
+        (type_identifier
+          (identifier)))
+      (struct_filed_declaration
         (lowercase_identifier)
         (type
-          (qualified_type_identifer
-            (identifier
-              (uppercase_identifier)))))))
+          (apply_type
+            (qualified_type_identifier
+              (identifier)))))))
   (structure_item
     (struct_definition
-      (identifier
-        (uppercase_identifier))
+      (identifier)
       (type_parameters
-        (identifier
-          (uppercase_identifier)))
-      (struct_field_definition
-        (mut)
+        (type_identifier
+          (identifier)))
+      (struct_filed_declaration
+        (mutability)
         (lowercase_identifier)
         (type
-          (qualified_type_identifer
-            (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (qualified_type_identifer
-                (identifier
-                  (uppercase_identifier)))))))
-      (struct_field_definition
-        (mut)
+          (apply_type
+            (qualified_type_identifier
+              (identifier))
+            (type_arguments
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier))))))))
+      (struct_filed_declaration
+        (mutability)
         (lowercase_identifier)
         (type
-          (qualified_type_identifer
-            (identifier
-              (uppercase_identifier))))))))
+          (apply_type
+            (qualified_type_identifier
+              (identifier))))))))
 
 ================================================================================
 Enum
@@ -171,36 +193,33 @@ enum Two {
 (structure
   (structure_item
     (enum_definition
-      (identifier
-        (uppercase_identifier))))
+      (identifier)))
   (structure_item
     (enum_definition
-      (identifier
-        (uppercase_identifier))
+      (identifier)
       (type_parameters
-        (identifier
-          (uppercase_identifier)))
+        (type_identifier
+          (identifier)))
       (enum_constructor
         (uppercase_identifier))
       (enum_constructor
         (uppercase_identifier)
         (type
-          (qualified_type_identifer
-            (identifier
-              (uppercase_identifier))))
+          (apply_type
+            (qualified_type_identifier
+              (identifier))))
         (type
-          (qualified_type_identifer
-            (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (qualified_type_identifer
-                (identifier
-                  (uppercase_identifier)))))))))
+          (apply_type
+            (qualified_type_identifier
+              (identifier))
+            (type_arguments
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier))))))))))
   (structure_item
     (enum_definition
-      (identifier
-        (uppercase_identifier))
+      (identifier)
       (enum_constructor
         (uppercase_identifier))
       (enum_constructor
@@ -222,47 +241,62 @@ let sum = answer + binary + octal + hex
     (value_definition
       (lowercase_identifier)
       (expression
-        (literal
-          (integer_literal)))))
+        (simple_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))))))
   (structure_item
     (value_definition
       (lowercase_identifier)
       (expression
-        (literal
-          (integer_literal)))))
+        (simple_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))))))
   (structure_item
     (value_definition
       (lowercase_identifier)
       (expression
-        (literal
-          (integer_literal)))))
+        (simple_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))))))
   (structure_item
     (value_definition
       (lowercase_identifier)
       (expression
-        (literal
-          (integer_literal)))))
+        (simple_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))))))
   (structure_item
     (value_definition
       (lowercase_identifier)
       (expression
-        (binary_expression
-          (expression
-            (binary_expression
-              (expression
+        (simple_expression
+          (binary_expression
+            (expression
+              (simple_expression
                 (binary_expression
                   (expression
-                    (qualified_identifier
-                      (lowercase_identifier)))
+                    (simple_expression
+                      (binary_expression
+                        (expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier))))
+                        (expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier)))))))
                   (expression
-                    (qualified_identifier
-                      (lowercase_identifier)))))
-              (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))))))
+            (expression
+              (simple_expression
                 (qualified_identifier
-                  (lowercase_identifier)))))
-          (expression
-            (qualified_identifier
-              (lowercase_identifier))))))))
+                  (lowercase_identifier))))))))))
 
 ================================================================================
 dot
@@ -278,19 +312,27 @@ let x = "hello".print()
     (value_definition
       (lowercase_identifier)
       (expression
-        (dot_apply_expression
-          (expression
-            (literal
-              (string_literal)))
-          (identifier
-            (lowercase_identifier))))))
+        (simple_expression
+          (apply_expression
+            (simple_expression
+              (access_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (string_literal))))
+                (accessor
+                  (dot_identifier)))))))))
   (structure_item
     (value_definition
       (lowercase_identifier)
       (expression
-        (dot_apply_expression
-          (expression
-            (literal
-              (string_literal)))
-          (identifier
-            (lowercase_identifier)))))))
+        (simple_expression
+          (apply_expression
+            (simple_expression
+              (access_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (string_literal))))
+                (accessor
+                  (dot_identifier))))))))))

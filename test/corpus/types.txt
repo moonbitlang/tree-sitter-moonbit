@@ -12,28 +12,23 @@ pub (readonly) type PubReadonlyType
 (structure
   (structure_item
     (type_defintion
-      (identifier
-        (uppercase_identifier))))
+      (identifier)))
   (structure_item
     (type_defintion
-      (identifier
-        (uppercase_identifier))
+      (identifier)
       (type_parameters
-        (identifier
-          (uppercase_identifier)))))
+        (type_identifier
+          (identifier)))))
   (structure_item
     (type_defintion
       (visibility)
-      (identifier
-        (uppercase_identifier))))
+      (identifier)))
   (structure_item
     (type_defintion
       (visibility)
-      (identifier
-        (uppercase_identifier))))
+      (identifier)))
   (structure_item
     (type_defintion
       (visibility
-        (pub_attr))
-      (identifier
-        (uppercase_identifier)))))
+        (pub_attribute))
+      (identifier))))
