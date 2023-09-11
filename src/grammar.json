@@ -788,8 +788,61 @@
       ]
     },
     "string_interpolation": {
-      "type": "STRING",
-      "value": "todo"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string_fragement"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interpolator"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "string_fragement"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "interpolator"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "interpolator": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\\("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
     },
     "literal": {
       "type": "CHOICE",
@@ -855,18 +908,42 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "PATTERN",
-            "value": "[^\"]"
+            "type": "SYMBOL",
+            "name": "string_fragement"
           }
         },
         {
-          "type": "IMMEDIATE_TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "\""
-          }
+          "type": "STRING",
+          "value": "\""
         }
       ]
+    },
+    "string_fragement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "unescaped_string_fragment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "escape_seqence"
+        }
+      ]
+    },
+    "unescaped_string_fragment": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\"\\\\]"
+      }
+    },
+    "escape_seqence": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\\\[ntb]"
+      }
     },
     "unary_expression": {
       "type": "PREC",

@@ -670,6 +670,21 @@
     }
   },
   {
+    "type": "interpolator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "labeled_expression",
     "named": true,
     "fields": {},
@@ -1240,9 +1255,57 @@
     }
   },
   {
+    "type": "string_fragement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "escape_seqence",
+          "named": true
+        },
+        {
+          "type": "unescaped_string_fragment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_interpolation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "interpolator",
+          "named": true
+        },
+        {
+          "type": "string_fragement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "string_literal",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string_fragement",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "struct_definition",
@@ -1831,6 +1894,10 @@
     "named": false
   },
   {
+    "type": "\\(",
+    "named": false
+  },
+  {
     "type": "]",
     "named": false
   },
@@ -1869,6 +1936,10 @@
   {
     "type": "enum",
     "named": false
+  },
+  {
+    "type": "escape_seqence",
+    "named": true
   },
   {
     "type": "false",
@@ -1935,10 +2006,6 @@
     "named": false
   },
   {
-    "type": "string_interpolation",
-    "named": true
-  },
-  {
     "type": "struct",
     "named": false
   },
@@ -1949,6 +2016,10 @@
   {
     "type": "type",
     "named": false
+  },
+  {
+    "type": "unescaped_string_fragment",
+    "named": true
   },
   {
     "type": "uppercase_identifier",

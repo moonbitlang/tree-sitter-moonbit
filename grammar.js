@@ -162,7 +162,22 @@ module.exports = grammar({
       $.literal
     ),
 
-    string_interpolation: $ => 'todo',
+    string_interpolation: $ => seq(
+      '"',
+      repeat($.string_fragement),
+      $.interpolator,
+      repeat(choice(
+        $.string_fragement,
+        $.interpolator
+      )),
+      '"'
+    ),
+
+    interpolator: $ => seq(
+      '\\(',
+      $.expression,
+      ')'
+    ),
 
     literal: $ => choice(
       $.boolean_literal,
@@ -170,7 +185,7 @@ module.exports = grammar({
       $.string_literal
     ),
 
-    boolean_literal: $ => choice('true', 'false'),
+    boolean_literal: _ => choice('true', 'false'),
 
     integer_literal: _ => token(choice(
       /[0-9][0-9_]*/,
@@ -181,9 +196,18 @@ module.exports = grammar({
 
     string_literal: $ => seq(
       '"',
-      repeat(/[^"]/),
-      token.immediate('"'),
+      repeat($.string_fragement),
+      '"'
     ),
+
+    string_fragement: $ => choice(
+      $.unescaped_string_fragment,
+      $.escape_seqence
+    ),
+
+    unescaped_string_fragment: _ => token.immediate(/[^"\\]/),
+
+    escape_seqence: _ => token.immediate(/\\[ntb]/),
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '+'),
