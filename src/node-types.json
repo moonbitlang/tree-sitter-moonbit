@@ -279,6 +279,21 @@
     }
   },
   {
+    "type": "char_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_seqence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "constraint",
     "named": true,
     "fields": {},
@@ -804,6 +819,14 @@
       "types": [
         {
           "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "char_literal",
+          "named": true
+        },
+        {
+          "type": "float_literal",
           "named": true
         },
         {
@@ -1794,6 +1817,10 @@
     "named": false
   },
   {
+    "type": "'",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -1944,6 +1971,10 @@
   {
     "type": "false",
     "named": false
+  },
+  {
+    "type": "float_literal",
+    "named": true
   },
   {
     "type": "fn",

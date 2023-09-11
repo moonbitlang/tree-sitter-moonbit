@@ -857,6 +857,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "float_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "char_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "string_literal"
         }
       ]
@@ -897,6 +905,39 @@
           }
         ]
       }
+    },
+    "float_literal": {
+      "type": "PATTERN",
+      "value": "[0-9][_0-9]*\\.[_0-9]*([eE][0-9][_0-9]*)?"
+    },
+    "char_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "'"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "escape_seqence"
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": "[^']"
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "'"
+        }
+      ]
     },
     "string_literal": {
       "type": "SEQ",
@@ -942,7 +983,7 @@
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PATTERN",
-        "value": "\\\\[ntb]"
+        "value": "\\\\[ntb\\\\]"
       }
     },
     "unary_expression": {

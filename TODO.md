@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] Literal
+- [x] Literal
 - [ ] Comment
 - [x] String interpolation
 - [ ] ASI (may need external scanner)

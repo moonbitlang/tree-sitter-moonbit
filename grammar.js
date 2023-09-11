@@ -182,6 +182,8 @@ module.exports = grammar({
     literal: $ => choice(
       $.boolean_literal,
       $.integer_literal,
+      $.float_literal,
+      $.char_literal,
       $.string_literal
     ),
 
@@ -193,6 +195,20 @@ module.exports = grammar({
       /0[oO][0-7_]+/,
       /0[bB][01_]+/,
     )),
+
+    // integerPart = /[0-9][_0-9]*/,
+    // decimalPart = /[_0-9]+/,
+    // exponentPart = /[eE][0-9][_0-9]*/,
+    float_literal: _ => /[0-9][_0-9]*\.[_0-9]*([eE][0-9][_0-9]*)?/,
+
+    char_literal: $ => seq(
+      '\'',
+      choice(
+        $.escape_seqence,
+        token.immediate(/[^']/)
+      ),
+      '\''
+    ),
 
     string_literal: $ => seq(
       '"',
@@ -207,7 +223,7 @@ module.exports = grammar({
 
     unescaped_string_fragment: _ => token.immediate(/[^"\\]/),
 
-    escape_seqence: _ => token.immediate(/\\[ntb]/),
+    escape_seqence: _ => token.immediate(/\\[ntb\\]/),
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '+'),
