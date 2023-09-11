@@ -1,7 +1,7 @@
 # TODO
 
 - [x] Literal
-- [ ] Comment
+- [x] Comment
 - [x] String interpolation
 - [ ] ASI (may need external scanner)
 - [ ] More tests

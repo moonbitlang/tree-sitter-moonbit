@@ -25,6 +25,8 @@ const
 module.exports = grammar({
   name: 'moonbit',
 
+  extras: $ => [$.comment],
+
   word: $ => $.lowercase_identifier,
 
   rules: {
@@ -577,7 +579,9 @@ module.exports = grammar({
 
     constraints: $ => sepBy1('+', $.constraint),
 
-    constraint: $ => $.qualified_type_identifier
+    constraint: $ => $.qualified_type_identifier,
+
+    comment: _ => /\/\/.*/
   }
 })
 

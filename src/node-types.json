@@ -1949,6 +1949,10 @@
     "named": true
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "continue",
     "named": false
   },
