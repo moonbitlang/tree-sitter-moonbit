@@ -12,8 +12,8 @@ const
     comparative: 13,
     and: 12,
     or: 11,
-    or_pattern: 10,
-    as_pattern: 9,
+    orPattern: 10,
+    asPattern: 9,
   },
   power_operator = '**',
   multiplicative_operators = ['*', '/', '*=', '/=', '%'],
@@ -25,7 +25,7 @@ const
 module.exports = grammar({
   name: 'moonbit',
 
-  extras: $ => [$.comment],
+  extras: $ => [$.comment, /\s/],
 
   word: $ => $.lowercase_identifier,
 
@@ -50,19 +50,19 @@ module.exports = grammar({
 
     type_defintion: $ => seq(
       optional($.visibility),
-      "type",
+      'type',
       $.identifier,
       optional($.type_parameters)
     ),
 
     struct_definition: $ => seq(
       optional($.visibility),
-      "struct",
+      'struct',
       $.identifier,
       optional($.type_parameters),
-      "{",
+      '{',
       repeat(seq($.struct_filed_declaration, terminator)),
-      "}"
+      '}'
     ),
 
     struct_filed_declaration: $ => seq(
@@ -75,12 +75,12 @@ module.exports = grammar({
 
     enum_definition: $ => seq(
       optional($.visibility),
-      "enum",
+      'enum',
       $.identifier,
       optional($.type_parameters),
-      "{",
+      '{',
       repeat(seq($.enum_constructor, terminator)),
-      "}"
+      '}'
     ),
 
     enum_constructor: $ => seq(
@@ -94,7 +94,7 @@ module.exports = grammar({
 
     value_definition: $ => seq(
       optional($.pub),
-      "let",
+      'let',
       $.lowercase_identifier,
       optional($.type_annotation),
       '=',
@@ -118,17 +118,17 @@ module.exports = grammar({
       optional($.pub),
       'interface',
       $.identifier,
-      "{",
+      '{',
       repeat(seq($.interface_method_declaration, terminator)),
-      "}"
+      '}'
     ),
 
     interface_method_declaration: $ => seq(
       $.function_identifier,
       optional($.type_parameters),
-      "(",
+      '(',
       commaList($.type),
-      ")",
+      ')',
       optional($.retuern_type)
     ),
 
@@ -156,7 +156,7 @@ module.exports = grammar({
       $.tuple_expression,
       $.constraint_expression,
       $.array_expression,
-      "_"
+      '_'
     ),
 
     atomic_expression: $ => choice(
@@ -311,13 +311,13 @@ module.exports = grammar({
       ']'
     )),
 
-    dot_apply_expression: $ => seq(
-      $.expression,
+    dot_apply_expression: $ => prec(PREC.apply, seq(
+      $.simple_expression,
       $.dot_identifier,
-      "(",
+      '(',
       commaList($.expression),
-      ")"
-    ),
+      ')'
+    )),
 
     access_expression: $ => prec(PREC.access, seq(
       $.simple_expression,
@@ -433,7 +433,11 @@ module.exports = grammar({
       $.block_expression
     ),
 
-    while_expression: $ => seq('while', $.simple_expression, $.block_expression),
+    while_expression: $ => seq(
+      'while',
+      $.simple_expression,
+      $.block_expression
+    ),
 
     return_expression: $ => seq('return', optional($.expression)),
 
@@ -445,9 +449,13 @@ module.exports = grammar({
       $.or_pattern
     ),
 
-    as_pattern: $ => prec(PREC.as_pattern, seq($.pattern, 'as', $.lowercase_identifier)),
+    as_pattern: $ => prec(PREC.asPattern, seq(
+      $.pattern,
+      'as',
+      $.lowercase_identifier
+    )),
 
-    or_pattern: $ => prec.right(PREC.or_pattern, seq($.pattern, '|', $.pattern)),
+    or_pattern: $ => prec.right(PREC.orPattern, seq($.pattern, '|', $.pattern)),
 
     simple_pattern: $ => choice(
       '_',
