@@ -191,12 +191,12 @@ module.exports = grammar({
 
     boolean_literal: _ => choice('true', 'false'),
 
-    integer_literal: _ => token(choice(
+    integer_literal: _ => prec(1, token(choice(
       /[0-9][0-9_]*/,
       /0[xX][0-9a-fA-F_]+/,
       /0[oO][0-7_]+/,
       /0[bB][01_]+/,
-    )),
+    ))),
 
     // integerPart = /[0-9][_0-9]*/,
     // decimalPart = /[_0-9]+/,
