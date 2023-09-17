@@ -2,5 +2,5 @@
 
 - [ ] external scanner
   - [ ] ASI
-  - [ ] float literal
+  - [x] float literal
 - [ ] More tests

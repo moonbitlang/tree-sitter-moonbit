@@ -639,11 +639,6 @@
     }
   },
   {
-    "type": "integer_literal",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "interface_definition",
     "named": true,
     "fields": {},
@@ -2004,6 +1999,10 @@
   {
     "type": "if",
     "named": false
+  },
+  {
+    "type": "integer_literal",
+    "named": true
   },
   {
     "type": "interface",

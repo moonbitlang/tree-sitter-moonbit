@@ -25,7 +25,14 @@ const
 module.exports = grammar({
   name: 'moonbit',
 
-  extras: $ => [$.comment, /\s/],
+  extras: $ => [
+    $.comment,
+    /\s/
+  ],
+
+  externals: $ => [
+    $.float_literal
+  ],
 
   word: $ => $.lowercase_identifier,
 
@@ -183,8 +190,8 @@ module.exports = grammar({
 
     literal: $ => choice(
       $.boolean_literal,
-      $.integer_literal,
       $.float_literal,
+      $.integer_literal,
       $.char_literal,
       $.string_literal
     ),
@@ -201,7 +208,7 @@ module.exports = grammar({
     // integerPart = /[0-9][_0-9]*/,
     // decimalPart = /[_0-9]+/,
     // exponentPart = /[eE][0-9][_0-9]*/,
-    float_literal: _ => /[0-9][_0-9]*\.[_0-9]*([eE][0-9][_0-9]*)?/,
+    // float_literal: _ => /[0-9][_0-9]*\.[_0-9]*([eE][0-9][_0-9]*)?/,
 
     char_literal: $ => seq(
       '\'',

@@ -3,6 +3,7 @@ dot
 ================================================================================
 func init {
   1.print()
+  1.0.print()
 }
 --------------------------------------------------------------------------------
 
@@ -12,15 +13,21 @@ func init {
       (function_identifier
         (lowercase_identifier))
       (block_expression
-        (ERROR
-          (simple_expression
-            (atomic_expression
-              (literal
-                (float_literal)))))
         (statement_expression
           (expression
             (simple_expression
-              (apply_expression
+              (dot_apply_expression
                 (simple_expression
-                  (qualified_identifier
-                    (lowercase_identifier)))))))))))
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))
+                (dot_identifier)))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (dot_apply_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (float_literal))))
+                (dot_identifier)))))))))
