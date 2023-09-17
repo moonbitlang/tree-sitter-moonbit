@@ -1,5 +1,4 @@
 #include "tree_sitter/parser.h"
-#include <stdio.h>
 #include <wctype.h>
 
 enum TokenType { FLOAT_LITERAL };
@@ -19,12 +18,16 @@ static bool is_num_char(int32_t c) { return c == '_' || iswdigit(c); }
 
 bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
                                                const bool *valid_symbols) {
-  while (iswspace(lexer->lookahead)) {
-    skip(lexer);
-  }
-  if (valid_symbols[FLOAT_LITERAL] && iswdigit(lexer->lookahead)) {
-    printf("hello\n");
+  if (valid_symbols[FLOAT_LITERAL]) {
     lexer->result_symbol = FLOAT_LITERAL;
+
+    while (iswspace(lexer->lookahead)) {
+      skip(lexer);
+    }
+
+    if (!iswdigit(lexer->lookahead)) {
+      return false;
+    }
 
     advance(lexer);
 
