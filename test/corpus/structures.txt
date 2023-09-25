@@ -2,8 +2,10 @@
 dot
 ================================================================================
 func init {
-  1.print()
-  1.0.print()
+  [1, 2, 3]
+  [1, 2,
+  3, 4
+  ]
 }
 --------------------------------------------------------------------------------
 
@@ -16,18 +18,43 @@ func init {
         (statement_expression
           (expression
             (simple_expression
-              (dot_apply_expression
-                (simple_expression
-                  (atomic_expression
-                    (literal
-                      (integer_literal))))
-                (dot_identifier)))))
+              (array_expression
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))
         (statement_expression
           (expression
             (simple_expression
-              (dot_apply_expression
-                (simple_expression
-                  (atomic_expression
-                    (literal
-                      (float_literal))))
-                (dot_identifier)))))))))
+              (array_expression
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))

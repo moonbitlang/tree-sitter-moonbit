@@ -114,7 +114,7 @@ module.exports = grammar({
       $.function_identifier,
       optional($.type_parameters),
       optional($.parameters),
-      optional($.retuern_type),
+      optional($.return_type),
       choice(
         $.block_expression,
         seq('=', $.string_literal, $.string_literal)
@@ -136,7 +136,7 @@ module.exports = grammar({
       '(',
       commaList($.type),
       ')',
-      optional($.retuern_type)
+      optional($.return_type)
     ),
 
     expression: $ => choice(
@@ -295,7 +295,7 @@ module.exports = grammar({
     anonymous_lambda_expression: $ => seq(
       'fn',
       $.parameters,
-      optional($.retuern_type),
+      optional($.return_type),
       $.block_expression
     ),
 
@@ -436,7 +436,7 @@ module.exports = grammar({
       'fn',
       $.lowercase_identifier,
       $.parameters,
-      optional($.retuern_type),
+      optional($.return_type),
       $.block_expression
     ),
 
@@ -549,7 +549,7 @@ module.exports = grammar({
 
     type_annotation: $ => seq(':', $.type),
 
-    retuern_type: $ => seq('->', $.type),
+    return_type: $ => seq('->', $.type),
 
     parameter: $ => seq($.lowercase_identifier, optional($.type_annotation)),
 
