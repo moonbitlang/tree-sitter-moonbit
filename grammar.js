@@ -40,7 +40,7 @@ module.exports = grammar({
     structure: $ => repeat(seq($.structure_item, terminator)),
 
     structure_item: $ => choice(
-      $.type_defintion,
+      $.type_definition,
       $.struct_definition,
       $.enum_definition,
       $.value_definition,
@@ -55,7 +55,7 @@ module.exports = grammar({
 
     pub_attribute: _ => seq('(', 'readonly', ')'),
 
-    type_defintion: $ => seq(
+    type_definition: $ => seq(
       optional($.visibility),
       'type',
       $.identifier,

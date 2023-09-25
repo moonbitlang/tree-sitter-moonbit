@@ -36,7 +36,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "type_defintion"
+          "name": "type_definition"
         },
         {
           "type": "SYMBOL",
@@ -107,7 +107,7 @@
         }
       ]
     },
-    "type_defintion": {
+    "type_definition": {
       "type": "SEQ",
       "members": [
         {

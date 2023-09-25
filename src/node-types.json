@@ -1523,7 +1523,7 @@
           "named": true
         },
         {
-          "type": "type_defintion",
+          "type": "type_definition",
           "named": true
         },
         {
@@ -1636,7 +1636,7 @@
     }
   },
   {
-    "type": "type_defintion",
+    "type": "type_definition",
     "named": true,
     "fields": {},
     "children": {
