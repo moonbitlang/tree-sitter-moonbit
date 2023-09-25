@@ -283,12 +283,14 @@ module.exports = grammar({
     block_expression: $ => seq(
       '{',
       repeat(seq($.statement_expression, terminator)),
+      optional($.statement_expression),
       '}',
     ),
 
     nonempty_block_expression: $ => seq(
       '{',
-      repeat1(seq($.statement_expression, terminator)),
+      repeat(seq($.statement_expression, terminator)),
+      $.statement_expression,
       '}'
     ),
 
