@@ -1,0 +1,124 @@
+================================================================================
+basic
+================================================================================
+func init {
+  fn (x: Int) {
+    x
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (simple_expression
+              (anonymous_lambda_expression
+                (parameters
+                  (parameter
+                    (lowercase_identifier)
+                    (type_annotation
+                      (type
+                        (apply_type
+                          (qualified_type_identifier
+                            (identifier)))))))
+                (block_expression
+                  (statement_expression
+                    (expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier))))))))))))))
+
+================================================================================
+one-line
+================================================================================
+func init {
+  fn (x: Int) { x }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (simple_expression
+              (anonymous_lambda_expression
+                (parameters
+                  (parameter
+                    (lowercase_identifier)
+                    (type_annotation
+                      (type
+                        (apply_type
+                          (qualified_type_identifier
+                            (identifier)))))))
+                (block_expression
+                  (statement_expression
+                    (expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier))))))))))))))
+
+================================================================================
+lambda_curry
+================================================================================
+func init {
+  let gt = fn (a : Int) { fn (b : Int) { a > b } }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (anonymous_lambda_expression
+                  (parameters
+                    (parameter
+                      (lowercase_identifier)
+                      (type_annotation
+                        (type
+                          (apply_type
+                            (qualified_type_identifier
+                              (identifier)))))))
+                  (block_expression
+                    (statement_expression
+                      (expression
+                        (simple_expression
+                          (anonymous_lambda_expression
+                            (parameters
+                              (parameter
+                                (lowercase_identifier)
+                                (type_annotation
+                                  (type
+                                    (apply_type
+                                      (qualified_type_identifier
+                                        (identifier)))))))
+                            (block_expression
+                              (statement_expression
+                                (expression
+                                  (simple_expression
+                                    (binary_expression
+                                      (expression
+                                        (simple_expression
+                                          (qualified_identifier
+                                            (lowercase_identifier))))
+                                      (expression
+                                        (simple_expression
+                                          (qualified_identifier
+                                            (lowercase_identifier)))))))))))))))))))))))
