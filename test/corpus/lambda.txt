@@ -25,7 +25,8 @@ func init {
                       (type
                         (apply_type
                           (qualified_type_identifier
-                            (identifier)))))))
+                            (identifier
+                              (uppercase_identifier))))))))
                 (block_expression
                   (statement_expression
                     (expression
@@ -58,7 +59,8 @@ func init {
                       (type
                         (apply_type
                           (qualified_type_identifier
-                            (identifier)))))))
+                            (identifier
+                              (uppercase_identifier))))))))
                 (block_expression
                   (statement_expression
                     (expression
@@ -95,7 +97,8 @@ func init {
                         (type
                           (apply_type
                             (qualified_type_identifier
-                              (identifier)))))))
+                              (identifier
+                                (uppercase_identifier))))))))
                   (block_expression
                     (statement_expression
                       (expression
@@ -108,7 +111,8 @@ func init {
                                   (type
                                     (apply_type
                                       (qualified_type_identifier
-                                        (identifier)))))))
+                                        (identifier
+                                          (uppercase_identifier))))))))
                             (block_expression
                               (statement_expression
                                 (expression
