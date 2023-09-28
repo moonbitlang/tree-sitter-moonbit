@@ -979,7 +979,7 @@
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PATTERN",
-        "value": "\\\\[ntb\\\\]"
+        "value": "\\\\[ntb\"\\\\]"
       }
     },
     "unary_expression": {

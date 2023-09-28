@@ -232,7 +232,7 @@ module.exports = grammar({
 
     unescaped_string_fragment: _ => token.immediate(/[^"\\]/),
 
-    escape_seqence: _ => token.immediate(/\\[ntb\\]/),
+    escape_seqence: _ => token.immediate(/\\[ntb"\\]/),
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '+'),
