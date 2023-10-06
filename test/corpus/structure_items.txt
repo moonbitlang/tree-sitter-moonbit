@@ -1,0 +1,287 @@
+================================================================================
+Type definitions
+================================================================================
+type X
+priv type X
+pub (readonly) type X
+type X[t]
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (type_definition
+      (identifier
+        (uppercase_identifier))))
+  (structure_item
+    (type_definition
+      (visibility)
+      (identifier
+        (uppercase_identifier))))
+  (structure_item
+    (type_definition
+      (visibility
+        (pub_attribute))
+      (identifier
+        (uppercase_identifier))))
+  (structure_item
+    (type_definition
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (lowercase_identifier)))))))
+
+================================================================================
+Struct definitions
+================================================================================
+pub struct Ref[T] { mut content: T }
+
+struct Queue[T] {
+  front:List[T]
+  back:List[T]
+}
+
+struct Color {
+  r: Int
+  g: Int
+  b: Int
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (struct_definition
+      (visibility)
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (struct_filed_declaration
+        (mutability)
+        (lowercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))))
+  (structure_item
+    (struct_definition
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (struct_filed_declaration
+        (lowercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
+      (struct_filed_declaration
+        (lowercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))))
+  (structure_item
+    (struct_definition
+      (identifier
+        (uppercase_identifier))
+      (struct_filed_declaration
+        (lowercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (struct_filed_declaration
+        (lowercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (struct_filed_declaration
+        (lowercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))))
+
+================================================================================
+Enum definitions
+================================================================================
+enum Empyt {}
+enum One { One }
+enum Two[A, B] {
+  Left(A)
+  Right(B)
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (enum_definition
+      (identifier
+        (uppercase_identifier))))
+  (structure_item
+    (enum_definition
+      (identifier
+        (uppercase_identifier))
+      (enum_constructor
+        (uppercase_identifier))))
+  (structure_item
+    (enum_definition
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))))
+
+================================================================================
+value definitions
+================================================================================
+let x = 42
+pub let y: Int = 42
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (value_definition
+      (lowercase_identifier)
+      (expression
+        (simple_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))))))
+  (structure_item
+    (value_definition
+      (pub)
+      (lowercase_identifier)
+      (type_annotation
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (expression
+        (simple_expression
+          (atomic_expression
+            (literal
+              (integer_literal))))))))
+
+================================================================================
+Function definitions
+================================================================================
+func id[T] (x: T) -> T { x }
+func empty () { }
+pub func answer = "the" "answer"
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (parameters
+        (parameter
+          (lowercase_identifier)
+          (type_annotation
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (return_type
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (block_expression
+        (statement_expression
+          (expression
+            (simple_expression
+              (qualified_identifier
+                (lowercase_identifier))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (parameters)
+      (block_expression)))
+  (structure_item
+    (function_definition
+      (pub)
+      (function_identifier
+        (lowercase_identifier))
+      (string_literal
+        (string_fragement
+          (unescaped_string_fragment))
+        (string_fragement
+          (unescaped_string_fragment))
+        (string_fragement
+          (unescaped_string_fragment)))
+      (string_literal
+        (string_fragement
+          (unescaped_string_fragment))
+        (string_fragement
+          (unescaped_string_fragment))
+        (string_fragement
+          (unescaped_string_fragment))
+        (string_fragement
+          (unescaped_string_fragment))
+        (string_fragement
+          (unescaped_string_fragment))
+        (string_fragement
+          (unescaped_string_fragment))))))
+
+================================================================================
+Interface definitions
+================================================================================
+// TODO
+--------------------------------------------------------------------------------
+
+(structure
+  (comment))

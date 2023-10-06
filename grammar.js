@@ -37,7 +37,7 @@ module.exports = grammar({
   word: $ => $.lowercase_identifier,
 
   rules: {
-    structure: $ => repeat(seq($.structure_item, terminator)),
+    structure: $ => semiList($.structure_item),
 
     structure_item: $ => choice(
       $.type_definition,
@@ -68,7 +68,7 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       '{',
-      repeat(seq($.struct_filed_declaration, terminator)),
+      semiList($.struct_filed_declaration),
       '}'
     ),
 
@@ -86,7 +86,7 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       '{',
-      repeat(seq($.enum_constructor, terminator)),
+      semiList($.enum_constructor),
       '}'
     ),
 
@@ -126,7 +126,7 @@ module.exports = grammar({
       'interface',
       $.identifier,
       '{',
-      repeat(seq($.interface_method_declaration, terminator)),
+      semiList($.interface_method_declaration),
       '}'
     ),
 
@@ -282,15 +282,13 @@ module.exports = grammar({
 
     block_expression: $ => seq(
       '{',
-      repeat(seq($.statement_expression, terminator)),
-      optional($.statement_expression),
+      semiList($.statement_expression),
       '}',
     ),
 
     nonempty_block_expression: $ => seq(
       '{',
-      repeat(seq($.statement_expression, terminator)),
-      $.statement_expression,
+      semiList1($.statement_expression),
       '}'
     ),
 
@@ -369,7 +367,7 @@ module.exports = grammar({
       'match',
       $.simple_expression,
       '{',
-      repeat(seq($.case_clause, terminator)),
+      semiList($.case_clause),
       '}'
     ),
 
@@ -634,6 +632,31 @@ function commaList1(rule) {
   );
 }
 
+/**
+ *
+ * @param {Rule} rule
+ *
+ * @return {ChoiceRule}
+ *
+ */
+function semiList(rule) {
+  return optional(semiList1(rule))
+}
+
+/**
+ *
+ * @param {Rule} rule
+ *
+ * @return {SeqRule}
+ *
+ */
+function semiList1(rule) {
+  return seq(
+    rule,
+    repeat(seq(terminator, rule)),
+    optional(terminator)
+  );
+}
 
 /**
  *
