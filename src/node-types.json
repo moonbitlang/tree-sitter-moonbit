@@ -799,6 +799,10 @@
       "required": true,
       "types": [
         {
+          "type": "access_expression",
+          "named": true
+        },
+        {
           "type": "array_access_expression",
           "named": true
         },
@@ -1860,15 +1864,7 @@
     "named": false
   },
   {
-    "type": "*=",
-    "named": false
-  },
-  {
     "type": "+",
-    "named": false
-  },
-  {
-    "type": "+=",
     "named": false
   },
   {
@@ -1877,10 +1873,6 @@
   },
   {
     "type": "-",
-    "named": false
-  },
-  {
-    "type": "-=",
     "named": false
   },
   {
@@ -1893,10 +1885,6 @@
   },
   {
     "type": "/",
-    "named": false
-  },
-  {
-    "type": "/=",
     "named": false
   },
   {

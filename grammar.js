@@ -16,8 +16,8 @@ const
     asPattern: 9,
   },
   power_operator = '**',
-  multiplicative_operators = ['*', '/', '*=', '/=', '%'],
-  additive_operators = ['+', '-', '+=', '-='],
+  multiplicative_operators = ['*', '/', '%'],
+  additive_operators = ['+', '-'],
   comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
 
   terminator = choice('\n', ';', '\0')
@@ -199,10 +199,10 @@ module.exports = grammar({
     boolean_literal: _ => choice('true', 'false'),
 
     integer_literal: _ => token(choice(
-      /[0-9][0-9_]*/,
-      /0[xX][0-9a-fA-F_]+/,
-      /0[oO][0-7_]+/,
-      /0[bB][01_]+/,
+      /[0-9][0-9_]*L?/,
+      /0[xX][0-9a-fA-F_]+L?/,
+      /0[oO][0-7_]+L?/,
+      /0[bB][01_]+L?/,
     )),
 
     // integerPart = /[0-9][_0-9]*/,
@@ -230,7 +230,7 @@ module.exports = grammar({
       $.escape_seqence
     ),
 
-    unescaped_string_fragment: _ => token.immediate(/[^"\\]/),
+    unescaped_string_fragment: _ => token.immediate(/[^"\\]+/),
 
     escape_seqence: _ => token.immediate(/\\[ntb"\\]/),
 
@@ -429,6 +429,7 @@ module.exports = grammar({
 
     left_value: $ => choice(
       $.qualified_identifier,
+      $.access_expression,
       $.array_access_expression
     ),
 
@@ -564,7 +565,6 @@ module.exports = grammar({
     pub: _ => 'pub',
 
     // Identifiers
-
     uppercase_identifier: _ => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/,
     colon_colon_uppercase_identifier: _ => /::[\p{Uppercase_Letter}][_\p{XID_Continue}]*/,
     lowercase_identifier: _ => /[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,

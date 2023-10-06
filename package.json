@@ -6,13 +6,14 @@
   "scripts": {
     "generate": "tree-sitter generate",
     "test": "tree-sitter generate && tree-sitter test",
-    "promote": "tree-sitter generate && tree-sitter test -u"
+    "promote": "tree-sitter generate && tree-sitter test -u",
+    "playground": "tree-sitter generate && tree-sitter build-wasm && tree-sitter playground"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nan": "^2.17.0"
+    "nan": "^2.18.0"
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.8"

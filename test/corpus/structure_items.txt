@@ -258,22 +258,8 @@ pub func answer = "the" "answer"
         (lowercase_identifier))
       (string_literal
         (string_fragement
-          (unescaped_string_fragment))
-        (string_fragement
-          (unescaped_string_fragment))
-        (string_fragement
           (unescaped_string_fragment)))
       (string_literal
-        (string_fragement
-          (unescaped_string_fragment))
-        (string_fragement
-          (unescaped_string_fragment))
-        (string_fragement
-          (unescaped_string_fragment))
-        (string_fragement
-          (unescaped_string_fragment))
-        (string_fragement
-          (unescaped_string_fragment))
         (string_fragement
           (unescaped_string_fragment))))))
 
@@ -285,3 +271,45 @@ Interface definitions
 
 (structure
   (comment))
+
+================================================================================
+Test
+================================================================================
+
+let printable = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (value_definition
+      (lowercase_identifier)
+      (expression
+        (simple_expression
+          (binary_expression
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (string_literal
+                      (string_fragement
+                        (unescaped_string_fragment)))))))
+            (ERROR
+              (UNEXPECTED '#')
+              (ERROR
+                (UNEXPECTED '''))
+              (ERROR)
+              (UNEXPECTED '/'))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal))))))))))
+  (ERROR)
+  (ERROR
+    (UNEXPECTED '?')
+    (package_identifier)
+    (UNEXPECTED ']')
+    (UNEXPECTED '^')
+    (UNEXPECTED '`')
+    (lowercase_identifier)
+    (UNEXPECTED '~')))
