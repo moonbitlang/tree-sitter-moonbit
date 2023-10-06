@@ -226,11 +226,11 @@ module.exports = grammar({
     ),
 
     string_fragement: $ => choice(
-      $.unescaped_string_fragment,
+      $.unescaped_string_fragement,
       $.escape_sequence
     ),
 
-    unescaped_string_fragment: _ => token.immediate(/[^"\\]+/),
+    unescaped_string_fragement: _ => token.immediate(/[^"\\]+/),
 
     escape_sequence: _ => token.immediate(/\\[ntb"\\]/),
 

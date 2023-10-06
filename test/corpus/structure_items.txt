@@ -258,10 +258,10 @@ pub func answer = "the" "answer"
         (lowercase_identifier))
       (string_literal
         (string_fragement
-          (unescaped_string_fragment)))
+          (unescaped_string_fragement)))
       (string_literal
         (string_fragement
-          (unescaped_string_fragment))))))
+          (unescaped_string_fragement))))))
 
 ================================================================================
 Interface definitions
@@ -289,11 +289,11 @@ let printable = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
             (literal
               (string_literal
                 (string_fragement
-                  (unescaped_string_fragment))
+                  (unescaped_string_fragement))
                 (string_fragement
                   (escape_sequence))
                 (string_fragement
-                  (unescaped_string_fragment))
+                  (unescaped_string_fragement))
                 (ERROR
                   (UNEXPECTED ']')
                   (UNEXPECTED '^')

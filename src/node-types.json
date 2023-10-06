@@ -1317,7 +1317,7 @@
           "named": true
         },
         {
-          "type": "unescaped_string_fragment",
+          "type": "unescaped_string_fragement",
           "named": true
         }
       ]
@@ -2060,7 +2060,7 @@
     "named": false
   },
   {
-    "type": "unescaped_string_fragment",
+    "type": "unescaped_string_fragement",
     "named": true
   },
   {

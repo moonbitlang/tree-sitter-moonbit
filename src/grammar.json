@@ -1128,7 +1128,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "unescaped_string_fragment"
+          "name": "unescaped_string_fragement"
         },
         {
           "type": "SYMBOL",
@@ -1136,7 +1136,7 @@
         }
       ]
     },
-    "unescaped_string_fragment": {
+    "unescaped_string_fragement": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PATTERN",
