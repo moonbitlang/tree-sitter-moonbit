@@ -213,7 +213,7 @@ module.exports = grammar({
     char_literal: $ => seq(
       '\'',
       choice(
-        $.escape_seqence,
+        $.escape_sequence,
         token.immediate(/[^']/)
       ),
       '\''
@@ -227,12 +227,12 @@ module.exports = grammar({
 
     string_fragement: $ => choice(
       $.unescaped_string_fragment,
-      $.escape_seqence
+      $.escape_sequence
     ),
 
     unescaped_string_fragment: _ => token.immediate(/[^"\\]+/),
 
-    escape_seqence: _ => token.immediate(/\\[ntb"\\]/),
+    escape_sequence: _ => token.immediate(/\\[ntb"\\]/),
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '+'),

@@ -1086,7 +1086,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "escape_seqence"
+              "name": "escape_sequence"
             },
             {
               "type": "IMMEDIATE_TOKEN",
@@ -1132,7 +1132,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "escape_seqence"
+          "name": "escape_sequence"
         }
       ]
     },
@@ -1143,7 +1143,7 @@
         "value": "[^\"\\\\]+"
       }
     },
-    "escape_seqence": {
+    "escape_sequence": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "PATTERN",

@@ -285,31 +285,18 @@ let printable = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
       (lowercase_identifier)
       (expression
         (simple_expression
-          (binary_expression
-            (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (string_literal
-                      (string_fragement
-                        (unescaped_string_fragment)))))))
-            (ERROR
-              (UNEXPECTED '#')
-              (ERROR
-                (UNEXPECTED '''))
-              (ERROR)
-              (UNEXPECTED '/'))
-            (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal))))))))))
-  (ERROR)
-  (ERROR
-    (UNEXPECTED '?')
-    (package_identifier)
-    (UNEXPECTED ']')
-    (UNEXPECTED '^')
-    (UNEXPECTED '`')
-    (lowercase_identifier)
-    (UNEXPECTED '~')))
+          (atomic_expression
+            (literal
+              (string_literal
+                (string_fragement
+                  (unescaped_string_fragment))
+                (string_fragement
+                  (escape_sequence))
+                (string_fragement
+                  (unescaped_string_fragment))
+                (ERROR
+                  (UNEXPECTED ']')
+                  (UNEXPECTED '^')
+                  (UNEXPECTED '`')
+                  (lowercase_identifier)
+                  (UNEXPECTED '~'))))))))))
