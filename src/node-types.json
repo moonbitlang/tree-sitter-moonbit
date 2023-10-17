@@ -1968,6 +1968,10 @@
     "named": false
   },
   {
+    "type": "docstring",
+    "named": true
+  },
+  {
     "type": "dot_identifier",
     "named": true
   },

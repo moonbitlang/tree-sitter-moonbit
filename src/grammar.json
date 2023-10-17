@@ -3714,13 +3714,21 @@
     },
     "comment": {
       "type": "PATTERN",
-      "value": "\\/\\/.*"
+      "value": "\\/\\/[^/].*"
+    },
+    "docstring": {
+      "type": "PATTERN",
+      "value": "\\/\\/\\/.*"
     }
   },
   "extras": [
     {
       "type": "SYMBOL",
       "name": "comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "docstring"
     },
     {
       "type": "PATTERN",
