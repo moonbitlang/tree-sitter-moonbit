@@ -1826,8 +1826,12 @@
               "name": "qualified_type_identifier"
             },
             {
+              "type": "STRING",
+              "value": "::"
+            },
+            {
               "type": "SYMBOL",
-              "name": "colon_colon_uppercase_identifier"
+              "name": "uppercase_identifier"
             }
           ]
         }
@@ -2029,11 +2033,15 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "expression"
+          "name": "qualified_type_identifier"
+        },
+        {
+          "type": "STRING",
+          "value": "::"
         },
         {
           "type": "SYMBOL",
-          "name": "colon_colon_lowercase_identifier"
+          "name": "lowercase_identifier"
         }
       ]
     },
@@ -3570,17 +3578,9 @@
       "type": "PATTERN",
       "value": "[\\p{Uppercase_Letter}][_\\p{XID_Continue}]*"
     },
-    "colon_colon_uppercase_identifier": {
-      "type": "PATTERN",
-      "value": "::[\\p{Uppercase_Letter}][_\\p{XID_Continue}]*"
-    },
     "lowercase_identifier": {
       "type": "PATTERN",
       "value": "[_[\\p{XID_Start}--\\p{Uppercase_Letter}]][_\\p{XID_Continue}]*"
-    },
-    "colon_colon_lowercase_identifier": {
-      "type": "PATTERN",
-      "value": "::[_[\\p{XID_Start}--\\p{Uppercase_Letter}]][_\\p{XID_Continue}]*"
     },
     "identifier": {
       "type": "CHOICE",
@@ -3662,8 +3662,12 @@
               "name": "qualified_type_identifier"
             },
             {
+              "type": "STRING",
+              "value": "::"
+            },
+            {
               "type": "SYMBOL",
-              "name": "colon_colon_lowercase_identifier"
+              "name": "lowercase_identifier"
             }
           ]
         }

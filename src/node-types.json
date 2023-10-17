@@ -370,10 +370,6 @@
       "required": true,
       "types": [
         {
-          "type": "colon_colon_uppercase_identifier",
-          "named": true
-        },
-        {
           "type": "qualified_type_identifier",
           "named": true
         },
@@ -585,10 +581,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "colon_colon_lowercase_identifier",
-          "named": true
-        },
         {
           "type": "lowercase_identifier",
           "named": true
@@ -895,11 +887,11 @@
       "required": true,
       "types": [
         {
-          "type": "colon_colon_lowercase_identifier",
+          "type": "lowercase_identifier",
           "named": true
         },
         {
-          "type": "expression",
+          "type": "qualified_type_identifier",
           "named": true
         }
       ]
@@ -1897,6 +1889,10 @@
     "named": false
   },
   {
+    "type": "::",
+    "named": false
+  },
+  {
     "type": ":=",
     "named": false
   },
@@ -1955,14 +1951,6 @@
   {
     "type": "break",
     "named": false
-  },
-  {
-    "type": "colon_colon_lowercase_identifier",
-    "named": true
-  },
-  {
-    "type": "colon_colon_uppercase_identifier",
-    "named": true
   },
   {
     "type": "comment",
