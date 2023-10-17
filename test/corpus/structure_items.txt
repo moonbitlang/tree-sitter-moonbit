@@ -294,9 +294,7 @@ let printable = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
                   (escape_sequence))
                 (string_fragement
                   (unescaped_string_fragement))
-                (ERROR
-                  (UNEXPECTED ']')
-                  (UNEXPECTED '^')
-                  (UNEXPECTED '`')
-                  (lowercase_identifier)
-                  (UNEXPECTED '~'))))))))))
+                (string_fragement
+                  (unescaped_string_fragement))
+                (string_fragement
+                  (unescaped_string_fragement))))))))))

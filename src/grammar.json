@@ -1137,11 +1137,23 @@
       ]
     },
     "unescaped_string_fragement": {
-      "type": "IMMEDIATE_TOKEN",
-      "content": {
-        "type": "PATTERN",
-        "value": "[^\"\\\\]+"
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\\\[^ntb\"\\\\]"
+          }
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^\"\\\\]+"
+          }
+        }
+      ]
     },
     "escape_sequence": {
       "type": "IMMEDIATE_TOKEN",
