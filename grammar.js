@@ -27,6 +27,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
+    $.docstring,
     /\s/
   ],
 
@@ -599,7 +600,9 @@ module.exports = grammar({
 
     constraint: $ => $.qualified_type_identifier,
 
-    comment: _ => /\/\/.*/
+    comment: _ => /\/\/[^/].*/,
+
+    docstring: _ => /\/\/\/.*/,
   }
 })
 
