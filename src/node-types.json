@@ -1731,6 +1731,11 @@
     }
   },
   {
+    "type": "unescaped_string_fragement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "unit_expression",
     "named": true,
     "fields": {}
@@ -2058,10 +2063,6 @@
   {
     "type": "type",
     "named": false
-  },
-  {
-    "type": "unescaped_string_fragement",
-    "named": true
   },
   {
     "type": "uppercase_identifier",

@@ -230,7 +230,10 @@ module.exports = grammar({
       $.escape_sequence
     ),
 
-    unescaped_string_fragement: _ => token.immediate(/[^"\\]+/),
+    unescaped_string_fragement: _ => choice(
+      token.immediate(/\\[^ntb"\\]/),
+      token.immediate(/[^"\\]+/),
+    ),
 
     escape_sequence: _ => token.immediate(/\\[ntb"\\]/),
 
