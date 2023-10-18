@@ -305,7 +305,7 @@ module.exports = grammar({
 
     constructor_expression: $ => choice(
       $.uppercase_identifier,
-      seq($.qualified_type_identifier, $.colon_colon_uppercase_identifier)
+      seq($.qualified_type_identifier, '::', $.uppercase_identifier)
     ),
 
     apply_expression: $ => prec(PREC.apply, seq(
@@ -341,8 +341,9 @@ module.exports = grammar({
     ),
 
     method_expression: $ => seq(
-      $.expression,
-      $.colon_colon_lowercase_identifier
+      $.qualified_type_identifier,
+      '::',
+      $.lowercase_identifier
     ),
 
     unit_expression: _ => seq('(', ')'),
@@ -570,9 +571,7 @@ module.exports = grammar({
 
     // Identifiers
     uppercase_identifier: _ => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/,
-    colon_colon_uppercase_identifier: _ => /::[\p{Uppercase_Letter}][_\p{XID_Continue}]*/,
     lowercase_identifier: _ => /[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
-    colon_colon_lowercase_identifier: _ => /::[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
     identifier: $ => choice(
       $.uppercase_identifier,
       $.lowercase_identifier,
@@ -591,7 +590,7 @@ module.exports = grammar({
 
     function_identifier: $ => choice(
       $.lowercase_identifier,
-      seq($.qualified_type_identifier, $.colon_colon_lowercase_identifier)
+      seq($.qualified_type_identifier, '::', $.lowercase_identifier)
     ),
 
     type_identifier: $ => choice(
