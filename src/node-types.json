@@ -1993,10 +1993,6 @@
     "named": false
   },
   {
-    "type": "func",
-    "named": false
-  },
-  {
     "type": "if",
     "named": false
   },

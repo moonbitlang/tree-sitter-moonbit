@@ -588,7 +588,7 @@
         },
         {
           "type": "STRING",
-          "value": "func"
+          "value": "fn"
         },
         {
           "type": "SYMBOL",
