@@ -3596,8 +3596,17 @@
       ]
     },
     "dot_identifier": {
-      "type": "PATTERN",
-      "value": "\\.[_\\p{XID_Start}][_\\p{XID_Continue}]*"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "PATTERN",
+          "value": "[_\\p{XID_Start}][_\\p{XID_Continue}]*"
+        }
+      ]
     },
     "package_identifier": {
       "type": "PATTERN",

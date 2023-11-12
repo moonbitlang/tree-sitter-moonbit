@@ -423,6 +423,11 @@
     }
   },
   {
+    "type": "dot_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "dotdot_pattern",
     "named": true,
     "fields": {}
@@ -1877,6 +1882,10 @@
     "named": false
   },
   {
+    "type": ".",
+    "named": false
+  },
+  {
     "type": "..",
     "named": false
   },
@@ -1962,10 +1971,6 @@
   },
   {
     "type": "docstring",
-    "named": true
-  },
-  {
-    "type": "dot_identifier",
     "named": true
   },
   {
