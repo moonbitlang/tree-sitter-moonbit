@@ -111,7 +111,7 @@ module.exports = grammar({
 
     function_definition: $ => seq(
       optional($.pub),
-      'func',
+      'fn',
       $.function_identifier,
       optional($.type_parameters),
       optional($.parameters),
