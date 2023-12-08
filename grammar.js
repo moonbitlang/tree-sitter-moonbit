@@ -264,18 +264,18 @@ module.exports = grammar({
     },
 
     struct_expression: $ => choice(
-      seq('{', optional($.struct_field_expression), '}'),
+      seq('{', optional($.struct_field_expressions), '}'),
       seq('{', '..', $.expression, '}'),
-      seq('{', '..', $.expression, ',', optional($.struct_field_expression), '}')
+      seq('{', '..', $.expression, ',', optional($.struct_field_expressions), '}')
+    ),
+
+    struct_field_expressions: $ => choice(
+      seq($.labeled_expression_pun, ',', commaList($.struct_field_expression)),
+      seq($.labeled_expression, optional(',')),
+      seq($.labeled_expression, ',', commaList1($.struct_field_expression)),
     ),
 
     struct_field_expression: $ => choice(
-      seq($.labeled_expression_pun, ',', commaList($.struct_filed_expression)),
-      seq($.labeled_expression, optional(',')),
-      seq($.labeled_expression, ',', commaList1($.struct_filed_expression)),
-    ),
-
-    struct_filed_expression: $ => choice(
       $.labeled_expression,
       $.labeled_expression_pun
     ),

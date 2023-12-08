@@ -1381,7 +1381,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "struct_field_expression"
+                  "name": "struct_field_expressions"
                 },
                 {
                   "type": "BLANK"
@@ -1439,7 +1439,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "struct_field_expression"
+                  "name": "struct_field_expressions"
                 },
                 {
                   "type": "BLANK"
@@ -1454,7 +1454,7 @@
         }
       ]
     },
-    "struct_field_expression": {
+    "struct_field_expressions": {
       "type": "CHOICE",
       "members": [
         {
@@ -1476,7 +1476,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "struct_filed_expression"
+                      "name": "struct_field_expression"
                     },
                     {
                       "type": "REPEAT",
@@ -1489,7 +1489,7 @@
                           },
                           {
                             "type": "SYMBOL",
-                            "name": "struct_filed_expression"
+                            "name": "struct_field_expression"
                           }
                         ]
                       }
@@ -1552,7 +1552,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "struct_filed_expression"
+                  "name": "struct_field_expression"
                 },
                 {
                   "type": "REPEAT",
@@ -1565,7 +1565,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "struct_filed_expression"
+                        "name": "struct_field_expression"
                       }
                     ]
                   }
@@ -1588,7 +1588,7 @@
         }
       ]
     },
-    "struct_filed_expression": {
+    "struct_field_expression": {
       "type": "CHOICE",
       "members": [
         {

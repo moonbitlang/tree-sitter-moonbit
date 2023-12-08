@@ -1389,7 +1389,7 @@
           "named": true
         },
         {
-          "type": "struct_field_expression",
+          "type": "struct_field_expressions",
           "named": true
         }
       ]
@@ -1397,6 +1397,25 @@
   },
   {
     "type": "struct_field_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "labeled_expression",
+          "named": true
+        },
+        {
+          "type": "labeled_expression_pun",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_field_expressions",
     "named": true,
     "fields": {},
     "children": {
@@ -1412,7 +1431,7 @@
           "named": true
         },
         {
-          "type": "struct_filed_expression",
+          "type": "struct_field_expression",
           "named": true
         }
       ]
@@ -1440,25 +1459,6 @@
         },
         {
           "type": "visibility",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "struct_filed_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "labeled_expression",
-          "named": true
-        },
-        {
-          "type": "labeled_expression_pun",
           "named": true
         }
       ]
