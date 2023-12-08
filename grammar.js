@@ -56,11 +56,21 @@ module.exports = grammar({
 
     pub_attribute: _ => seq('(', 'readonly', ')'),
 
+    derive_item: $ => $.qualified_type_identifier,
+
+    derive_directive: $ => seq(
+      'derive',
+      '(',
+      commaList($.derive_item),
+      ')',
+    ),
+
     type_definition: $ => seq(
       optional($.visibility),
       'type',
       $.identifier,
-      optional($.type_parameters)
+      optional($.type_parameters),
+      optional($.derive_directive),
     ),
 
     struct_definition: $ => seq(
@@ -70,7 +80,8 @@ module.exports = grammar({
       optional($.type_parameters),
       '{',
       semiList($.struct_filed_declaration),
-      '}'
+      '}',
+      optional($.derive_directive),
     ),
 
     struct_filed_declaration: $ => seq(
@@ -88,7 +99,8 @@ module.exports = grammar({
       optional($.type_parameters),
       '{',
       semiList($.enum_constructor),
-      '}'
+      '}',
+      optional($.derive_directive),
     ),
 
     enum_constructor: $ => seq(
