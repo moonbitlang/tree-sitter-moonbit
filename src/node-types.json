@@ -1132,40 +1132,6 @@
     }
   },
   {
-    "type": "shorthand_let_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "shorthand_let_pattern",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "shorthand_let_pattern",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "lowercase_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "simple_expression",
     "named": true,
     "fields": {},
@@ -1313,10 +1279,6 @@
         },
         {
           "type": "return_expression",
-          "named": true
-        },
-        {
-          "type": "shorthand_let_expression",
           "named": true
         },
         {
@@ -1932,10 +1894,6 @@
   },
   {
     "type": "::",
-    "named": false
-  },
-  {
-    "type": ":=",
     "named": false
   },
   {
