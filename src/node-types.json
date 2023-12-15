@@ -1806,6 +1806,25 @@
     }
   },
   {
+    "type": "while_continue_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "assign_expression",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "while_expression",
     "named": true,
     "fields": {},
@@ -1819,6 +1838,10 @@
         },
         {
           "type": "simple_expression",
+          "named": true
+        },
+        {
+          "type": "while_continue_block",
           "named": true
         }
       ]
