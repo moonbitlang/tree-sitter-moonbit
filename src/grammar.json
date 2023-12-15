@@ -2462,10 +2462,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "shorthand_let_expression"
-        },
-        {
-          "type": "SYMBOL",
           "name": "var_expression"
         },
         {
@@ -2528,36 +2524,6 @@
         {
           "type": "SYMBOL",
           "name": "expression"
-        }
-      ]
-    },
-    "shorthand_let_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "shorthand_let_pattern"
-        },
-        {
-          "type": "STRING",
-          "value": ":="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expression"
-        }
-      ]
-    },
-    "shorthand_let_pattern": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "_"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "lowercase_identifier"
         }
       ]
     },

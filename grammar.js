@@ -407,7 +407,6 @@ module.exports = grammar({
 
     statement_expression: $ => choice(
       $.let_expression,
-      $.shorthand_let_expression,
       $.var_expression,
       $.assign_expression,
       $.named_lambda_expression,
@@ -425,14 +424,6 @@ module.exports = grammar({
       '=',
       $.expression
     ),
-
-    shorthand_let_expression: $ => seq(
-      $.shorthand_let_pattern,
-      ':=',
-      $.expression
-    ),
-
-    shorthand_let_pattern: $ => choice('_', $.lowercase_identifier),
 
     var_expression: $ => seq(
       'var',
