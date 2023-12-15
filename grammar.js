@@ -453,7 +453,13 @@ module.exports = grammar({
     while_expression: $ => seq(
       'while',
       $.simple_expression,
+      optional(seq(',', $.while_continue_block)),
       $.block_expression
+    ),
+
+    while_continue_block: $ => choice(
+      $.assign_expression,
+      $.simple_expression,
     ),
 
     return_expression: $ => seq('return', optional($.expression)),
