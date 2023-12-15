@@ -71,6 +71,7 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       optional($.derive_directive),
+      optional($.type),
     ),
 
     struct_definition: $ => seq(
