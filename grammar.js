@@ -5,6 +5,7 @@ const
   PREC = {
     apply: 19,
     access: 18,
+    unwrap: 18,
     power: 17,
     unary: 16,
     multiplicative: 15,
@@ -159,6 +160,11 @@ module.exports = grammar({
       $.match_expression
     ),
 
+    unwrap_expression: $ => prec(PREC.unwrap, seq(
+      $.simple_expression,
+      '?'
+    )),
+
     simple_expression: $ => choice(
       $.atomic_expression,
       $.qualified_identifier,
@@ -177,6 +183,7 @@ module.exports = grammar({
       $.tuple_expression,
       $.constraint_expression,
       $.array_expression,
+      $.unwrap_expression,
       '_'
     ),
 
