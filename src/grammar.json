@@ -788,8 +788,17 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "interface"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "interface"
+            },
+            {
+              "type": "STRING",
+              "value": "trait"
+            }
+          ]
         },
         {
           "type": "SYMBOL",

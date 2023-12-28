@@ -138,7 +138,7 @@ module.exports = grammar({
 
     interface_definition: $ => seq(
       optional($.pub),
-      'interface',
+      choice('interface', 'trait'),
       $.identifier,
       '{',
       semiList($.interface_method_declaration),
