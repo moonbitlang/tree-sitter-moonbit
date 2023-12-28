@@ -979,6 +979,23 @@
         }
       ]
     },
+    "unwrap_expression": {
+      "type": "PREC",
+      "value": 18,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "simple_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "?"
+          }
+        ]
+      }
+    },
     "simple_expression": {
       "type": "CHOICE",
       "members": [
@@ -1049,6 +1066,10 @@
         {
           "type": "SYMBOL",
           "name": "array_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unwrap_expression"
         },
         {
           "type": "STRING",
