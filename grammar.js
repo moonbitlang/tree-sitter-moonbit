@@ -627,15 +627,15 @@ module.exports = grammar({
 
 /**
  *
- * @param {RuleOrLiteral} seprator
+ * @param {RuleOrLiteral} separator
  * @param {Rule} rule
  * @returns {SeqRule}
  */
 
-function sepBy1(seprator, rule) {
+function sepBy1(separator, rule) {
   return seq(
     rule,
-    repeat(seq(seprator, rule))
+    repeat(seq(separator, rule))
   )
 }
 
