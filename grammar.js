@@ -434,7 +434,8 @@ module.exports = grammar({
     ),
 
     var_expression: $ => seq(
-      'var',
+      'let',
+      'mut',
       $.lowercase_identifier,
       optional($.type_annotation),
       '=',

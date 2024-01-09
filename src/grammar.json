@@ -2574,7 +2574,11 @@
       "members": [
         {
           "type": "STRING",
-          "value": "var"
+          "value": "let"
+        },
+        {
+          "type": "STRING",
+          "value": "mut"
         },
         {
           "type": "SYMBOL",
