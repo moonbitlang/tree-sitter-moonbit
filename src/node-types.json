@@ -932,6 +932,11 @@
     }
   },
   {
+    "type": "mutability",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "named_lambda_expression",
     "named": true,
     "fields": {},
@@ -2071,8 +2076,8 @@
     "named": false
   },
   {
-    "type": "mutability",
-    "named": true
+    "type": "mut",
+    "named": false
   },
   {
     "type": "package_identifier",
@@ -2113,10 +2118,6 @@
   {
     "type": "uppercase_identifier",
     "named": true
-  },
-  {
-    "type": "var",
-    "named": false
   },
   {
     "type": "while",
