@@ -48,6 +48,7 @@ module.exports = grammar({
       $.enum_definition,
       $.value_definition,
       $.function_definition,
+      $.test_definition,
       $.trait_definition
     ),
 
@@ -135,6 +136,12 @@ module.exports = grammar({
         $.block_expression,
         seq('=', $.string_literal, $.string_literal)
       )
+    ),
+
+    test_definition: $ => seq(
+      'test',
+      optional($.string_literal),
+      $.block_expression
     ),
 
     trait_definition: $ => seq(

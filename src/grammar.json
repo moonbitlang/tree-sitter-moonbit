@@ -98,6 +98,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "test_definition"
+        },
+        {
+          "type": "SYMBOL",
           "name": "trait_definition"
         }
       ]
@@ -769,6 +773,31 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    "test_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "test"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "string_literal"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block_expression"
         }
       ]
     },

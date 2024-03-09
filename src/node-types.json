@@ -1604,6 +1604,10 @@
           "named": true
         },
         {
+          "type": "test_definition",
+          "named": true
+        },
+        {
           "type": "trait_definition",
           "named": true
         },
@@ -1613,6 +1617,25 @@
         },
         {
           "type": "value_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "test_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "string_literal",
           "named": true
         }
       ]
@@ -2174,6 +2197,10 @@
   },
   {
     "type": "struct",
+    "named": false
+  },
+  {
+    "type": "test",
     "named": false
   },
   {
