@@ -2500,7 +2500,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "var_expression"
+          "name": "let_mut_expression"
         },
         {
           "type": "SYMBOL",
@@ -2565,7 +2565,7 @@
         }
       ]
     },
-    "var_expression": {
+    "let_mut_expression": {
       "type": "SEQ",
       "members": [
         {

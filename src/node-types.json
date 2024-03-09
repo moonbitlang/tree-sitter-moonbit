@@ -813,6 +813,29 @@
     }
   },
   {
+    "type": "let_mut_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "literal",
     "named": true,
     "fields": {},
@@ -1233,15 +1256,15 @@
           "named": true
         },
         {
+          "type": "let_mut_expression",
+          "named": true
+        },
+        {
           "type": "named_lambda_expression",
           "named": true
         },
         {
           "type": "return_expression",
-          "named": true
-        },
-        {
-          "type": "var_expression",
           "named": true
         },
         {
@@ -1782,29 +1805,6 @@
         },
         {
           "type": "pub",
-          "named": true
-        },
-        {
-          "type": "type_annotation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "var_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "lowercase_identifier",
           "named": true
         },
         {
