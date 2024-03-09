@@ -20,6 +20,7 @@ const
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
   comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
+  assignment_operators = ['=', '+=', '-=', '*=', '/='],
 
   terminator = choice('\n', ';', '\0')
 
@@ -442,7 +443,7 @@ module.exports = grammar({
       $.expression
     ),
 
-    assign_expression: $ => seq($.left_value, '=', $.expression),
+    assign_expression: $ => seq($.left_value, choice(...assignment_operators), $.expression),
 
     left_value: $ => choice(
       $.qualified_identifier,
@@ -461,13 +462,7 @@ module.exports = grammar({
     while_expression: $ => seq(
       'while',
       $.simple_expression,
-      optional(seq(',', $.while_continue_block)),
       $.block_expression
-    ),
-
-    while_continue_block: $ => choice(
-      $.assign_expression,
-      $.simple_expression,
     ),
 
     return_expression: $ => seq('return', optional($.expression)),
