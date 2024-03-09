@@ -19,7 +19,7 @@ const
   pipe_operator = '|>',
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
-  comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
+  comparative_operators = ['>', '>=', '<=', '<', '==', '!=', '==='],
   assignment_operators = ['=', '+=', '-=', '*=', '/='],
 
   terminator = choice('\n', ';', '\0')
