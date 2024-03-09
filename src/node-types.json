@@ -268,11 +268,23 @@
       "required": true,
       "types": [
         {
+          "type": "assign_expression",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
         {
           "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "return_expression",
+          "named": true
+        },
+        {
+          "type": "while_expression",
           "named": true
         }
       ]

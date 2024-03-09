@@ -398,7 +398,18 @@ module.exports = grammar({
       '}'
     ),
 
-    case_clause: $ => seq($.pattern, '=>', $.expression),
+    case_clause: $ => seq(
+      $.pattern,
+      '=>',
+      choice(
+        $.assign_expression,
+        $.while_expression,
+        'break',
+        'continue',
+        $.return_expression,
+        $.expression,
+      )
+    ),
 
     if_expression: $ => seq(
       'if',
@@ -426,6 +437,8 @@ module.exports = grammar({
       $.return_expression,
       $.expression
     ),
+
+    
 
     let_expression: $ => seq(
       'let',

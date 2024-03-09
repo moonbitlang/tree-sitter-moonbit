@@ -45,3 +45,95 @@ fn init() { 1 * 5 |> f(5) |> g  }
          (simple_expression
           (qualified_identifier
            (lowercase_identifier))))))))))))
+================================================================================
+match expression
+================================================================================
+fn init() {
+  match x {
+  A => return
+    B => return 1
+    C => i = i + 1
+    D => break
+    E => continue
+    F => while true {}
+  }
+}
+--------------------------------------------------------------------------------
+(structure
+ (structure_item
+  (function_definition
+   (function_identifier
+    (lowercase_identifier))
+   (parameters)
+   (block_expression
+    (statement_expression
+     (expression
+      (match_expression
+       (simple_expression
+        (qualified_identifier
+         (lowercase_identifier)))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier)))))
+        (return_expression))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier)))))
+        (return_expression
+         (expression
+          (simple_expression
+           (atomic_expression
+            (literal
+             (integer_literal)))))))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier)))))
+        (assign_expression
+         (left_value
+          (qualified_identifier
+           (lowercase_identifier)))
+         (expression
+          (simple_expression
+           (binary_expression
+            (expression
+             (simple_expression
+              (qualified_identifier
+               (lowercase_identifier))))
+            (expression
+             (simple_expression
+              (atomic_expression
+               (literal
+                (integer_literal))))))))))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier))))))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier))))))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier)))))
+        (while_expression
+         (simple_expression
+          (atomic_expression
+           (literal
+            (boolean_literal))))
+         (block_expression))))))))))
