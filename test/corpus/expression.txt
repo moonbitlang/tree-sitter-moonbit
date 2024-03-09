@@ -1,0 +1,47 @@
+================================================================================
+pipe operator
+================================================================================
+fn init() { 1 * 5 |> f(5) |> g  }
+--------------------------------------------------------------------------------
+(structure
+ (structure_item
+  (function_definition
+   (function_identifier
+    (lowercase_identifier))
+   (parameters)
+   (block_expression
+    (statement_expression
+     (expression
+      (simple_expression
+       (binary_expression
+        (expression
+         (simple_expression
+          (binary_expression
+           (expression
+            (simple_expression
+             (binary_expression
+              (expression
+               (simple_expression
+                (atomic_expression
+                 (literal
+                  (integer_literal)))))
+              (expression
+               (simple_expression
+                (atomic_expression
+                 (literal
+                  (integer_literal))))))))
+           (expression
+            (simple_expression
+             (apply_expression
+              (simple_expression
+               (qualified_identifier
+                (lowercase_identifier)))
+              (expression
+               (simple_expression
+                (atomic_expression
+                 (literal
+                  (integer_literal)))))))))))
+        (expression
+         (simple_expression
+          (qualified_identifier
+           (lowercase_identifier))))))))))))

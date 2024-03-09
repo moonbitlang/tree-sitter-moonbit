@@ -6,15 +6,17 @@ const
     apply: 19,
     access: 18,
     unwrap: 18,
-    unary: 16,
-    multiplicative: 15,
-    additive: 14,
-    comparative: 13,
-    and: 12,
-    or: 11,
+    unary: 17,
+    multiplicative: 16,
+    additive: 15,
+    comparative: 14,
+    and: 13,
+    or: 12,
+    pipe: 11,
     orPattern: 10,
     asPattern: 9,
   },
+  pipe_operator = '|>',
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
   comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
@@ -268,7 +270,8 @@ module.exports = grammar({
         [PREC.additive, choice(...additive_operators)],
         [PREC.comparative, choice(...comparative_operators)],
         [PREC.and, '&&'],
-        [PREC.or, '||']
+        [PREC.or, '||'],
+        [PREC.pipe, pipe_operator],
       ]
 
       return choice(...table.map(([precedence, operator]) =>
