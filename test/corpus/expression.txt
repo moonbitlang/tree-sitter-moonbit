@@ -50,7 +50,7 @@ match expression
 ================================================================================
 fn init() {
   match x {
-  A => return
+    A => return
     B => return 1
     C => i = i + 1
     D => break
@@ -59,6 +59,7 @@ fn init() {
   }
 }
 --------------------------------------------------------------------------------
+
 (structure
  (structure_item
   (function_definition
@@ -78,62 +79,68 @@ fn init() {
           (constructor_pattern
            (constructor_expression
             (uppercase_identifier)))))
-        (return_expression))
+        (case_clause_body
+         (return_expression)))
        (case_clause
         (pattern
          (simple_pattern
           (constructor_pattern
            (constructor_expression
             (uppercase_identifier)))))
-        (return_expression
-         (expression
+        (case_clause_body
+         (return_expression
+          (expression
+           (simple_expression
+            (atomic_expression
+             (literal
+              (integer_literal))))))))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier)))))
+        (case_clause_body
+         (assign_expression
+          (left_value
+           (qualified_identifier
+            (lowercase_identifier)))
+          (expression
+           (simple_expression
+            (binary_expression
+             (expression
+              (simple_expression
+               (qualified_identifier
+                (lowercase_identifier))))
+             (expression
+              (simple_expression
+               (atomic_expression
+                (literal
+                 (integer_literal)))))))))))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier)))))
+        (case_clause_body))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier)))))
+        (case_clause_body))
+       (case_clause
+        (pattern
+         (simple_pattern
+          (constructor_pattern
+           (constructor_expression
+            (uppercase_identifier)))))
+        (case_clause_body
+         (while_expression
           (simple_expression
            (atomic_expression
             (literal
-             (integer_literal)))))))
-       (case_clause
-        (pattern
-         (simple_pattern
-          (constructor_pattern
-           (constructor_expression
-            (uppercase_identifier)))))
-        (assign_expression
-         (left_value
-          (qualified_identifier
-           (lowercase_identifier)))
-         (expression
-          (simple_expression
-           (binary_expression
-            (expression
-             (simple_expression
-              (qualified_identifier
-               (lowercase_identifier))))
-            (expression
-             (simple_expression
-              (atomic_expression
-               (literal
-                (integer_literal))))))))))
-       (case_clause
-        (pattern
-         (simple_pattern
-          (constructor_pattern
-           (constructor_expression
-            (uppercase_identifier))))))
-       (case_clause
-        (pattern
-         (simple_pattern
-          (constructor_pattern
-           (constructor_expression
-            (uppercase_identifier))))))
-       (case_clause
-        (pattern
-         (simple_pattern
-          (constructor_pattern
-           (constructor_expression
-            (uppercase_identifier)))))
-        (while_expression
-         (simple_expression
-          (atomic_expression
-           (literal
-            (boolean_literal))))
-         (block_expression))))))))))
+             (boolean_literal))))
+          (block_expression)))))))))))

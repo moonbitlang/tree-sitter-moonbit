@@ -174,6 +174,7 @@ module.exports = grammar({
       $.struct_expression,
       $.nonempty_block_expression,
       $.anonymous_lambda_expression,
+      $.anonymous_matrix_lambda_expression,
       $.constructor_expression,
       $.apply_expression,
       $.array_access_expression,
@@ -325,6 +326,20 @@ module.exports = grammar({
       $.block_expression
     ),
 
+    anonymous_matrix_lambda_expression: $ => seq(
+      'fn',
+      '{',
+      semiList($.matrix_case_clause),
+      '}',
+    ),
+
+    matrix_case_clause: $ => seq(
+      $.pattern,
+      optional(seq(',', $.pattern)),
+      '=>',
+      $.case_clause_body,
+    ),
+
     constructor_expression: $ => choice(
       $.uppercase_identifier,
       seq($.qualified_type_identifier, '::', $.uppercase_identifier)
@@ -401,14 +416,16 @@ module.exports = grammar({
     case_clause: $ => seq(
       $.pattern,
       '=>',
-      choice(
-        $.assign_expression,
-        $.while_expression,
-        'break',
-        'continue',
-        $.return_expression,
-        $.expression,
-      )
+      $.case_clause_body,
+    ),
+
+    case_clause_body: $ => choice(
+      $.assign_expression,
+      $.while_expression,
+      'break',
+      'continue',
+      $.return_expression,
+      $.expression,
     ),
 
     if_expression: $ => seq(
@@ -431,14 +448,13 @@ module.exports = grammar({
       $.let_mut_expression,
       $.assign_expression,
       $.named_lambda_expression,
+      $.named_matrix_expression,
       $.while_expression,
       'break',
       'continue',
       $.return_expression,
       $.expression
     ),
-
-    
 
     let_expression: $ => seq(
       'let',
@@ -471,6 +487,14 @@ module.exports = grammar({
       $.parameters,
       optional($.return_type),
       $.block_expression
+    ),
+
+    named_matrix_expression: $ => seq(
+      'fn',
+      $.lowercase_identifier,
+      '{',
+      semiList($.matrix_case_clause),
+      '}',
     ),
 
     while_expression: $ => seq(
