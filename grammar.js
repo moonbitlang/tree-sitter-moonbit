@@ -6,7 +6,6 @@ const
     apply: 19,
     access: 18,
     unwrap: 18,
-    power: 17,
     unary: 16,
     multiplicative: 15,
     additive: 14,
@@ -16,7 +15,6 @@ const
     orPattern: 10,
     asPattern: 9,
   },
-  power_operator = '**',
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
   comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
@@ -272,8 +270,8 @@ module.exports = grammar({
         [PREC.and, '&&'],
         [PREC.or, '||']
       ]
-      const power_expression = prec.right(PREC.power, seq($.expression, power_operator, $.expression))
-      return choice(power_expression, ...table.map(([precedence, operator]) =>
+
+      return choice(...table.map(([precedence, operator]) =>
         //@ts-ignore
         prec.left(precedence, seq(
           $.expression,
