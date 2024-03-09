@@ -909,6 +909,25 @@
     }
   },
   {
+    "type": "loop_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "matrix_case_clause",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "match_expression",
     "named": true,
     "fields": {},
@@ -1341,6 +1360,10 @@
         },
         {
           "type": "let_mut_expression",
+          "named": true
+        },
+        {
+          "type": "loop_expression",
           "named": true
         },
         {
@@ -2165,6 +2188,10 @@
   },
   {
     "type": "let",
+    "named": false
+  },
+  {
+    "type": "loop",
     "named": false
   },
   {

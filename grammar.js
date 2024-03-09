@@ -432,8 +432,8 @@ module.exports = grammar({
     case_clause_body: $ => choice(
       $.assign_expression,
       $.while_expression,
-      'break',
-      'continue',
+      seq('break', optional($.expression)),
+      seq('continue', optional($.expression)),
       $.return_expression,
       $.expression,
     ),
@@ -460,8 +460,9 @@ module.exports = grammar({
       $.named_lambda_expression,
       $.named_matrix_expression,
       $.while_expression,
-      'break',
-      'continue',
+      $.loop_expression,
+      seq('break', optional($.expression)),
+      seq('continue', optional($.expression)),
       $.return_expression,
       $.expression
     ),
@@ -511,6 +512,15 @@ module.exports = grammar({
       'while',
       $.simple_expression,
       $.block_expression
+    ),
+
+    loop_expression: $ => seq(
+      'loop',
+      $.simple_expression,
+      optional(seq(',', $.simple_expression)),
+      '{',
+      semiList($.matrix_case_clause),
+      '}',
     ),
 
     return_expression: $ => seq('return', optional($.expression)),
