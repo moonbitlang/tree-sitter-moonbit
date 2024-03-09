@@ -186,8 +186,8 @@ loop expression
 ================================================================================
 fn init {
   loop x, 0 {
-    a, b => continue c
-    d, e => f
+    a, b => continue c, d
+    e, f => g, h
   }
 }
 --------------------------------------------------------------------------------
@@ -217,6 +217,10 @@ fn init {
         (expression
          (simple_expression
           (qualified_identifier
+           (lowercase_identifier))))
+        (expression
+         (simple_expression
+          (qualified_identifier
            (lowercase_identifier))))))
       (matrix_case_clause
        (pattern
@@ -225,6 +229,10 @@ fn init {
        (pattern
         (simple_pattern
          (lowercase_identifier)))
+       (ERROR
+        (left_value
+         (qualified_identifier
+          (lowercase_identifier))))
        (case_clause_body
         (expression
          (simple_expression

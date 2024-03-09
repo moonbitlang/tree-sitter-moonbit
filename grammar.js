@@ -432,8 +432,8 @@ module.exports = grammar({
     case_clause_body: $ => choice(
       $.assign_expression,
       $.while_expression,
-      seq('break', optional($.expression)),
-      seq('continue', optional($.expression)),
+      seq('break', commaList($.expression)),
+      seq('continue', commaList($.expression)),
       $.return_expression,
       $.expression,
     ),
@@ -461,8 +461,8 @@ module.exports = grammar({
       $.named_matrix_expression,
       $.while_expression,
       $.loop_expression,
-      seq('break', optional($.expression)),
-      seq('continue', optional($.expression)),
+      seq('break', commaList($.expression)),
+      seq('continue', commaList($.expression)),
       $.return_expression,
       $.expression
     ),
