@@ -293,10 +293,13 @@ module.exports = grammar({
       ))
     },
 
-    struct_expression: $ => choice(
-      seq('{', optional($.struct_field_expressions), '}'),
-      seq('{', '..', $.expression, '}'),
-      seq('{', '..', $.expression, ',', optional($.struct_field_expressions), '}')
+    struct_expression: $ => seq(
+      optional(seq($.qualified_type_identifier, "::")),
+      choice(
+        seq('{', optional($.struct_field_expressions), '}'),
+        seq('{', '..', $.expression, '}'),
+        seq('{', '..', $.expression, ',', optional($.struct_field_expressions), '}')
+      ),
     ),
 
     struct_field_expressions: $ => choice(

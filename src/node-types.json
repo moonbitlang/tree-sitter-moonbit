@@ -1459,6 +1459,10 @@
           "named": true
         },
         {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
           "type": "struct_field_expressions",
           "named": true
         }

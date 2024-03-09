@@ -144,3 +144,40 @@ fn init() {
             (literal
              (boolean_literal))))
           (block_expression)))))))))))
+================================================================================
+struct construction
+================================================================================
+fn init() { let a = A::{ ..id, name: "John Doe" } }
+--------------------------------------------------------------------------------
+(structure
+ (structure_item
+  (function_definition
+   (function_identifier
+    (lowercase_identifier))
+   (parameters)
+   (block_expression
+    (statement_expression
+     (let_expression
+      (pattern
+       (simple_pattern
+        (lowercase_identifier)))
+      (expression
+       (simple_expression
+        (struct_expression
+         (qualified_type_identifier
+          (identifier
+           (uppercase_identifier)))
+         (expression
+          (simple_expression
+           (qualified_identifier
+            (lowercase_identifier))))
+         (struct_field_expressions
+          (labeled_expression
+           (lowercase_identifier)
+           (expression
+            (simple_expression
+             (atomic_expression
+              (literal
+               (string_literal
+                (string_fragement
+                 (unescaped_string_fragement))))))))))))))))))
