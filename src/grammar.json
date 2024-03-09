@@ -98,7 +98,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "interface_definition"
+          "name": "trait_definition"
         }
       ]
     },
@@ -772,7 +772,7 @@
         }
       ]
     },
-    "interface_definition": {
+    "trait_definition": {
       "type": "SEQ",
       "members": [
         {
@@ -790,10 +790,6 @@
         {
           "type": "CHOICE",
           "members": [
-            {
-              "type": "STRING",
-              "value": "interface"
-            },
             {
               "type": "STRING",
               "value": "trait"
@@ -816,7 +812,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "interface_method_declaration"
+                  "name": "trait_method_declaration"
                 },
                 {
                   "type": "REPEAT",
@@ -842,7 +838,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "interface_method_declaration"
+                        "name": "trait_method_declaration"
                       }
                     ]
                   }
@@ -885,7 +881,7 @@
         }
       ]
     },
-    "interface_method_declaration": {
+    "trait_method_declaration": {
       "type": "SEQ",
       "members": [
         {

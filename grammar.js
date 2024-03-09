@@ -48,7 +48,7 @@ module.exports = grammar({
       $.enum_definition,
       $.value_definition,
       $.function_definition,
-      $.interface_definition
+      $.trait_definition
     ),
 
     visibility: $ => choice(
@@ -137,16 +137,16 @@ module.exports = grammar({
       )
     ),
 
-    interface_definition: $ => seq(
+    trait_definition: $ => seq(
       optional($.pub),
-      choice('interface', 'trait'),
+      choice('trait'),
       $.identifier,
       '{',
-      semiList($.interface_method_declaration),
+      semiList($.trait_method_declaration),
       '}'
     ),
 
-    interface_method_declaration: $ => seq(
+    trait_method_declaration: $ => seq(
       $.function_identifier,
       optional($.type_parameters),
       '(',

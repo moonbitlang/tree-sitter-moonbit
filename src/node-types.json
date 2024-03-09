@@ -684,56 +684,6 @@
     }
   },
   {
-    "type": "interface_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "interface_method_declaration",
-          "named": true
-        },
-        {
-          "type": "pub",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "interface_method_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_identifier",
-          "named": true
-        },
-        {
-          "type": "return_type",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_parameters",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "interpolator",
     "named": true,
     "fields": {},
@@ -1539,11 +1489,11 @@
           "named": true
         },
         {
-          "type": "interface_definition",
+          "type": "struct_definition",
           "named": true
         },
         {
-          "type": "struct_definition",
+          "type": "trait_definition",
           "named": true
         },
         {
@@ -1552,6 +1502,56 @@
         },
         {
           "type": "value_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "pub",
+          "named": true
+        },
+        {
+          "type": "trait_method_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait_method_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_identifier",
+          "named": true
+        },
+        {
+          "type": "return_type",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
           "named": true
         }
       ]
@@ -2051,10 +2051,6 @@
   {
     "type": "integer_literal",
     "named": true
-  },
-  {
-    "type": "interface",
-    "named": false
   },
   {
     "type": "let",
