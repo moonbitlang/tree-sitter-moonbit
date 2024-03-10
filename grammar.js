@@ -146,7 +146,7 @@ module.exports = grammar({
 
     trait_definition: $ => seq(
       optional($.pub),
-      choice('trait'),
+      'trait',
       $.identifier,
       '{',
       semiList($.trait_method_declaration),
