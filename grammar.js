@@ -132,10 +132,7 @@ module.exports = grammar({
       optional($.type_parameters),
       optional($.parameters),
       optional($.return_type),
-      choice(
-        $.block_expression,
-        seq('=', $.string_literal, $.string_literal)
-      )
+      $.block_expression,
     ),
 
     test_definition: $ => seq(

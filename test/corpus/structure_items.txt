@@ -212,7 +212,6 @@ Function definitions
 ================================================================================
 fn id[T] (x: T) -> T { x }
 fn empty () { }
-pub fn answer = "the" "answer"
 --------------------------------------------------------------------------------
 
 (structure
@@ -250,18 +249,7 @@ pub fn answer = "the" "answer"
       (function_identifier
         (lowercase_identifier))
       (parameters)
-      (block_expression)))
-  (structure_item
-    (function_definition
-      (pub)
-      (function_identifier
-        (lowercase_identifier))
-      (string_literal
-        (string_fragement
-          (unescaped_string_fragement)))
-      (string_literal
-        (string_fragement
-          (unescaped_string_fragement))))))
+      (block_expression))))
 
 ================================================================================
 Trait definitions

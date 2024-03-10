@@ -639,10 +639,6 @@
           "named": true
         },
         {
-          "type": "string_literal",
-          "named": true
-        },
-        {
           "type": "type_parameters",
           "named": true
         }
