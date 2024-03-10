@@ -62,6 +62,7 @@ struct Color {
       (struct_field_declaration
         (mutability)
         (lowercase_identifier)
+        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -77,6 +78,7 @@ struct Color {
             (uppercase_identifier))))
       (struct_field_declaration
         (lowercase_identifier)
+        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -90,6 +92,7 @@ struct Color {
                       (uppercase_identifier)))))))))
       (struct_field_declaration
         (lowercase_identifier)
+        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -107,6 +110,7 @@ struct Color {
         (uppercase_identifier))
       (struct_field_declaration
         (lowercase_identifier)
+        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -114,6 +118,7 @@ struct Color {
                 (uppercase_identifier))))))
       (struct_field_declaration
         (lowercase_identifier)
+        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -121,6 +126,7 @@ struct Color {
                 (uppercase_identifier))))))
       (struct_field_declaration
         (lowercase_identifier)
+        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -196,6 +202,7 @@ pub let y: Int = 42
       (pub)
       (lowercase_identifier)
       (type_annotation
+        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -227,6 +234,7 @@ fn empty () { }
         (parameter
           (lowercase_identifier)
           (type_annotation
+            (colon)
             (type
               (apply_type
                 (qualified_type_identifier
@@ -346,27 +354,29 @@ trait A: B + Compare {
   a(Self) -> Int
 }
 --------------------------------------------------------------------------------
+
 (structure
- (structure_item
-  (trait_definition
-   (identifier
-    (uppercase_identifier))
-   (super_trait_declaration
-    (identifier
-     (uppercase_identifier))
-    (identifier
-     (uppercase_identifier)))
-   (trait_method_declaration
-    (function_identifier
-     (lowercase_identifier))
-    (type
-     (apply_type
-      (qualified_type_identifier
-       (identifier
-        (uppercase_identifier)))))
-    (return_type
-     (type
-      (apply_type
-       (qualified_type_identifier
+  (structure_item
+    (trait_definition
+      (identifier
+        (uppercase_identifier))
+      (super_trait_declaration
+        (colon)
         (identifier
-         (uppercase_identifier))))))))))
+          (uppercase_identifier))
+        (identifier
+          (uppercase_identifier)))
+      (trait_method_declaration
+        (function_identifier
+          (lowercase_identifier))
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
+        (return_type
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))))

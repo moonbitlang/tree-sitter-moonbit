@@ -16,7 +16,6 @@ const
     orPattern: 10,
     asPattern: 9,
   },
-  pipe_operator = '|>',
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
   comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
@@ -34,7 +33,16 @@ module.exports = grammar({
   ],
 
   externals: $ => [
-    $.float_literal
+    $.float_literal,
+    $.comment,
+    $.docstring,
+    $.pipe_operator,
+    $.dot_operator,
+    $.colon,
+    $.colon_colon,
+    $.question_operator,
+    $.derive,
+    $.dot_dot,
   ],
 
   word: $ => $.lowercase_identifier,
@@ -61,8 +69,10 @@ module.exports = grammar({
 
     derive_item: $ => $.qualified_type_identifier,
 
+    derive: _ => 'derive',
+
     derive_directive: $ => seq(
-      'derive',
+      $.derive,
       '(',
       commaList($.derive_item),
       ')',
@@ -73,8 +83,8 @@ module.exports = grammar({
       'type',
       $.identifier,
       optional($.type_parameters),
-      optional($.derive_directive),
       optional($.type),
+      optional($.derive_directive),
     ),
 
     struct_definition: $ => seq(
@@ -92,7 +102,7 @@ module.exports = grammar({
       optional($.visibility),
       optional($.mutability),
       $.lowercase_identifier,
-      ':',
+      $.colon,
       $.type
     ),
 
@@ -152,7 +162,7 @@ module.exports = grammar({
     ),
 
     super_trait_declaration: $ => seq(
-      ':',
+      $.colon,
       plusList($.identifier),
     ),
 
@@ -174,7 +184,7 @@ module.exports = grammar({
 
     unwrap_expression: $ => prec(PREC.unwrap, seq(
       $.simple_expression,
-      '?'
+      $.question_operator
     )),
 
     simple_expression: $ => choice(
@@ -276,6 +286,8 @@ module.exports = grammar({
       $.expression
     )),
 
+    pipe_operator: _ => '|>',
+
     binary_expression: $ => {
       const table = [
         [PREC.multiplicative, choice(...multiplicative_operators)],
@@ -283,7 +295,7 @@ module.exports = grammar({
         [PREC.comparative, choice(...comparative_operators)],
         [PREC.and, '&&'],
         [PREC.or, '||'],
-        [PREC.pipe, pipe_operator],
+        [PREC.pipe, $.pipe_operator],
       ]
 
       return choice(...table.map(([precedence, operator]) =>
@@ -303,16 +315,16 @@ module.exports = grammar({
     ),
 
     struct_array_expression: $ => seq(
-      seq($.qualified_type_identifier, "::"),
+      seq($.qualified_type_identifier, $.colon_colon),
       $.array_expression,
     ),
 
     struct_brace_expression: $ => seq(
-      optional(seq($.qualified_type_identifier, "::")),
+      optional(seq($.qualified_type_identifier, $.colon_colon)),
       choice(
         seq('{', optional($.struct_field_expressions), '}'),
-        seq('{', '..', $.expression, '}'),
-        seq('{', '..', $.expression, ',', optional($.struct_field_expressions), '}'),
+        seq('{', $.dot_dot, $.expression, '}'),
+        seq('{', $.dot_dot, $.expression, ',', optional($.struct_field_expressions), '}'),
       ),
     ),
 
@@ -327,7 +339,7 @@ module.exports = grammar({
       $.labeled_expression_pun
     ),
 
-    labeled_expression: $ => seq($.lowercase_identifier, ':', $.expression),
+    labeled_expression: $ => seq($.lowercase_identifier, $.colon, $.expression),
 
     labeled_expression_pun: $ => $.lowercase_identifier,
 
@@ -366,7 +378,7 @@ module.exports = grammar({
 
     constructor_expression: $ => choice(
       $.uppercase_identifier,
-      seq($.qualified_type_identifier, '::', $.uppercase_identifier)
+      seq($.qualified_type_identifier, $.colon_colon, $.uppercase_identifier)
     ),
 
     apply_expression: $ => prec(PREC.apply, seq(
@@ -398,12 +410,12 @@ module.exports = grammar({
 
     accessor: $ => choice(
       $.dot_identifier,
-      /\.[0-9]+/
+      seq($.dot_operator, /[0-9]+/)
     ),
 
     method_expression: $ => seq(
       $.qualified_type_identifier,
-      '::',
+      $.colon_colon,
       $.lowercase_identifier
     ),
 
@@ -418,7 +430,7 @@ module.exports = grammar({
     constraint_expression: $ => seq(
       '(',
       $.expression,
-      ':',
+      $.colon,
       $.type,
       ')'
     ),
@@ -583,7 +595,7 @@ module.exports = grammar({
       ')'
     ),
 
-    constraint_pattern: $ => seq('(', $.pattern, ':', $.type, ')'),
+    constraint_pattern: $ => seq('(', $.pattern, $.colon, $.type, ')'),
 
     array_pattern: $ => seq('[', optional($.array_sub_pattern), ']'),
 
@@ -594,7 +606,7 @@ module.exports = grammar({
       seq(commaList1($.pattern), $.dotdot_pattern)
     ),
 
-    dotdot_pattern: _ => seq('..', optional(',')),
+    dotdot_pattern: $ => seq($.dot_dot, optional(',')),
 
     struct_pattern: $ => seq('{', optional($.struct_filed_pattern), '}'),
 
@@ -608,7 +620,7 @@ module.exports = grammar({
       $.labeled_pattern_pun
     ),
 
-    labeled_pattern: $ => seq($.lowercase_identifier, ':', $.pattern),
+    labeled_pattern: $ => seq($.lowercase_identifier, $.colon, $.pattern),
 
     labeled_pattern_pun: $ => $.lowercase_identifier,
 
@@ -637,7 +649,7 @@ module.exports = grammar({
       ']'
     ),
 
-    type_annotation: $ => seq(':', $.type),
+    type_annotation: $ => seq($.colon, $.type),
 
     return_type: $ => seq('->', $.type),
 
@@ -660,7 +672,13 @@ module.exports = grammar({
       $.uppercase_identifier,
       $.lowercase_identifier,
     ),
-    dot_identifier: _ => /\.[_\p{XID_Start}][_\p{XID_Continue}]*/,
+
+    dot_operator: _ => '.',
+
+    // colon_colon: _ => '::',
+
+    dot_identifier: $ => seq($.dot_operator, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
+
     package_identifier: _ => /@[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
     qualified_identifier: $ => choice(
@@ -674,12 +692,12 @@ module.exports = grammar({
 
     function_identifier: $ => choice(
       $.lowercase_identifier,
-      seq($.qualified_type_identifier, '::', $.lowercase_identifier)
+      seq($.qualified_type_identifier, $.colon_colon, $.lowercase_identifier)
     ),
 
     type_identifier: $ => choice(
       $.identifier,
-      seq($.identifier, ':', $.constraints)
+      seq($.identifier, $.colon, $.constraints)
     ),
 
     constraints: $ => sepBy1('+', $.constraint),

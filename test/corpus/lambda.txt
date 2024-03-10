@@ -22,6 +22,7 @@ fn init {
                   (parameter
                     (lowercase_identifier)
                     (type_annotation
+                      (colon)
                       (type
                         (apply_type
                           (qualified_type_identifier
@@ -56,6 +57,7 @@ fn init {
                   (parameter
                     (lowercase_identifier)
                     (type_annotation
+                      (colon)
                       (type
                         (apply_type
                           (qualified_type_identifier
@@ -94,6 +96,7 @@ fn init {
                     (parameter
                       (lowercase_identifier)
                       (type_annotation
+                        (colon)
                         (type
                           (apply_type
                             (qualified_type_identifier
@@ -108,6 +111,7 @@ fn init {
                               (parameter
                                 (lowercase_identifier)
                                 (type_annotation
+                                  (colon)
                                   (type
                                     (apply_type
                                       (qualified_type_identifier
@@ -140,51 +144,51 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
- (structure_item
-  (function_definition
-   (function_identifier
-    (lowercase_identifier))
-   (block_expression
-    (statement_expression
-     (named_matrix_expression
-      (lowercase_identifier)
-      (matrix_case_clause
-       (pattern
-        (simple_pattern
-         (literal
-          (boolean_literal))))
-       (pattern
-        (simple_pattern))
-       (case_clause_body
-        (expression
-         (simple_expression
-          (atomic_expression
-           (literal
-            (boolean_literal)))))))
-      (matrix_case_clause
-       (pattern
-        (simple_pattern))
-       (pattern
-        (simple_pattern
-         (literal
-          (boolean_literal))))
-       (case_clause_body
-        (expression
-         (simple_expression
-          (atomic_expression
-           (literal
-            (boolean_literal)))))))
-      (matrix_case_clause
-       (pattern
-        (simple_pattern))
-       (pattern
-        (simple_pattern))
-       (case_clause_body
-        (expression
-         (simple_expression
-          (atomic_expression
-           (literal
-            (boolean_literal)))))))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (named_matrix_expression
+            (lowercase_identifier)
+            (matrix_case_clause
+              (pattern
+                (simple_pattern
+                  (literal
+                    (boolean_literal))))
+              (pattern
+                (simple_pattern))
+              (case_clause_body
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (boolean_literal)))))))
+            (matrix_case_clause
+              (pattern
+                (simple_pattern))
+              (pattern
+                (simple_pattern
+                  (literal
+                    (boolean_literal))))
+              (case_clause_body
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (boolean_literal)))))))
+            (matrix_case_clause
+              (pattern
+                (simple_pattern))
+              (pattern
+                (simple_pattern))
+              (case_clause_body
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (boolean_literal)))))))))))))
 
 ================================================================================
 matrix functions complex
@@ -195,32 +199,32 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
- (structure_item
-  (function_definition
-   (function_identifier
-    (lowercase_identifier))
-   (block_expression
-    (statement_expression
-     (let_expression
-      (pattern
-       (simple_pattern))
-      (expression
-       (simple_expression
-        (anonymous_matrix_lambda_expression
-         (matrix_case_clause
-          (pattern
-           (simple_pattern
-            (lowercase_identifier)))
-          (case_clause_body
-           (expression
-            (simple_expression
-             (binary_expression
-              (expression
-               (simple_expression
-                (qualified_identifier
-                 (lowercase_identifier))))
-              (expression
-               (simple_expression
-                (atomic_expression
-                 (literal
-                  (integer_literal)))))))))))))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern))
+            (expression
+              (simple_expression
+                (anonymous_matrix_lambda_expression
+                  (matrix_case_clause
+                    (pattern
+                      (simple_pattern
+                        (lowercase_identifier)))
+                    (case_clause_body
+                      (expression
+                        (simple_expression
+                          (binary_expression
+                            (expression
+                              (simple_expression
+                                (qualified_identifier
+                                  (lowercase_identifier))))
+                            (expression
+                              (simple_expression
+                                (atomic_expression
+                                  (literal
+                                    (integer_literal)))))))))))))))))))
