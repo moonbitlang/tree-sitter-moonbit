@@ -1439,6 +1439,48 @@
     }
   },
   {
+    "type": "struct_array_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_brace_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
+          "type": "struct_field_expressions",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "struct_definition",
     "named": true,
     "fields": {},
@@ -1474,19 +1516,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "struct_array_expression",
           "named": true
         },
         {
-          "type": "qualified_type_identifier",
-          "named": true
-        },
-        {
-          "type": "struct_field_expressions",
+          "type": "struct_brace_expression",
           "named": true
         }
       ]
