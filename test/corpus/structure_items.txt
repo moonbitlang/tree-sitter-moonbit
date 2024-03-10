@@ -264,19 +264,19 @@ pub fn answer = "the" "answer"
           (unescaped_string_fragement))))))
 
 ================================================================================
-Interface definitions
+Trait definitions
 ================================================================================
-interface A {
+trait A {
   a(Self) -> Int
 }
 --------------------------------------------------------------------------------
 
 (structure
   (structure_item
-    (interface_definition
+    (trait_definition
       (identifier
         (uppercase_identifier))
-      (interface_method_declaration
+      (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
         (type
@@ -301,10 +301,10 @@ trait A {
 
 (structure
   (structure_item
-    (interface_definition
+    (trait_definition
       (identifier
         (uppercase_identifier))
-      (interface_method_declaration
+      (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
         (type

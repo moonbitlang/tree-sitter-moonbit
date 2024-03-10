@@ -64,13 +64,13 @@ fn x {}
       (block_expression))))
 
 ================================================================================
-interface definitions
+trait definitions
 ================================================================================
 ///hello
-/// interface
+/// trait
 // comment
 //comment
-interface X {}
+trait X {}
 --------------------------------------------------------------------------------
 
 (structure
@@ -79,6 +79,6 @@ interface X {}
   (comment)
   (comment)
   (structure_item
-    (interface_definition
+    (trait_definition
       (identifier
         (uppercase_identifier)))))

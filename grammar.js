@@ -6,20 +6,20 @@ const
     apply: 19,
     access: 18,
     unwrap: 18,
-    power: 17,
-    unary: 16,
-    multiplicative: 15,
-    additive: 14,
-    comparative: 13,
-    and: 12,
-    or: 11,
+    unary: 17,
+    multiplicative: 16,
+    additive: 15,
+    comparative: 14,
+    and: 13,
+    or: 12,
+    pipe: 11,
     orPattern: 10,
     asPattern: 9,
   },
-  power_operator = '**',
+  pipe_operator = '|>',
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
-  comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
+  comparative_operators = ['>', '>=', '<=', '<', '==', '!=', '==='],
   assignment_operators = ['=', '+=', '-=', '*=', '/='],
 
   terminator = choice('\n', ';', '\0')
@@ -48,7 +48,8 @@ module.exports = grammar({
       $.enum_definition,
       $.value_definition,
       $.function_definition,
-      $.interface_definition
+      $.test_definition,
+      $.trait_definition
     ),
 
     visibility: $ => choice(
@@ -137,16 +138,22 @@ module.exports = grammar({
       )
     ),
 
-    interface_definition: $ => seq(
+    test_definition: $ => seq(
+      'test',
+      optional($.string_literal),
+      $.block_expression
+    ),
+
+    trait_definition: $ => seq(
       optional($.pub),
-      choice('interface', 'trait'),
+      choice('trait'),
       $.identifier,
       '{',
-      semiList($.interface_method_declaration),
+      semiList($.trait_method_declaration),
       '}'
     ),
 
-    interface_method_declaration: $ => seq(
+    trait_method_declaration: $ => seq(
       $.function_identifier,
       optional($.type_parameters),
       '(',
@@ -174,6 +181,7 @@ module.exports = grammar({
       $.struct_expression,
       $.nonempty_block_expression,
       $.anonymous_lambda_expression,
+      $.anonymous_matrix_lambda_expression,
       $.constructor_expression,
       $.apply_expression,
       $.array_access_expression,
@@ -270,10 +278,11 @@ module.exports = grammar({
         [PREC.additive, choice(...additive_operators)],
         [PREC.comparative, choice(...comparative_operators)],
         [PREC.and, '&&'],
-        [PREC.or, '||']
+        [PREC.or, '||'],
+        [PREC.pipe, pipe_operator],
       ]
-      const power_expression = prec.right(PREC.power, seq($.expression, power_operator, $.expression))
-      return choice(power_expression, ...table.map(([precedence, operator]) =>
+
+      return choice(...table.map(([precedence, operator]) =>
         //@ts-ignore
         prec.left(precedence, seq(
           $.expression,
@@ -284,10 +293,13 @@ module.exports = grammar({
       ))
     },
 
-    struct_expression: $ => choice(
-      seq('{', optional($.struct_field_expressions), '}'),
-      seq('{', '..', $.expression, '}'),
-      seq('{', '..', $.expression, ',', optional($.struct_field_expressions), '}')
+    struct_expression: $ => seq(
+      optional(seq($.qualified_type_identifier, "::")),
+      choice(
+        seq('{', optional($.struct_field_expressions), '}'),
+        seq('{', '..', $.expression, '}'),
+        seq('{', '..', $.expression, ',', optional($.struct_field_expressions), '}')
+      ),
     ),
 
     struct_field_expressions: $ => choice(
@@ -322,6 +334,20 @@ module.exports = grammar({
       $.parameters,
       optional($.return_type),
       $.block_expression
+    ),
+
+    anonymous_matrix_lambda_expression: $ => seq(
+      'fn',
+      '{',
+      semiList($.matrix_case_clause),
+      '}',
+    ),
+
+    matrix_case_clause: $ => seq(
+      $.pattern,
+      optional(seq(',', $.pattern)),
+      '=>',
+      $.case_clause_body,
     ),
 
     constructor_expression: $ => choice(
@@ -397,7 +423,20 @@ module.exports = grammar({
       '}'
     ),
 
-    case_clause: $ => seq($.pattern, '=>', $.expression),
+    case_clause: $ => seq(
+      $.pattern,
+      '=>',
+      $.case_clause_body,
+    ),
+
+    case_clause_body: $ => choice(
+      $.assign_expression,
+      $.while_expression,
+      seq('break', commaList($.expression)),
+      seq('continue', commaList($.expression)),
+      $.return_expression,
+      $.expression,
+    ),
 
     if_expression: $ => seq(
       'if',
@@ -416,12 +455,14 @@ module.exports = grammar({
 
     statement_expression: $ => choice(
       $.let_expression,
-      $.var_expression,
+      $.let_mut_expression,
       $.assign_expression,
       $.named_lambda_expression,
+      $.named_matrix_expression,
       $.while_expression,
-      'break',
-      'continue',
+      $.loop_expression,
+      seq('break', commaList($.expression)),
+      seq('continue', commaList($.expression)),
       $.return_expression,
       $.expression
     ),
@@ -434,7 +475,7 @@ module.exports = grammar({
       $.expression
     ),
 
-    var_expression: $ => seq(
+    let_mut_expression: $ => seq(
       'let',
       'mut',
       $.lowercase_identifier,
@@ -459,10 +500,27 @@ module.exports = grammar({
       $.block_expression
     ),
 
+    named_matrix_expression: $ => seq(
+      'fn',
+      $.lowercase_identifier,
+      '{',
+      semiList($.matrix_case_clause),
+      '}',
+    ),
+
     while_expression: $ => seq(
       'while',
       $.simple_expression,
       $.block_expression
+    ),
+
+    loop_expression: $ => seq(
+      'loop',
+      $.simple_expression,
+      optional(seq(',', $.simple_expression)),
+      '{',
+      semiList($.matrix_case_clause),
+      '}',
     ),
 
     return_expression: $ => seq('return', optional($.expression)),

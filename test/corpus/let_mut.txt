@@ -14,7 +14,7 @@ fn init {
         (lowercase_identifier))
       (block_expression
         (statement_expression
-          (var_expression
+          (let_mut_expression
             (lowercase_identifier)
             (expression
               (simple_expression

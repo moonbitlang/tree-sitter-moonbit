@@ -57,6 +57,21 @@
     }
   },
   {
+    "type": "anonymous_matrix_lambda_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "matrix_case_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "any",
     "named": true,
     "fields": {}
@@ -268,11 +283,38 @@
       "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "case_clause_body",
           "named": true
         },
         {
           "type": "pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "case_clause_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "assign_expression",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "return_expression",
+          "named": true
+        },
+        {
+          "type": "while_expression",
           "named": true
         }
       ]
@@ -684,56 +726,6 @@
     }
   },
   {
-    "type": "interface_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "interface_method_declaration",
-          "named": true
-        },
-        {
-          "type": "pub",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "interface_method_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_identifier",
-          "named": true
-        },
-        {
-          "type": "return_type",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_parameters",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "interpolator",
     "named": true,
     "fields": {},
@@ -863,6 +855,29 @@
     }
   },
   {
+    "type": "let_mut_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "literal",
     "named": true,
     "fields": {},
@@ -894,6 +909,25 @@
     }
   },
   {
+    "type": "loop_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "matrix_case_clause",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "match_expression",
     "named": true,
     "fields": {},
@@ -907,6 +941,25 @@
         },
         {
           "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "matrix_case_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "case_clause_body",
+          "named": true
+        },
+        {
+          "type": "pattern",
           "named": true
         }
       ]
@@ -958,6 +1011,25 @@
         },
         {
           "type": "return_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "named_matrix_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "matrix_case_clause",
           "named": true
         }
       ]
@@ -1153,6 +1225,10 @@
           "named": true
         },
         {
+          "type": "anonymous_matrix_lambda_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -1267,7 +1343,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -1283,15 +1359,23 @@
           "named": true
         },
         {
+          "type": "let_mut_expression",
+          "named": true
+        },
+        {
+          "type": "loop_expression",
+          "named": true
+        },
+        {
           "type": "named_lambda_expression",
           "named": true
         },
         {
-          "type": "return_expression",
+          "type": "named_matrix_expression",
           "named": true
         },
         {
-          "type": "var_expression",
+          "type": "return_expression",
           "named": true
         },
         {
@@ -1395,6 +1479,10 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "qualified_type_identifier",
           "named": true
         },
         {
@@ -1539,11 +1627,15 @@
           "named": true
         },
         {
-          "type": "interface_definition",
+          "type": "struct_definition",
           "named": true
         },
         {
-          "type": "struct_definition",
+          "type": "test_definition",
+          "named": true
+        },
+        {
+          "type": "trait_definition",
           "named": true
         },
         {
@@ -1552,6 +1644,75 @@
         },
         {
           "type": "value_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "test_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "pub",
+          "named": true
+        },
+        {
+          "type": "trait_method_declaration",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait_method_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_identifier",
+          "named": true
+        },
+        {
+          "type": "return_type",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
           "named": true
         }
       ]
@@ -1792,29 +1953,6 @@
     }
   },
   {
-    "type": "var_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "lowercase_identifier",
-          "named": true
-        },
-        {
-          "type": "type_annotation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "visibility",
     "named": true,
     "fields": {},
@@ -1889,10 +2027,6 @@
     "named": false
   },
   {
-    "type": "**",
-    "named": false
-  },
-  {
     "type": "*=",
     "named": false
   },
@@ -1958,6 +2092,10 @@
   },
   {
     "type": "==",
+    "named": false
+  },
+  {
+    "type": "===",
     "named": false
   },
   {
@@ -2053,11 +2191,11 @@
     "named": true
   },
   {
-    "type": "interface",
+    "type": "let",
     "named": false
   },
   {
-    "type": "let",
+    "type": "loop",
     "named": false
   },
   {
@@ -2097,6 +2235,10 @@
     "named": false
   },
   {
+    "type": "test",
+    "named": false
+  },
+  {
     "type": "trait",
     "named": false
   },
@@ -2122,6 +2264,10 @@
   },
   {
     "type": "|",
+    "named": false
+  },
+  {
+    "type": "|>",
     "named": false
   },
   {
