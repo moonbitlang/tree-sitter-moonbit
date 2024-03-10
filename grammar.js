@@ -148,9 +148,15 @@ module.exports = grammar({
       optional($.pub),
       'trait',
       $.identifier,
+      optional($.super_trait_declaration),
       '{',
       semiList($.trait_method_declaration),
       '}'
+    ),
+
+    super_trait_declaration: $ => seq(
+      ':',
+      plusList($.identifier),
     ),
 
     trait_method_declaration: $ => seq(
@@ -697,6 +703,18 @@ function sepBy1(separator, rule) {
  *
  * @param {Rule} rule
  *
+ * @return {ChoiceRule}
+ *
+ */
+function commaList(rule) {
+  return optional(commaList1(rule))
+}
+
+
+/**
+ *
+ * @param {Rule} rule
+ *
  * @return {SeqRule}
  *
  */
@@ -741,6 +759,22 @@ function semiList1(rule) {
  * @return {ChoiceRule}
  *
  */
-function commaList(rule) {
-  return optional(commaList1(rule))
+function plusList(rule) {
+  return optional(plusList1(rule))
+}
+
+
+/**
+ *
+ * @param {Rule} rule
+ *
+ * @return {SeqRule}
+ *
+ */
+function plusList1(rule) {
+  return seq(
+    rule,
+    repeat(seq('+', rule)),
+    // no trailing separator
+  );
 }

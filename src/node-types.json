@@ -1650,6 +1650,21 @@
     }
   },
   {
+    "type": "super_trait_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "test_definition",
     "named": true,
     "fields": {},
@@ -1682,6 +1697,10 @@
         },
         {
           "type": "pub",
+          "named": true
+        },
+        {
+          "type": "super_trait_declaration",
           "named": true
         },
         {

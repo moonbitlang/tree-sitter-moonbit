@@ -350,3 +350,35 @@ let printable = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
                   (unescaped_string_fragement))
                 (string_fragement
                   (unescaped_string_fragement))))))))))
+
+================================================================================
+Trait definitions with super trait
+================================================================================
+trait A: B + Compare {
+  a(Self) -> Int
+}
+--------------------------------------------------------------------------------
+(structure
+ (structure_item
+  (trait_definition
+   (identifier
+    (uppercase_identifier))
+   (super_trait_declaration
+    (identifier
+     (uppercase_identifier))
+    (identifier
+     (uppercase_identifier)))
+   (trait_method_declaration
+    (function_identifier
+     (lowercase_identifier))
+    (type
+     (apply_type
+      (qualified_type_identifier
+       (identifier
+        (uppercase_identifier)))))
+    (return_type
+     (type
+      (apply_type
+       (qualified_type_identifier
+        (identifier
+         (uppercase_identifier))))))))))
