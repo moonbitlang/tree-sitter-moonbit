@@ -168,6 +168,7 @@ module.exports = grammar({
     expression: $ => choice(
       $.simple_expression,
       $.if_expression,
+      $.loop_expression,
       $.match_expression
     ),
 
@@ -473,7 +474,6 @@ module.exports = grammar({
       $.named_lambda_expression,
       $.named_matrix_expression,
       $.while_expression,
-      $.loop_expression,
       seq('break', commaList($.expression)),
       seq('continue', commaList($.expression)),
       $.return_expression,
