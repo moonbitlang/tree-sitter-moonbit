@@ -1,0 +1,18 @@
+name: Fuzz
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - src/scanner.c
+  pull_request:
+    paths:
+      - src/scanner.c
+
+jobs:
+  test:
+    name: Fuzz
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: tree-sitter/fuzz-action@v4
