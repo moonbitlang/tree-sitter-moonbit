@@ -749,30 +749,8 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "block_expression"
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "="
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "string_literal"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "string_literal"
-                }
-              ]
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "block_expression"
         }
       ]
     },
@@ -817,17 +795,24 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "trait"
-            }
-          ]
+          "type": "STRING",
+          "value": "trait"
         },
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "super_trait_declaration"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -907,6 +892,48 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "super_trait_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "+"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "identifier"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -1006,6 +1033,10 @@
         {
           "type": "SYMBOL",
           "name": "if_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "loop_expression"
         },
         {
           "type": "SYMBOL",
@@ -1464,10 +1495,6 @@
                   {
                     "type": "STRING",
                     "value": "!="
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "==="
                   }
                 ]
               },
@@ -1544,6 +1571,41 @@
       ]
     },
     "struct_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "struct_array_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "struct_brace_expression"
+        }
+      ]
+    },
+    "struct_array_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "qualified_type_identifier"
+            },
+            {
+              "type": "STRING",
+              "value": "::"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_expression"
+        }
+      ]
+    },
+    "struct_brace_expression": {
       "type": "SEQ",
       "members": [
         {
@@ -2835,10 +2897,6 @@
         {
           "type": "SYMBOL",
           "name": "while_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "loop_expression"
         },
         {
           "type": "SEQ",

@@ -164,30 +164,73 @@ fn init() { let a = A::{ ..id, name: "John Doe" } }
       (expression
        (simple_expression
         (struct_expression
-         (qualified_type_identifier
-          (identifier
-           (uppercase_identifier)))
-         (expression
-          (simple_expression
-           (qualified_identifier
-            (lowercase_identifier))))
-         (struct_field_expressions
-          (labeled_expression
-           (lowercase_identifier)
+         (struct_brace_expression
+          (qualified_type_identifier
+           (identifier
+            (uppercase_identifier)))
+          (expression
+           (simple_expression
+            (qualified_identifier
+             (lowercase_identifier))))
+          (struct_field_expressions
+           (labeled_expression
+            (lowercase_identifier)
+            (expression
+             (simple_expression
+              (atomic_expression
+               (literal
+                (string_literal
+                 (string_fragement
+                  (unescaped_string_fragement)))))))))))))))))))
+================================================================================
+struct construction from array
+================================================================================
+fn init() { let a = A::[1, 2, 3] }
+--------------------------------------------------------------------------------
+
+(structure
+ (structure_item
+  (function_definition
+   (function_identifier
+    (lowercase_identifier))
+   (parameters)
+   (block_expression
+    (statement_expression
+     (let_expression
+      (pattern
+       (simple_pattern
+        (lowercase_identifier)))
+      (expression
+       (simple_expression
+        (struct_expression
+         (struct_array_expression
+          (qualified_type_identifier
+           (identifier
+            (uppercase_identifier)))
+          (array_expression
            (expression
             (simple_expression
              (atomic_expression
               (literal
-               (string_literal
-                (string_fragement
-                 (unescaped_string_fragement))))))))))))))))))
+               (integer_literal)))))
+           (expression
+            (simple_expression
+             (atomic_expression
+              (literal
+               (integer_literal)))))
+           (expression
+            (simple_expression
+             (atomic_expression
+              (literal
+               (integer_literal))))))))))))))))
+
 ================================================================================
 loop expression
 ================================================================================
 fn init {
-  loop x, 0 {
+  let x = loop x, 0 {
     a, b => continue c, d
-    e, f => g, h
+    e, f => g
   }
 }
 --------------------------------------------------------------------------------
@@ -198,43 +241,44 @@ fn init {
     (lowercase_identifier))
    (block_expression
     (statement_expression
-     (loop_expression
-      (simple_expression
-       (qualified_identifier
+     (let_expression
+      (pattern
+       (simple_pattern
         (lowercase_identifier)))
-      (simple_expression
-       (atomic_expression
-        (literal
-         (integer_literal))))
-      (matrix_case_clause
-       (pattern
-        (simple_pattern
-         (lowercase_identifier)))
-       (pattern
-        (simple_pattern
-         (lowercase_identifier)))
-       (case_clause_body
-        (expression
-         (simple_expression
-          (qualified_identifier
-           (lowercase_identifier))))
-        (expression
-         (simple_expression
-          (qualified_identifier
-           (lowercase_identifier))))))
-      (matrix_case_clause
-       (pattern
-        (simple_pattern
-         (lowercase_identifier)))
-       (pattern
-        (simple_pattern
-         (lowercase_identifier)))
-       (ERROR
-        (left_value
+      (expression
+       (loop_expression
+        (simple_expression
          (qualified_identifier
-          (lowercase_identifier))))
-       (case_clause_body
-        (expression
-         (simple_expression
-          (qualified_identifier
-           (lowercase_identifier))))))))))))
+          (lowercase_identifier)))
+        (simple_expression
+         (atomic_expression
+          (literal
+           (integer_literal))))
+        (matrix_case_clause
+         (pattern
+          (simple_pattern
+           (lowercase_identifier)))
+         (pattern
+          (simple_pattern
+           (lowercase_identifier)))
+         (case_clause_body
+          (expression
+           (simple_expression
+            (qualified_identifier
+             (lowercase_identifier))))
+          (expression
+           (simple_expression
+            (qualified_identifier
+             (lowercase_identifier))))))
+        (matrix_case_clause
+         (pattern
+          (simple_pattern
+           (lowercase_identifier)))
+         (pattern
+          (simple_pattern
+           (lowercase_identifier)))
+         (case_clause_body
+          (expression
+           (simple_expression
+            (qualified_identifier
+             (lowercase_identifier))))))))))))))

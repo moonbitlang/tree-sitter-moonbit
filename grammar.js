@@ -19,7 +19,7 @@ const
   pipe_operator = '|>',
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
-  comparative_operators = ['>', '>=', '<=', '<', '==', '!=', '==='],
+  comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
   assignment_operators = ['=', '+=', '-=', '*=', '/='],
 
   terminator = choice('\n', ';', '\0')
@@ -132,10 +132,7 @@ module.exports = grammar({
       optional($.type_parameters),
       optional($.parameters),
       optional($.return_type),
-      choice(
-        $.block_expression,
-        seq('=', $.string_literal, $.string_literal)
-      )
+      $.block_expression,
     ),
 
     test_definition: $ => seq(
@@ -146,11 +143,17 @@ module.exports = grammar({
 
     trait_definition: $ => seq(
       optional($.pub),
-      choice('trait'),
+      'trait',
       $.identifier,
+      optional($.super_trait_declaration),
       '{',
       semiList($.trait_method_declaration),
       '}'
+    ),
+
+    super_trait_declaration: $ => seq(
+      ':',
+      plusList($.identifier),
     ),
 
     trait_method_declaration: $ => seq(
@@ -165,6 +168,7 @@ module.exports = grammar({
     expression: $ => choice(
       $.simple_expression,
       $.if_expression,
+      $.loop_expression,
       $.match_expression
     ),
 
@@ -293,12 +297,22 @@ module.exports = grammar({
       ))
     },
 
-    struct_expression: $ => seq(
+    struct_expression: $ => choice(
+      $.struct_array_expression,
+      $.struct_brace_expression,
+    ),
+
+    struct_array_expression: $ => seq(
+      seq($.qualified_type_identifier, "::"),
+      $.array_expression,
+    ),
+
+    struct_brace_expression: $ => seq(
       optional(seq($.qualified_type_identifier, "::")),
       choice(
         seq('{', optional($.struct_field_expressions), '}'),
         seq('{', '..', $.expression, '}'),
-        seq('{', '..', $.expression, ',', optional($.struct_field_expressions), '}')
+        seq('{', '..', $.expression, ',', optional($.struct_field_expressions), '}'),
       ),
     ),
 
@@ -460,7 +474,6 @@ module.exports = grammar({
       $.named_lambda_expression,
       $.named_matrix_expression,
       $.while_expression,
-      $.loop_expression,
       seq('break', commaList($.expression)),
       seq('continue', commaList($.expression)),
       $.return_expression,
@@ -697,6 +710,18 @@ function sepBy1(separator, rule) {
  *
  * @param {Rule} rule
  *
+ * @return {ChoiceRule}
+ *
+ */
+function commaList(rule) {
+  return optional(commaList1(rule))
+}
+
+
+/**
+ *
+ * @param {Rule} rule
+ *
  * @return {SeqRule}
  *
  */
@@ -741,6 +766,22 @@ function semiList1(rule) {
  * @return {ChoiceRule}
  *
  */
-function commaList(rule) {
-  return optional(commaList1(rule))
+function plusList(rule) {
+  return optional(plusList1(rule))
+}
+
+
+/**
+ *
+ * @param {Rule} rule
+ *
+ * @return {SeqRule}
+ *
+ */
+function plusList1(rule) {
+  return seq(
+    rule,
+    repeat(seq('+', rule)),
+    // no trailing separator
+  );
 }

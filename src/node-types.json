@@ -581,6 +581,10 @@
           "named": true
         },
         {
+          "type": "loop_expression",
+          "named": true
+        },
+        {
           "type": "match_expression",
           "named": true
         },
@@ -636,10 +640,6 @@
         },
         {
           "type": "return_type",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         },
         {
@@ -1363,10 +1363,6 @@
           "named": true
         },
         {
-          "type": "loop_expression",
-          "named": true
-        },
-        {
           "type": "named_lambda_expression",
           "named": true
         },
@@ -1439,6 +1435,48 @@
     }
   },
   {
+    "type": "struct_array_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_brace_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
+          "type": "struct_field_expressions",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "struct_definition",
     "named": true,
     "fields": {},
@@ -1474,19 +1512,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "struct_array_expression",
           "named": true
         },
         {
-          "type": "qualified_type_identifier",
-          "named": true
-        },
-        {
-          "type": "struct_field_expressions",
+          "type": "struct_brace_expression",
           "named": true
         }
       ]
@@ -1650,6 +1684,21 @@
     }
   },
   {
+    "type": "super_trait_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "test_definition",
     "named": true,
     "fields": {},
@@ -1682,6 +1731,10 @@
         },
         {
           "type": "pub",
+          "named": true
+        },
+        {
+          "type": "super_trait_declaration",
           "named": true
         },
         {
@@ -2092,10 +2145,6 @@
   },
   {
     "type": "==",
-    "named": false
-  },
-  {
-    "type": "===",
     "named": false
   },
   {
