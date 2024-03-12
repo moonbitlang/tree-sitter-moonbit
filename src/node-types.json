@@ -1455,7 +1455,7 @@
           "named": true
         },
         {
-          "type": "struct_filed_declaration",
+          "type": "struct_field_declaration",
           "named": true
         },
         {
@@ -1487,6 +1487,33 @@
         },
         {
           "type": "struct_field_expressions",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_field_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "mutability",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "visibility",
           "named": true
         }
       ]
@@ -1529,33 +1556,6 @@
         },
         {
           "type": "struct_field_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "struct_filed_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "lowercase_identifier",
-          "named": true
-        },
-        {
-          "type": "mutability",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "visibility",
           "named": true
         }
       ]

@@ -59,7 +59,7 @@ struct Color {
         (type_identifier
           (identifier
             (uppercase_identifier))))
-      (struct_filed_declaration
+      (struct_field_declaration
         (mutability)
         (lowercase_identifier)
         (type
@@ -75,7 +75,7 @@ struct Color {
         (type_identifier
           (identifier
             (uppercase_identifier))))
-      (struct_filed_declaration
+      (struct_field_declaration
         (lowercase_identifier)
         (type
           (apply_type
@@ -88,7 +88,7 @@ struct Color {
                   (qualified_type_identifier
                     (identifier
                       (uppercase_identifier)))))))))
-      (struct_filed_declaration
+      (struct_field_declaration
         (lowercase_identifier)
         (type
           (apply_type
@@ -105,21 +105,21 @@ struct Color {
     (struct_definition
       (identifier
         (uppercase_identifier))
-      (struct_filed_declaration
+      (struct_field_declaration
         (lowercase_identifier)
         (type
           (apply_type
             (qualified_type_identifier
               (identifier
                 (uppercase_identifier))))))
-      (struct_filed_declaration
+      (struct_field_declaration
         (lowercase_identifier)
         (type
           (apply_type
             (qualified_type_identifier
               (identifier
                 (uppercase_identifier))))))
-      (struct_filed_declaration
+      (struct_field_declaration
         (lowercase_identifier)
         (type
           (apply_type

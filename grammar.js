@@ -83,12 +83,12 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       '{',
-      semiList($.struct_filed_declaration),
+      semiList($.struct_field_declaration),
       '}',
       optional($.derive_directive),
     ),
 
-    struct_filed_declaration: $ => seq(
+    struct_field_declaration: $ => seq(
       optional($.visibility),
       optional($.mutability),
       $.lowercase_identifier,

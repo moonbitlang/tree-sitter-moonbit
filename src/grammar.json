@@ -327,7 +327,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "struct_filed_declaration"
+                  "name": "struct_field_declaration"
                 },
                 {
                   "type": "REPEAT",
@@ -353,7 +353,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "struct_filed_declaration"
+                        "name": "struct_field_declaration"
                       }
                     ]
                   }
@@ -408,7 +408,7 @@
         }
       ]
     },
-    "struct_filed_declaration": {
+    "struct_field_declaration": {
       "type": "SEQ",
       "members": [
         {
