@@ -49,4 +49,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add .
           git commit -a -m "build: bump artifacts [skip ci]"
-          git push
+          git push origin HEAD:main
