@@ -111,7 +111,7 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
       } else {
         lexer->result_symbol = COMMENT;
       }
-      while (lexer->lookahead != '\n') {
+      while (lexer->lookahead != '\n' && lexer->lookahead != '\0') {
         advance(lexer);
       }
       lexer->mark_end(lexer);
