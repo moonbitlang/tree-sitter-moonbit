@@ -53,6 +53,7 @@ fn init {
                 (qualified_type_identifier
                   (identifier
                     (lowercase_identifier)))
+                (colon_colon)
                 (uppercase_identifier)))))
         (statement_expression
           (expression
@@ -61,6 +62,7 @@ fn init {
                 (qualified_type_identifier
                   (identifier
                     (uppercase_identifier)))
+                (colon_colon)
                 (uppercase_identifier)))))))))
 
 ================================================================================
@@ -84,7 +86,9 @@ fn init {
               (constructor_expression
                 (qualified_type_identifier
                   (package_identifier)
-                  (dot_identifier))
+                  (dot_identifier
+                    (dot_operator)))
+                (colon_colon)
                 (uppercase_identifier)))))
         (statement_expression
           (expression
@@ -92,5 +96,7 @@ fn init {
               (constructor_expression
                 (qualified_type_identifier
                   (package_identifier)
-                  (dot_identifier))
+                  (dot_identifier
+                    (dot_operator)))
+                (colon_colon)
                 (uppercase_identifier)))))))))

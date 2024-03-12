@@ -10,6 +10,7 @@ type X derive (A, B)
       (identifier
         (uppercase_identifier))
       (derive_directive
+        (derive)
         (derive_item
           (qualified_type_identifier
             (identifier
@@ -32,6 +33,7 @@ struct A {
       (identifier
         (uppercase_identifier))
       (derive_directive
+        (derive)
         (derive_item
           (qualified_type_identifier
             (identifier
@@ -54,6 +56,7 @@ enum A {
       (identifier
         (uppercase_identifier))
       (derive_directive
+        (derive)
         (derive_item
           (qualified_type_identifier
             (identifier
@@ -75,7 +78,8 @@ enum A {
     (enum_definition
       (identifier
         (uppercase_identifier))
-      (derive_directive))))
+      (derive_directive
+        (derive)))))
 
 ================================================================================
 one
@@ -90,6 +94,7 @@ enum A {
       (identifier
         (uppercase_identifier))
       (derive_directive
+        (derive)
         (derive_item
           (qualified_type_identifier
             (identifier
@@ -108,6 +113,7 @@ enum A {
       (identifier
         (uppercase_identifier))
       (derive_directive
+        (derive)
         (derive_item
           (qualified_type_identifier
             (identifier

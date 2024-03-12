@@ -24,10 +24,14 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "dot_identifier",
+          "named": true
+        },
+        {
+          "type": "dot_operator",
           "named": true
         }
       ]
@@ -250,6 +254,10 @@
         {
           "type": "expression",
           "named": true
+        },
+        {
+          "type": "pipe_operator",
+          "named": true
         }
       ]
     }
@@ -359,6 +367,10 @@
       "required": true,
       "types": [
         {
+          "type": "colon",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
@@ -377,6 +389,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "colon",
+          "named": true
+        },
         {
           "type": "pattern",
           "named": true
@@ -411,6 +427,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "colon_colon",
+          "named": true
+        },
         {
           "type": "qualified_type_identifier",
           "named": true
@@ -447,8 +467,12 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "derive",
+          "named": true
+        },
         {
           "type": "derive_item",
           "named": true
@@ -495,9 +519,34 @@
     }
   },
   {
+    "type": "dot_identifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dot_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "dotdot_pattern",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "dot_dot",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "else_clause",
@@ -658,6 +707,10 @@
       "required": true,
       "types": [
         {
+          "type": "colon_colon",
+          "named": true
+        },
+        {
           "type": "lowercase_identifier",
           "named": true
         },
@@ -749,6 +802,10 @@
       "required": true,
       "types": [
         {
+          "type": "colon",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
@@ -782,6 +839,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "colon",
+          "named": true
+        },
         {
           "type": "lowercase_identifier",
           "named": true
@@ -973,6 +1034,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "colon_colon",
+          "named": true
+        },
         {
           "type": "lowercase_identifier",
           "named": true
@@ -1447,6 +1512,10 @@
           "named": true
         },
         {
+          "type": "colon_colon",
+          "named": true
+        },
+        {
           "type": "qualified_type_identifier",
           "named": true
         }
@@ -1461,6 +1530,14 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "colon_colon",
+          "named": true
+        },
+        {
+          "type": "dot_dot",
+          "named": true
+        },
         {
           "type": "expression",
           "named": true
@@ -1534,6 +1611,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "colon",
+          "named": true
+        },
         {
           "type": "lowercase_identifier",
           "named": true
@@ -1689,8 +1770,12 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "colon",
+          "named": true
+        },
         {
           "type": "identifier",
           "named": true
@@ -1848,9 +1933,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "colon",
+          "named": true
+        },
         {
           "type": "type",
           "named": true
@@ -1913,6 +2002,10 @@
       "required": true,
       "types": [
         {
+          "type": "colon",
+          "named": true
+        },
+        {
           "type": "constraints",
           "named": true
         },
@@ -1968,9 +2061,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "question_operator",
+          "named": true
+        },
         {
           "type": "simple_expression",
           "named": true
@@ -2108,23 +2205,11 @@
     "named": false
   },
   {
-    "type": "..",
-    "named": false
-  },
-  {
     "type": "/",
     "named": false
   },
   {
     "type": "/=",
-    "named": false
-  },
-  {
-    "type": ":",
-    "named": false
-  },
-  {
-    "type": "::",
     "named": false
   },
   {
@@ -2160,10 +2245,6 @@
     "named": false
   },
   {
-    "type": "?",
-    "named": false
-  },
-  {
     "type": "[",
     "named": false
   },
@@ -2188,6 +2269,14 @@
     "named": false
   },
   {
+    "type": "colon",
+    "named": true
+  },
+  {
+    "type": "colon_colon",
+    "named": true
+  },
+  {
     "type": "comment",
     "named": true
   },
@@ -2197,14 +2286,18 @@
   },
   {
     "type": "derive",
-    "named": false
+    "named": true
   },
   {
     "type": "docstring",
     "named": true
   },
   {
-    "type": "dot_identifier",
+    "type": "dot_dot",
+    "named": true
+  },
+  {
+    "type": "dot_operator",
     "named": true
   },
   {
@@ -2264,12 +2357,20 @@
     "named": true
   },
   {
+    "type": "pipe_operator",
+    "named": true
+  },
+  {
     "type": "priv",
     "named": false
   },
   {
     "type": "pub",
     "named": false
+  },
+  {
+    "type": "question_operator",
+    "named": true
   },
   {
     "type": "readonly",
@@ -2313,10 +2414,6 @@
   },
   {
     "type": "|",
-    "named": false
-  },
-  {
-    "type": "|>",
     "named": false
   },
   {

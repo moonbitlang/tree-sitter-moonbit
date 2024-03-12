@@ -1,7 +1,18 @@
 #include "tree_sitter/parser.h"
 #include <wctype.h>
 
-enum TokenType { FLOAT_LITERAL };
+enum TokenType {
+  FLOAT_LITERAL,
+  COMMENT,
+  DOCSTRING,
+  PIPE_OPERATOR,
+  DOT_OPERATOR,
+  COLON,
+  COLON_COLON,
+  QUESTION_OPERATOR,
+  DERIVE,
+  DOT_DOT
+};
 
 void *tree_sitter_moonbit_external_scanner_create() { return NULL; }
 void tree_sitter_moonbit_external_scanner_destroy(void *p) {}
@@ -75,6 +86,99 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
       return false;
     }
     return true;
+  } else if (
+    valid_symbols[COMMENT] ||
+    valid_symbols[DOCSTRING] ||
+    valid_symbols[PIPE_OPERATOR] ||
+    valid_symbols[DOT_OPERATOR] ||
+    valid_symbols[COLON] ||
+    valid_symbols[COLON_COLON] ||
+    valid_symbols[QUESTION_OPERATOR] ||
+    valid_symbols[DERIVE] ||
+    valid_symbols[DOT_DOT]
+  ) {
+    while (iswspace(lexer->lookahead)) {
+      skip(lexer);
+    }
+    if (lexer->lookahead == '/') {
+      advance(lexer);
+      if (lexer->lookahead != '/') {
+        return false;
+      }
+      advance(lexer);
+      if (lexer->lookahead == '/') {
+        lexer->result_symbol = DOCSTRING;
+      } else {
+        lexer->result_symbol = COMMENT;
+      }
+      while (lexer->lookahead != '\n' && lexer->lookahead != '\0') {
+        advance(lexer);
+      }
+      lexer->mark_end(lexer);
+      return true;
+    } else if (lexer->lookahead == '|') {
+      advance(lexer);
+      if (lexer->lookahead != '>') {
+        return false;
+      }
+      advance(lexer);
+      lexer->result_symbol = PIPE_OPERATOR;
+      lexer->mark_end(lexer);
+      return true;
+    } else if (lexer->lookahead == '.') {
+      advance(lexer);
+      if (lexer->lookahead != '.') {
+        lexer->mark_end(lexer);
+        lexer->result_symbol = DOT_OPERATOR;
+        return true;
+      }
+      advance(lexer);
+      lexer->mark_end(lexer);
+      lexer->result_symbol = DOT_DOT;
+      return true;
+    } else if (lexer->lookahead == ':') {
+      advance(lexer);
+      if (lexer->lookahead != ':') {
+        lexer->mark_end(lexer);
+        lexer->result_symbol = COLON;
+        return true;
+      }
+      advance(lexer);
+      lexer->mark_end(lexer);
+      lexer->result_symbol = COLON_COLON;
+      return true;
+    } else if (lexer->lookahead == '?') {
+      advance(lexer);
+      lexer->mark_end(lexer);
+      lexer->result_symbol = QUESTION_OPERATOR;
+      return true;
+    } else if (lexer->lookahead == 'd') {
+      advance(lexer);
+      if (lexer->lookahead != 'e') {
+        return false;
+      }
+      advance(lexer);
+      if (lexer->lookahead != 'r') {
+        return false;
+      }
+      advance(lexer);
+      if (lexer->lookahead != 'i') {
+        return false;
+      }
+      advance(lexer);
+      if (lexer->lookahead != 'v') {
+        return false;
+      }
+      advance(lexer);
+      if (lexer->lookahead != 'e') {
+        return false;
+      }
+      advance(lexer);
+      lexer->result_symbol = DERIVE;
+      lexer->mark_end(lexer);
+      return true;
+    }
+    return false;
   }
   return false;
 }

@@ -28,7 +28,8 @@ fn init {
                     (apply_expression
                       (simple_expression
                         (qualified_identifier
-                          (lowercase_identifier))))))))))
+                          (lowercase_identifier)))))
+                  (question_operator))))))
         (statement_expression
           (let_expression
             (pattern
@@ -39,7 +40,8 @@ fn init {
                 (unwrap_expression
                   (simple_expression
                     (qualified_identifier
-                      (lowercase_identifier))))))))
+                      (lowercase_identifier)))
+                  (question_operator))))))
         (statement_expression
           (let_expression
             (pattern
@@ -50,7 +52,8 @@ fn init {
                 (unwrap_expression
                   (simple_expression
                     (constructor_expression
-                      (uppercase_identifier))))))))
+                      (uppercase_identifier)))
+                  (question_operator))))))
         (statement_expression
           (let_expression
             (pattern
@@ -66,12 +69,14 @@ fn init {
                           (qualified_type_identifier
                             (identifier
                               (uppercase_identifier)))
+                          (colon_colon)
                           (uppercase_identifier)))
                       (expression
                         (simple_expression
                           (atomic_expression
                             (literal
-                              (integer_literal))))))))))))
+                              (integer_literal)))))))
+                  (question_operator))))))
         (statement_expression
           (let_expression
             (pattern
@@ -86,4 +91,5 @@ fn init {
                         (simple_expression
                           (atomic_expression
                             (literal
-                              (integer_literal))))))))))))))))
+                              (integer_literal))))
+                        (question_operator)))))))))))))
