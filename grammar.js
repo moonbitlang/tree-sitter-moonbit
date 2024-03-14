@@ -29,7 +29,6 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     $.docstring,
-    // /[ \t]/
     /\s/
   ],
 
@@ -134,7 +133,6 @@ module.exports = grammar({
       $.lowercase_identifier,
       optional($.type_annotation),
       '=',
-      optional('\n'),
       $.expression
     ),
 

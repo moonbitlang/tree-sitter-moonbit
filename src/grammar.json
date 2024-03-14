@@ -688,18 +688,6 @@
           "value": "="
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\n"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
           "type": "SYMBOL",
           "name": "expression"
         }
