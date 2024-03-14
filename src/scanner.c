@@ -11,7 +11,9 @@ enum TokenType {
   COLON_COLON,
   QUESTION_OPERATOR,
   DERIVE,
-  DOT_DOT
+  DOT_DOT,
+  MULTILINE_STRING_FIRST,
+  MULTILINE_STRING_FOLLOW
 };
 
 void *tree_sitter_moonbit_external_scanner_create() { return NULL; }
@@ -95,7 +97,9 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
     valid_symbols[COLON_COLON] ||
     valid_symbols[QUESTION_OPERATOR] ||
     valid_symbols[DERIVE] ||
-    valid_symbols[DOT_DOT]
+    valid_symbols[DOT_DOT] ||
+    valid_symbols[MULTILINE_STRING_FIRST] ||
+    valid_symbols[MULTILINE_STRING_FOLLOW]
   ) {
     while (iswspace(lexer->lookahead)) {
       skip(lexer);
@@ -175,6 +179,24 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
       }
       advance(lexer);
       lexer->result_symbol = DERIVE;
+      lexer->mark_end(lexer);
+      return true;
+    } else if (lexer->lookahead == '#') {
+      advance(lexer);
+      if (lexer->lookahead != '|') {
+        return false;
+      }
+      advance(lexer);
+      while (lexer->lookahead != '\n' && lexer->lookahead != '\0') {
+        advance(lexer);
+      }
+      if (valid_symbols[MULTILINE_STRING_FOLLOW]) {
+        lexer->result_symbol = MULTILINE_STRING_FOLLOW;
+      } else if (valid_symbols[MULTILINE_STRING_FIRST]) {
+        lexer->result_symbol = MULTILINE_STRING_FIRST;
+      } else {
+        return false;
+      }
       lexer->mark_end(lexer);
       return true;
     }
