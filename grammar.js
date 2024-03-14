@@ -43,6 +43,7 @@ module.exports = grammar({
     $.question_operator,
     $.derive,
     $.dot_dot,
+    $.multiline_string_fragment,
   ],
 
   word: $ => $.lowercase_identifier,
@@ -237,7 +238,8 @@ module.exports = grammar({
       $.float_literal,
       $.integer_literal,
       $.char_literal,
-      $.string_literal
+      $.string_literal,
+      $.multiline_string_literal,
     ),
 
     boolean_literal: _ => choice('true', 'false'),
@@ -280,6 +282,13 @@ module.exports = grammar({
     ),
 
     escape_sequence: _ => token.immediate(/\\[ntb"\\]/),
+
+    multiline_string_fragment: _ => /#\|.*/,
+
+    multiline_string_literal: $ => seq(
+      $.multiline_string_fragment,
+      repeat($.multiline_string_fragment),
+    ),
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '+'),

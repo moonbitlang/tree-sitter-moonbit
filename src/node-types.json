@@ -963,6 +963,10 @@
           "named": true
         },
         {
+          "type": "multiline_string_literal",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         }
@@ -1044,6 +1048,21 @@
         },
         {
           "type": "qualified_type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "multiline_string_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "multiline_string_fragment",
           "named": true
         }
       ]
@@ -2347,6 +2366,10 @@
   {
     "type": "match",
     "named": false
+  },
+  {
+    "type": "multiline_string_fragment",
+    "named": true
   },
   {
     "type": "mut",

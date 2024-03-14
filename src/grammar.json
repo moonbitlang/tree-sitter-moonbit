@@ -1242,6 +1242,10 @@
         {
           "type": "SYMBOL",
           "name": "string_literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "multiline_string_literal"
         }
       ]
     },
@@ -1369,6 +1373,26 @@
         "type": "PATTERN",
         "value": "\\\\[ntb\"\\\\]"
       }
+    },
+    "multiline_string_fragment": {
+      "type": "PATTERN",
+      "value": "#\\|.*"
+    },
+    "multiline_string_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "multiline_string_fragment"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "multiline_string_fragment"
+          }
+        }
+      ]
     },
     "unary_expression": {
       "type": "PREC",
@@ -4643,6 +4667,10 @@
     {
       "type": "SYMBOL",
       "name": "dot_dot"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "multiline_string_fragment"
     }
   ],
   "inline": [],
