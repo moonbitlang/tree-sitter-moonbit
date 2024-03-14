@@ -15,7 +15,6 @@ const
     pipe: 11,
     orPattern: 10,
     asPattern: 9,
-    multiline_string: 8
   },
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
