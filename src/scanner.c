@@ -1,4 +1,5 @@
 #include "tree_sitter/parser.h"
+#include <stdbool.h>
 #include <wctype.h>
 
 enum TokenType {
@@ -12,8 +13,7 @@ enum TokenType {
   QUESTION_OPERATOR,
   DERIVE,
   DOT_DOT,
-  MULTILINE_STRING_FIRST,
-  MULTILINE_STRING_FOLLOW
+  MULTILINE_STRING_FRAGMENT
 };
 
 void *tree_sitter_moonbit_external_scanner_create() { return NULL; }
@@ -98,8 +98,7 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
     valid_symbols[QUESTION_OPERATOR] ||
     valid_symbols[DERIVE] ||
     valid_symbols[DOT_DOT] ||
-    valid_symbols[MULTILINE_STRING_FIRST] ||
-    valid_symbols[MULTILINE_STRING_FOLLOW]
+    valid_symbols[MULTILINE_STRING_FRAGMENT]
   ) {
     while (iswspace(lexer->lookahead)) {
       skip(lexer);
@@ -190,10 +189,8 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
       while (lexer->lookahead != '\n' && lexer->lookahead != '\0') {
         advance(lexer);
       }
-      if (valid_symbols[MULTILINE_STRING_FOLLOW]) {
-        lexer->result_symbol = MULTILINE_STRING_FOLLOW;
-      } else if (valid_symbols[MULTILINE_STRING_FIRST]) {
-        lexer->result_symbol = MULTILINE_STRING_FIRST;
+      if (valid_symbols[MULTILINE_STRING_FRAGMENT]) {
+        lexer->result_symbol = MULTILINE_STRING_FRAGMENT;
       } else {
         return false;
       }

@@ -1062,11 +1062,7 @@
       "required": true,
       "types": [
         {
-          "type": "multiline_string_first",
-          "named": true
-        },
-        {
-          "type": "multiline_string_follow",
+          "type": "multiline_string_fragment",
           "named": true
         }
       ]
@@ -2372,11 +2368,7 @@
     "named": false
   },
   {
-    "type": "multiline_string_first",
-    "named": true
-  },
-  {
-    "type": "multiline_string_follow",
+    "type": "multiline_string_fragment",
     "named": true
   },
   {

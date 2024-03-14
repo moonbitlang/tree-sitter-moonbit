@@ -45,8 +45,7 @@ module.exports = grammar({
     $.question_operator,
     $.derive,
     $.dot_dot,
-    $.multline_string_first,
-    $.multiline_string_follow,
+    $.multiline_string_fragment,
   ],
 
   word: $ => $.lowercase_identifier,
@@ -287,11 +286,11 @@ module.exports = grammar({
 
     escape_sequence: _ => token.immediate(/\\[ntb"\\]/),
 
-    multiline_string_first: _ => /#\|.*/,
+    multiline_string_fragment: _ => /#\|.*/,
 
     multiline_string_literal: $ => seq(
-      $.multiline_string_first,
-      repeat($.multiline_string_follow),
+      $.multiline_string_fragment,
+      repeat($.multiline_string_fragment),
     ),
 
     unary_expression: $ => prec(PREC.unary, seq(

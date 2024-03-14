@@ -1386,7 +1386,7 @@
         "value": "\\\\[ntb\"\\\\]"
       }
     },
-    "multiline_string_first": {
+    "multiline_string_fragment": {
       "type": "PATTERN",
       "value": "#\\|.*"
     },
@@ -1395,13 +1395,13 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "multiline_string_first"
+          "name": "multiline_string_fragment"
         },
         {
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "multiline_string_follow"
+            "name": "multiline_string_fragment"
           }
         }
       ]
@@ -4682,11 +4682,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "multline_string_first"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "multiline_string_follow"
+      "name": "multiline_string_fragment"
     }
   ],
   "inline": [],
