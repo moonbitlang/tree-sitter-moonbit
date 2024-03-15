@@ -189,8 +189,8 @@ fn init() { let a = A::{ ..id, name: "John Doe" } }
                             (atomic_expression
                               (literal
                                 (string_literal
-                                  (string_fragement
-                                    (unescaped_string_fragement)))))))))))))))))))
+                                  (string_fragment
+                                    (unescaped_string_fragment)))))))))))))))))))
 
 ================================================================================
 struct construction from array

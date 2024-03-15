@@ -336,16 +336,16 @@ let printable = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
           (atomic_expression
             (literal
               (string_literal
-                (string_fragement
-                  (unescaped_string_fragement))
-                (string_fragement
+                (string_fragment
+                  (unescaped_string_fragment))
+                (string_fragment
                   (escape_sequence))
-                (string_fragement
-                  (unescaped_string_fragement))
-                (string_fragement
-                  (unescaped_string_fragement))
-                (string_fragement
-                  (unescaped_string_fragement))))))))))
+                (string_fragment
+                  (unescaped_string_fragment))
+                (string_fragment
+                  (unescaped_string_fragment))
+                (string_fragment
+                  (unescaped_string_fragment))))))))))
 
 ================================================================================
 Trait definitions with super trait

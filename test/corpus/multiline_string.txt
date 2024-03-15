@@ -19,8 +19,10 @@ fn init {
               (atomic_expression
                 (literal
                   (multiline_string_literal
-                    (multiline_string_fragment)
-                    (multiline_string_fragment)))))))))))
+                    (multiline_string_fragment
+                      (multiline_string_separator))
+                    (multiline_string_fragment
+                      (multiline_string_separator))))))))))))
 
 ================================================================================
 multiline string (left aligned)
@@ -43,8 +45,10 @@ fn init {
               (atomic_expression
                 (literal
                   (multiline_string_literal
-                    (multiline_string_fragment)
-                    (multiline_string_fragment)))))))))))
+                    (multiline_string_fragment
+                      (multiline_string_separator))
+                    (multiline_string_fragment
+                      (multiline_string_separator))))))))))))
 
 ================================================================================
 multiline string (with pipe)
@@ -73,8 +77,10 @@ fn init {
                     (atomic_expression
                       (literal
                         (multiline_string_literal
-                          (multiline_string_fragment)
-                          (multiline_string_fragment))))))
+                          (multiline_string_fragment
+                            (multiline_string_separator))
+                          (multiline_string_fragment
+                            (multiline_string_separator)))))))
                 (pipe_operator)
                 (expression
                   (simple_expression
@@ -89,7 +95,8 @@ fn init {
                     (atomic_expression
                       (literal
                         (multiline_string_literal
-                          (multiline_string_fragment))))))
+                          (multiline_string_fragment
+                            (multiline_string_separator)))))))
                 (pipe_operator)
                 (expression
                   (simple_expression
@@ -132,11 +139,16 @@ fn init {
                             (atomic_expression
                               (literal
                                 (multiline_string_literal
-                                  (multiline_string_fragment)
-                                  (multiline_string_fragment)
-                                  (multiline_string_fragment)
-                                  (multiline_string_fragment)
-                                  (multiline_string_fragment))))))
+                                  (multiline_string_fragment
+                                    (multiline_string_separator))
+                                  (multiline_string_fragment
+                                    (multiline_string_separator))
+                                  (multiline_string_fragment
+                                    (multiline_string_separator))
+                                  (multiline_string_fragment
+                                    (multiline_string_separator))
+                                  (multiline_string_fragment
+                                    (multiline_string_separator)))))))
                         (pipe_operator)
                         (expression
                           (simple_expression

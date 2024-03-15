@@ -1174,7 +1174,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "string_fragement"
+            "name": "string_fragment"
           }
         },
         {
@@ -1188,7 +1188,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "string_fragement"
+                "name": "string_fragment"
               },
               {
                 "type": "SYMBOL",
@@ -1326,7 +1326,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "string_fragement"
+            "name": "string_fragment"
           }
         },
         {
@@ -1335,12 +1335,12 @@
         }
       ]
     },
-    "string_fragement": {
+    "string_fragment": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "unescaped_string_fragement"
+          "name": "unescaped_string_fragment"
         },
         {
           "type": "SYMBOL",
@@ -1348,7 +1348,7 @@
         }
       ]
     },
-    "unescaped_string_fragement": {
+    "unescaped_string_fragment": {
       "type": "CHOICE",
       "members": [
         {
@@ -1374,9 +1374,22 @@
         "value": "\\\\[ntb\"\\\\]"
       }
     },
-    "multiline_string_fragment": {
+    "multiline_string_separator": {
       "type": "PATTERN",
-      "value": "#\\|.*"
+      "value": "#\\|"
+    },
+    "multiline_string_fragment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "multiline_string_separator"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[^\\n]*"
+        }
+      ]
     },
     "multiline_string_literal": {
       "type": "SEQ",
@@ -4670,7 +4683,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "multiline_string_fragment"
+      "name": "multiline_string_separator"
     }
   ],
   "inline": [],
