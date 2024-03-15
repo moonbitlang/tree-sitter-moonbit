@@ -13,7 +13,7 @@ enum TokenType {
   QUESTION_OPERATOR,
   DERIVE,
   DOT_DOT,
-  MULTILINE_STRING_FRAGMENT
+  MULTILINE_STRING_SEPARATOR
 };
 
 void *tree_sitter_moonbit_external_scanner_create() { return NULL; }
@@ -98,7 +98,7 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
     valid_symbols[QUESTION_OPERATOR] ||
     valid_symbols[DERIVE] ||
     valid_symbols[DOT_DOT] ||
-    valid_symbols[MULTILINE_STRING_FRAGMENT]
+    valid_symbols[MULTILINE_STRING_SEPARATOR]
   ) {
     while (iswspace(lexer->lookahead)) {
       skip(lexer);
@@ -186,14 +186,10 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
         return false;
       }
       advance(lexer);
-      while (lexer->lookahead != '\n' && lexer->lookahead != '\0') {
-        advance(lexer);
-      }
-      if (valid_symbols[MULTILINE_STRING_FRAGMENT]) {
-        lexer->result_symbol = MULTILINE_STRING_FRAGMENT;
-      } else {
+      if (!valid_symbols[MULTILINE_STRING_SEPARATOR]) {
         return false;
       }
+      lexer->result_symbol = MULTILINE_STRING_SEPARATOR;
       lexer->mark_end(lexer);
       return true;
     }

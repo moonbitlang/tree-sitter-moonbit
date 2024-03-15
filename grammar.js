@@ -43,7 +43,7 @@ module.exports = grammar({
     $.question_operator,
     $.derive,
     $.dot_dot,
-    $.multiline_string_fragment,
+    $.multiline_string_separator,
   ],
 
   word: $ => $.lowercase_identifier,
@@ -218,10 +218,10 @@ module.exports = grammar({
 
     string_interpolation: $ => seq(
       '"',
-      repeat($.string_fragement),
+      repeat($.string_fragment),
       $.interpolator,
       repeat(choice(
-        $.string_fragement,
+        $.string_fragment,
         $.interpolator
       )),
       '"'
@@ -267,23 +267,25 @@ module.exports = grammar({
 
     string_literal: $ => seq(
       '"',
-      repeat($.string_fragement),
+      repeat($.string_fragment),
       '"'
     ),
 
-    string_fragement: $ => choice(
-      $.unescaped_string_fragement,
+    string_fragment: $ => choice(
+      $.unescaped_string_fragment,
       $.escape_sequence
     ),
 
-    unescaped_string_fragement: _ => choice(
+    unescaped_string_fragment: _ => choice(
       token.immediate(/\\[^ntb"\\]/),
       token.immediate(/[^"\\]+/),
     ),
 
     escape_sequence: _ => token.immediate(/\\[ntb"\\]/),
 
-    multiline_string_fragment: _ => /#\|.*/,
+    multiline_string_separator: _ => /#\|/,
+
+    multiline_string_fragment: $ => seq($.multiline_string_separator, /[^\n]*/),
 
     multiline_string_literal: $ => seq(
       $.multiline_string_fragment,

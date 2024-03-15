@@ -7,22 +7,22 @@ test "t" {
 --------------------------------------------------------------------------------
 
 (structure
- (structure_item
-  (test_definition
-   (string_literal
-    (string_fragement
-     (unescaped_string_fragement)))
-   (block_expression
-    (statement_expression
-     (let_expression
-      (pattern
-       (simple_pattern
-        (lowercase_identifier)))
-      (expression
-       (simple_expression
-        (atomic_expression
-         (literal
-          (integer_literal)))))))))))
+  (structure_item
+    (test_definition
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment)))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))))))
 
 ================================================================================
 anonymous
@@ -33,16 +33,16 @@ test {
 --------------------------------------------------------------------------------
 
 (structure
- (structure_item
-  (test_definition
-   (block_expression
-    (statement_expression
-     (let_expression
-      (pattern
-       (simple_pattern
-        (lowercase_identifier)))
-      (expression
-       (simple_expression
-        (atomic_expression
-         (literal
-          (integer_literal)))))))))))
+  (structure_item
+    (test_definition
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))))))
