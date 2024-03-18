@@ -619,14 +619,14 @@ module.exports = grammar({
 
     dotdot_pattern: $ => seq($.dot_dot, optional(',')),
 
-    struct_pattern: $ => seq('{', optional($.struct_filed_pattern), '}'),
+    struct_pattern: $ => seq('{', optional($.struct_field_pattern), '}'),
 
-    struct_filed_pattern: $ => choice(
-      commaList1($.filed_single_pattern),
-      seq(commaList1($.filed_single_pattern), $.dotdot_pattern)
+    struct_field_pattern: $ => choice(
+      commaList1($.field_single_pattern),
+      seq(commaList1($.field_single_pattern), $.dotdot_pattern)
     ),
 
-    filed_single_pattern: $ => choice(
+    field_single_pattern: $ => choice(
       $.labeled_pattern,
       $.labeled_pattern_pun
     ),
