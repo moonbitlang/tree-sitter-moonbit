@@ -58,7 +58,7 @@ module.exports = grammar({
       $.value_definition,
       $.function_definition,
       $.test_definition,
-      $.trait_definition
+      $.trait_definition,
     ),
 
     visibility: $ => choice(
@@ -169,7 +169,6 @@ module.exports = grammar({
 
     trait_method_declaration: $ => seq(
       $.function_identifier,
-      optional($.type_parameters),
       '(',
       commaList($.type),
       ')',
