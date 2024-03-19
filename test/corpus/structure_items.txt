@@ -356,27 +356,158 @@ trait A: B + Compare {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (trait_definition
+ (structure_item
+  (trait_definition
+   (identifier
+    (uppercase_identifier))
+   (super_trait_declaration
+    (colon)
+    (identifier
+     (uppercase_identifier))
+    (identifier
+     (uppercase_identifier)))
+   (trait_method_declaration
+    (function_identifier
+     (lowercase_identifier))
+    (type
+     (apply_type
+      (qualified_type_identifier
+       (identifier
+        (uppercase_identifier)))))
+    (return_type
+     (type
+      (apply_type
+       (qualified_type_identifier
+        (identifier
+         (uppercase_identifier))))))))))
+
+================================================================================
+Default implementations for methods in trait
+================================================================================
+trait MyShow {
+  repr(Self) -> String
+  str (Self) -> String // it has a default implementation
+}
+
+impl MyShow::str(self : Self) -> String {
+  // default implementation of str
+  self.repr()
+}
+
+type MyInt Int
+fn repr(self:MyInt) -> String {
+  self.0.to_string()
+}
+--------------------------------------------------------------------------------
+(structure
+ (structure_item
+  (trait_definition
+   (identifier
+    (uppercase_identifier))
+   (trait_method_declaration
+    (function_identifier
+     (lowercase_identifier))
+    (type
+     (apply_type
+      (qualified_type_identifier
+       (identifier
+        (uppercase_identifier)))))
+    (return_type
+     (type
+      (apply_type
+       (qualified_type_identifier
+        (identifier
+         (uppercase_identifier)))))))
+   (trait_method_declaration
+    (function_identifier
+     (lowercase_identifier))
+    (type
+     (apply_type
+      (qualified_type_identifier
+       (identifier
+        (uppercase_identifier)))))
+    (return_type
+     (type
+      (apply_type
+       (qualified_type_identifier
+        (identifier
+         (uppercase_identifier)))))))
+   (comment)))
+ (structure_item
+  (impl_definition
+   (qualified_type_identifier
+    (identifier
+     (uppercase_identifier)))
+   (colon_colon)
+   (function_identifier
+    (lowercase_identifier))
+   (parameters
+    (parameter
+     (lowercase_identifier)
+     (type_annotation
+      (colon)
+      (type
+       (apply_type
+        (qualified_type_identifier
+         (identifier
+          (uppercase_identifier))))))))
+   (return_type
+    (type
+     (apply_type
+      (qualified_type_identifier
+       (identifier
+        (uppercase_identifier))))))
+   (block_expression
+    (comment)
+    (statement_expression
+     (expression
+      (simple_expression
+       (dot_apply_expression
+        (simple_expression
+         (qualified_identifier
+          (lowercase_identifier)))
+        (dot_identifier
+         (dot_operator)))))))))
+ (structure_item
+  (type_definition
+   (identifier
+    (uppercase_identifier))
+   (type
+    (apply_type
+     (qualified_type_identifier
       (identifier
-        (uppercase_identifier))
-      (super_trait_declaration
-        (colon)
-        (identifier
-          (uppercase_identifier))
-        (identifier
-          (uppercase_identifier)))
-      (trait_method_declaration
-        (function_identifier
-          (lowercase_identifier))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (return_type
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))))
+       (uppercase_identifier)))))))
+ (structure_item
+  (function_definition
+   (function_identifier
+    (lowercase_identifier))
+   (parameters
+    (parameter
+     (lowercase_identifier)
+     (type_annotation
+      (colon)
+      (type
+       (apply_type
+        (qualified_type_identifier
+         (identifier
+          (uppercase_identifier))))))))
+   (return_type
+    (type
+     (apply_type
+      (qualified_type_identifier
+       (identifier
+        (uppercase_identifier))))))
+   (block_expression
+    (statement_expression
+     (expression
+      (simple_expression
+       (dot_apply_expression
+        (simple_expression
+         (access_expression
+          (simple_expression
+           (qualified_identifier
+            (lowercase_identifier)))
+          (accessor
+           (dot_operator))))
+        (dot_identifier
+         (dot_operator))))))))))

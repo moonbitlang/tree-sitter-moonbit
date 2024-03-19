@@ -59,6 +59,7 @@ module.exports = grammar({
       $.function_definition,
       $.test_definition,
       $.trait_definition,
+      $.impl_definition,
     ),
 
     visibility: $ => choice(
@@ -173,6 +174,16 @@ module.exports = grammar({
       commaList($.type),
       ')',
       optional($.return_type)
+    ),
+
+    impl_definition: $ => seq(
+      'impl',
+      $.qualified_type_identifier,
+      $.colon_colon,
+      $.function_identifier,
+      optional($.parameters),
+      optional($.return_type),
+      $.block_expression,
     ),
 
     expression: $ => choice(

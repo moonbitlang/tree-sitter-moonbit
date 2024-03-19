@@ -799,6 +799,41 @@
     }
   },
   {
+    "type": "impl_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "colon_colon",
+          "named": true
+        },
+        {
+          "type": "function_identifier",
+          "named": true
+        },
+        {
+          "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
+          "type": "return_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "interpolator",
     "named": true,
     "fields": {},
@@ -1800,6 +1835,10 @@
           "named": true
         },
         {
+          "type": "impl_definition",
+          "named": true
+        },
+        {
           "type": "struct_definition",
           "named": true
         },
@@ -2380,6 +2419,10 @@
   },
   {
     "type": "if",
+    "named": false
+  },
+  {
+    "type": "impl",
     "named": false
   },
   {
