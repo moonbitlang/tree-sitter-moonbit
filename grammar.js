@@ -173,7 +173,7 @@ module.exports = grammar({
       '(',
       commaList($.type),
       ')',
-      optional($.return_type)
+      $.return_type,
     ),
 
     impl_definition: $ => seq(
@@ -181,7 +181,7 @@ module.exports = grammar({
       $.qualified_type_identifier,
       $.colon_colon,
       $.function_identifier,
-      optional($.parameters),
+      $.parameters,
       optional($.return_type),
       $.block_expression,
     ),
