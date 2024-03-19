@@ -618,6 +618,11 @@
     }
   },
   {
+    "type": "escape_sequence",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "expression",
     "named": true,
     "fields": {},
@@ -2341,10 +2346,6 @@
   {
     "type": "enum",
     "named": false
-  },
-  {
-    "type": "escape_sequence",
-    "named": true
   },
   {
     "type": "false",
