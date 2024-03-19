@@ -283,6 +283,21 @@
     "fields": {}
   },
   {
+    "type": "byte_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "case_clause",
     "named": true,
     "fields": {},
@@ -953,6 +968,10 @@
       "types": [
         {
           "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "byte_literal",
           "named": true
         },
         {
@@ -2301,6 +2320,10 @@
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "b'",
     "named": false
   },
   {

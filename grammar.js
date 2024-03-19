@@ -237,6 +237,7 @@ module.exports = grammar({
       $.boolean_literal,
       $.float_literal,
       $.integer_literal,
+      $.byte_literal,
       $.char_literal,
       $.string_literal,
       $.multiline_string_literal,
@@ -255,6 +256,15 @@ module.exports = grammar({
     // decimalPart = /[_0-9]+/,
     // exponentPart = /[eE][0-9][_0-9]*/,
     // float_literal: _ => /[0-9][_0-9]*\.[_0-9]*([eE][0-9][_0-9]*)?/,
+
+    byte_literal: $ => seq(
+      'b\'',
+      choice(
+        $.escape_sequence,
+        token.immediate(/[^']/)
+      ),
+      '\''
+    ),
 
     char_literal: $ => seq(
       '\'',
