@@ -58,7 +58,8 @@ module.exports = grammar({
       $.value_definition,
       $.function_definition,
       $.test_definition,
-      $.trait_definition
+      $.trait_definition,
+      $.impl_definition,
     ),
 
     visibility: $ => choice(
@@ -169,11 +170,20 @@ module.exports = grammar({
 
     trait_method_declaration: $ => seq(
       $.function_identifier,
-      optional($.type_parameters),
       '(',
       commaList($.type),
       ')',
-      optional($.return_type)
+      $.return_type,
+    ),
+
+    impl_definition: $ => seq(
+      'impl',
+      $.qualified_type_identifier,
+      $.colon_colon,
+      $.function_identifier,
+      $.parameters,
+      optional($.return_type),
+      $.block_expression,
     ),
 
     expression: $ => choice(
@@ -237,6 +247,7 @@ module.exports = grammar({
       $.boolean_literal,
       $.float_literal,
       $.integer_literal,
+      $.byte_literal,
       $.char_literal,
       $.string_literal,
       $.multiline_string_literal,
@@ -255,6 +266,15 @@ module.exports = grammar({
     // decimalPart = /[_0-9]+/,
     // exponentPart = /[eE][0-9][_0-9]*/,
     // float_literal: _ => /[0-9][_0-9]*\.[_0-9]*([eE][0-9][_0-9]*)?/,
+
+    byte_literal: $ => seq(
+      'b\'',
+      choice(
+        $.escape_sequence,
+        token.immediate(/[^']/)
+      ),
+      '\''
+    ),
 
     char_literal: $ => seq(
       '\'',
@@ -281,7 +301,18 @@ module.exports = grammar({
       token.immediate(/[^"\\]+/),
     ),
 
-    escape_sequence: _ => token.immediate(/\\[ntb"\\]/),
+    escape_sequence: _ => choice(
+      // \n, \t, \b, \", \\
+      token.immediate(/\\[ntb"\\]/),
+      // octal
+      token.immediate(/\\o[0-7]{1,3}/),
+      // hex
+      token.immediate(/\\x[0-9a-fA-F]{1,2}/),
+      token.immediate(/\\x{[0-9a-fA-F]+}/),
+      // unicode
+      token.immediate(/\\u[0-9a-fA-F]{4}/),
+      token.immediate(/\\u{[0-9a-fA-F]+}/),
+    ),
 
     multiline_string_separator: _ => /#\|/,
 
@@ -395,7 +426,7 @@ module.exports = grammar({
     apply_expression: $ => prec(PREC.apply, seq(
       $.simple_expression,
       '(',
-      commaList($.expression),
+      commaList(seq(optional(seq($.labeled_identifier, '=')), $.expression)),
       ')'
     )),
 
@@ -410,7 +441,7 @@ module.exports = grammar({
       $.simple_expression,
       $.dot_identifier,
       '(',
-      commaList($.expression),
+      commaList(seq(optional(seq($.labeled_identifier, '=')), $.expression)),
       ')'
     )),
 
@@ -664,7 +695,11 @@ module.exports = grammar({
 
     return_type: $ => seq('->', $.type),
 
-    parameter: $ => seq($.lowercase_identifier, optional($.type_annotation)),
+    parameter: $ => seq(
+      choice($.lowercase_identifier, $.labeled_identifier),
+      optional($.type_annotation),
+      optional(seq('=', $.expression)),
+    ),
 
     parameters: $ => seq(
       '(',
@@ -691,6 +726,8 @@ module.exports = grammar({
     dot_identifier: $ => seq($.dot_operator, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
 
     package_identifier: _ => /@[_\p{XID_Start}][_\p{XID_Continue}]*/,
+
+    labeled_identifier: $ => /~[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
     qualified_identifier: $ => choice(
       $.lowercase_identifier,

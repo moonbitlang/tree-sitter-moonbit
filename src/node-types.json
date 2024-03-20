@@ -93,6 +93,10 @@
           "named": true
         },
         {
+          "type": "labeled_identifier",
+          "named": true
+        },
+        {
           "type": "simple_expression",
           "named": true
         }
@@ -281,6 +285,21 @@
     "type": "boolean_literal",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "byte_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "case_clause",
@@ -512,6 +531,10 @@
           "named": true
         },
         {
+          "type": "labeled_identifier",
+          "named": true
+        },
+        {
           "type": "simple_expression",
           "named": true
         }
@@ -616,6 +639,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "escape_sequence",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "expression",
@@ -773,6 +801,41 @@
         },
         {
           "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "impl_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "colon_colon",
+          "named": true
+        },
+        {
+          "type": "function_identifier",
+          "named": true
+        },
+        {
+          "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
+          "type": "return_type",
           "named": true
         }
       ]
@@ -948,6 +1011,10 @@
       "types": [
         {
           "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "byte_literal",
           "named": true
         },
         {
@@ -1172,6 +1239,14 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "labeled_identifier",
+          "named": true
+        },
         {
           "type": "lowercase_identifier",
           "named": true
@@ -1776,6 +1851,10 @@
           "named": true
         },
         {
+          "type": "impl_definition",
+          "named": true
+        },
+        {
           "type": "struct_definition",
           "named": true
         },
@@ -1881,10 +1960,6 @@
         },
         {
           "type": "type",
-          "named": true
-        },
-        {
-          "type": "type_parameters",
           "named": true
         }
       ]
@@ -2299,6 +2374,10 @@
     "named": false
   },
   {
+    "type": "b'",
+    "named": false
+  },
+  {
     "type": "break",
     "named": false
   },
@@ -2343,10 +2422,6 @@
     "named": false
   },
   {
-    "type": "escape_sequence",
-    "named": true
-  },
-  {
     "type": "false",
     "named": false
   },
@@ -2363,7 +2438,15 @@
     "named": false
   },
   {
+    "type": "impl",
+    "named": false
+  },
+  {
     "type": "integer_literal",
+    "named": true
+  },
+  {
+    "type": "labeled_identifier",
     "named": true
   },
   {
