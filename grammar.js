@@ -426,7 +426,7 @@ module.exports = grammar({
     apply_expression: $ => prec(PREC.apply, seq(
       $.simple_expression,
       '(',
-      commaList($.expression),
+      commaList(seq(optional(seq($.labeled_identifier, '=')), $.expression)),
       ')'
     )),
 
@@ -441,7 +441,7 @@ module.exports = grammar({
       $.simple_expression,
       $.dot_identifier,
       '(',
-      commaList($.expression),
+      commaList(seq(optional(seq($.labeled_identifier, '=')), $.expression)),
       ')'
     )),
 
@@ -695,7 +695,11 @@ module.exports = grammar({
 
     return_type: $ => seq('->', $.type),
 
-    parameter: $ => seq($.lowercase_identifier, optional($.type_annotation)),
+    parameter: $ => seq(
+      choice($.lowercase_identifier, $.labeled_identifier),
+      optional($.type_annotation),
+      optional(seq('=', $.expression)),
+    ),
 
     parameters: $ => seq(
       '(',
@@ -722,6 +726,8 @@ module.exports = grammar({
     dot_identifier: $ => seq($.dot_operator, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
 
     package_identifier: _ => /@[_\p{XID_Start}][_\p{XID_Continue}]*/,
+
+    labeled_identifier: $ => /~[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
     qualified_identifier: $ => choice(
       $.lowercase_identifier,

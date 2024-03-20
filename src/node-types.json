@@ -93,6 +93,10 @@
           "named": true
         },
         {
+          "type": "labeled_identifier",
+          "named": true
+        },
+        {
           "type": "simple_expression",
           "named": true
         }
@@ -524,6 +528,10 @@
         },
         {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "labeled_identifier",
           "named": true
         },
         {
@@ -1231,6 +1239,14 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "labeled_identifier",
+          "named": true
+        },
         {
           "type": "lowercase_identifier",
           "named": true
@@ -2427,6 +2443,10 @@
   },
   {
     "type": "integer_literal",
+    "named": true
+  },
+  {
+    "type": "labeled_identifier",
     "named": true
   },
   {
