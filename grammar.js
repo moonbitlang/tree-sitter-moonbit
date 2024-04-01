@@ -190,7 +190,8 @@ module.exports = grammar({
       $.simple_expression,
       $.if_expression,
       $.loop_expression,
-      $.match_expression
+      $.match_expression,
+      $.for_expression,
     ),
 
     unwrap_expression: $ => prec(PREC.unwrap, seq(
@@ -590,6 +591,24 @@ module.exports = grammar({
       '}',
     ),
 
+    for_binder: $ => seq(
+      $.lowercase_identifier,
+      '=',
+      $.expression
+    ),
+
+    for_expression: $ => seq(
+      'for',
+      commaStrictList($.for_binder),
+      optional(seq(
+        ';',
+        optional($.simple_expression),
+        ';',
+        commaStrictList($.for_binder)
+      )),
+      $.block_expression
+    ),
+
     return_expression: $ => seq('return', optional($.expression)),
 
     // Patterns
@@ -796,6 +815,28 @@ function commaList1(rule) {
     rule,
     repeat(seq(',', rule)),
     optional(',')
+  );
+}
+
+
+/**
+ * @param {Rule} rule
+ *
+ * @return {ChoiceRule}
+ */
+function commaStrictList(rule) {
+  return optional(commaStrictList1(rule))
+}
+
+/**
+ * @param {Rule} rule
+ *
+ * @return {SeqRule}
+ */
+function commaStrictList1(rule) {
+  return seq(
+    rule,
+    repeat(seq(',', rule)),
   );
 }
 
