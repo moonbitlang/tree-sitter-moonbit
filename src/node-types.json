@@ -654,6 +654,10 @@
       "required": true,
       "types": [
         {
+          "type": "for_expression",
+          "named": true
+        },
+        {
           "type": "if_expression",
           "named": true
         },
@@ -686,6 +690,48 @@
         },
         {
           "type": "labeled_pattern_pun",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_binder",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "for_binder",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
           "named": true
         }
       ]
@@ -2431,6 +2477,10 @@
   },
   {
     "type": "fn",
+    "named": false
+  },
+  {
+    "type": "for",
     "named": false
   },
   {
