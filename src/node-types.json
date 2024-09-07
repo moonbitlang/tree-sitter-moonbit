@@ -928,6 +928,10 @@
           "named": true
         },
         {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
           "type": "visibility",
           "named": true
         }

@@ -179,10 +179,12 @@ module.exports = grammar({
     impl_definition: $ => seq(
       optional($.visibility),
       'impl',
+      optional($.type_parameters),
       $.qualified_type_identifier,
       optional(seq(
         'for',
         $.qualified_type_identifier,
+        optional($.type_parameters),
       )),
       'with',
       $.function_identifier,

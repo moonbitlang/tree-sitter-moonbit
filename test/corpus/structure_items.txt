@@ -690,7 +690,7 @@ fn init {
 ================================================================================
 impl
 ================================================================================
-pub impl Value for Double with to_tensor(self : Double) -> Tensor {
+pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
 }
 --------------------------------------------------------------------------------
 
@@ -698,12 +698,26 @@ pub impl Value for Double with to_tensor(self : Double) -> Tensor {
   (structure_item
     (impl_definition
       (visibility)
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))
+          (colon)
+          (constraints
+            (constraint
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))
       (qualified_type_identifier
         (identifier
           (uppercase_identifier)))
       (qualified_type_identifier
         (identifier
           (uppercase_identifier)))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
       (function_identifier
         (lowercase_identifier))
       (parameters
