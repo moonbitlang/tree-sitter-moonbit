@@ -177,9 +177,14 @@ module.exports = grammar({
     ),
 
     impl_definition: $ => seq(
+      optional($.visibility),
       'impl',
       $.qualified_type_identifier,
-      $.colon_colon,
+      optional(seq(
+        'for',
+        $.qualified_type_identifier,
+      )),
+      'with',
       $.function_identifier,
       $.parameters,
       optional($.return_type),
@@ -642,6 +647,7 @@ module.exports = grammar({
       seq('(', $.pattern, ')'),
       $.literal,
       $.lowercase_identifier,
+      $.labeled_identifier,
       $.constructor_pattern,
       $.tuple_pattern,
       $.constraint_pattern,
@@ -653,7 +659,7 @@ module.exports = grammar({
       $.constructor_expression,
       optional(seq(
         '(',
-        commaList1($.pattern),
+        choice($.dotdot_pattern, commaList1($.pattern), seq(commaList1($.pattern), $.dotdot_pattern)),
         ')'
       ))
     ),
@@ -750,6 +756,9 @@ module.exports = grammar({
 
     dot_operator: _ => '.',
 
+    dot_dot: _ => '..',
+
+    colon: _ => ':',
     // colon_colon: _ => '::',
 
     dot_identifier: $ => seq($.dot_operator, /[_\p{XID_Start}][_\p{XID_Continue}]*/),

@@ -150,6 +150,126 @@ fn init() {
                     (block_expression)))))))))))
 
 ================================================================================
+match patterns
+================================================================================
+fn main {
+  match x {
+    G | H => ()
+    I as j => ()
+    K(..) => ()
+    L(~label, ..) => ()
+    M(a, b) => ()
+    N(a as c, b) => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (match_expression
+              (simple_expression
+                (qualified_identifier
+                  (lowercase_identifier)))
+              (case_clause
+                (pattern
+                  (or_pattern
+                    (pattern
+                      (simple_pattern
+                        (constructor_pattern
+                          (constructor_expression
+                            (uppercase_identifier)))))
+                    (pattern
+                      (simple_pattern
+                        (constructor_pattern
+                          (constructor_expression
+                            (uppercase_identifier)))))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (as_pattern
+                    (pattern
+                      (simple_pattern
+                        (constructor_pattern
+                          (constructor_expression
+                            (uppercase_identifier)))))
+                    (lowercase_identifier)))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (dotdot_pattern
+                        (dot_dot)))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (pattern
+                        (simple_pattern
+                          (labeled_identifier)))
+                      (dotdot_pattern
+                        (dot_dot)))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (pattern
+                        (simple_pattern
+                          (lowercase_identifier)))
+                      (pattern
+                        (simple_pattern
+                          (lowercase_identifier))))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (pattern
+                        (as_pattern
+                          (pattern
+                            (simple_pattern
+                              (lowercase_identifier)))
+                          (lowercase_identifier)))
+                      (pattern
+                        (simple_pattern
+                          (lowercase_identifier))))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression))))))))))))
+
+================================================================================
 struct construction
 ================================================================================
 fn init() { let a = A::{ ..id, name: "John Doe" } }
@@ -382,3 +502,89 @@ fn main {
                 (atomic_expression
                   (literal
                     (integer_literal)))))))))))
+
+================================================================================
+array access expression
+================================================================================
+fn main {
+  let a = b[1:]
+  let b = c[:]
+  let d = c[:1]
+  let e = c[1:3]
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (array_access_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (colon))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (array_access_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (colon))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (array_access_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (colon)
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (array_access_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (colon)
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))

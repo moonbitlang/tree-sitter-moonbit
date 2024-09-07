@@ -482,6 +482,10 @@
           "named": true
         },
         {
+          "type": "dotdot_pattern",
+          "named": true
+        },
+        {
           "type": "pattern",
           "named": true
         }
@@ -908,10 +912,6 @@
           "named": true
         },
         {
-          "type": "colon_colon",
-          "named": true
-        },
-        {
           "type": "function_identifier",
           "named": true
         },
@@ -925,6 +925,10 @@
         },
         {
           "type": "return_type",
+          "named": true
+        },
+        {
+          "type": "visibility",
           "named": true
         }
       ]
@@ -1580,6 +1584,10 @@
         },
         {
           "type": "constructor_pattern",
+          "named": true
+        },
+        {
+          "type": "labeled_identifier",
           "named": true
         },
         {
@@ -2632,6 +2640,10 @@
   },
   {
     "type": "while",
+    "named": false
+  },
+  {
+    "type": "with",
     "named": false
   },
   {
