@@ -294,3 +294,91 @@ fn init {
                       (simple_expression
                         (qualified_identifier
                           (lowercase_identifier))))))))))))))
+
+================================================================================
+binary expression
+================================================================================
+fn main {
+  let a = 1 == 2
+  let b = 3 != 4
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (binary_expression
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (binary_expression
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
+
+================================================================================
+assign expression
+================================================================================
+fn main {
+  a += 3
+  b += 4
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (assign_expression
+            (left_value
+              (qualified_identifier
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))
+        (statement_expression
+          (assign_expression
+            (left_value
+              (qualified_identifier
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))))))

@@ -1,0 +1,51 @@
+================================================================================
+enum definition
+================================================================================
+enum T {
+  A
+  B(Int)
+  C(String, Int)
+  D(String, ~label: T)
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (enum_definition
+      (identifier
+        (uppercase_identifier))
+      (enum_constructor
+        (uppercase_identifier))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
+        (labeled_identifier)
+        (colon)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))))

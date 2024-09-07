@@ -97,6 +97,10 @@
           "named": true
         },
         {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
           "type": "simple_expression",
           "named": true
         }
@@ -130,6 +134,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "colon",
+          "named": true
+        },
         {
           "type": "expression",
           "named": true
@@ -599,6 +607,14 @@
       "required": true,
       "types": [
         {
+          "type": "colon",
+          "named": true
+        },
+        {
+          "type": "labeled_identifier",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         },
@@ -655,6 +671,10 @@
       "types": [
         {
           "type": "for_expression",
+          "named": true
+        },
+        {
+          "type": "for_in_expression",
           "named": true
         },
         {
@@ -728,6 +748,29 @@
         },
         {
           "type": "for_binder",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_in_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
           "named": true
         },
         {
@@ -1295,6 +1338,10 @@
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "question_operator",
           "named": true
         },
         {
@@ -2300,6 +2347,10 @@
     "named": false
   },
   {
+    "type": "!",
+    "named": false
+  },
+  {
     "type": "!=",
     "named": false
   },
@@ -2489,6 +2540,10 @@
   },
   {
     "type": "impl",
+    "named": false
+  },
+  {
+    "type": "in",
     "named": false
   },
   {

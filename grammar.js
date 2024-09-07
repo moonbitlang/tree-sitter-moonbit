@@ -123,7 +123,7 @@ module.exports = grammar({
       $.uppercase_identifier,
       optional(seq(
         '(',
-        commaList1($.type),
+        commaList1(choice($.type, seq($.labeled_identifier, $.colon, $.type))),
         ')'
       ))
     ),
@@ -192,6 +192,7 @@ module.exports = grammar({
       $.loop_expression,
       $.match_expression,
       $.for_expression,
+      $.for_in_expression,
     ),
 
     unwrap_expression: $ => prec(PREC.unwrap, seq(
@@ -426,15 +427,16 @@ module.exports = grammar({
 
     apply_expression: $ => prec(PREC.apply, seq(
       $.simple_expression,
+      optional('!'),
       '(',
-      commaList(seq(optional(seq($.labeled_identifier, '=')), $.expression)),
+      commaList(seq(optional(seq(choice($.lowercase_identifier, $.labeled_identifier), '=')), $.expression)),
       ')'
     )),
 
     array_access_expression: $ => prec(PREC.access, seq(
       $.simple_expression,
       '[',
-      $.expression,
+      choice($.expression, seq(optional($.expression), $.colon, optional($.expression))),
       ']'
     )),
 
@@ -609,6 +611,14 @@ module.exports = grammar({
       $.block_expression
     ),
 
+    for_in_expression: $ => seq(
+      'for',
+      commaStrictList($.lowercase_identifier),
+      'in',
+      $.simple_expression,
+      $.block_expression,
+    ),
+
     return_expression: $ => seq('return', optional($.expression)),
 
     // Patterns
@@ -715,7 +725,7 @@ module.exports = grammar({
     return_type: $ => seq('->', $.type),
 
     parameter: $ => seq(
-      choice($.lowercase_identifier, $.labeled_identifier),
+      choice($.lowercase_identifier, $.labeled_identifier, seq($.labeled_identifier, $.question_operator)),
       optional($.type_annotation),
       optional(seq('=', $.expression)),
     ),
