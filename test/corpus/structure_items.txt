@@ -593,16 +593,14 @@ fn init {
                         (expression
                           (simple_expression
                             (atomic_expression
-                              (string_interpolation
-                                (string_fragment
-                                  (unescaped_string_fragment))
-                                (interpolator
-                                  (expression
-                                    (simple_expression
-                                      (qualified_identifier
-                                        (lowercase_identifier)))))
-                                (string_fragment
-                                  (unescaped_string_fragment)))))))))))
+                              (literal
+                                (string_literal
+                                  (string_fragment
+                                    (unescaped_string_fragment))
+                                  (string_fragment
+                                    (unescaped_string_fragment))
+                                  (string_fragment
+                                    (unescaped_string_fragment))))))))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -619,23 +617,18 @@ fn init {
                         (expression
                           (simple_expression
                             (atomic_expression
-                              (string_interpolation
-                                (string_fragment
-                                  (unescaped_string_fragment))
-                                (interpolator
-                                  (expression
-                                    (simple_expression
-                                      (qualified_identifier
-                                        (lowercase_identifier)))))
-                                (string_fragment
-                                  (unescaped_string_fragment))
-                                (interpolator
-                                  (expression
-                                    (simple_expression
-                                      (qualified_identifier
-                                        (lowercase_identifier)))))
-                                (string_fragment
-                                  (unescaped_string_fragment)))))))))))))))))
+                              (literal
+                                (string_literal
+                                  (string_fragment
+                                    (unescaped_string_fragment))
+                                  (string_fragment
+                                    (unescaped_string_fragment))
+                                  (string_fragment
+                                    (unescaped_string_fragment))
+                                  (string_fragment
+                                    (unescaped_string_fragment))
+                                  (string_fragment
+                                    (unescaped_string_fragment))))))))))))))))))
   (structure_item
     (function_definition
       (function_identifier

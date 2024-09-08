@@ -247,9 +247,9 @@ module.exports = grammar({
     ),
 
     interpolator: $ => seq(
-      '\\(',
+      '\\{',
       $.expression,
-      ')'
+      '}'
     ),
 
     literal: $ => choice(
@@ -306,7 +306,7 @@ module.exports = grammar({
     ),
 
     unescaped_string_fragment: _ => choice(
-      token.immediate(/\\[^ntb"\\]/),
+      token.immediate(/\\[^ntb"\\{]/),
       token.immediate(/[^"\\]+/),
     ),
 
