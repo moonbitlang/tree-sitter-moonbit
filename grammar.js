@@ -730,7 +730,7 @@ module.exports = grammar({
 
     type_annotation: $ => seq($.colon, $.type),
 
-    return_type: $ => seq('->', $.type),
+    return_type: $ => seq('->', $.type, optional(seq('!', optional($.type)))),
 
     parameter: $ => seq(
       choice($.lowercase_identifier, $.labeled_identifier, seq($.labeled_identifier, $.question_operator)),
