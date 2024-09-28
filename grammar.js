@@ -685,6 +685,7 @@ module.exports = grammar({
 
     simple_pattern: $ => choice(
       '_',
+      $.dot_dot,
       seq('(', $.pattern, ')'),
       $.literal,
       $.lowercase_identifier,
@@ -700,7 +701,7 @@ module.exports = grammar({
       $.constructor_expression,
       optional(seq(
         '(',
-        choice($.dotdot_pattern, commaList1($.pattern), seq(commaList1($.pattern), $.dotdot_pattern)),
+        commaList($.pattern),
         ')'
       ))
     ),
@@ -718,19 +719,14 @@ module.exports = grammar({
     array_pattern: $ => seq('[', optional($.array_sub_pattern), ']'),
 
     array_sub_pattern: $ => choice(
-      $.dotdot_pattern,
       commaList1($.pattern),
-      seq($.dotdot_pattern, commaList1($.pattern)),
-      seq(commaList1($.pattern), $.dotdot_pattern)
     ),
-
-    dotdot_pattern: $ => seq($.dot_dot, optional(',')),
 
     struct_pattern: $ => seq('{', optional($.struct_field_pattern), '}'),
 
-    struct_field_pattern: $ => choice(
+    struct_field_pattern: $ => seq(
       commaList1($.field_single_pattern),
-      seq(commaList1($.field_single_pattern), $.dotdot_pattern)
+      optional($.dot_dot),
     ),
 
     field_single_pattern: $ => choice(

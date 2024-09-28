@@ -218,10 +218,6 @@
       "required": true,
       "types": [
         {
-          "type": "dotdot_pattern",
-          "named": true
-        },
-        {
           "type": "pattern",
           "named": true
         }
@@ -516,10 +512,6 @@
           "named": true
         },
         {
-          "type": "dotdot_pattern",
-          "named": true
-        },
-        {
           "type": "pattern",
           "named": true
         }
@@ -593,21 +585,6 @@
       "types": [
         {
           "type": "dot_operator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "dotdot_pattern",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "dot_dot",
           "named": true
         }
       ]
@@ -1701,6 +1678,10 @@
           "named": true
         },
         {
+          "type": "dot_dot",
+          "named": true
+        },
+        {
           "type": "labeled_identifier",
           "named": true
         },
@@ -2013,7 +1994,7 @@
       "required": true,
       "types": [
         {
-          "type": "dotdot_pattern",
+          "type": "dot_dot",
           "named": true
         },
         {
