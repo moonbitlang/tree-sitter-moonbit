@@ -65,7 +65,8 @@ let d_mile: Length[Mile] = Length(16)
             (uppercase_identifier))))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -80,7 +81,8 @@ let d_mile: Length[Mile] = Length(16)
                         (identifier
                           (uppercase_identifier))))))))))
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type

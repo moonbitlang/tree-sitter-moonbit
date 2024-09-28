@@ -1058,6 +1058,28 @@
         }
       ]
     },
+    "trait_method_parameter": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "type"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "parameter_label"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_annotation"
+            }
+          ]
+        }
+      ]
+    },
     "trait_method_declaration": {
       "type": "SEQ",
       "members": [
@@ -1077,7 +1099,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "type"
+                  "name": "trait_method_parameter"
                 },
                 {
                   "type": "REPEAT",
@@ -1090,7 +1112,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "type"
+                        "name": "trait_method_parameter"
                       }
                     ]
                   }
@@ -5059,34 +5081,38 @@
         }
       ]
     },
-    "parameter": {
-      "type": "SEQ",
+    "parameter_label": {
+      "type": "CHOICE",
       "members": [
         {
-          "type": "CHOICE",
+          "type": "SYMBOL",
+          "name": "lowercase_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "labeled_identifier"
+        },
+        {
+          "type": "SEQ",
           "members": [
-            {
-              "type": "SYMBOL",
-              "name": "lowercase_identifier"
-            },
             {
               "type": "SYMBOL",
               "name": "labeled_identifier"
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "labeled_identifier"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "question_operator"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "question_operator"
             }
           ]
+        }
+      ]
+    },
+    "parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "parameter_label"
         },
         {
           "type": "CHOICE",

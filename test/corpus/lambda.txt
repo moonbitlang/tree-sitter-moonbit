@@ -20,7 +20,8 @@ fn init {
               (anonymous_lambda_expression
                 (parameters
                   (parameter
-                    (lowercase_identifier)
+                    (parameter_label
+                      (lowercase_identifier))
                     (type_annotation
                       (colon)
                       (type
@@ -55,7 +56,8 @@ fn init {
               (anonymous_lambda_expression
                 (parameters
                   (parameter
-                    (lowercase_identifier)
+                    (parameter_label
+                      (lowercase_identifier))
                     (type_annotation
                       (colon)
                       (type
@@ -94,7 +96,8 @@ fn init {
                 (anonymous_lambda_expression
                   (parameters
                     (parameter
-                      (lowercase_identifier)
+                      (parameter_label
+                        (lowercase_identifier))
                       (type_annotation
                         (colon)
                         (type
@@ -109,7 +112,8 @@ fn init {
                           (anonymous_lambda_expression
                             (parameters
                               (parameter
-                                (lowercase_identifier)
+                                (parameter_label
+                                  (lowercase_identifier))
                                 (type_annotation
                                   (colon)
                                   (type

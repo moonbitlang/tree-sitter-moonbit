@@ -234,7 +234,8 @@ fn error(a: T) -> T!Error {}
             (uppercase_identifier))))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -266,7 +267,8 @@ fn error(a: T) -> T!Error {}
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -287,7 +289,8 @@ fn error(a: T) -> T!Error {}
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -324,11 +327,12 @@ trait A {
       (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
+        (trait_method_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
         (return_type
           (type
             (apply_type
@@ -352,16 +356,67 @@ trait A {
       (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
+        (trait_method_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (trait_method_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (return_type
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))))
+
+================================================================================
+Trait definitions with labeled parameters
+================================================================================
+trait A {
+  a(Int, ~a : Int, ~b:Int) -> Self
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (trait_definition
+      (identifier
+        (uppercase_identifier))
+      (trait_method_declaration
+        (function_identifier
+          (lowercase_identifier))
+        (trait_method_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (trait_method_parameter
+          (parameter_label
+            (labeled_identifier))
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
+        (trait_method_parameter
+          (parameter_label
+            (labeled_identifier))
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
         (return_type
           (type
             (apply_type
@@ -418,11 +473,12 @@ trait A: B + Compare {
       (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
+        (trait_method_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
         (return_type
           (type
             (apply_type
@@ -457,11 +513,12 @@ fn repr(self:MyInt) -> String {
       (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
+        (trait_method_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
         (return_type
           (type
             (apply_type
@@ -471,11 +528,12 @@ fn repr(self:MyInt) -> String {
       (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
+        (trait_method_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
         (return_type
           (type
             (apply_type
@@ -492,7 +550,8 @@ fn repr(self:MyInt) -> String {
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -532,7 +591,8 @@ fn repr(self:MyInt) -> String {
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -584,7 +644,8 @@ fn init {
         (lowercase_identifier))
       (parameters
         (parameter
-          (labeled_identifier)
+          (parameter_label
+            (labeled_identifier))
           (type_annotation
             (colon)
             (type
@@ -593,7 +654,8 @@ fn init {
                   (identifier
                     (uppercase_identifier)))))))
         (parameter
-          (labeled_identifier)
+          (parameter_label
+            (labeled_identifier))
           (type_annotation
             (colon)
             (type
@@ -773,7 +835,8 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -816,7 +879,8 @@ extern "c" fn ffi(a: Int) = "return 0"
             (uppercase_identifier))))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -852,7 +916,8 @@ extern "c" fn ffi(a: Int) = "return 0"
             (uppercase_identifier))))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -881,7 +946,8 @@ extern "c" fn ffi(a: Int) = "return 0"
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -903,7 +969,8 @@ extern "c" fn ffi(a: Int) = "return 0"
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
+          (parameter_label
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type

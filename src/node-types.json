@@ -1421,6 +1421,25 @@
           "named": true
         },
         {
+          "type": "parameter_label",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parameter_label",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
           "type": "labeled_identifier",
           "named": true
         },
@@ -1430,10 +1449,6 @@
         },
         {
           "type": "question_operator",
-          "named": true
-        },
-        {
-          "type": "type_annotation",
           "named": true
         }
       ]
@@ -2163,7 +2178,30 @@
           "named": true
         },
         {
+          "type": "trait_method_parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait_method_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "parameter_label",
+          "named": true
+        },
+        {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
           "named": true
         }
       ]

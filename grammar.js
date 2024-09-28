@@ -183,10 +183,18 @@ module.exports = grammar({
       plusList($.identifier),
     ),
 
+    trait_method_parameter: $ => choice(
+      $.type,
+      seq(
+        $.parameter_label,
+        $.type_annotation,
+      ),
+    ),
+
     trait_method_declaration: $ => seq(
       $.function_identifier,
       '(',
-      commaList($.type),
+      commaList($.trait_method_parameter),
       ')',
       $.return_type,
     ),
@@ -763,8 +771,17 @@ module.exports = grammar({
 
     return_type: $ => seq('->', $.type, optional(seq('!', optional($.type)))),
 
+    parameter_label: $ => choice(
+      $.lowercase_identifier,
+      $.labeled_identifier,
+      seq(
+        $.labeled_identifier,
+        $.question_operator
+      )
+    ),
+
     parameter: $ => seq(
-      choice($.lowercase_identifier, $.labeled_identifier, seq($.labeled_identifier, $.question_operator)),
+      $.parameter_label,
       optional($.type_annotation),
       optional(seq('=', $.expression)),
     ),
