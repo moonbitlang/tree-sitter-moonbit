@@ -528,6 +528,7 @@ module.exports = grammar({
       seq('break', commaList($.expression)),
       seq('continue', commaList($.expression)),
       $.return_expression,
+      $.raise_expression,
       $.expression,
     ),
 
@@ -556,6 +557,7 @@ module.exports = grammar({
       seq('break', commaList($.expression)),
       seq('continue', commaList($.expression)),
       $.return_expression,
+      $.raise_expression,
       $.expression
     ),
 
@@ -644,6 +646,8 @@ module.exports = grammar({
     ),
 
     return_expression: $ => seq('return', optional($.expression)),
+
+    raise_expression: $ => seq('raise', optional($.expression)),
 
     // Patterns
 

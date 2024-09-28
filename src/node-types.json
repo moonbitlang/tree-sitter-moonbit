@@ -345,6 +345,10 @@
           "named": true
         },
         {
+          "type": "raise_expression",
+          "named": true
+        },
+        {
           "type": "return_expression",
           "named": true
         },
@@ -1504,6 +1508,21 @@
     }
   },
   {
+    "type": "raise_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "return_expression",
     "named": true,
     "fields": {},
@@ -1697,6 +1716,10 @@
         },
         {
           "type": "named_matrix_expression",
+          "named": true
+        },
+        {
+          "type": "raise_expression",
           "named": true
         },
         {
@@ -2663,6 +2686,10 @@
   {
     "type": "question_operator",
     "named": true
+  },
+  {
+    "type": "raise",
+    "named": false
   },
   {
     "type": "readonly",

@@ -3318,6 +3318,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "raise_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "expression"
         }
       ]
@@ -3511,6 +3515,10 @@
         {
           "type": "SYMBOL",
           "name": "return_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "raise_expression"
         },
         {
           "type": "SYMBOL",
@@ -4111,6 +4119,27 @@
         {
           "type": "STRING",
           "value": "return"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "raise_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "raise"
         },
         {
           "type": "CHOICE",
