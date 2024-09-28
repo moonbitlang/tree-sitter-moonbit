@@ -71,11 +71,12 @@ fn init {
                               (uppercase_identifier)))
                           (colon_colon)
                           (uppercase_identifier)))
-                      (expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal)))))))
+                      (argument
+                        (expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal))))))))
                   (question_operator))))))
         (statement_expression
           (let_expression

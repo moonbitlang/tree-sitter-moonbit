@@ -49,9 +49,10 @@ fn f() -> Result[Unit, String] {
                               (uppercase_identifier)))
                           (colon_colon)
                           (uppercase_identifier)))
-                      (expression
-                        (simple_expression
-                          (unit_expression)))))
+                      (argument
+                        (expression
+                          (simple_expression
+                            (unit_expression))))))
                   (question_operator))))))
         (statement_expression
           (expression
@@ -60,7 +61,8 @@ fn f() -> Result[Unit, String] {
                 (simple_expression
                   (constructor_expression
                     (uppercase_identifier)))
-                (expression
-                  (simple_expression
-                    (qualified_identifier
-                      (lowercase_identifier))))))))))))
+                (argument
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))))))))))))

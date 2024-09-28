@@ -25,11 +25,12 @@ fn init {
                 (simple_expression
                   (constructor_expression
                     (uppercase_identifier)))
-                (expression
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (integer_literal)))))))))))))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
 
 ================================================================================
 qualified

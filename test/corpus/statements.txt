@@ -22,20 +22,21 @@ fn init {
                       (package_identifier)
                       (dot_identifier
                         (dot_operator))))
-                  (expression
-                    (simple_expression
-                      (tuple_expression
-                        (expression
-                          (simple_expression
-                            (qualified_identifier
-                              (lowercase_identifier))))
-                        (expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (string_literal
-                                  (string_fragment
-                                    (unescaped_string_fragment)))))))))))))))))))
+                  (argument
+                    (expression
+                      (simple_expression
+                        (tuple_expression
+                          (expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier))))
+                          (expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (string_literal
+                                    (string_fragment
+                                      (unescaped_string_fragment))))))))))))))))))))
 
 ================================================================================
 raise statement in match
@@ -72,17 +73,18 @@ fn init {
                               (package_identifier)
                               (dot_identifier
                                 (dot_operator))))
-                          (expression
-                            (simple_expression
-                              (tuple_expression
-                                (expression
-                                  (simple_expression
-                                    (qualified_identifier
-                                      (lowercase_identifier))))
-                                (expression
-                                  (simple_expression
-                                    (atomic_expression
-                                      (literal
-                                        (string_literal
-                                          (string_fragment
-                                            (unescaped_string_fragment)))))))))))))))))))))))
+                          (argument
+                            (expression
+                              (simple_expression
+                                (tuple_expression
+                                  (expression
+                                    (simple_expression
+                                      (qualified_identifier
+                                        (lowercase_identifier))))
+                                  (expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment))))))))))))))))))))))))

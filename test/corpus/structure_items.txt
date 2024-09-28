@@ -639,17 +639,18 @@ fn init {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (string_literal
-                                  (string_fragment
-                                    (unescaped_string_fragment))
-                                  (string_fragment
-                                    (unescaped_string_fragment))
-                                  (string_fragment
-                                    (unescaped_string_fragment))))))))))))
+                        (argument
+                          (expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (string_literal
+                                    (string_fragment
+                                      (unescaped_string_fragment))
+                                    (string_fragment
+                                      (unescaped_string_fragment))
+                                    (string_fragment
+                                      (unescaped_string_fragment)))))))))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -663,21 +664,22 @@ fn init {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (string_literal
-                                  (string_fragment
-                                    (unescaped_string_fragment))
-                                  (string_fragment
-                                    (unescaped_string_fragment))
-                                  (string_fragment
-                                    (unescaped_string_fragment))
-                                  (string_fragment
-                                    (unescaped_string_fragment))
-                                  (string_fragment
-                                    (unescaped_string_fragment))))))))))))))))))
+                        (argument
+                          (expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (string_literal
+                                    (string_fragment
+                                      (unescaped_string_fragment))
+                                    (string_fragment
+                                      (unescaped_string_fragment))
+                                    (string_fragment
+                                      (unescaped_string_fragment))
+                                    (string_fragment
+                                      (unescaped_string_fragment))
+                                    (string_fragment
+                                      (unescaped_string_fragment)))))))))))))))))))
   (structure_item
     (function_definition
       (function_identifier
@@ -690,14 +692,16 @@ fn init {
                 (simple_expression
                   (qualified_identifier
                     (lowercase_identifier)))
-                (labeled_identifier)
-                (expression
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (string_literal
-                          (string_fragment
-                            (unescaped_string_fragment)))))))))))
+                (argument
+                  (argument_label
+                    (labeled_identifier))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (string_literal
+                            (string_fragment
+                              (unescaped_string_fragment))))))))))))
         (comment)
         (statement_expression
           (expression
@@ -706,28 +710,33 @@ fn init {
                 (simple_expression
                   (qualified_identifier
                     (lowercase_identifier)))
-                (labeled_identifier)
-                (expression
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (string_literal
-                          (string_fragment
-                            (unescaped_string_fragment)))))))
-                (labeled_identifier)
-                (expression
-                  (simple_expression
-                    (apply_expression
-                      (simple_expression
-                        (constructor_expression
-                          (uppercase_identifier)))
-                      (expression
+                (argument
+                  (argument_label
+                    (labeled_identifier))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (string_literal
+                            (string_fragment
+                              (unescaped_string_fragment))))))))
+                (argument
+                  (argument_label
+                    (labeled_identifier))
+                  (expression
+                    (simple_expression
+                      (apply_expression
                         (simple_expression
-                          (atomic_expression
-                            (literal
-                              (string_literal
-                                (string_fragment
-                                  (unescaped_string_fragment))))))))))))))))))
+                          (constructor_expression
+                            (uppercase_identifier)))
+                        (argument
+                          (expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (string_literal
+                                    (string_fragment
+                                      (unescaped_string_fragment))))))))))))))))))))
 
 ================================================================================
 impl

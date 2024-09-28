@@ -447,11 +447,21 @@ module.exports = grammar({
       seq($.qualified_type_identifier, $.colon_colon, $.uppercase_identifier)
     ),
 
+    argument_label: $ => seq(
+      choice($.lowercase_identifier, $.labeled_identifier),
+      '='
+    ),
+
+    argument: $ => seq(
+      optional($.argument_label),
+      $.expression
+    ),
+
     apply_expression: $ => prec(PREC.apply, seq(
       $.simple_expression,
-      optional('!'),
+      optional(choice('!', '?')),
       '(',
-      commaList(seq(optional(seq(choice($.lowercase_identifier, $.labeled_identifier), '=')), $.expression)),
+      commaList($.argument),
       ')'
     )),
 
@@ -466,7 +476,7 @@ module.exports = grammar({
       $.simple_expression,
       $.dot_identifier,
       '(',
-      commaList(seq(optional(seq($.labeled_identifier, '=')), $.expression)),
+      commaList($.argument),
       ')'
     )),
 
