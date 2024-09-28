@@ -474,9 +474,12 @@ module.exports = grammar({
       '='
     ),
 
-    argument: $ => seq(
-      optional($.argument_label),
-      $.expression
+    argument: $ => choice(
+      seq(
+        optional($.argument_label),
+        $.expression
+      ),
+      $.labeled_identifier
     ),
 
     apply_expression: $ => prec(PREC.apply, seq(

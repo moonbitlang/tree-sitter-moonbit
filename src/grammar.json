@@ -2631,23 +2631,32 @@
       ]
     },
     "argument": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "argument_label"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "argument_label"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             },
             {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "expression"
             }
           ]
         },
         {
           "type": "SYMBOL",
-          "name": "expression"
+          "name": "labeled_identifier"
         }
       ]
     },
