@@ -2584,6 +2584,19 @@
             {
               "type": "SYMBOL",
               "name": "labeled_identifier"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "labeled_identifier"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "question_operator"
+                }
+              ]
             }
           ]
         },

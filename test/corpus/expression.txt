@@ -661,6 +661,7 @@ fn init {
   a.f(4)
   a.f(2, dim=4)
   a.f(2, ~dim=4)
+  a.f(2, ~dim?=None)
 }
 --------------------------------------------------------------------------------
 
@@ -829,4 +830,27 @@ fn init {
                     (simple_expression
                       (atomic_expression
                         (literal
-                          (integer_literal))))))))))))))
+                          (integer_literal))))))))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (dot_apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (dot_identifier
+                  (dot_operator))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))
+                (argument
+                  (argument_label
+                    (labeled_identifier)
+                    (question_operator))
+                  (expression
+                    (simple_expression
+                      (constructor_expression
+                        (uppercase_identifier)))))))))))))

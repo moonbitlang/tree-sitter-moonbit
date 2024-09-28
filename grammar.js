@@ -456,7 +456,14 @@ module.exports = grammar({
     ),
 
     argument_label: $ => seq(
-      choice($.lowercase_identifier, $.labeled_identifier),
+      choice(
+        $.lowercase_identifier,
+        $.labeled_identifier,
+        seq(
+          $.labeled_identifier,
+          $.question_operator
+        )
+      ),
       '='
     ),
 
