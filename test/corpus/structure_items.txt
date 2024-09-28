@@ -934,7 +934,8 @@ extern "c" fn ffi(a: Int) = "return 0"
       (external_source
         (multiline_string_literal
           (multiline_string_fragment
-            (multiline_string_separator))))))
+            (multiline_string_separator)
+            (multiline_string_content))))))
   (structure_item
     (function_definition
       (visibility)
@@ -958,7 +959,8 @@ extern "c" fn ffi(a: Int) = "return 0"
       (external_source
         (multiline_string_literal
           (multiline_string_fragment
-            (multiline_string_separator))))))
+            (multiline_string_separator)
+            (multiline_string_content))))))
   (structure_item
     (function_definition
       (external_linkage

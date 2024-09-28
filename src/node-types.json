@@ -1306,9 +1306,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "multiline_string_content",
+          "named": true
+        },
         {
           "type": "multiline_string_separator",
           "named": true
@@ -2738,6 +2742,10 @@
   {
     "type": "match",
     "named": false
+  },
+  {
+    "type": "multiline_string_content",
+    "named": true
   },
   {
     "type": "multiline_string_separator",

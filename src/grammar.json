@@ -1700,6 +1700,10 @@
       "type": "PATTERN",
       "value": "#\\|"
     },
+    "multiline_string_content": {
+      "type": "PATTERN",
+      "value": "[^\\n]*"
+    },
     "multiline_string_fragment": {
       "type": "SEQ",
       "members": [
@@ -1708,8 +1712,8 @@
           "name": "multiline_string_separator"
         },
         {
-          "type": "PATTERN",
-          "value": "[^\\n]*"
+          "type": "SYMBOL",
+          "name": "multiline_string_content"
         }
       ]
     },

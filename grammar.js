@@ -355,7 +355,9 @@ module.exports = grammar({
 
     multiline_string_separator: _ => /#\|/,
 
-    multiline_string_fragment: $ => seq($.multiline_string_separator, /[^\n]*/),
+    multiline_string_content: _ => /[^\n]*/,
+
+    multiline_string_fragment: $ => seq($.multiline_string_separator, $.multiline_string_content),
 
     multiline_string_literal: $ => seq(
       $.multiline_string_fragment,

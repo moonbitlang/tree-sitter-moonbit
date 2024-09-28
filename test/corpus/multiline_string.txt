@@ -20,9 +20,11 @@ fn init {
                 (literal
                   (multiline_string_literal
                     (multiline_string_fragment
-                      (multiline_string_separator))
+                      (multiline_string_separator)
+                      (multiline_string_content))
                     (multiline_string_fragment
-                      (multiline_string_separator))))))))))))
+                      (multiline_string_separator)
+                      (multiline_string_content))))))))))))
 
 ================================================================================
 multiline string (left aligned)
@@ -46,9 +48,11 @@ fn init {
                 (literal
                   (multiline_string_literal
                     (multiline_string_fragment
-                      (multiline_string_separator))
+                      (multiline_string_separator)
+                      (multiline_string_content))
                     (multiline_string_fragment
-                      (multiline_string_separator))))))))))))
+                      (multiline_string_separator)
+                      (multiline_string_content))))))))))))
 
 ================================================================================
 multiline string (with pipe)
@@ -78,9 +82,11 @@ fn init {
                       (literal
                         (multiline_string_literal
                           (multiline_string_fragment
-                            (multiline_string_separator))
+                            (multiline_string_separator)
+                            (multiline_string_content))
                           (multiline_string_fragment
-                            (multiline_string_separator)))))))
+                            (multiline_string_separator)
+                            (multiline_string_content)))))))
                 (pipe_operator)
                 (expression
                   (simple_expression
@@ -96,7 +102,8 @@ fn init {
                       (literal
                         (multiline_string_literal
                           (multiline_string_fragment
-                            (multiline_string_separator)))))))
+                            (multiline_string_separator)
+                            (multiline_string_content)))))))
                 (pipe_operator)
                 (expression
                   (simple_expression
@@ -140,15 +147,20 @@ fn init {
                               (literal
                                 (multiline_string_literal
                                   (multiline_string_fragment
-                                    (multiline_string_separator))
+                                    (multiline_string_separator)
+                                    (multiline_string_content))
                                   (multiline_string_fragment
-                                    (multiline_string_separator))
+                                    (multiline_string_separator)
+                                    (multiline_string_content))
                                   (multiline_string_fragment
-                                    (multiline_string_separator))
+                                    (multiline_string_separator)
+                                    (multiline_string_content))
                                   (multiline_string_fragment
-                                    (multiline_string_separator))
+                                    (multiline_string_separator)
+                                    (multiline_string_content))
                                   (multiline_string_fragment
-                                    (multiline_string_separator)))))))
+                                    (multiline_string_separator)
+                                    (multiline_string_content)))))))
                         (pipe_operator)
                         (expression
                           (simple_expression
