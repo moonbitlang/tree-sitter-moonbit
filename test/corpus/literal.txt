@@ -219,3 +219,63 @@ fn main {
                               (simple_expression
                                 (qualified_identifier
                                   (lowercase_identifier))))))))))))))))))
+
+================================================================================
+bytes literal
+================================================================================
+fn init {
+  let b1 = b"a"
+  println(b1.to_int())
+  println(b"asdfasdf")
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (bytes_literal
+                      (string_fragment
+                        (unescaped_string_fragment)))))))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (argument
+                  (expression
+                    (simple_expression
+                      (dot_apply_expression
+                        (simple_expression
+                          (qualified_identifier
+                            (lowercase_identifier)))
+                        (dot_identifier
+                          (dot_operator))))))))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (bytes_literal
+                            (string_fragment
+                              (unescaped_string_fragment))))))))))))))))

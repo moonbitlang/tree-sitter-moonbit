@@ -340,6 +340,21 @@
     }
   },
   {
+    "type": "bytes_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string_fragment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "case_clause",
     "named": true,
     "fields": {},
@@ -1173,6 +1188,10 @@
         },
         {
           "type": "byte_literal",
+          "named": true
+        },
+        {
+          "type": "bytes_literal",
           "named": true
         },
         {
@@ -2606,6 +2625,10 @@
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "b\"",
     "named": false
   },
   {

@@ -1474,6 +1474,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "bytes_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "multiline_string_literal"
         }
       ]
@@ -1579,6 +1583,26 @@
         {
           "type": "STRING",
           "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string_fragment"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "bytes_literal": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "b\""
         },
         {
           "type": "REPEAT",

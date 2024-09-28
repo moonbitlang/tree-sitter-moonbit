@@ -282,6 +282,7 @@ module.exports = grammar({
       $.byte_literal,
       $.char_literal,
       $.string_literal,
+      $.bytes_literal,
       $.multiline_string_literal,
     ),
 
@@ -319,6 +320,12 @@ module.exports = grammar({
 
     string_literal: $ => seq(
       '"',
+      repeat($.string_fragment),
+      '"'
+    ),
+
+    bytes_literal: $ => seq(
+      'b"',
       repeat($.string_fragment),
       '"'
     ),
