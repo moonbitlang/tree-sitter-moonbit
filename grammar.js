@@ -630,7 +630,8 @@ module.exports = grammar({
         ';',
         commaStrictList($.for_binder)
       )),
-      $.block_expression
+      $.block_expression,
+      optional($.else_clause),
     ),
 
     for_in_expression: $ => seq(
@@ -639,6 +640,7 @@ module.exports = grammar({
       'in',
       $.simple_expression,
       $.block_expression,
+      optional($.else_clause),
     ),
 
     return_expression: $ => seq('return', optional($.expression)),

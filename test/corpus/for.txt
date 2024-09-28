@@ -210,3 +210,145 @@ fn init {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))))))))))))
+
+================================================================================
+for-else
+================================================================================
+fn init {
+  for i = 0; i < 10; i = i + 1 {
+    i
+  } else {
+    0
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (for_expression
+              (for_binder
+                (lowercase_identifier)
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))))
+              (simple_expression
+                (binary_expression
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))))
+              (for_binder
+                (lowercase_identifier)
+                (expression
+                  (simple_expression
+                    (binary_expression
+                      (expression
+                        (simple_expression
+                          (qualified_identifier
+                            (lowercase_identifier))))
+                      (expression
+                        (simple_expression
+                          (atomic_expression
+                            (literal
+                              (integer_literal)))))))))
+              (block_expression
+                (statement_expression
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))))
+              (else_clause
+                (block_expression
+                  (statement_expression
+                    (expression
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal)))))))))))))))
+
+================================================================================
+for-in-else
+================================================================================
+fn init {
+  let a = [1, 2, 3, 4, 5]
+  for i in a {
+    i
+  } else {
+    0
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (array_expression
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))
+        (statement_expression
+          (expression
+            (for_in_expression
+              (lowercase_identifier)
+              (simple_expression
+                (qualified_identifier
+                  (lowercase_identifier)))
+              (block_expression
+                (statement_expression
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))))
+              (else_clause
+                (block_expression
+                  (statement_expression
+                    (expression
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal)))))))))))))))

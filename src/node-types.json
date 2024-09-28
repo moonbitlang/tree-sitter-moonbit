@@ -785,6 +785,10 @@
           "named": true
         },
         {
+          "type": "else_clause",
+          "named": true
+        },
+        {
           "type": "for_binder",
           "named": true
         },
@@ -805,6 +809,10 @@
       "types": [
         {
           "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "else_clause",
           "named": true
         },
         {

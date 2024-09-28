@@ -4024,6 +4024,18 @@
         {
           "type": "SYMBOL",
           "name": "block_expression"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "else_clause"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -4078,6 +4090,18 @@
         {
           "type": "SYMBOL",
           "name": "block_expression"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "else_clause"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
