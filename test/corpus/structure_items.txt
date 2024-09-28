@@ -779,3 +779,130 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
               (identifier
                 (uppercase_identifier))))))
       (block_expression))))
+
+================================================================================
+extern function definitions
+================================================================================
+pub(readonly) extern "js" fn ffi[X](a: X) -> R = "a" "b"
+priv extern "wasm" fn ffi[X](a: X) -> R =
+  #|(func (param i32))
+pub extern "wasm-gc" fn ffi(a: X) = #|(func (result i32))
+extern "c" fn ffi(a: Int) = "return 0"
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (visibility
+        (pub_attribute))
+      (external_linkage
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))
+      (function_identifier
+        (lowercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (parameters
+        (parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (return_type
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (external_source
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment)))
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))))
+  (structure_item
+    (function_definition
+      (visibility)
+      (external_linkage
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))
+      (function_identifier
+        (lowercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (parameters
+        (parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (return_type
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (external_source
+        (multiline_string_literal
+          (multiline_string_fragment
+            (multiline_string_separator))))))
+  (structure_item
+    (function_definition
+      (visibility)
+      (external_linkage
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))
+      (function_identifier
+        (lowercase_identifier))
+      (parameters
+        (parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (external_source
+        (multiline_string_literal
+          (multiline_string_fragment
+            (multiline_string_separator))))))
+  (structure_item
+    (function_definition
+      (external_linkage
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))
+      (function_identifier
+        (lowercase_identifier))
+      (parameters
+        (parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (external_source
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment)))))))

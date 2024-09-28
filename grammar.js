@@ -137,14 +137,29 @@ module.exports = grammar({
       $.expression
     ),
 
+    external_linkage: $ => seq(
+      'extern',
+      $.string_literal
+    ),
+
+    external_source: $ => choice(
+      $.string_literal,
+      seq($.string_literal, $.string_literal),
+      $.multiline_string_literal,
+    ),
+
     function_definition: $ => seq(
-      optional($.pub),
+      optional($.visibility),
+      optional($.external_linkage),
       'fn',
       $.function_identifier,
       optional($.type_parameters),
       optional($.parameters),
       optional($.return_type),
-      $.block_expression,
+      choice(
+        $.block_expression,
+        seq('=', $.external_source)
+      )
     ),
 
     test_definition: $ => seq(

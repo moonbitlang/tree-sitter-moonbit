@@ -701,6 +701,40 @@
     }
   },
   {
+    "type": "external_linkage",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "external_source",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "multiline_string_literal",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "field_single_pattern",
     "named": true,
     "fields": {},
@@ -797,6 +831,14 @@
           "named": true
         },
         {
+          "type": "external_linkage",
+          "named": true
+        },
+        {
+          "type": "external_source",
+          "named": true
+        },
+        {
           "type": "function_identifier",
           "named": true
         },
@@ -805,15 +847,15 @@
           "named": true
         },
         {
-          "type": "pub",
-          "named": true
-        },
-        {
           "type": "return_type",
           "named": true
         },
         {
           "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "visibility",
           "named": true
         }
       ]
@@ -2528,6 +2570,10 @@
   },
   {
     "type": "enum",
+    "named": false
+  },
+  {
+    "type": "extern",
     "named": false
   },
   {
