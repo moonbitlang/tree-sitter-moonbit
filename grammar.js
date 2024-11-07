@@ -223,6 +223,7 @@ module.exports = grammar({
       $.match_expression,
       $.for_expression,
       $.for_in_expression,
+      $.try_expression,
     ),
 
     unwrap_expression: $ => prec(PREC.unwrap, seq(
@@ -567,6 +568,16 @@ module.exports = grammar({
       $.return_expression,
       $.raise_expression,
       $.expression,
+    ),
+
+    try_expression: $ => seq(
+      'try',
+      $.expression,
+      'catch',
+      '{',
+      $.case_clause,
+      '}',
+      optional($.else_clause)
     ),
 
     if_expression: $ => seq(
