@@ -726,6 +726,10 @@
         {
           "type": "simple_expression",
           "named": true
+        },
+        {
+          "type": "try_expression",
+          "named": true
         }
       ]
     }
@@ -2220,6 +2224,29 @@
     }
   },
   {
+    "type": "try_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "case_clause",
+          "named": true
+        },
+        {
+          "type": "else_clause",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "tuple_expression",
     "named": true,
     "fields": {},
@@ -2648,6 +2675,10 @@
     "named": false
   },
   {
+    "type": "catch",
+    "named": false
+  },
+  {
     "type": "colon",
     "named": true
   },
@@ -2801,6 +2832,10 @@
   },
   {
     "type": "true",
+    "named": false
+  },
+  {
+    "type": "try",
     "named": false
   },
   {
