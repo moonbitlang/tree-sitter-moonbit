@@ -1035,3 +1035,19 @@ extern "c" fn ffi(a: Int) = "return 0"
         (string_literal
           (string_fragment
             (unescaped_string_fragment)))))))
+
+================================================================================
+Const definition
+================================================================================
+const A = 'a'
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (const_definition
+      (uppercase_identifier)
+      (expression
+        (simple_expression
+          (atomic_expression
+            (literal
+              (char_literal))))))))
