@@ -67,7 +67,7 @@ module.exports = grammar({
       seq('pub', optional($.pub_attribute))
     ),
 
-    pub_attribute: _ => seq('(', 'readonly', ')'),
+    pub_attribute: _ => seq('(', choice('readonly', 'all', 'open'), ')'),
 
     derive_item: $ => $.qualified_type_identifier,
 
@@ -169,7 +169,7 @@ module.exports = grammar({
     ),
 
     trait_definition: $ => seq(
-      optional($.pub),
+      optional($.visibility),
       'trait',
       $.identifier,
       optional($.super_trait_declaration),

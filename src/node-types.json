@@ -2163,15 +2163,15 @@
           "named": true
         },
         {
-          "type": "pub",
-          "named": true
-        },
-        {
           "type": "super_trait_declaration",
           "named": true
         },
         {
           "type": "trait_method_declaration",
+          "named": true
+        },
+        {
+          "type": "visibility",
           "named": true
         }
       ]
@@ -2659,6 +2659,10 @@
     "named": false
   },
   {
+    "type": "all",
+    "named": false
+  },
+  {
     "type": "as",
     "named": false
   },
@@ -2784,6 +2788,10 @@
   },
   {
     "type": "mut",
+    "named": false
+  },
+  {
+    "type": "open",
     "named": false
   },
   {

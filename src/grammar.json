@@ -148,8 +148,21 @@
           "value": "("
         },
         {
-          "type": "STRING",
-          "value": "readonly"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "readonly"
+            },
+            {
+              "type": "STRING",
+              "value": "all"
+            },
+            {
+              "type": "STRING",
+              "value": "open"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -908,7 +921,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "pub"
+              "name": "visibility"
             },
             {
               "type": "BLANK"
