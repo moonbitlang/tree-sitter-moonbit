@@ -56,6 +56,7 @@ module.exports = grammar({
       $.struct_definition,
       $.enum_definition,
       $.value_definition,
+      $.const_definition,
       $.function_definition,
       $.test_definition,
       $.trait_definition,
@@ -132,6 +133,15 @@ module.exports = grammar({
       optional($.pub),
       'let',
       $.lowercase_identifier,
+      optional($.type_annotation),
+      '=',
+      $.expression
+    ),
+
+    const_definition: $ => seq(
+      optional($.pub),
+      'const',
+      $.uppercase_identifier,
       optional($.type_annotation),
       '=',
       $.expression
