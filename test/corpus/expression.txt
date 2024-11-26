@@ -158,7 +158,7 @@ fn main {
     G | H => ()
     I as j => ()
     K(..) => ()
-    L(~label, ..) => ()
+    L(label~, ..) => ()
     M(a, b) => ()
     N(a as c, b) => ()
   }
@@ -228,7 +228,8 @@ fn main {
                         (uppercase_identifier))
                       (pattern
                         (simple_pattern
-                          (labeled_identifier)))
+                          (parameter_label
+                            (lowercase_identifier))))
                       (pattern
                         (simple_pattern
                           (dot_dot))))))
@@ -744,13 +745,15 @@ apply expression with labeled argument
 ================================================================================
 fn init {
   f(1, dim=4)
-  f(1, ~dim)
-  f(1, ~dim=4)
-  f(1, ~dim?=None)
+  f(1, dim~)
+  f(1, dim=4)
+  f(1, dim?=None)
+  f(1, g?(3))
   a.f(2, dim=4)
-  a.f(2, ~dim)
-  a.f(2, ~dim=4)
-  a.f(2, ~dim?=None)
+  a.f(2, dim~)
+  a.f(2, dim=4)
+  a.f(2, dim?=None)
+  a.f(2, g?(4))
 }
 --------------------------------------------------------------------------------
 
@@ -775,7 +778,9 @@ fn init {
                           (integer_literal))))))
                 (argument
                   (argument_label
-                    (lowercase_identifier))
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
                   (expression
                     (simple_expression
                       (atomic_expression
@@ -795,7 +800,10 @@ fn init {
                         (literal
                           (integer_literal))))))
                 (argument
-                  (labeled_identifier))))))
+                  (argument_pun
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))))))))
         (statement_expression
           (expression
             (simple_expression
@@ -811,7 +819,9 @@ fn init {
                           (integer_literal))))))
                 (argument
                   (argument_label
-                    (labeled_identifier))
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
                   (expression
                     (simple_expression
                       (atomic_expression
@@ -832,7 +842,131 @@ fn init {
                           (integer_literal))))))
                 (argument
                   (argument_label
-                    (labeled_identifier)
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))
+                    (question_operator))
+                  (expression
+                    (simple_expression
+                      (constructor_expression
+                        (uppercase_identifier)))))))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))
+                (argument
+                  (expression
+                    (simple_expression
+                      (apply_expression
+                        (simple_expression
+                          (qualified_identifier
+                            (lowercase_identifier)))
+                        (question_operator)
+                        (argument
+                          (expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (integer_literal))))))))))))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (dot_apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (dot_identifier
+                  (dot_operator))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))
+                (argument
+                  (argument_label
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (dot_apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (dot_identifier
+                  (dot_operator))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))
+                (argument
+                  (argument_pun
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))))))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (dot_apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (dot_identifier
+                  (dot_operator))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))
+                (argument
+                  (argument_label
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (dot_apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (dot_identifier
+                  (dot_operator))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))
+                (argument
+                  (argument_label
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))
                     (question_operator))
                   (expression
                     (simple_expression
@@ -854,73 +988,16 @@ fn init {
                         (literal
                           (integer_literal))))))
                 (argument
-                  (argument_label
-                    (lowercase_identifier))
                   (expression
                     (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))
-        (statement_expression
-          (expression
-            (simple_expression
-              (dot_apply_expression
-                (simple_expression
-                  (qualified_identifier
-                    (lowercase_identifier)))
-                (dot_identifier
-                  (dot_operator))
-                (argument
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))
-                (argument
-                  (labeled_identifier))))))
-        (statement_expression
-          (expression
-            (simple_expression
-              (dot_apply_expression
-                (simple_expression
-                  (qualified_identifier
-                    (lowercase_identifier)))
-                (dot_identifier
-                  (dot_operator))
-                (argument
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))
-                (argument
-                  (argument_label
-                    (labeled_identifier))
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))
-        (statement_expression
-          (expression
-            (simple_expression
-              (dot_apply_expression
-                (simple_expression
-                  (qualified_identifier
-                    (lowercase_identifier)))
-                (dot_identifier
-                  (dot_operator))
-                (argument
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))
-                (argument
-                  (argument_label
-                    (labeled_identifier)
-                    (question_operator))
-                  (expression
-                    (simple_expression
-                      (constructor_expression
-                        (uppercase_identifier)))))))))))))
+                      (apply_expression
+                        (simple_expression
+                          (qualified_identifier
+                            (lowercase_identifier)))
+                        (question_operator)
+                        (argument
+                          (expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (integer_literal))))))))))))))))))

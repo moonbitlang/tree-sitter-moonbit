@@ -5,7 +5,7 @@ enum T {
   A
   B(Int)
   C(String, Int)
-  D(String, ~label: T)
+  D(String, label~: T)
 }
 --------------------------------------------------------------------------------
 
@@ -42,7 +42,8 @@ enum T {
             (qualified_type_identifier
               (identifier
                 (uppercase_identifier)))))
-        (labeled_identifier)
+        (parameter_label
+          (lowercase_identifier))
         (colon)
         (type
           (apply_type

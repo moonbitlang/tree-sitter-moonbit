@@ -5,7 +5,6 @@ const
   PREC = {
     apply: 19,
     access: 18,
-    unwrap: 18,
     unary: 17,
     multiplicative: 16,
     additive: 15,
@@ -124,7 +123,7 @@ module.exports = grammar({
       $.uppercase_identifier,
       optional(seq(
         '(',
-        commaList1(choice($.type, seq($.labeled_identifier, $.colon, $.type))),
+        commaList1(choice($.type, seq($.parameter_label, $.colon, $.type))),
         ')'
       ))
     ),
@@ -236,11 +235,6 @@ module.exports = grammar({
       $.try_expression,
     ),
 
-    unwrap_expression: $ => prec(PREC.unwrap, seq(
-      $.simple_expression,
-      $.question_operator
-    )),
-
     simple_expression: $ => choice(
       $.atomic_expression,
       $.qualified_identifier,
@@ -260,7 +254,6 @@ module.exports = grammar({
       $.tuple_expression,
       $.constraint_expression,
       $.array_expression,
-      $.unwrap_expression,
       '_'
     ),
 
@@ -476,15 +469,14 @@ module.exports = grammar({
     ),
 
     argument_label: $ => seq(
-      choice(
-        $.lowercase_identifier,
-        $.labeled_identifier,
-        seq(
-          $.labeled_identifier,
-          $.question_operator
-        )
-      ),
+      $.simple_expression,
+      optional($.question_operator),
       '='
+    ),
+
+    argument_pun: $ => seq(
+      $.simple_expression,
+      choice('~', $.question_operator)
     ),
 
     argument: $ => choice(
@@ -492,12 +484,12 @@ module.exports = grammar({
         optional($.argument_label),
         $.expression
       ),
-      $.labeled_identifier
+      $.argument_pun,
     ),
 
     apply_expression: $ => prec(PREC.apply, seq(
       $.simple_expression,
-      optional(choice('!', '?')),
+      optional(choice('!', $.question_operator)),
       '(',
       commaList($.argument),
       ')'
@@ -729,7 +721,7 @@ module.exports = grammar({
       seq('(', $.pattern, ')'),
       $.literal,
       $.lowercase_identifier,
-      $.labeled_identifier,
+      $.parameter_label,
       $.constructor_pattern,
       $.tuple_pattern,
       $.constraint_pattern,
@@ -807,17 +799,19 @@ module.exports = grammar({
 
     return_type: $ => seq('->', $.type, optional(seq('!', optional($.type)))),
 
-    parameter_label: $ => choice(
+    parameter_label: $ => seq(
       $.lowercase_identifier,
-      $.labeled_identifier,
-      seq(
-        $.labeled_identifier,
+      choice(
+        '~',
         $.question_operator
-      )
+      ),
     ),
 
     parameter: $ => seq(
-      $.parameter_label,
+      choice(
+        $.parameter_label,
+        $.lowercase_identifier,
+      ),
       optional($.type_annotation),
       optional(seq('=', $.expression)),
     ),
@@ -850,8 +844,6 @@ module.exports = grammar({
     dot_identifier: $ => seq($.dot_operator, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
 
     package_identifier: _ => /@[_\p{XID_Start}][_\p{XID_Continue}]*/,
-
-    labeled_identifier: $ => /~[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
     qualified_identifier: $ => choice(
       $.lowercase_identifier,
