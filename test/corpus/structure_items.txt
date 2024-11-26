@@ -234,8 +234,7 @@ fn error(a: T) -> T!Error {}
             (uppercase_identifier))))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -267,8 +266,7 @@ fn error(a: T) -> T!Error {}
         (lowercase_identifier))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -289,8 +287,7 @@ fn error(a: T) -> T!Error {}
         (lowercase_identifier))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -379,7 +376,7 @@ trait A {
 Trait definitions with labeled parameters
 ================================================================================
 trait A {
-  a(Int, ~a : Int, ~b:Int) -> Self
+  a(Int, a~ : Int, b~:Int) -> Self
 }
 --------------------------------------------------------------------------------
 
@@ -399,7 +396,7 @@ trait A {
                   (uppercase_identifier))))))
         (trait_method_parameter
           (parameter_label
-            (labeled_identifier))
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -409,7 +406,7 @@ trait A {
                     (uppercase_identifier)))))))
         (trait_method_parameter
           (parameter_label
-            (labeled_identifier))
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -428,7 +425,7 @@ trait A {
 Trait definitions with visibility
 ================================================================================
 pub(all) trait A {
-  a(Int, ~a : Int, ~b:Int) -> Self
+  a(Int, a~ : Int, b~:Int) -> Self
 }
 --------------------------------------------------------------------------------
 
@@ -450,7 +447,7 @@ pub(all) trait A {
                   (uppercase_identifier))))))
         (trait_method_parameter
           (parameter_label
-            (labeled_identifier))
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -460,7 +457,7 @@ pub(all) trait A {
                     (uppercase_identifier)))))))
         (trait_method_parameter
           (parameter_label
-            (labeled_identifier))
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -601,8 +598,7 @@ fn repr(self:MyInt) -> String {
         (lowercase_identifier))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -642,8 +638,7 @@ fn repr(self:MyInt) -> String {
         (lowercase_identifier))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -675,16 +670,16 @@ fn repr(self:MyInt) -> String {
 ================================================================================
 Labelled argument and optional argument
 ================================================================================
-fn greeting(~name: String, ~location: Option[String] = None) -> Unit {
+fn greeting(name~: String, location~: Option[String] = None) -> Unit {
   match location {
-    Some(_) => println("Hi, \(name)!")
-    None => println("Hi, \(name) from \(location)!")
+    Some(_) => println("Hi, \{name}!")
+    None => println("Hi, \{name} from \{location}!")
   }
 }
 
 fn init {
-  greeting(~name="A")// Hi, A!
-  greeting(~name="B", ~location=Some("X"))
+  greeting(name="A")// Hi, A!
+  greeting(name="B", location=Some("X"))
 }
 --------------------------------------------------------------------------------
 
@@ -696,7 +691,7 @@ fn init {
       (parameters
         (parameter
           (parameter_label
-            (labeled_identifier))
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -706,7 +701,7 @@ fn init {
                     (uppercase_identifier)))))))
         (parameter
           (parameter_label
-            (labeled_identifier))
+            (lowercase_identifier))
           (type_annotation
             (colon)
             (type
@@ -756,14 +751,16 @@ fn init {
                           (expression
                             (simple_expression
                               (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment))
-                                    (string_fragment
-                                      (unescaped_string_fragment))
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                                (string_interpolation
+                                  (string_fragment
+                                    (unescaped_string_fragment))
+                                  (interpolator
+                                    (expression
+                                      (simple_expression
+                                        (qualified_identifier
+                                          (lowercase_identifier)))))
+                                  (string_fragment
+                                    (unescaped_string_fragment))))))))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -781,18 +778,23 @@ fn init {
                           (expression
                             (simple_expression
                               (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment))
-                                    (string_fragment
-                                      (unescaped_string_fragment))
-                                    (string_fragment
-                                      (unescaped_string_fragment))
-                                    (string_fragment
-                                      (unescaped_string_fragment))
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))))))))
+                                (string_interpolation
+                                  (string_fragment
+                                    (unescaped_string_fragment))
+                                  (interpolator
+                                    (expression
+                                      (simple_expression
+                                        (qualified_identifier
+                                          (lowercase_identifier)))))
+                                  (string_fragment
+                                    (unescaped_string_fragment))
+                                  (interpolator
+                                    (expression
+                                      (simple_expression
+                                        (qualified_identifier
+                                          (lowercase_identifier)))))
+                                  (string_fragment
+                                    (unescaped_string_fragment))))))))))))))))))
   (structure_item
     (function_definition
       (function_identifier
@@ -807,7 +809,9 @@ fn init {
                     (lowercase_identifier)))
                 (argument
                   (argument_label
-                    (labeled_identifier))
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
                   (expression
                     (simple_expression
                       (atomic_expression
@@ -825,7 +829,9 @@ fn init {
                     (lowercase_identifier)))
                 (argument
                   (argument_label
-                    (labeled_identifier))
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
                   (expression
                     (simple_expression
                       (atomic_expression
@@ -835,7 +841,9 @@ fn init {
                               (unescaped_string_fragment))))))))
                 (argument
                   (argument_label
-                    (labeled_identifier))
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
                   (expression
                     (simple_expression
                       (apply_expression
@@ -886,8 +894,7 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
         (lowercase_identifier))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -930,8 +937,7 @@ extern "c" fn ffi(a: Int) = "return 0"
             (uppercase_identifier))))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -967,8 +973,7 @@ extern "c" fn ffi(a: Int) = "return 0"
             (uppercase_identifier))))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -998,8 +1003,7 @@ extern "c" fn ffi(a: Int) = "return 0"
         (lowercase_identifier))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -1022,8 +1026,7 @@ extern "c" fn ffi(a: Int) = "return 0"
         (lowercase_identifier))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type

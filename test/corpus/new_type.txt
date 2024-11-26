@@ -21,6 +21,7 @@ type New(Int)
 phantom type
 ================================================================================
 type Length[_] Int
+type Length[_]
 
 type Kilometer
 type Mile
@@ -50,6 +51,14 @@ let d_mile: Length[Mile] = Length(16)
   (structure_item
     (type_definition
       (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (lowercase_identifier))))))
+  (structure_item
+    (type_definition
+      (identifier
         (uppercase_identifier))))
   (structure_item
     (type_definition
@@ -65,8 +74,7 @@ let d_mile: Length[Mile] = Length(16)
             (uppercase_identifier))))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
@@ -81,8 +89,7 @@ let d_mile: Length[Mile] = Length(16)
                         (identifier
                           (uppercase_identifier))))))))))
         (parameter
-          (parameter_label
-            (lowercase_identifier))
+          (lowercase_identifier)
           (type_annotation
             (colon)
             (type
