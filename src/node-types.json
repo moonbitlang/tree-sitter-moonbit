@@ -1452,6 +1452,44 @@
     }
   },
   {
+    "type": "option_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "question_operator",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "optional_parameter_label",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "question_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "or_pattern",
     "named": true,
     "fields": {},
@@ -1483,6 +1521,10 @@
           "named": true
         },
         {
+          "type": "optional_parameter_label",
+          "named": true
+        },
+        {
           "type": "parameter_label",
           "named": true
         },
@@ -1498,15 +1540,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "lowercase_identifier",
-          "named": true
-        },
-        {
-          "type": "question_operator",
           "named": true
         }
       ]
@@ -1764,6 +1802,10 @@
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "optional_parameter_label",
           "named": true
         },
         {
@@ -2359,6 +2401,10 @@
         },
         {
           "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "option_type",
           "named": true
         },
         {

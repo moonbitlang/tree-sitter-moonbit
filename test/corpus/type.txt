@@ -1,0 +1,26 @@
+================================================================================
+Option type
+================================================================================
+type T (Int) -> Int?
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (type_definition
+      (identifier
+        (uppercase_identifier))
+      (type
+        (function_type
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))
+          (type
+            (option_type
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))
+              (question_operator))))))))
