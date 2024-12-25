@@ -174,6 +174,7 @@ module.exports = grammar({
     test_definition: $ => seq(
       'test',
       optional($.string_literal),
+      optional($.parameters),
       $.block_expression
     ),
 
