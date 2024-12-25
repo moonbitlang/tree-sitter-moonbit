@@ -9,8 +9,8 @@ const
     multiplicative: 16,
     additive: 15,
     comparative: 14,
-    bitwise_and : 13,
-    bitwise_or : 12,
+    bitwise_and: 13,
+    bitwise_or: 12,
     and: 11,
     or: 10,
     pipe: 9,
@@ -726,6 +726,7 @@ module.exports = grammar({
       seq('(', $.pattern, ')'),
       $.literal,
       $.lowercase_identifier,
+      $.optional_parameter_label,
       $.parameter_label,
       $.constructor_pattern,
       $.tuple_pattern,
@@ -779,14 +780,17 @@ module.exports = grammar({
       $.tuple_type,
       $.function_type,
       $.apply_type,
+      $.option_type,
       $.any
     ),
 
     tuple_type: $ => seq('(', commaList($.type), ')'),
 
-    function_type: $ => seq('(', commaList($.type), ')', '->', $.type),
+    function_type: $ => prec.right(seq('(', commaList($.type), ')', '->', $.type)),
 
     apply_type: $ => seq($.qualified_type_identifier, optional($.type_arguments)),
+
+    option_type: $ => seq($.type, $.question_operator),
 
     type_arguments: $ => seq(
       '[',
@@ -806,14 +810,17 @@ module.exports = grammar({
 
     parameter_label: $ => seq(
       $.lowercase_identifier,
-      choice(
-        '~',
-        $.question_operator
-      ),
+      '~',
+    ),
+
+    optional_parameter_label: $ => seq(
+      $.lowercase_identifier,
+      $.question_operator
     ),
 
     parameter: $ => seq(
       choice(
+        $.optional_parameter_label,
         $.parameter_label,
         $.lowercase_identifier,
       ),
