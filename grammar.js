@@ -174,6 +174,7 @@ module.exports = grammar({
     test_definition: $ => seq(
       'test',
       optional($.string_literal),
+      optional($.parameters),
       $.block_expression
     ),
 
@@ -293,10 +294,10 @@ module.exports = grammar({
     boolean_literal: _ => choice('true', 'false'),
 
     integer_literal: _ => token(choice(
-      /[0-9][0-9_]*L?/,
-      /0[xX][0-9a-fA-F_]+L?/,
-      /0[oO][0-7_]+L?/,
-      /0[bB][01_]+L?/,
+      /[0-9][0-9_]*U?L?/,
+      /0[xX][0-9a-fA-F_]+U?L?/,
+      /0[oO][0-7_]+U?L?/,
+      /0[bB][01_]+U?L?/,
     )),
 
     // integerPart = /[0-9][_0-9]*/,

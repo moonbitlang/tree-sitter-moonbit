@@ -957,6 +957,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "parameters"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "block_expression"
         }
@@ -1547,19 +1559,19 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[0-9][0-9_]*L?"
+            "value": "[0-9][0-9_]*U?L?"
           },
           {
             "type": "PATTERN",
-            "value": "0[xX][0-9a-fA-F_]+L?"
+            "value": "0[xX][0-9a-fA-F_]+U?L?"
           },
           {
             "type": "PATTERN",
-            "value": "0[oO][0-7_]+L?"
+            "value": "0[oO][0-7_]+U?L?"
           },
           {
             "type": "PATTERN",
-            "value": "0[bB][01_]+L?"
+            "value": "0[bB][01_]+U?L?"
           }
         ]
       }
