@@ -1868,6 +1868,10 @@
           "named": true
         },
         {
+          "type": "struct_definition",
+          "named": true
+        },
+        {
           "type": "while_expression",
           "named": true
         }

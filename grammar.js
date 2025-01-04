@@ -603,6 +603,7 @@ module.exports = grammar({
     ),
 
     statement_expression: $ => choice(
+      $.struct_definition,
       $.let_expression,
       $.let_mut_expression,
       $.assign_expression,

@@ -1054,3 +1054,138 @@ const A = 'a'
           (atomic_expression
             (literal
               (char_literal))))))))
+
+================================================================================
+Function definition with local types
+================================================================================
+pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
+  struct Context {
+    args : Array[@type.Type]
+    vals : Array[FixedArray[T]]
+    idxs : Int
+  }
+  fn compile(self : Tensor) -> @expr.Expr {
+  }
+
+  compile(self)
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (visibility)
+      (function_identifier
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (colon_colon)
+        (lowercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (parameters
+        (parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))
+                (type_arguments
+                  (type
+                    (apply_type
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier)))))))))))
+      (return_type
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (package_identifier)
+              (dot_identifier
+                (dot_operator))))))
+      (block_expression
+        (statement_expression
+          (struct_definition
+            (identifier
+              (uppercase_identifier))
+            (struct_field_declaration
+              (lowercase_identifier)
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))
+                  (type_arguments
+                    (type
+                      (apply_type
+                        (qualified_type_identifier
+                          (package_identifier)
+                          (dot_identifier
+                            (dot_operator)))))))))
+            (struct_field_declaration
+              (lowercase_identifier)
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))
+                  (type_arguments
+                    (type
+                      (apply_type
+                        (qualified_type_identifier
+                          (identifier
+                            (uppercase_identifier)))
+                        (type_arguments
+                          (type
+                            (apply_type
+                              (qualified_type_identifier
+                                (identifier
+                                  (uppercase_identifier))))))))))))
+            (struct_field_declaration
+              (lowercase_identifier)
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier))))))))
+        (statement_expression
+          (named_lambda_expression
+            (lowercase_identifier)
+            (parameters
+              (parameter
+                (lowercase_identifier)
+                (type_annotation
+                  (colon)
+                  (type
+                    (apply_type
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier))))))))
+            (return_type
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (package_identifier)
+                    (dot_identifier
+                      (dot_operator))))))
+            (block_expression)))
+        (statement_expression
+          (expression
+            (simple_expression
+              (apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (argument
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))))))))))))
