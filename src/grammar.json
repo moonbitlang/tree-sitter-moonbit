@@ -3536,6 +3536,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "struct_definition"
+        },
+        {
+          "type": "SYMBOL",
           "name": "let_expression"
         },
         {
