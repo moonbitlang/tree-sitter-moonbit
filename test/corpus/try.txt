@@ -99,13 +99,11 @@ fn main {
                     (expression
                       (simple_expression
                         (binary_expression
-                          (expression
-                            (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (integer_literal)))))
-                          (expression
-                            (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (integer_literal))))))))))))))))))
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal))))
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal)))))))))))))))))

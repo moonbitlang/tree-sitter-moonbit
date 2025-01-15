@@ -25,29 +25,25 @@ fn init {
                         (integer_literal))))))
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (qualified_identifier
-                        (lowercase_identifier))))
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))))
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))))
               (for_binder
                 (lowercase_identifier)
                 (expression
                   (simple_expression
                     (binary_expression
-                      (expression
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier))))
-                      (expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal)))))))))
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal))))))))
               (block_expression))))))))
 
 ================================================================================
@@ -77,15 +73,13 @@ fn init {
                         (integer_literal))))))
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (qualified_identifier
-                        (lowercase_identifier))))
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))))
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))))
               (block_expression))))))))
 
 ================================================================================
@@ -124,28 +118,24 @@ fn init {
                     (expression
                       (simple_expression
                         (binary_expression
-                          (expression
-                            (simple_expression
-                              (qualified_identifier
-                                (lowercase_identifier))))
-                          (expression
-                            (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (integer_literal))))))))))
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier)))
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal)))))))))
                 (statement_expression
                   (expression
                     (simple_expression
                       (binary_expression
-                        (expression
-                          (simple_expression
-                            (qualified_identifier
-                              (lowercase_identifier))))
-                        (expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (integer_literal)))))))))))))))))
+                        (simple_expression
+                          (qualified_identifier
+                            (lowercase_identifier)))
+                        (simple_expression
+                          (atomic_expression
+                            (literal
+                              (integer_literal))))))))))))))))
 
 ================================================================================
 for-in
@@ -241,29 +231,25 @@ fn init {
                         (integer_literal))))))
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (qualified_identifier
-                        (lowercase_identifier))))
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))))
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))))
               (for_binder
                 (lowercase_identifier)
                 (expression
                   (simple_expression
                     (binary_expression
-                      (expression
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier))))
-                      (expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal)))))))))
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal))))))))
               (block_expression
                 (statement_expression
                   (expression

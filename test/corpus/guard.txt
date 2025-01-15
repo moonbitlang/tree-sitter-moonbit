@@ -1,0 +1,80 @@
+================================================================================
+guard let
+================================================================================
+fn init {
+  guard let None = Some(3)
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (guard_let_expression
+            (pattern
+              (simple_pattern
+                (constructor_pattern
+                  (constructor_expression
+                    (uppercase_identifier)))))
+            (simple_expression
+              (apply_expression
+                (simple_expression
+                  (constructor_expression
+                    (uppercase_identifier)))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
+
+================================================================================
+guard let with else
+================================================================================
+fn init {
+  guard let None = Some(3) else {
+    Some(_) => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (guard_let_expression
+            (pattern
+              (simple_pattern
+                (constructor_pattern
+                  (constructor_expression
+                    (uppercase_identifier)))))
+            (simple_expression
+              (apply_expression
+                (simple_expression
+                  (constructor_expression
+                    (uppercase_identifier)))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))
+            (guard_let_else_expression
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (pattern
+                        (simple_pattern)))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression))))))))))))

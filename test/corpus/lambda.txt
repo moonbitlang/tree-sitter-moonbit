@@ -122,14 +122,12 @@ fn init {
                                 (expression
                                   (simple_expression
                                     (binary_expression
-                                      (expression
-                                        (simple_expression
-                                          (qualified_identifier
-                                            (lowercase_identifier))))
-                                      (expression
-                                        (simple_expression
-                                          (qualified_identifier
-                                            (lowercase_identifier)))))))))))))))))))))))
+                                      (simple_expression
+                                        (qualified_identifier
+                                          (lowercase_identifier)))
+                                      (simple_expression
+                                        (qualified_identifier
+                                          (lowercase_identifier))))))))))))))))))))))
 
 ================================================================================
 matrix functions
@@ -219,12 +217,10 @@ fn init {
                       (expression
                         (simple_expression
                           (binary_expression
-                            (expression
-                              (simple_expression
-                                (qualified_identifier
-                                  (lowercase_identifier))))
-                            (expression
-                              (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal)))))))))))))))))))
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (integer_literal))))))))))))))))))

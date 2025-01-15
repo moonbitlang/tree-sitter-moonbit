@@ -131,22 +131,20 @@ let d_mile: Length[Mile] = Length(16)
                   (expression
                     (simple_expression
                       (binary_expression
-                        (expression
-                          (simple_expression
-                            (access_expression
-                              (simple_expression
-                                (qualified_identifier
-                                  (lowercase_identifier)))
-                              (accessor
-                                (dot_operator)))))
-                        (expression
-                          (simple_expression
-                            (access_expression
-                              (simple_expression
-                                (qualified_identifier
-                                  (lowercase_identifier)))
-                              (accessor
-                                (dot_operator))))))))))))))))
+                        (simple_expression
+                          (access_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (accessor
+                              (dot_operator))))
+                        (simple_expression
+                          (access_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (accessor
+                              (dot_operator)))))))))))))))
   (structure_item
     (value_definition
       (lowercase_identifier)
