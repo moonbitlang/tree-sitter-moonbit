@@ -17,6 +17,11 @@ const
     orPattern: 8,
     asPattern: 7,
   },
+  TYPE_PREC = {
+    option: 19,
+    error: 18,
+    arrow: 17,
+  },
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
   comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
@@ -382,10 +387,10 @@ module.exports = grammar({
       token.immediate(/\\o[0-7]{1,3}/),
       // hex
       token.immediate(/\\x[0-9a-fA-F]{1,2}/),
-      token.immediate(/\\x{[0-9a-fA-F]+}/),
+      token.immediate(/\\x\{[0-9a-fA-F]+\}/),
       // unicode
       token.immediate(/\\u[0-9a-fA-F]{4}/),
-      token.immediate(/\\u{[0-9a-fA-F]+}/),
+      token.immediate(/\\u\{[0-9a-fA-F]+\}/),
     ),
 
     multiline_string_separator: _ => /#\|/,
@@ -840,11 +845,11 @@ module.exports = grammar({
 
     tuple_type: $ => seq('(', commaList($.type), ')'),
 
-    function_type: $ => prec.right(seq(optional('async'), '(', commaList($.type), ')', '->', $.type)),
+    function_type: $ => prec.right(TYPE_PREC.arrow, seq(optional('async'), '(', commaList($.type), ')', $.return_type)),
 
     apply_type: $ => seq($.qualified_type_identifier, optional($.type_arguments)),
 
-    option_type: $ => seq($.type, $.question_operator),
+    option_type: $ => prec(TYPE_PREC.option, seq($.type, $.question_operator)),
 
     type_arguments: $ => seq(
       '[',
@@ -860,7 +865,9 @@ module.exports = grammar({
 
     type_annotation: $ => seq($.colon, $.type),
 
-    return_type: $ => seq('->', $.type, optional(seq('!', optional($.type)))),
+    type_with_error: $ => prec(TYPE_PREC.error, seq($.type, '!', optional($.type))),
+
+    return_type: $ => seq('->', choice($.type, $.type_with_error)),
 
     parameter_label: $ => seq(
       $.lowercase_identifier,
