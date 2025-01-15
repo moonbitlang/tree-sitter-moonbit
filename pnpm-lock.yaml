@@ -6,22 +6,23 @@ settings:
 
 dependencies:
   nan:
-    specifier: ^2.18.0
-    version: 2.18.0
+    specifier: ^2.22.0
+    version: 2.22.0
 
 devDependencies:
   tree-sitter-cli:
-    specifier: ^0.20.8
-    version: 0.20.8
+    specifier: ^0.24.7
+    version: 0.24.7
 
 packages:
 
-  /nan@2.18.0:
-    resolution: {integrity: sha512-W7tfG7vMOGtD30sHoZSSc/JVYiyDPEyQVso/Zz+/uQd0B0L46gtC+pHha5FFMRpil6fm/AoEcRWyOVi4+E/f8w==}
+  /nan@2.22.0:
+    resolution: {integrity: sha512-nbajikzWTMwsW+eSsNm3QwlOs7het9gGJU5dDZzRTQGk03vyBOauxgI4VakDzE0PtsGTmXPsXTbbjVhRwR5mpw==}
     dev: false
 
-  /tree-sitter-cli@0.20.8:
-    resolution: {integrity: sha512-XjTcS3wdTy/2cc/ptMLc/WRyOLECRYcMTrSWyhZnj1oGSOWbHLTklgsgRICU3cPfb0vy+oZCC33M43u6R1HSCA==}
+  /tree-sitter-cli@0.24.7:
+    resolution: {integrity: sha512-o4gnE82pVmMMhJbWwD6+I9yr4lXii5Ci5qEQ2pFpUbVy1YiD8cizTJaqdcznA0qEbo7l2OneI1GocChPrI4YGQ==}
+    engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
     dev: true
