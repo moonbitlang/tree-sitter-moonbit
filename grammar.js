@@ -162,6 +162,7 @@ module.exports = grammar({
     function_definition: $ => seq(
       optional($.visibility),
       optional($.external_linkage),
+      optional('async'),
       'fn',
       $.function_identifier,
       optional($.type_parameters),
@@ -448,7 +449,9 @@ module.exports = grammar({
     ),
 
     anonymous_lambda_expression: $ => seq(
+      optional('async'),
       'fn',
+      optional('!'),
       $.parameters,
       optional($.return_type),
       $.block_expression
@@ -492,9 +495,15 @@ module.exports = grammar({
       $.argument_pun,
     ),
 
+    apply_operator: $ => choice(
+      '!',
+      '!!',
+      $.question_operator
+    ),
+
     apply_expression: $ => prec(PREC.apply, seq(
       $.simple_expression,
-      optional(choice('!', $.question_operator)),
+      optional($.apply_operator),
       '(',
       commaList($.argument),
       ')'
@@ -787,7 +796,7 @@ module.exports = grammar({
 
     tuple_type: $ => seq('(', commaList($.type), ')'),
 
-    function_type: $ => prec.right(seq('(', commaList($.type), ')', '->', $.type)),
+    function_type: $ => prec.right(seq(optional('async'), '(', commaList($.type), ')', '->', $.type)),
 
     apply_type: $ => seq($.qualified_type_identifier, optional($.type_arguments)),
 
