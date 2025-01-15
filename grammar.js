@@ -54,6 +54,7 @@ module.exports = grammar({
 
     structure_item: $ => choice(
       $.type_definition,
+      $.error_type_definition,
       $.type_alias_defintion,
       $.struct_definition,
       $.enum_definition,
@@ -89,6 +90,22 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       optional($.type),
+      optional($.derive_directive),
+    ),
+
+    error_type_definition: $ => seq(
+      optional($.visibility),
+      'type',
+      '!',
+      $.identifier,
+      optional(choice(
+        $.type,
+        seq(
+          '{',
+          semiList($.enum_constructor),
+          '}',
+        )
+      )),
       optional($.derive_directive),
     ),
 

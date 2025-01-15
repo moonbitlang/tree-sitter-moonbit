@@ -33,6 +33,102 @@ type X[t]
             (lowercase_identifier)))))))
 
 ================================================================================
+Type definitions
+================================================================================
+type! X
+type! X Int
+priv type! X
+pub (readonly) type! X
+type! X {
+  A(Int)
+  B(Double)
+}
+type! Y derive(Show)
+type! X {
+  A(Int)
+  B(Double)
+} derive(Show)
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (error_type_definition
+      (identifier
+        (uppercase_identifier))))
+  (structure_item
+    (error_type_definition
+      (identifier
+        (uppercase_identifier))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (structure_item
+    (error_type_definition
+      (visibility)
+      (identifier
+        (uppercase_identifier))))
+  (structure_item
+    (error_type_definition
+      (visibility
+        (pub_attribute))
+      (identifier
+        (uppercase_identifier))))
+  (structure_item
+    (error_type_definition
+      (identifier
+        (uppercase_identifier))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))))
+  (structure_item
+    (error_type_definition
+      (identifier
+        (uppercase_identifier))
+      (derive_directive
+        (derive)
+        (derive_item
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (structure_item
+    (error_type_definition
+      (identifier
+        (uppercase_identifier))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (enum_constructor
+        (uppercase_identifier)
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (derive_directive
+        (derive)
+        (derive_item
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
+
+================================================================================
 Struct definitions
 ================================================================================
 pub struct Ref[T] { mut content: T }
