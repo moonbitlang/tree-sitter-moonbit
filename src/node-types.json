@@ -89,15 +89,30 @@
       "required": true,
       "types": [
         {
+          "type": "apply_operator",
+          "named": true
+        },
+        {
           "type": "argument",
           "named": true
         },
         {
-          "type": "question_operator",
-          "named": true
-        },
-        {
           "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "apply_operator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "question_operator",
           "named": true
         }
       ]
@@ -2620,6 +2635,10 @@
     "named": false
   },
   {
+    "type": "!!",
+    "named": false
+  },
+  {
     "type": "!=",
     "named": false
   },
@@ -2745,6 +2764,10 @@
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "async",
     "named": false
   },
   {

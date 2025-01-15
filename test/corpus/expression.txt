@@ -870,7 +870,8 @@ fn init {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (question_operator)
+                        (apply_operator
+                          (question_operator))
                         (argument
                           (expression
                             (simple_expression
@@ -994,7 +995,8 @@ fn init {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (question_operator)
+                        (apply_operator
+                          (question_operator))
                         (argument
                           (expression
                             (simple_expression

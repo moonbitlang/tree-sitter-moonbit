@@ -103,6 +103,7 @@ test "a" (it : @test.T) {
                     (accessor
                       (dot_identifier
                         (dot_operator)))))
+                (apply_operator)
                 (argument
                   (argument_label
                     (simple_expression
