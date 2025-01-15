@@ -371,11 +371,12 @@ fn error(a: T) -> T!Error {}
                   (identifier
                     (uppercase_identifier))))))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (type_with_error
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))
       (block_expression)))
   (structure_item
     (function_definition
@@ -392,16 +393,17 @@ fn error(a: T) -> T!Error {}
                   (identifier
                     (uppercase_identifier))))))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (type_with_error
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))
       (block_expression))))
 
 ================================================================================
