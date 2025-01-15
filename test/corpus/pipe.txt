@@ -21,17 +21,15 @@ fn init {
             (expression
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))
                   (pipe_operator)
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 pipe (left aligned)
@@ -56,17 +54,15 @@ fn init {
             (expression
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))
                   (pipe_operator)
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 pipe (multiple empty line)
@@ -94,17 +90,15 @@ fn init {
             (expression
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))
                   (pipe_operator)
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 pipe (multiple empty line with spaces)
@@ -132,17 +126,15 @@ fn init {
             (expression
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))
                   (pipe_operator)
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 pipe (comment)
@@ -167,18 +159,16 @@ fn init {
             (expression
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))
                   (comment)
                   (pipe_operator)
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 pipe (multi line with single line comment)
@@ -207,20 +197,18 @@ fn init {
             (expression
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))
                   (comment)
                   (comment)
                   (comment)
                   (pipe_operator)
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 pipe (multi line with single line comment, not left aligned)
@@ -249,17 +237,15 @@ fn init {
             (expression
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))
                   (comment)
                   (comment)
                   (comment)
                   (pipe_operator)
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))

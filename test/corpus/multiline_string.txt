@@ -76,39 +76,35 @@ fn init {
           (expression
             (simple_expression
               (binary_expression
-                (expression
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (multiline_string_literal
-                          (multiline_string_fragment
-                            (multiline_string_separator)
-                            (multiline_string_content))
-                          (multiline_string_fragment
-                            (multiline_string_separator)
-                            (multiline_string_content)))))))
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (multiline_string_literal
+                        (multiline_string_fragment
+                          (multiline_string_separator)
+                          (multiline_string_content))
+                        (multiline_string_fragment
+                          (multiline_string_separator)
+                          (multiline_string_content))))))
                 (pipe_operator)
-                (expression
-                  (simple_expression
-                    (qualified_identifier
-                      (lowercase_identifier))))))))
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))))))
         (statement_expression
           (expression
             (simple_expression
               (binary_expression
-                (expression
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (multiline_string_literal
-                          (multiline_string_fragment
-                            (multiline_string_separator)
-                            (multiline_string_content)))))))
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (multiline_string_literal
+                        (multiline_string_fragment
+                          (multiline_string_separator)
+                          (multiline_string_content))))))
                 (pipe_operator)
-                (expression
-                  (simple_expression
-                    (qualified_identifier
-                      (lowercase_identifier))))))))))))
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))))))))))
 
 ================================================================================
 multiline string (mixed indentation)
@@ -138,36 +134,32 @@ fn init {
             (expression
               (simple_expression
                 (binary_expression
-                  (expression
-                    (simple_expression
-                      (binary_expression
-                        (expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (multiline_string_literal
-                                  (multiline_string_fragment
-                                    (multiline_string_separator)
-                                    (multiline_string_content))
-                                  (multiline_string_fragment
-                                    (multiline_string_separator)
-                                    (multiline_string_content))
-                                  (multiline_string_fragment
-                                    (multiline_string_separator)
-                                    (multiline_string_content))
-                                  (multiline_string_fragment
-                                    (multiline_string_separator)
-                                    (multiline_string_content))
-                                  (multiline_string_fragment
-                                    (multiline_string_separator)
-                                    (multiline_string_content)))))))
-                        (pipe_operator)
-                        (expression
-                          (simple_expression
-                            (qualified_identifier
-                              (lowercase_identifier)))))))
+                  (simple_expression
+                    (binary_expression
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (multiline_string_literal
+                              (multiline_string_fragment
+                                (multiline_string_separator)
+                                (multiline_string_content))
+                              (multiline_string_fragment
+                                (multiline_string_separator)
+                                (multiline_string_content))
+                              (multiline_string_fragment
+                                (multiline_string_separator)
+                                (multiline_string_content))
+                              (multiline_string_fragment
+                                (multiline_string_separator)
+                                (multiline_string_content))
+                              (multiline_string_fragment
+                                (multiline_string_separator)
+                                (multiline_string_content))))))
+                      (pipe_operator)
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))))
                   (pipe_operator)
-                  (expression
-                    (simple_expression
-                      (qualified_identifier
-                        (lowercase_identifier)))))))))))))
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier))))))))))))
