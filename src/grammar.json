@@ -1,4 +1,5 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "moonbit",
   "word": "lowercase_identifier",
   "rules": {
@@ -5664,7 +5665,8 @@
     },
     "lowercase_identifier": {
       "type": "PATTERN",
-      "value": "[_[\\p{XID_Start}--\\p{Uppercase_Letter}]][_\\p{XID_Continue}]*"
+      "value": "[_[\\p{XID_Start}--\\p{Uppercase_Letter}]][_\\p{XID_Continue}]*",
+      "flags": "v"
     },
     "identifier": {
       "type": "CHOICE",
@@ -5907,4 +5909,3 @@
   "inline": [],
   "supertypes": []
 }
-

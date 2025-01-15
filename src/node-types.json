@@ -2241,6 +2241,7 @@
   {
     "type": "structure",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
