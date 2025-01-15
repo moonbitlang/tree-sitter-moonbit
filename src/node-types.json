@@ -332,11 +332,11 @@
       "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "pipe_operator",
           "named": true
         },
         {
-          "type": "pipe_operator",
+          "type": "simple_expression",
           "named": true
         }
       ]
@@ -997,6 +997,44 @@
       "types": [
         {
           "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "guard_let_else_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "case_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "guard_let_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "guard_let_else_expression",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
           "named": true
         }
       ]
@@ -1859,6 +1897,10 @@
           "named": true
         },
         {
+          "type": "guard_let_expression",
+          "named": true
+        },
+        {
           "type": "let_expression",
           "named": true
         },
@@ -2576,7 +2618,7 @@
       "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "simple_expression",
           "named": true
         }
       ]
@@ -2879,6 +2921,10 @@
   },
   {
     "type": "for",
+    "named": false
+  },
+  {
+    "type": "guard",
     "named": false
   },
   {
