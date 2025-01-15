@@ -5166,6 +5166,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "trait_object_type"
+        },
+        {
+          "type": "SYMBOL",
           "name": "any"
         }
       ]
@@ -5343,6 +5347,19 @@
           }
         ]
       }
+    },
+    "trait_object_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "&"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type"
+        }
+      ]
     },
     "type_arguments": {
       "type": "SEQ",

@@ -2425,6 +2425,21 @@
     }
   },
   {
+    "type": "trait_object_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "try_expression",
     "named": true,
     "fields": {},
@@ -2514,6 +2529,10 @@
         },
         {
           "type": "option_type",
+          "named": true
+        },
+        {
+          "type": "trait_object_type",
           "named": true
         },
         {
