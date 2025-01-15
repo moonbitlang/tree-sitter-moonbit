@@ -82,6 +82,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "type_alias_defintion"
+        },
+        {
+          "type": "SYMBOL",
           "name": "struct_definition"
         },
         {
@@ -302,6 +306,51 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "type_alias_defintion": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "visibility"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "typealias"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameters"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type"
         }
       ]
     },

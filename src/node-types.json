@@ -2209,6 +2209,10 @@
           "named": true
         },
         {
+          "type": "type_alias_defintion",
+          "named": true
+        },
+        {
           "type": "type_definition",
           "named": true
         },
@@ -2428,6 +2432,33 @@
         },
         {
           "type": "tuple_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_alias_defintion",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "visibility",
           "named": true
         }
       ]
@@ -2952,6 +2983,10 @@
   },
   {
     "type": "type",
+    "named": false
+  },
+  {
+    "type": "typealias",
     "named": false
   },
   {
