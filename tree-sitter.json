@@ -1,0 +1,30 @@
+{
+  "grammars": [
+    {
+      "name": "moonbit",
+      "camelcase": "Moonbit",
+      "scope": "source.mbt",
+      "path": ".",
+      "file-types": [
+        "mbt",
+        "moonbit"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "license": "ISC",
+    "description": "",
+    "links": {
+      "repository": "https://github.com/tree-sitter/tree-sitter-moonbit"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
