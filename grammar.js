@@ -840,6 +840,7 @@ module.exports = grammar({
       $.function_type,
       $.apply_type,
       $.option_type,
+      $.trait_object_type,
       $.any
     ),
 
@@ -850,6 +851,8 @@ module.exports = grammar({
     apply_type: $ => seq($.qualified_type_identifier, optional($.type_arguments)),
 
     option_type: $ => prec(TYPE_PREC.option, seq($.type, $.question_operator)),
+
+    trait_object_type: $ => seq('&', $.type),
 
     type_arguments: $ => seq(
       '[',
