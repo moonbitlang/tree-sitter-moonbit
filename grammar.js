@@ -374,7 +374,7 @@ module.exports = grammar({
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '+'),
-      $.expression
+      $.simple_expression
     )),
 
     pipe_operator: _ => '|>',
@@ -394,10 +394,10 @@ module.exports = grammar({
       return choice(...table.map(([precedence, operator]) =>
         //@ts-ignore
         prec.left(precedence, seq(
-          $.expression,
+          $.simple_expression,
           //@ts-ignore
           operator,
-          $.expression
+          $.simple_expression
         ))
       ))
     },
@@ -615,6 +615,7 @@ module.exports = grammar({
       $.struct_definition,
       $.let_expression,
       $.let_mut_expression,
+      $.guard_let_expression,
       $.assign_expression,
       $.named_lambda_expression,
       $.named_matrix_expression,
@@ -641,6 +642,22 @@ module.exports = grammar({
       optional($.type_annotation),
       '=',
       $.expression
+    ),
+
+    guard_let_expression: $ => seq(
+      'guard',
+      'let',
+      $.pattern,
+      '=',
+      $.simple_expression,
+      optional($.guard_let_else_expression)
+    ),
+
+    guard_let_else_expression: $ => seq(
+      'else',
+      '{',
+      semiList($.case_clause),
+      '}'
     ),
 
     assign_expression: $ => seq($.left_value, choice(...assignment_operators), $.expression),
