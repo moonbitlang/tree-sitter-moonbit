@@ -1027,6 +1027,10 @@
       "required": true,
       "types": [
         {
+          "type": "return_type",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         }
@@ -1763,11 +1767,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "type",
+          "named": true
+        },
+        {
+          "type": "type_with_error",
           "named": true
         }
       ]
@@ -2639,6 +2647,21 @@
       "types": [
         {
           "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_with_error",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
           "named": true
         }
       ]
