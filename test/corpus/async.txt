@@ -40,11 +40,12 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
                         (qualified_type_identifier
                           (identifier
                             (uppercase_identifier)))))
-                    (type
-                      (apply_type
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))))))
+                    (return_type
+                      (type
+                        (apply_type
+                          (qualified_type_identifier
+                            (identifier
+                              (uppercase_identifier))))))))
                 (type
                   (function_type
                     (type
@@ -52,27 +53,30 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
                         (qualified_type_identifier
                           (identifier
                             (uppercase_identifier)))))
-                    (type
-                      (apply_type
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))))))
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier))))))))))
+                    (return_type
+                      (type
+                        (apply_type
+                          (qualified_type_identifier
+                            (identifier
+                              (uppercase_identifier))))))))
+                (return_type
+                  (type
+                    (apply_type
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier)))))))))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (type_with_error
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))
       (external_source
         (string_literal
           (string_fragment
@@ -88,11 +92,12 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
             (colon)
             (type
               (function_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier))))))))))
+                (return_type
+                  (type
+                    (apply_type
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier)))))))))))
       (return_type
         (type
           (apply_type
