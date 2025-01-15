@@ -1189,3 +1189,63 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))))))))))))
+
+================================================================================
+Type alias definitions
+================================================================================
+typealias X = Int
+priv typealias X = Double
+pub (readonly) typealias X = Tensor
+typealias X[t] = Y[T]
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (type_alias_defintion
+      (identifier
+        (uppercase_identifier))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (structure_item
+    (type_alias_defintion
+      (visibility)
+      (identifier
+        (uppercase_identifier))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (structure_item
+    (type_alias_defintion
+      (visibility
+        (pub_attribute))
+      (identifier
+        (uppercase_identifier))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (structure_item
+    (type_alias_defintion
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (lowercase_identifier))))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))
+          (type_arguments
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))))))
