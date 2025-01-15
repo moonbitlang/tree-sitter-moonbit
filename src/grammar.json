@@ -87,7 +87,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "type_alias_defintion"
+          "name": "type_alias_definition"
         },
         {
           "type": "SYMBOL",
@@ -456,7 +456,7 @@
         }
       ]
     },
-    "type_alias_defintion": {
+    "type_alias_definition": {
       "type": "SEQ",
       "members": [
         {

@@ -2295,7 +2295,7 @@
           "named": true
         },
         {
-          "type": "type_alias_defintion",
+          "type": "type_alias_definition",
           "named": true
         },
         {
@@ -2543,7 +2543,7 @@
     }
   },
   {
-    "type": "type_alias_defintion",
+    "type": "type_alias_definition",
     "named": true,
     "fields": {},
     "children": {
