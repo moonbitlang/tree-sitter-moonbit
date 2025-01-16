@@ -611,8 +611,8 @@ module.exports = grammar({
     case_clause_body: $ => choice(
       $.assign_expression,
       $.while_expression,
-      seq('break', commaList($.expression)),
-      seq('continue', commaList($.expression)),
+      seq('break', optional($.parameter_label), commaList($.expression)),
+      seq('continue', optional($.parameter_label), commaList($.expression)),
       $.return_expression,
       $.raise_expression,
       $.expression,
@@ -716,13 +716,20 @@ module.exports = grammar({
       '}',
     ),
 
+    loop_label: $ => seq(
+      $.lowercase_identifier,
+      '~:'
+    ),
+
     while_expression: $ => seq(
+      optional($.loop_label),
       'while',
       $.simple_expression,
       $.block_expression
     ),
 
     loop_expression: $ => seq(
+      optional($.loop_label),
       'loop',
       $.simple_expression,
       optional(seq(',', $.simple_expression)),
@@ -738,6 +745,7 @@ module.exports = grammar({
     ),
 
     for_expression: $ => seq(
+      optional($.loop_label),
       'for',
       commaStrictList($.for_binder),
       optional(seq(

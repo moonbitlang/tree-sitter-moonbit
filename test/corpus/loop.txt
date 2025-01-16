@@ -1,0 +1,59 @@
+================================================================================
+loop expression with label
+================================================================================
+fn init {
+  ll~: loop x, 0 {
+    a, b => continue ll~ c, d
+    e, f => g
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (loop_expression
+              (loop_label
+                (lowercase_identifier))
+              (simple_expression
+                (qualified_identifier
+                  (lowercase_identifier)))
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal))))
+              (matrix_case_clause
+                (pattern
+                  (simple_pattern
+                    (lowercase_identifier)))
+                (pattern
+                  (simple_pattern
+                    (lowercase_identifier)))
+                (case_clause_body
+                  (parameter_label
+                    (lowercase_identifier))
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))))
+              (matrix_case_clause
+                (pattern
+                  (simple_pattern
+                    (lowercase_identifier)))
+                (pattern
+                  (simple_pattern
+                    (lowercase_identifier)))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))))))))))))
