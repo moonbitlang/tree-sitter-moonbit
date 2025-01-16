@@ -428,6 +428,10 @@
           "named": true
         },
         {
+          "type": "parameter_label",
+          "named": true
+        },
+        {
           "type": "raise_expression",
           "named": true
         },
@@ -919,6 +923,10 @@
           "named": true
         },
         {
+          "type": "loop_label",
+          "named": true
+        },
+        {
           "type": "simple_expression",
           "named": true
         }
@@ -1368,11 +1376,30 @@
       "required": true,
       "types": [
         {
+          "type": "loop_label",
+          "named": true
+        },
+        {
           "type": "matrix_case_clause",
           "named": true
         },
         {
           "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "loop_label",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
           "named": true
         }
       ]
@@ -2767,6 +2794,10 @@
           "named": true
         },
         {
+          "type": "loop_label",
+          "named": true
+        },
+        {
           "type": "simple_expression",
           "named": true
         }
@@ -3143,6 +3174,10 @@
   },
   {
     "type": "~",
+    "named": false
+  },
+  {
+    "type": "~:",
     "named": false
   }
 ]
