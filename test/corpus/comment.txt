@@ -6,3 +6,19 @@ comment
 
 (structure
   (comment))
+
+================================================================================
+comment inside block
+================================================================================
+fn main {
+  //
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (comment)))))
