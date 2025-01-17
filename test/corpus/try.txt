@@ -107,3 +107,68 @@ fn main {
                             (atomic_expression
                               (literal
                                 (integer_literal)))))))))))))))))
+
+================================================================================
+try with multiple catch clauses
+================================================================================
+fn main {
+  try {
+    println("hello")
+  } catch {
+    Error1(_) => ()
+    Error2(_) => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (try_expression
+              (expression
+                (simple_expression
+                  (nonempty_block_expression
+                    (statement_expression
+                      (expression
+                        (simple_expression
+                          (apply_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (simple_expression
+                                  (atomic_expression
+                                    (literal
+                                      (string_literal
+                                        (string_fragment
+                                          (unescaped_string_fragment)))))))))))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (pattern
+                        (simple_pattern)))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (pattern
+                        (simple_pattern)))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression))))))))))))

@@ -623,7 +623,7 @@ module.exports = grammar({
       $.expression,
       'catch',
       '{',
-      $.case_clause,
+      semiList($.case_clause),
       '}',
       optional($.else_clause)
     ),
