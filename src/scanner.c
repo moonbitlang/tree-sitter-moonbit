@@ -7,7 +7,7 @@ enum TokenType {
   COMMENT,
   DOCSTRING,
   PIPE_OPERATOR,
-  DOT_OPERATOR,
+  DOT,
   COLON,
   COLON_COLON,
   QUESTION_OPERATOR,
@@ -92,7 +92,7 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
     valid_symbols[COMMENT] ||
     valid_symbols[DOCSTRING] ||
     valid_symbols[PIPE_OPERATOR] ||
-    valid_symbols[DOT_OPERATOR] ||
+    valid_symbols[DOT] ||
     valid_symbols[COLON] ||
     valid_symbols[COLON_COLON] ||
     valid_symbols[QUESTION_OPERATOR] ||
@@ -132,7 +132,7 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
       advance(lexer);
       if (lexer->lookahead != '.') {
         lexer->mark_end(lexer);
-        lexer->result_symbol = DOT_OPERATOR;
+        lexer->result_symbol = DOT;
         return true;
       }
       advance(lexer);

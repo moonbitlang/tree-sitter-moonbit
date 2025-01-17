@@ -720,7 +720,7 @@ fn repr(self:MyInt) -> String {
                   (qualified_identifier
                     (lowercase_identifier)))
                 (dot_identifier
-                  (dot_operator)))))))))
+                  (dot)))))))))
   (structure_item
     (type_definition
       (identifier
@@ -761,9 +761,9 @@ fn repr(self:MyInt) -> String {
                       (qualified_identifier
                         (lowercase_identifier)))
                     (accessor
-                      (dot_operator))))
+                      (dot))))
                 (dot_identifier
-                  (dot_operator))))))))))
+                  (dot))))))))))
 
 ================================================================================
 Labelled argument and optional argument
@@ -1205,7 +1205,7 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
             (qualified_type_identifier
               (package_identifier)
               (dot_identifier
-                (dot_operator))))))
+                (dot))))))
       (block_expression
         (statement_expression
           (struct_definition
@@ -1225,7 +1225,7 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
                         (qualified_type_identifier
                           (package_identifier)
                           (dot_identifier
-                            (dot_operator)))))))))
+                            (dot)))))))))
             (struct_field_declaration
               (lowercase_identifier)
               (colon)
@@ -1273,7 +1273,7 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
                   (qualified_type_identifier
                     (package_identifier)
                     (dot_identifier
-                      (dot_operator))))))
+                      (dot))))))
             (block_expression)))
         (statement_expression
           (expression

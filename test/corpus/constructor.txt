@@ -88,7 +88,7 @@ fn init {
                 (qualified_type_identifier
                   (package_identifier)
                   (dot_identifier
-                    (dot_operator)))
+                    (dot)))
                 (colon_colon)
                 (uppercase_identifier)))))
         (statement_expression
@@ -98,6 +98,6 @@ fn init {
                 (qualified_type_identifier
                   (package_identifier)
                   (dot_identifier
-                    (dot_operator)))
+                    (dot)))
                 (colon_colon)
                 (uppercase_identifier)))))))))
