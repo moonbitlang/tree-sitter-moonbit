@@ -5994,7 +5994,7 @@
     },
     "comment": {
       "type": "PATTERN",
-      "value": "\\/\\/[^/].*"
+      "value": "\\/\\/.*"
     },
     "docstring": {
       "type": "PATTERN",
