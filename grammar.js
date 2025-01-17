@@ -52,6 +52,8 @@ module.exports = grammar({
     $.derive,
     $.dot_dot,
     $.multiline_string_separator,
+    $.dot_dot_lt,
+    $.dot_dot_eq,
   ],
 
   word: $ => $.lowercase_identifier,
@@ -270,6 +272,7 @@ module.exports = grammar({
       $.match_expression,
       $.for_expression,
       $.for_in_expression,
+      $.for_in_range_expression,
       $.try_expression,
     ),
 
@@ -781,7 +784,7 @@ module.exports = grammar({
 
     range_expression: $ => seq(
       $.simple_expression,
-      choice('..<', '..='),
+      choice($.dot_dot_lt, $.dot_dot_eq),
       $.simple_expression
     ),
 
@@ -948,6 +951,10 @@ module.exports = grammar({
     dot: _ => '.',
 
     dot_dot: _ => '..',
+
+    dot_dot_lt: _ => '..<',
+
+    dot_dot_eq: _ => '..=',
 
     colon: _ => ':',
     // colon_colon: _ => '::',
