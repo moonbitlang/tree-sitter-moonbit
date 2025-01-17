@@ -8,14 +8,15 @@ const
     unary: 17,
     multiplicative: 16,
     additive: 15,
-    comparative: 14,
-    bitwise_and: 13,
-    bitwise_or: 12,
-    and: 11,
-    or: 10,
-    pipe: 9,
-    orPattern: 8,
-    asPattern: 7,
+    shift: 14,
+    comparative: 13,
+    bitwise_and: 12,
+    bitwise_or: 11,
+    and: 10,
+    or: 9,
+    pipe: 8,
+    orPattern: 7,
+    asPattern: 6,
   },
   TYPE_PREC = {
     option: 19,
@@ -24,6 +25,7 @@ const
   },
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
+  shift_operators = ['<<', '>>'],
   comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
   assignment_operators = ['=', '+=', '-=', '*=', '/='],
 
@@ -416,6 +418,7 @@ module.exports = grammar({
       const table = [
         [PREC.multiplicative, choice(...multiplicative_operators)],
         [PREC.additive, choice(...additive_operators)],
+        [PREC.shift, choice(...shift_operators)],
         [PREC.comparative, choice(...comparative_operators)],
         [PREC.bitwise_and, '&'],
         [PREC.bitwise_or, '|'],
@@ -772,6 +775,21 @@ module.exports = grammar({
       commaStrictList($.lowercase_identifier),
       'in',
       $.simple_expression,
+      $.block_expression,
+      optional($.else_clause),
+    ),
+
+    range_expression: $ => seq(
+      $.simple_expression,
+      choice('..<', '..='),
+      $.simple_expression
+    ),
+
+    for_in_range_expression: $ => seq(
+      'for',
+      commaStrictList($.lowercase_identifier),
+      'in',
+      $.range_expression,
       $.block_expression,
       optional($.else_clause),
     ),
