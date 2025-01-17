@@ -338,3 +338,57 @@ fn init {
                         (atomic_expression
                           (literal
                             (integer_literal)))))))))))))))
+
+================================================================================
+for in range
+================================================================================
+fn main {
+  for i in 0..<array.length() {
+  }
+  for j in 1..=array.length() {
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (for_in_range_expression
+              (lowercase_identifier)
+              (range_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))
+                (dot_dot_lt)
+                (simple_expression
+                  (dot_apply_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))
+                    (dot_identifier
+                      (dot)))))
+              (block_expression))))
+        (statement_expression
+          (expression
+            (for_in_range_expression
+              (lowercase_identifier)
+              (range_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))
+                (dot_dot_eq)
+                (simple_expression
+                  (dot_apply_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))
+                    (dot_identifier
+                      (dot)))))
+              (block_expression))))))))
