@@ -137,7 +137,7 @@ fn init {
                           (qualified_identifier
                             (lowercase_identifier)))
                         (dot_identifier
-                          (dot_operator))))))))))
+                          (dot))))))))))
         (statement_expression
           (let_expression
             (pattern
@@ -164,7 +164,7 @@ fn init {
                           (qualified_identifier
                             (lowercase_identifier)))
                         (dot_identifier
-                          (dot_operator))))))))))))))
+                          (dot))))))))))))))
 
 ================================================================================
 interpolation
@@ -263,7 +263,7 @@ fn init {
                           (qualified_identifier
                             (lowercase_identifier)))
                         (dot_identifier
-                          (dot_operator))))))))))
+                          (dot))))))))))
         (statement_expression
           (expression
             (simple_expression

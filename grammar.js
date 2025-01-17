@@ -43,7 +43,7 @@ module.exports = grammar({
     $.comment,
     $.docstring,
     $.pipe_operator,
-    $.dot_operator,
+    $.dot,
     $.colon,
     $.colon_colon,
     $.question_operator,
@@ -284,6 +284,7 @@ module.exports = grammar({
       $.apply_expression,
       $.array_access_expression,
       $.dot_apply_expression,
+      $.dot_dot_apply_expression,
       $.access_expression,
       $.method_expression,
       $.unit_expression,
@@ -556,6 +557,14 @@ module.exports = grammar({
       ')'
     )),
 
+    dot_dot_apply_expression: $ => prec(PREC.apply, seq(
+      $.simple_expression,
+      $.dot_dot_identifier,
+      '(',
+      commaList($.argument),
+      ')'
+    )),
+
     access_expression: $ => prec(PREC.access, seq(
       $.simple_expression,
       $.accessor
@@ -563,7 +572,7 @@ module.exports = grammar({
 
     accessor: $ => choice(
       $.dot_identifier,
-      seq($.dot_operator, /[0-9]+/)
+      seq($.dot, /[0-9]+/)
     ),
 
     method_expression: $ => seq(
@@ -918,14 +927,16 @@ module.exports = grammar({
       $.lowercase_identifier,
     ),
 
-    dot_operator: _ => '.',
+    dot: _ => '.',
 
     dot_dot: _ => '..',
 
     colon: _ => ':',
     // colon_colon: _ => '::',
 
-    dot_identifier: $ => seq($.dot_operator, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
+    dot_identifier: $ => seq($.dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
+
+    dot_dot_identifier: $ => seq($.dot_dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
 
     package_identifier: _ => /@[_\p{XID_Start}][_\p{XID_Continue}]*/,
 
