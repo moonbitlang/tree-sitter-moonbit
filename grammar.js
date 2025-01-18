@@ -504,8 +504,7 @@ module.exports = grammar({
     ),
 
     matrix_case_clause: $ => seq(
-      $.pattern,
-      optional(seq(',', $.pattern)),
+      commaList1($.pattern),
       '=>',
       $.case_clause_body,
     ),
@@ -758,8 +757,7 @@ module.exports = grammar({
     loop_expression: $ => seq(
       optional($.loop_label),
       'loop',
-      $.simple_expression,
-      optional(seq(',', $.simple_expression)),
+      commaStrictList1($.simple_expression),
       '{',
       semiList($.matrix_case_clause),
       '}',
