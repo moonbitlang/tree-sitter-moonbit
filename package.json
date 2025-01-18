@@ -7,7 +7,7 @@
     "generate": "tree-sitter generate",
     "test": "tree-sitter generate && tree-sitter test",
     "promote": "tree-sitter generate && tree-sitter test -u",
-    "playground": "tree-sitter generate && tree-sitter build-wasm && tree-sitter playground"
+    "playground": "tree-sitter generate && tree-sitter build --wasm && tree-sitter playground"
   },
   "keywords": [],
   "author": "",
