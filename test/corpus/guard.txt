@@ -1,4 +1,88 @@
 ================================================================================
+guard
+================================================================================
+fn init {
+  guard 1 > 2 && 2 < 3
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (guard_expression
+            (simple_expression
+              (binary_expression
+                (simple_expression
+                  (binary_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))
+                (simple_expression
+                  (binary_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
+
+================================================================================
+guard with else
+================================================================================
+fn init {
+  guard 1 > 2 && 2 < 3 else {
+    return
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (guard_expression
+            (simple_expression
+              (binary_expression
+                (simple_expression
+                  (binary_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))
+                (simple_expression
+                  (binary_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))
+            (guard_else_expression
+              (block_expression
+                (statement_expression
+                  (return_expression))))))))))
+
+================================================================================
 guard let
 ================================================================================
 fn init {
