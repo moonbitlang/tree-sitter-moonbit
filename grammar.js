@@ -662,6 +662,7 @@ module.exports = grammar({
       $.struct_definition,
       $.let_expression,
       $.let_mut_expression,
+      $.guard_expression,
       $.guard_let_expression,
       $.assign_expression,
       $.named_lambda_expression,
@@ -689,6 +690,17 @@ module.exports = grammar({
       optional($.type_annotation),
       '=',
       $.expression
+    ),
+
+    guard_expression: $ => seq(
+      'guard',
+      $.simple_expression,
+      optional($.guard_else_expression),
+    ),
+
+    guard_else_expression: $ => seq(
+      'else',
+      $.block_expression,
     ),
 
     guard_let_expression: $ => seq(
