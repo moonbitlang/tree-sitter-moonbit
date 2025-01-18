@@ -846,6 +846,10 @@
           "named": true
         },
         {
+          "type": "for_in_range_expression",
+          "named": true
+        },
+        {
           "type": "if_expression",
           "named": true
         },
@@ -993,6 +997,33 @@
         },
         {
           "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_in_range_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "else_clause",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "range_expression",
           "named": true
         }
       ]
@@ -1807,6 +1838,29 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "range_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dot_dot_eq",
+          "named": true
+        },
+        {
+          "type": "dot_dot_lt",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
           "named": true
         }
       ]
@@ -3052,6 +3106,14 @@
   },
   {
     "type": "dot_dot",
+    "named": true
+  },
+  {
+    "type": "dot_dot_eq",
+    "named": true
+  },
+  {
+    "type": "dot_dot_lt",
     "named": true
   },
   {
