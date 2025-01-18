@@ -815,6 +815,7 @@ module.exports = grammar({
 
     pattern: $ => choice(
       $.simple_pattern,
+      $.range_pattern,
       $.as_pattern,
       $.or_pattern
     ),
@@ -839,7 +840,7 @@ module.exports = grammar({
       $.tuple_pattern,
       $.constraint_pattern,
       $.array_pattern,
-      $.struct_pattern
+      $.struct_pattern,
     ),
 
     constructor_pattern: $ => seq(
@@ -882,6 +883,12 @@ module.exports = grammar({
     labeled_pattern: $ => seq($.lowercase_identifier, $.colon, $.pattern),
 
     labeled_pattern_pun: $ => $.lowercase_identifier,
+
+    range_pattern: $ => seq(
+      $.simple_pattern,
+      choice($.dot_dot_lt, $.dot_dot_eq),
+      $.simple_pattern
+    ),
 
     type: $ => choice(
       $.tuple_type,
