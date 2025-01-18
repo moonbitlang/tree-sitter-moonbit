@@ -5085,6 +5085,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "range_pattern"
+        },
+        {
+          "type": "SYMBOL",
           "name": "as_pattern"
         },
         {
@@ -5538,6 +5542,32 @@
     "labeled_pattern_pun": {
       "type": "SYMBOL",
       "name": "lowercase_identifier"
+    },
+    "range_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "simple_pattern"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "dot_dot_lt"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dot_dot_eq"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "simple_pattern"
+        }
+      ]
     },
     "type": {
       "type": "CHOICE",

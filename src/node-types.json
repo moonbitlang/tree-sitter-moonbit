@@ -1800,6 +1800,10 @@
           "named": true
         },
         {
+          "type": "range_pattern",
+          "named": true
+        },
+        {
           "type": "simple_pattern",
           "named": true
         }
@@ -1895,6 +1899,29 @@
         },
         {
           "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "range_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dot_dot_eq",
+          "named": true
+        },
+        {
+          "type": "dot_dot_lt",
+          "named": true
+        },
+        {
+          "type": "simple_pattern",
           "named": true
         }
       ]
