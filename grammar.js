@@ -18,6 +18,7 @@ const
     pipe: 7,
     orPattern: 6,
     asPattern: 5,
+    interpolation : 4,
   },
   TYPE_PREC = {
     option: 19,
@@ -34,6 +35,10 @@ const
 
 module.exports = grammar({
   name: 'moonbit',
+
+  conflicts: $ => [
+    [$.argument_label, $.argument_pun, $.qualified_identifier]
+  ],
 
   extras: $ => [
     $.comment,
@@ -319,8 +324,124 @@ module.exports = grammar({
 
     interpolator: $ => seq(
       '\\{',
-      $.expression,
+      $.interpol_expr,
       '}'
+    ),
+
+    interpol_expr: $ => prec(PREC.interpolation, choice(
+      // without quote and brace
+      $.boolean_literal,
+      $.float_literal,
+      $.integer_literal,
+      $.byte_literal,
+      $.char_literal,
+      $.qualified_identifier,
+      $.interpol_unary_expr,
+      $.interpol_binary_expr,
+      $.constructor_expression,
+      $.interpol_apply_expr,
+      $.interpol_array_access_expr,
+      $.interpol_dot_apply_expr,
+      $.interpol_dot_dot_apply_expr,
+      $.interpol_access_expr,
+      $.method_expression,
+      $.unit_expression,
+      $.interpol_tuple_expr,
+      $.interpol_constraint_expr,
+      $.interpol_array_expr,
+    )),
+    
+    interpol_unary_expr: $ => prec(PREC.unary, seq(
+      choice('-', '+'),
+      $.interpol_expr
+    )),
+
+    interpol_binary_expr: $ => {
+      const table = [
+        [PREC.multiplicative, choice(...multiplicative_operators)],
+        [PREC.additive, choice(...additive_operators)],
+        [PREC.shift, choice(...shift_operators)],
+        [PREC.comparative, choice(...comparative_operators)],
+        [PREC.bitwise_and, '&'],
+        [PREC.bitwise_or, '|'],
+        [PREC.and, '&&'],
+        [PREC.or, '||'],
+        [PREC.pipe, $.pipe_operator],
+      ]
+
+      return choice(...table.map(([precedence, operator]) =>
+        //@ts-ignore
+        prec.left(precedence, seq(
+          $.interpol_expr,
+          //@ts-ignore
+          operator,
+          $.interpol_expr
+        ))
+      ))
+    },
+
+    interpol_apply_expr: $ => prec(PREC.apply, seq(
+      $.interpol_expr,
+      optional($.apply_operator),
+      '(',
+      commaList($.interpol_argument),
+      ')'
+    )),
+
+    interpol_argument: $ => choice(
+      seq(
+        optional($.argument_label),
+        $.interpol_expr
+      ),
+      $.argument_pun,
+    ),
+
+    interpol_array_access_expr: $ => prec(PREC.access, seq(
+      $.interpol_expr,
+      '[',
+      choice($.interpol_expr, seq(optional($.interpol_expr), $.colon, optional($.interpol_expr))),
+      ']'
+    )),
+
+    interpol_dot_apply_expr: $ => prec(PREC.apply, seq(
+      $.interpol_expr,
+      $.dot_identifier,
+      '(',
+      commaList($.interpol_argument),
+      ')'
+    )),
+
+    interpol_dot_dot_apply_expr: $ => prec(PREC.apply, seq(
+      $.interpol_expr,
+      $.dot_dot_identifier,
+      '(',
+      commaList($.interpol_argument),
+      ')'
+    )),
+
+    interpol_access_expr: $ => prec(PREC.access, seq(
+      $.interpol_expr,
+      $.accessor
+    )),
+
+    interpol_tuple_expr: $ => seq(
+      '(',
+      commaList1($.interpol_expr),
+      ')'
+    ),
+
+    interpol_constraint_expr: $ => seq(
+      '(',
+      $.interpol_expr,
+      $.colon,
+      $.type,
+      ')'
+    ),
+
+    interpol_array_expr: $ => seq(
+      '[',
+      commaList($.interpol_expr),
+      ']'
     ),
 
     literal: $ => choice(
@@ -529,13 +650,13 @@ module.exports = grammar({
     ),
 
     argument_label: $ => seq(
-      $.simple_expression,
+      $.lowercase_identifier,
       optional($.question_operator),
       '='
     ),
 
     argument_pun: $ => seq(
-      $.simple_expression,
+      $.lowercase_identifier,
       choice('~', $.question_operator)
     ),
 
@@ -1041,7 +1162,7 @@ module.exports = grammar({
 
     dot_dot_identifier: $ => seq($.dot_dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
 
-    package_identifier: _ => /@[_\p{XID_Start}][_\p{XID_Continue}]*/,
+    package_identifier: _ => seq('@', /[_\p{XID_Start}][_\p{XID_Continue}]*/, repeat(seq('/', /[_\p{XID_Start}][_\p{XID_Continue}]*/))),
 
     qualified_identifier: $ => choice(
       $.lowercase_identifier,
