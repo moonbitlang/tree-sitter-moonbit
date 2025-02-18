@@ -52,6 +52,13 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
 
     bool has_fraction = false, has_exponent = false;
 
+    if (lexer->lookahead == 'x' || lexer->lookahead == 'X') {
+      advance(lexer);
+      while (is_num_char(lexer->lookahead)) {
+        advance(lexer);
+      }
+    }
+
     if (lexer->lookahead == '.') {
       has_fraction = true;
       advance(lexer);
@@ -64,14 +71,15 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
         return false;
       }
 
-      while (is_num_char(lexer->lookahead)) {
+      while (iswxdigit(lexer->lookahead)) {
         advance(lexer);
       }
     }
 
     lexer->mark_end(lexer);
 
-    if (lexer->lookahead == 'e' || lexer->lookahead == 'E') {
+    if (lexer->lookahead == 'e' || lexer->lookahead == 'E' ||
+        lexer->lookahead == 'p' || lexer->lookahead == 'P') {
       has_exponent = true;
       advance(lexer);
       if (lexer->lookahead == '+' || lexer->lookahead == '-') {
@@ -90,20 +98,13 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
       return false;
     }
     return true;
-  } else if (
-    valid_symbols[COMMENT] ||
-    valid_symbols[DOCSTRING] ||
-    valid_symbols[PIPE_OPERATOR] ||
-    valid_symbols[DOT] ||
-    valid_symbols[COLON] ||
-    valid_symbols[COLON_COLON] ||
-    valid_symbols[QUESTION_OPERATOR] ||
-    valid_symbols[DERIVE] ||
-    valid_symbols[DOT_DOT] ||
-    valid_symbols[MULTILINE_STRING_SEPARATOR] ||
-    valid_symbols[DOT_DOT_LT] ||
-    valid_symbols[DOT_DOT_EQ]
-  ) {
+  } else if (valid_symbols[COMMENT] || valid_symbols[DOCSTRING] ||
+             valid_symbols[PIPE_OPERATOR] || valid_symbols[DOT] ||
+             valid_symbols[COLON] || valid_symbols[COLON_COLON] ||
+             valid_symbols[QUESTION_OPERATOR] || valid_symbols[DERIVE] ||
+             valid_symbols[DOT_DOT] ||
+             valid_symbols[MULTILINE_STRING_SEPARATOR] ||
+             valid_symbols[DOT_DOT_LT] || valid_symbols[DOT_DOT_EQ]) {
     while (iswspace(lexer->lookahead)) {
       skip(lexer);
     }
