@@ -343,27 +343,26 @@ fn init() { let a = A::{ ..id, name: "John Doe" } }
             (expression
               (simple_expression
                 (struct_expression
-                  (struct_brace_expression
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))
-                    (colon_colon)
-                    (dot_dot)
-                    (expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier))))
-                    (struct_field_expressions
-                      (labeled_expression
-                        (lowercase_identifier)
-                        (colon)
-                        (expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (string_literal
-                                  (string_fragment
-                                    (unescaped_string_fragment)))))))))))))))))))
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))
+                  (colon_colon)
+                  (dot_dot)
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
+                  (struct_field_expressions
+                    (labeled_expression
+                      (lowercase_identifier)
+                      (colon)
+                      (expression
+                        (simple_expression
+                          (atomic_expression
+                            (literal
+                              (string_literal
+                                (string_fragment
+                                  (unescaped_string_fragment))))))))))))))))))
 
 ================================================================================
 binary expression
