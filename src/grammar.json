@@ -1735,6 +1735,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "bigint_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "byte_literal"
         },
         {
@@ -1788,6 +1792,30 @@
           {
             "type": "PATTERN",
             "value": "0[bB][01_]+U?L?"
+          }
+        ]
+      }
+    },
+    "bigint_literal": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[0-9][0-9_]*N"
+          },
+          {
+            "type": "PATTERN",
+            "value": "0[xX][0-9a-fA-F_]+N"
+          },
+          {
+            "type": "PATTERN",
+            "value": "0[oO][0-7_]+N"
+          },
+          {
+            "type": "PATTERN",
+            "value": "0[bB][01_]+N"
           }
         ]
       }

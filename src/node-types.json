@@ -1436,6 +1436,10 @@
       "required": true,
       "types": [
         {
+          "type": "bigint_literal",
+          "named": true
+        },
+        {
           "type": "boolean_literal",
           "named": true
         },
@@ -3132,6 +3136,10 @@
   {
     "type": "b'",
     "named": false
+  },
+  {
+    "type": "bigint_literal",
+    "named": true
   },
   {
     "type": "break",
