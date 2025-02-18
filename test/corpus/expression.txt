@@ -343,70 +343,26 @@ fn init() { let a = A::{ ..id, name: "John Doe" } }
             (expression
               (simple_expression
                 (struct_expression
-                  (struct_brace_expression
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))
-                    (colon_colon)
-                    (dot_dot)
-                    (expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier))))
-                    (struct_field_expressions
-                      (labeled_expression
-                        (lowercase_identifier)
-                        (colon)
-                        (expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (string_literal
-                                  (string_fragment
-                                    (unescaped_string_fragment)))))))))))))))))))
-
-================================================================================
-struct construction from array
-================================================================================
-fn init() { let a = A::[1, 2, 3] }
---------------------------------------------------------------------------------
-
-(structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (parameters)
-      (block_expression
-        (statement_expression
-          (let_expression
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
-            (expression
-              (simple_expression
-                (struct_expression
-                  (struct_array_expression
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))
-                    (colon_colon)
-                    (array_expression
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))
+                  (colon_colon)
+                  (dot_dot)
+                  (expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
+                  (struct_field_expressions
+                    (labeled_expression
+                      (lowercase_identifier)
+                      (colon)
                       (expression
                         (simple_expression
                           (atomic_expression
                             (literal
-                              (integer_literal)))))
-                      (expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal)))))
-                      (expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal))))))))))))))))
+                              (string_literal
+                                (string_fragment
+                                  (unescaped_string_fragment))))))))))))))))))
 
 ================================================================================
 binary expression
