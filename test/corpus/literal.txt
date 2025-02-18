@@ -337,3 +337,61 @@ fn main {
                 (atomic_expression
                   (literal
                     (integer_literal)))))))))))
+
+================================================================================
+bigint literal
+================================================================================
+fn main {
+  let a = 0N
+  let b = 0x1aN
+  let c = 0b100N
+  let d = 0o1237N
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (bigint_literal)))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (bigint_literal)))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (bigint_literal)))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (bigint_literal)))))))))))
