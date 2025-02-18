@@ -451,17 +451,7 @@ module.exports = grammar({
       ))
     },
 
-    struct_expression: $ => choice(
-      $.struct_array_expression,
-      $.struct_brace_expression,
-    ),
-
-    struct_array_expression: $ => seq(
-      seq($.qualified_type_identifier, $.colon_colon),
-      $.array_expression,
-    ),
-
-    struct_brace_expression: $ => seq(
+    struct_expression: $ => seq(
       optional(seq($.qualified_type_identifier, $.colon_colon)),
       choice(
         seq('{', optional($.struct_field_expressions), '}'),
