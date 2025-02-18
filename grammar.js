@@ -851,6 +851,8 @@ module.exports = grammar({
       $.constraint_pattern,
       $.array_pattern,
       $.struct_pattern,
+      $.map_pattern,
+      $.empty_struct_or_map_pattern,
     ),
 
     constructor_pattern: $ => seq(
@@ -878,14 +880,14 @@ module.exports = grammar({
       commaList1($.pattern),
     ),
 
-    struct_pattern: $ => seq('{', optional($.struct_field_pattern), '}'),
-
-    struct_field_pattern: $ => seq(
-      commaList1($.field_single_pattern),
+    struct_pattern: $ => seq(
+      '{',
+      commaList1($.struct_field_pattern),
       optional($.dot_dot),
+      '}'
     ),
 
-    field_single_pattern: $ => choice(
+    struct_field_pattern: $ => choice(
       $.labeled_pattern,
       $.labeled_pattern_pun
     ),
@@ -893,6 +895,17 @@ module.exports = grammar({
     labeled_pattern: $ => seq($.lowercase_identifier, $.colon, $.pattern),
 
     labeled_pattern_pun: $ => $.lowercase_identifier,
+
+    map_pattern: $ => seq(
+      '{',
+      commaList1($.map_entry_pattern),
+      optional($.dot_dot),
+      '}',
+    ),
+
+    map_entry_pattern: $ => seq($.literal, $.colon, $.pattern),
+
+    empty_struct_or_map_pattern: _ => seq('{', '}'),
 
     range_pattern: $ => seq(
       $.simple_pattern,
