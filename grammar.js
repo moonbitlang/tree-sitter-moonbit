@@ -325,6 +325,7 @@ module.exports = grammar({
       $.boolean_literal,
       $.float_literal,
       $.integer_literal,
+      $.bigint_literal,
       $.byte_literal,
       $.char_literal,
       $.string_literal,
@@ -339,6 +340,13 @@ module.exports = grammar({
       /0[xX][0-9a-fA-F_]+U?L?/,
       /0[oO][0-7_]+U?L?/,
       /0[bB][01_]+U?L?/,
+    )),
+
+    bigint_literal: _ => token(choice(
+      /[0-9][0-9_]*N/,
+      /0[xX][0-9a-fA-F_]+N/,
+      /0[oO][0-7_]+N/,
+      /0[bB][01_]+N/,
     )),
 
     // integerPart = /[0-9][_0-9]*/,
