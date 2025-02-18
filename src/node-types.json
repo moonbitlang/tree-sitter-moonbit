@@ -736,6 +736,11 @@
     }
   },
   {
+    "type": "empty_struct_or_map_pattern",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "enum_constructor",
     "named": true,
     "fields": {},
@@ -901,25 +906,6 @@
         },
         {
           "type": "string_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "field_single_pattern",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "labeled_pattern",
-          "named": true
-        },
-        {
-          "type": "labeled_pattern_pun",
           "named": true
         }
       ]
@@ -1513,6 +1499,48 @@
     }
   },
   {
+    "type": "map_entry_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "colon",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "map_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dot_dot",
+          "named": true
+        },
+        {
+          "type": "map_entry_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "match_expression",
     "named": true,
     "fields": {},
@@ -2077,11 +2105,19 @@
           "named": true
         },
         {
+          "type": "empty_struct_or_map_pattern",
+          "named": true
+        },
+        {
           "type": "literal",
           "named": true
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "map_pattern",
           "named": true
         },
         {
@@ -2401,15 +2437,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "dot_dot",
+          "type": "labeled_pattern",
           "named": true
         },
         {
-          "type": "field_single_pattern",
+          "type": "labeled_pattern_pun",
           "named": true
         }
       ]
@@ -2420,9 +2456,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "dot_dot",
+          "named": true
+        },
         {
           "type": "struct_field_pattern",
           "named": true
