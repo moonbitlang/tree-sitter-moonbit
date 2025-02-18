@@ -297,6 +297,7 @@ module.exports = grammar({
       $.tuple_expression,
       $.constraint_expression,
       $.array_expression,
+      $.map_expression,
       '_'
     ),
 
@@ -454,7 +455,7 @@ module.exports = grammar({
     struct_expression: $ => seq(
       optional(seq($.qualified_type_identifier, $.colon_colon)),
       choice(
-        seq('{', optional($.struct_field_expressions), '}'),
+        seq('{', $.struct_field_expressions, '}'),
         seq('{', $.dot_dot, $.expression, '}'),
         seq('{', $.dot_dot, $.expression, ',', optional($.struct_field_expressions), '}'),
       ),
@@ -606,6 +607,16 @@ module.exports = grammar({
       '[',
       commaList($.expression),
       ']'
+    ),
+
+    map_expression: $ => seq(
+      '{',
+      commaList($.map_entry_expression),
+      '}'
+    ),
+
+    map_entry_expression: $ => seq(
+      $.literal, $.colon, $.simple_expression,
     ),
 
     match_expression: $ => seq(
