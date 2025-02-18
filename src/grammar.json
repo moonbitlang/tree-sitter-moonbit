@@ -2336,41 +2336,6 @@
       ]
     },
     "struct_expression": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "struct_array_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "struct_brace_expression"
-        }
-      ]
-    },
-    "struct_array_expression": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "qualified_type_identifier"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "colon_colon"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "array_expression"
-        }
-      ]
-    },
-    "struct_brace_expression": {
       "type": "SEQ",
       "members": [
         {
