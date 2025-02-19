@@ -120,14 +120,16 @@ fn init() {
                     (constructor_pattern
                       (constructor_expression
                         (uppercase_identifier)))))
-                (case_clause_body))
+                (case_clause_body
+                  (break_expression)))
               (case_clause
                 (pattern
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
                         (uppercase_identifier)))))
-                (case_clause_body))
+                (case_clause_body
+                  (continue_expression)))
               (case_clause
                 (pattern
                   (simple_pattern
