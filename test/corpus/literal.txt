@@ -6,6 +6,7 @@ fn init {
   println('\r')
   println('\n')
   println('\t')
+  println('\'')
   println('\x78')
   println("\o377")
   println("\u{20BB7}")
@@ -33,7 +34,7 @@ fn init {
                       (atomic_expression
                         (literal
                           (char_literal
-                            (escape_sequence)))))))))))
+                            (byte_char_escape_sequence)))))))))))
         (statement_expression
           (expression
             (simple_expression
@@ -47,7 +48,7 @@ fn init {
                       (atomic_expression
                         (literal
                           (char_literal
-                            (escape_sequence)))))))))))
+                            (byte_char_escape_sequence)))))))))))
         (statement_expression
           (expression
             (simple_expression
@@ -61,7 +62,7 @@ fn init {
                       (atomic_expression
                         (literal
                           (char_literal
-                            (escape_sequence)))))))))))
+                            (byte_char_escape_sequence)))))))))))
         (statement_expression
           (expression
             (simple_expression
@@ -75,7 +76,7 @@ fn init {
                       (atomic_expression
                         (literal
                           (char_literal
-                            (escape_sequence)))))))))))
+                            (byte_char_escape_sequence)))))))))))
         (statement_expression
           (expression
             (simple_expression
@@ -89,7 +90,21 @@ fn init {
                       (atomic_expression
                         (literal
                           (char_literal
-                            (escape_sequence)))))))))))
+                            (byte_char_escape_sequence)))))))))))
+        (statement_expression
+          (expression
+            (simple_expression
+              (apply_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (char_literal
+                            (byte_char_escape_sequence)))))))))))
         (statement_expression
           (expression
             (simple_expression
@@ -208,7 +223,7 @@ fn init {
                 (atomic_expression
                   (literal
                     (byte_literal
-                      (escape_sequence))))))))
+                      (byte_char_escape_sequence))))))))
         (statement_expression
           (expression
             (simple_expression
