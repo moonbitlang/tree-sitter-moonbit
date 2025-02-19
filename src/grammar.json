@@ -4925,8 +4925,21 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": ";"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "\n"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ";"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "\u0000"
+                    }
+                  ]
                 },
                 {
                   "type": "CHOICE",
@@ -4941,8 +4954,21 @@
                   ]
                 },
                 {
-                  "type": "STRING",
-                  "value": ";"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "\n"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ";"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "\u0000"
+                    }
+                  ]
                 },
                 {
                   "type": "CHOICE",
