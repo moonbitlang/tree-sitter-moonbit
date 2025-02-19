@@ -809,6 +809,7 @@ module.exports = grammar({
     ),
 
     for_in_expression: $ => seq(
+      optional($.loop_label),
       'for',
       commaStrictList($.lowercase_identifier),
       'in',
@@ -824,6 +825,7 @@ module.exports = grammar({
     ),
 
     for_in_range_expression: $ => seq(
+      optional($.loop_label),
       'for',
       commaStrictList($.lowercase_identifier),
       'in',
