@@ -1946,7 +1946,7 @@
           "type": "IMMEDIATE_TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "\\\\[^ntb\"\\\\{]"
+            "value": "\\\\[^ntbr\"\\\\{]"
           }
         },
         {
@@ -1965,7 +1965,7 @@
           "type": "IMMEDIATE_TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "\\\\[ntb\"\\\\]"
+            "value": "\\\\[ntbr\"\\\\]"
           }
         },
         {
@@ -5065,6 +5065,18 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "loop_label"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "for"
         },
@@ -5156,6 +5168,18 @@
     "for_in_range_expression": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "loop_label"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "STRING",
           "value": "for"

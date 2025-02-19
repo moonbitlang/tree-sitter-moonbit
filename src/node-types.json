@@ -997,6 +997,10 @@
           "named": true
         },
         {
+          "type": "loop_label",
+          "named": true
+        },
+        {
           "type": "lowercase_identifier",
           "named": true
         },
@@ -1021,6 +1025,10 @@
         },
         {
           "type": "else_clause",
+          "named": true
+        },
+        {
+          "type": "loop_label",
           "named": true
         },
         {
