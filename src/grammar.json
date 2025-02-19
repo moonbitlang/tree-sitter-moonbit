@@ -1475,19 +1475,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "qualified_type_identifier"
-                },
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "type_parameters"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
+                  "name": "type"
                 }
               ]
             },

@@ -1335,6 +1335,10 @@
           "named": true
         },
         {
+          "type": "type",
+          "named": true
+        },
+        {
           "type": "type_parameters",
           "named": true
         },
