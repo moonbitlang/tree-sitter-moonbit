@@ -298,6 +298,7 @@ module.exports = grammar({
       $.constraint_expression,
       $.array_expression,
       $.map_expression,
+      $.as_expression,
       '_'
     ),
 
@@ -617,6 +618,10 @@ module.exports = grammar({
 
     map_entry_expression: $ => seq(
       $.literal, $.colon, $.simple_expression,
+    ),
+
+    as_expression: $ => seq(
+      $.simple_expression, 'as', optional('&'), $.qualified_type_identifier
     ),
 
     match_expression: $ => seq(
