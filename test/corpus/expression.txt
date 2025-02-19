@@ -646,3 +646,43 @@ fn main {
                         (atomic_expression
                           (literal
                             (integer_literal)))))))))))))))
+
+================================================================================
+as expression
+================================================================================
+fn main {
+  (a as &Logger).write_string("Hello")
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (simple_expression
+              (dot_apply_expression
+                (simple_expression
+                  (tuple_expression
+                    (expression
+                      (simple_expression
+                        (as_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier)))
+                          (qualified_type_identifier
+                            (identifier
+                              (uppercase_identifier))))))))
+                (dot_identifier
+                  (dot))
+                (argument
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (string_literal
+                            (string_fragment
+                              (unescaped_string_fragment))))))))))))))))
