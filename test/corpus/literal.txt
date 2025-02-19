@@ -348,6 +348,11 @@ fn main {
   let b = 1U
   let c = 1L
   let d = 1UL
+  let a = 0x9E3779B1
+  let a = 0x85EBCA77
+  let a = 0xC2B2AE3D
+  let a = 0x27D4EB2F
+  let a = 0x165667B1
 }
 --------------------------------------------------------------------------------
 
@@ -357,6 +362,56 @@ fn main {
       (function_identifier
         (lowercase_identifier))
       (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))
         (statement_expression
           (let_expression
             (pattern
