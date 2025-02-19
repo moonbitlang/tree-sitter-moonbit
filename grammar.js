@@ -674,6 +674,7 @@ module.exports = grammar({
       $.let_mut_expression,
       $.guard_expression,
       $.guard_let_expression,
+      $.guard_is_expression,
       $.assign_expression,
       $.named_lambda_expression,
       $.named_matrix_expression,
@@ -727,6 +728,14 @@ module.exports = grammar({
       '{',
       semiList($.case_clause),
       '}'
+    ),
+
+    guard_is_expression: $ => seq(
+      'guard',
+      $.simple_expression,
+      'is',
+      $.pattern,
+      optional($.guard_else_expression)
     ),
 
     assign_expression: $ => seq($.left_value, choice(...assignment_operators), $.expression),
