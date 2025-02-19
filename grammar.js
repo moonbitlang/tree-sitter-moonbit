@@ -256,8 +256,7 @@ module.exports = grammar({
       $.qualified_type_identifier,
       optional(seq(
         'for',
-        $.qualified_type_identifier,
-        optional($.type_parameters),
+        $.type,
       )),
       'with',
       $.function_identifier,
