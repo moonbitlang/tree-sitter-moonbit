@@ -28,7 +28,7 @@ const
   additive_operators = ['+', '-'],
   shift_operators = ['<<', '>>'],
   comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
-  assignment_operators = ['=', '+=', '-=', '*=', '/='],
+  assignment_operators = ['=', '+=', '-=', '*=', '/=', '%='],
 
   terminator = choice('\n', ';', '\0')
 
