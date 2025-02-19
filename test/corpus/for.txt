@@ -126,16 +126,17 @@ fn init {
                               (literal
                                 (integer_literal)))))))))
                 (statement_expression
-                  (expression
-                    (simple_expression
-                      (binary_expression
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal))))))))))))))))
+                  (continue_expression
+                    (expression
+                      (simple_expression
+                        (binary_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier)))
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal)))))))))))))))))
 
 ================================================================================
 for-in

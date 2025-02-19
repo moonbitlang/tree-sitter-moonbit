@@ -63,11 +63,12 @@ fn main {
                   (boolean_literal))))
             (block_expression
               (statement_expression
-                (expression
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (integer_literal)))))))
+                (break_expression
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))
             (else_clause
               (block_expression
                 (statement_expression
@@ -89,4 +90,35 @@ fn main {
 }
 --------------------------------------------------------------------------------
 
-()
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (while_expression
+            (loop_label
+              (lowercase_identifier))
+            (simple_expression
+              (atomic_expression
+                (literal
+                  (boolean_literal))))
+            (block_expression
+              (statement_expression
+                (break_expression
+                  (parameter_label
+                    (lowercase_identifier))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))
+            (else_clause
+              (block_expression
+                (statement_expression
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
