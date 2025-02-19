@@ -267,6 +267,25 @@
     }
   },
   {
+    "type": "as_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "qualified_type_identifier",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "as_pattern",
     "named": true,
     "fields": {},
@@ -2084,6 +2103,10 @@
         },
         {
           "type": "array_expression",
+          "named": true
+        },
+        {
+          "type": "as_expression",
           "named": true
         },
         {

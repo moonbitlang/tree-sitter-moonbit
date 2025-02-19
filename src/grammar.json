@@ -1647,6 +1647,10 @@
           "name": "map_expression"
         },
         {
+          "type": "SYMBOL",
+          "name": "as_expression"
+        },
+        {
           "type": "STRING",
           "value": "_"
         }
@@ -3639,6 +3643,35 @@
         {
           "type": "SYMBOL",
           "name": "simple_expression"
+        }
+      ]
+    },
+    "as_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "simple_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "as"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "&"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "qualified_type_identifier"
         }
       ]
     },
