@@ -254,9 +254,11 @@ impl Show for T with output(self : T, logger : &Logger) -> Unit {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier)))
-      (qualified_type_identifier
-        (identifier
-          (uppercase_identifier)))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (function_identifier
         (lowercase_identifier))
       (parameters
