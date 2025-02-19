@@ -1,0 +1,124 @@
+================================================================================
+while expression
+================================================================================
+fn main {
+  while true {
+    println("Hello!")
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (while_expression
+            (simple_expression
+              (atomic_expression
+                (literal
+                  (boolean_literal))))
+            (block_expression
+              (statement_expression
+                (expression
+                  (simple_expression
+                    (apply_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))
+                      (argument
+                        (expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (string_literal
+                                  (string_fragment
+                                    (unescaped_string_fragment)))))))))))))))))))
+
+================================================================================
+while expression with else clause
+================================================================================
+fn main {
+  while true {
+    break 3
+  } else {
+    4
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (while_expression
+            (simple_expression
+              (atomic_expression
+                (literal
+                  (boolean_literal))))
+            (block_expression
+              (statement_expression
+                (break_expression
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))
+            (else_clause
+              (block_expression
+                (statement_expression
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
+
+================================================================================
+while expression with label
+================================================================================
+fn main {
+  label~: while true {
+    break label~ 3
+  } else {
+    4
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (while_expression
+            (loop_label
+              (lowercase_identifier))
+            (simple_expression
+              (atomic_expression
+                (literal
+                  (boolean_literal))))
+            (block_expression
+              (statement_expression
+                (break_expression
+                  (parameter_label
+                    (lowercase_identifier))
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))
+            (else_clause
+              (block_expression
+                (statement_expression
+                  (expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))

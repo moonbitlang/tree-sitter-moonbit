@@ -308,10 +308,11 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                                       (guard_else_expression
                                         (block_expression
                                           (statement_expression
-                                            (expression
-                                              (simple_expression
-                                                (constructor_expression
-                                                  (uppercase_identifier))))))))))
+                                            (break_expression
+                                              (expression
+                                                (simple_expression
+                                                  (constructor_expression
+                                                    (uppercase_identifier)))))))))))
                                 (else_clause
                                   (block_expression
                                     (statement_expression

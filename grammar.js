@@ -704,8 +704,8 @@ module.exports = grammar({
       $.named_lambda_expression,
       $.named_matrix_expression,
       $.while_expression,
-      seq('break', commaList($.expression)),
-      seq('continue', commaList($.expression)),
+      $.break_expression,
+      $.continue_expression,
       $.return_expression,
       $.raise_expression,
       $.expression
@@ -796,7 +796,8 @@ module.exports = grammar({
       optional($.loop_label),
       'while',
       $.simple_expression,
-      $.block_expression
+      $.block_expression,
+      optional($.else_clause),
     ),
 
     loop_expression: $ => seq(
