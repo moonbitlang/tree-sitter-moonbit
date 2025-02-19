@@ -102,7 +102,7 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
         advance(lexer);
       }
       if (!is_num_char(lexer->lookahead)) {
-        return true;
+        return has_fraction;
       }
       advance(lexer);
       while (is_num_char(lexer->lookahead)) {
@@ -110,7 +110,7 @@ bool tree_sitter_moonbit_external_scanner_scan(void *payload, TSLexer *lexer,
       }
       lexer->mark_end(lexer);
     }
-    if (!has_fraction && !has_fraction) {
+    if (!has_fraction) {
       return false;
     }
     return true;
