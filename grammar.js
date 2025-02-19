@@ -393,13 +393,13 @@ module.exports = grammar({
     ),
 
     unescaped_string_fragment: _ => choice(
-      token.immediate(/\\[^ntb"\\{]/),
+      token.immediate(/\\[^ntbr"\\{]/),
       token.immediate(/[^"\\]+/),
     ),
 
     escape_sequence: _ => choice(
-      // \n, \t, \b, \", \\
-      token.immediate(/\\[ntb"\\]/),
+      // \n, \t, \b, \r, \", \\
+      token.immediate(/\\[ntbr"\\]/),
       // octal
       token.immediate(/\\o[0-7]{1,3}/),
       // hex
