@@ -2295,11 +2295,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "assign_expression",
+          "named": true
+        },
+        {
+          "type": "break_expression",
+          "named": true
+        },
+        {
+          "type": "continue_expression",
           "named": true
         },
         {
@@ -3105,6 +3113,10 @@
       "types": [
         {
           "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "else_clause",
           "named": true
         },
         {
