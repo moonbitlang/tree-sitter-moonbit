@@ -981,13 +981,17 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier)))
-      (qualified_type_identifier
-        (identifier
-          (uppercase_identifier)))
-      (type_parameters
-        (type_identifier
-          (identifier
-            (uppercase_identifier))))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))
+          (type_arguments
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
       (function_identifier
         (lowercase_identifier))
       (parameters
