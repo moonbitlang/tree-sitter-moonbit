@@ -641,11 +641,19 @@ module.exports = grammar({
     case_clause_body: $ => choice(
       $.assign_expression,
       $.while_expression,
-      seq('break', optional($.parameter_label), commaList($.expression)),
-      seq('continue', optional($.parameter_label), commaList($.expression)),
+      $.break_expression,
+      $.continue_expression,
       $.return_expression,
       $.raise_expression,
       $.expression,
+    ),
+
+    break_expression: $ => seq(
+      'break', optional($.parameter_label), commaList($.expression)
+    ),
+
+    continue_expression: $ => seq(
+      'continue', optional($.parameter_label), commaList($.expression)
     ),
 
     try_expression: $ => seq(
