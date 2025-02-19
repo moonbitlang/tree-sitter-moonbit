@@ -796,7 +796,8 @@ module.exports = grammar({
       optional($.loop_label),
       'while',
       $.simple_expression,
-      $.block_expression
+      $.block_expression,
+      optional($.else_clause),
     ),
 
     loop_expression: $ => seq(
