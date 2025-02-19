@@ -382,6 +382,25 @@
     "fields": {}
   },
   {
+    "type": "break_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "parameter_label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "byte_literal",
     "named": true,
     "fields": {},
@@ -435,19 +454,23 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "assign_expression",
           "named": true
         },
         {
-          "type": "expression",
+          "type": "break_expression",
           "named": true
         },
         {
-          "type": "parameter_label",
+          "type": "continue_expression",
+          "named": true
+        },
+        {
+          "type": "expression",
           "named": true
         },
         {
@@ -620,6 +643,25 @@
         },
         {
           "type": "pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "continue_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "parameter_label",
           "named": true
         }
       ]
