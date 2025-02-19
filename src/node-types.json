@@ -1135,6 +1135,29 @@
     }
   },
   {
+    "type": "guard_is_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "guard_else_expression",
+          "named": true
+        },
+        {
+          "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "guard_let_else_expression",
     "named": true,
     "fields": {},
@@ -2203,6 +2226,10 @@
         },
         {
           "type": "guard_expression",
+          "named": true
+        },
+        {
+          "type": "guard_is_expression",
           "named": true
         },
         {
@@ -3280,6 +3307,10 @@
   {
     "type": "integer_literal",
     "named": true
+  },
+  {
+    "type": "is",
+    "named": false
   },
   {
     "type": "let",
