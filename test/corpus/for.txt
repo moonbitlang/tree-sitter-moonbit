@@ -392,3 +392,53 @@ fn main {
                     (dot_identifier
                       (dot)))))
               (block_expression))))))))
+
+================================================================================
+for with line break
+================================================================================
+fn init {
+  for i = 0
+      i < 10
+      i = i + 1 {
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (for_expression
+              (for_binder
+                (lowercase_identifier)
+                (expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))))
+              (simple_expression
+                (binary_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))))
+              (for_binder
+                (lowercase_identifier)
+                (expression
+                  (simple_expression
+                    (binary_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal))))))))
+              (block_expression))))))))

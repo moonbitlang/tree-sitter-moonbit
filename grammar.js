@@ -794,9 +794,9 @@ module.exports = grammar({
       'for',
       commaStrictList($.for_binder),
       optional(seq(
-        ';',
+        terminator,
         optional($.simple_expression),
-        ';',
+        terminator,
         commaStrictList($.for_binder)
       )),
       $.block_expression,
