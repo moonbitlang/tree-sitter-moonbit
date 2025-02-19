@@ -401,6 +401,11 @@
     }
   },
   {
+    "type": "byte_char_escape_sequence",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "byte_literal",
     "named": true,
     "fields": {},
@@ -409,7 +414,7 @@
       "required": false,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "byte_char_escape_sequence",
           "named": true
         }
       ]
@@ -497,7 +502,7 @@
       "required": false,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "byte_char_escape_sequence",
           "named": true
         }
       ]
