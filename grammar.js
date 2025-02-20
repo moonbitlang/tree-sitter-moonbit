@@ -266,14 +266,29 @@ module.exports = grammar({
     ),
 
     expression: $ => choice(
-      $.simple_expression,
       $.if_expression,
       $.loop_expression,
       $.match_expression,
       $.for_expression,
       $.for_in_expression,
-      $.for_in_range_expression,
       $.try_expression,
+      $.pipeline_expression,
+    ),
+
+    pipeline_expression: $ => choice(
+      seq($.pipeline_expression, $.pipe_operator, $.compound_expression),
+      $.compound_expression,
+    ),
+
+    compound_expression: $ => choice(
+      $.range_expression,
+      $.postfix_expression,
+      $.simple_expression,
+    ),
+
+    postfix_expression: $ => choice(
+      $.as_expression,
+      $.is_expression,
     ),
 
     simple_expression: $ => choice(
@@ -297,7 +312,6 @@ module.exports = grammar({
       $.constraint_expression,
       $.array_expression,
       $.map_expression,
-      $.as_expression,
       '_'
     ),
 
@@ -636,9 +650,18 @@ module.exports = grammar({
       $.simple_expression, 'as', optional('&'), $.qualified_type_identifier
     ),
 
+    is_expression: $ => seq(
+      $.simple_expression,
+      'is',
+      choice(
+        $.range_pattern,
+        $.simple_pattern,
+      )
+    ),
+
     match_expression: $ => seq(
       'match',
-      $.simple_expression,
+      $.compound_expression,
       '{',
       semiList($.case_clause),
       '}'
@@ -680,7 +703,7 @@ module.exports = grammar({
 
     if_expression: $ => seq(
       'if',
-      $.simple_expression,
+      $.compound_expression,
       $.block_expression,
       optional($.else_clause)
     ),
@@ -699,7 +722,6 @@ module.exports = grammar({
       $.let_mut_expression,
       $.guard_expression,
       $.guard_let_expression,
-      $.guard_is_expression,
       $.assign_expression,
       $.named_lambda_expression,
       $.named_matrix_expression,
@@ -730,7 +752,7 @@ module.exports = grammar({
 
     guard_expression: $ => seq(
       'guard',
-      $.simple_expression,
+      $.compound_expression,
       optional($.guard_else_expression),
     ),
 
@@ -753,14 +775,6 @@ module.exports = grammar({
       '{',
       semiList($.case_clause),
       '}'
-    ),
-
-    guard_is_expression: $ => seq(
-      'guard',
-      $.simple_expression,
-      'is',
-      $.pattern,
-      optional($.guard_else_expression)
     ),
 
     assign_expression: $ => seq($.left_value, choice(...assignment_operators), $.expression),
@@ -795,7 +809,7 @@ module.exports = grammar({
     while_expression: $ => seq(
       optional($.loop_label),
       'while',
-      $.simple_expression,
+      $.compound_expression,
       $.block_expression,
       optional($.else_clause),
     ),
@@ -803,7 +817,7 @@ module.exports = grammar({
     loop_expression: $ => seq(
       optional($.loop_label),
       'loop',
-      commaStrictList1($.simple_expression),
+      commaStrictList1($.expression),
       '{',
       semiList($.matrix_case_clause),
       '}',
@@ -821,7 +835,7 @@ module.exports = grammar({
       commaStrictList($.for_binder),
       optional(seq(
         terminator,
-        optional($.simple_expression),
+        optional($.compound_expression),
         terminator,
         commaStrictList($.for_binder)
       )),
@@ -834,7 +848,7 @@ module.exports = grammar({
       'for',
       commaStrictList($.lowercase_identifier),
       'in',
-      $.simple_expression,
+      $.expression,
       $.block_expression,
       optional($.else_clause),
     ),
@@ -843,16 +857,6 @@ module.exports = grammar({
       $.simple_expression,
       choice($.dot_dot_lt, $.dot_dot_eq),
       $.simple_expression
-    ),
-
-    for_in_range_expression: $ => seq(
-      optional($.loop_label),
-      'for',
-      commaStrictList($.lowercase_identifier),
-      'in',
-      $.range_expression,
-      $.block_expression,
-      optional($.else_clause),
     ),
 
     return_expression: $ => seq('return', optional($.expression)),
@@ -882,8 +886,6 @@ module.exports = grammar({
       seq('(', $.pattern, ')'),
       $.literal,
       $.lowercase_identifier,
-      $.optional_parameter_label,
-      $.parameter_label,
       $.constructor_pattern,
       $.tuple_pattern,
       $.constraint_pattern,
@@ -893,14 +895,20 @@ module.exports = grammar({
       $.empty_struct_or_map_pattern,
     ),
 
-    constructor_pattern: $ => seq(
+    constructor_pattern_argument: $ => choice(
+      seq($.lowercase_identifier, '=', $.pattern),
+      $.parameter_label,
+      $.pattern,
+    ),
+
+    constructor_pattern: $ => prec(PREC.apply, seq(
       $.constructor_expression,
       optional(seq(
         '(',
-        commaList($.pattern),
+        commaList($.constructor_pattern_argument),
         ')'
       ))
-    ),
+    )),
 
     tuple_pattern: $ => seq(
       '(',
