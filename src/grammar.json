@@ -6414,7 +6414,7 @@
     },
     "package_identifier": {
       "type": "PATTERN",
-      "value": "@[_\\p{XID_Start}][_\\p{XID_Continue}]*"
+      "value": "@[_\\p{XID_Start}/][_\\p{XID_Continue}/]*"
     },
     "qualified_identifier": {
       "type": "CHOICE",
