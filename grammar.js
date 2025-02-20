@@ -1050,7 +1050,7 @@ module.exports = grammar({
 
     dot_dot_identifier: $ => seq($.dot_dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
 
-    package_identifier: _ => /@[_\p{XID_Start}][_\p{XID_Continue}]*/,
+    package_identifier: _ => /@[_\p{XID_Start}/][_\p{XID_Continue}/]*/,
 
     qualified_identifier: $ => choice(
       $.lowercase_identifier,
