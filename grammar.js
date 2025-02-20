@@ -202,6 +202,7 @@ module.exports = grammar({
       optional('async'),
       'fn',
       $.function_identifier,
+      optional('!'),
       optional($.type_parameters),
       optional($.parameters),
       optional($.return_type),
