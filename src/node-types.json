@@ -241,7 +241,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -259,6 +259,14 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "dot_dot",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
         {
           "type": "pattern",
           "named": true
