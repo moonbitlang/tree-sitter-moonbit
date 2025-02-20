@@ -17,20 +17,24 @@ fn init {
           (let_mut_expression
             (lowercase_identifier)
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 add
@@ -51,20 +55,24 @@ fn init {
           (let_mut_expression
             (lowercase_identifier)
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 mul
@@ -85,20 +93,24 @@ fn init {
           (let_mut_expression
             (lowercase_identifier)
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 div
@@ -119,20 +131,24 @@ fn init {
           (let_mut_expression
             (lowercase_identifier)
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 mod
@@ -154,7 +170,9 @@ fn init {
               (qualified_identifier
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))

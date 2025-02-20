@@ -13,36 +13,40 @@ fn init() { 1 * 5 |> f(5) |> g  }
       (block_expression
         (statement_expression
           (expression
-            (simple_expression
-              (binary_expression
+            (pipeline_expression
+              (compound_expression
                 (simple_expression
                   (binary_expression
                     (simple_expression
                       (binary_expression
                         (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal))))
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal))))))
-                    (pipe_operator)
-                    (simple_expression
-                      (apply_expression
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (binary_expression
                             (simple_expression
                               (atomic_expression
                                 (literal
-                                  (integer_literal))))))))))
-                (pipe_operator)
-                (simple_expression
-                  (qualified_identifier
-                    (lowercase_identifier)))))))))))
+                                  (integer_literal))))
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (integer_literal))))))
+                        (pipe_operator)
+                        (simple_expression
+                          (apply_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (integer_literal))))))))))))
+                    (pipe_operator)
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))))))))))))
 
 ================================================================================
 match expression
@@ -69,9 +73,10 @@ fn init() {
         (statement_expression
           (expression
             (match_expression
-              (simple_expression
-                (qualified_identifier
-                  (lowercase_identifier)))
+              (compound_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -89,10 +94,12 @@ fn init() {
                 (case_clause_body
                   (return_expression
                     (expression
-                      (simple_expression
-                        (atomic_expression
-                          (literal
-                            (integer_literal))))))))
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal))))))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -105,15 +112,17 @@ fn init() {
                       (qualified_identifier
                         (lowercase_identifier)))
                     (expression
-                      (simple_expression
-                        (binary_expression
+                      (pipeline_expression
+                        (compound_expression
                           (simple_expression
-                            (qualified_identifier
-                              (lowercase_identifier)))
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (integer_literal))))))))))
+                            (binary_expression
+                              (simple_expression
+                                (qualified_identifier
+                                  (lowercase_identifier)))
+                              (simple_expression
+                                (atomic_expression
+                                  (literal
+                                    (integer_literal))))))))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -138,10 +147,11 @@ fn init() {
                         (uppercase_identifier)))))
                 (case_clause_body
                   (while_expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (boolean_literal))))
+                    (compound_expression
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (boolean_literal)))))
                     (block_expression)))))))))))
 
 ================================================================================
@@ -163,28 +173,34 @@ fn init() { let a = A::{ ..id, name: "John Doe" } }
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (struct_expression
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier)))
-                  (colon_colon)
-                  (dot_dot)
-                  (expression
-                    (simple_expression
-                      (qualified_identifier
-                        (lowercase_identifier))))
-                  (struct_field_expressions
-                    (labeled_expression
-                      (lowercase_identifier)
-                      (colon)
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (struct_expression
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier)))
+                      (colon_colon)
+                      (dot_dot)
                       (expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (string_literal
-                                (string_fragment
-                                  (unescaped_string_fragment))))))))))))))))))
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier))))))
+                      (struct_field_expressions
+                        (labeled_expression
+                          (lowercase_identifier)
+                          (colon)
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (atomic_expression
+                                    (literal
+                                      (string_literal
+                                        (string_fragment
+                                          (unescaped_string_fragment))))))))))))))))))))))
 
 ================================================================================
 map expression
@@ -207,46 +223,50 @@ fn main {
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (map_expression
-                  (map_entry_expression
-                    (literal
-                      (string_literal
-                        (string_fragment
-                          (unescaped_string_fragment))))
-                    (colon)
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
-                  (map_entry_expression
-                    (literal
-                      (string_literal
-                        (string_fragment
-                          (unescaped_string_fragment))))
-                    (colon)
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
-                  (map_entry_expression
-                    (literal
-                      (integer_literal))
-                    (colon)
-                    (simple_expression
-                      (atomic_expression
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (map_expression
+                      (map_entry_expression
                         (literal
                           (string_literal
                             (string_fragment
-                              (unescaped_string_fragment))))))))))))
+                              (unescaped_string_fragment))))
+                        (colon)
+                        (simple_expression
+                          (atomic_expression
+                            (literal
+                              (integer_literal)))))
+                      (map_entry_expression
+                        (literal
+                          (string_literal
+                            (string_fragment
+                              (unescaped_string_fragment))))
+                        (colon)
+                        (simple_expression
+                          (atomic_expression
+                            (literal
+                              (integer_literal)))))
+                      (map_entry_expression
+                        (literal
+                          (integer_literal))
+                        (colon)
+                        (simple_expression
+                          (atomic_expression
+                            (literal
+                              (string_literal
+                                (string_fragment
+                                  (unescaped_string_fragment))))))))))))))
         (statement_expression
           (let_expression
             (pattern
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (map_expression)))))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (map_expression)))))))))))
 
 ================================================================================
 binary expression
@@ -269,32 +289,36 @@ fn main {
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (binary_expression
+              (pipeline_expression
+                (compound_expression
                   (simple_expression
-                    (atomic_expression
-                      (literal
-                        (integer_literal))))
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (integer_literal)))))))))
+                    (binary_expression
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal))))
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal)))))))))))
         (statement_expression
           (let_expression
             (pattern
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (binary_expression
+              (pipeline_expression
+                (compound_expression
                   (simple_expression
-                    (atomic_expression
-                      (literal
-                        (integer_literal))))
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (integer_literal)))))))))))))
+                    (binary_expression
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal))))
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal)))))))))))))))
 
 ================================================================================
 assign expression
@@ -317,20 +341,24 @@ fn main {
               (qualified_identifier
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal)))))))))))
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 array access expression
@@ -355,68 +383,84 @@ fn main {
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (array_access_expression
+              (pipeline_expression
+                (compound_expression
                   (simple_expression
-                    (qualified_identifier
-                      (lowercase_identifier)))
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
-                  (colon))))))
+                    (array_access_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))
+                      (expression
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (integer_literal)))))))
+                      (colon))))))))
         (statement_expression
           (let_expression
             (pattern
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (array_access_expression
+              (pipeline_expression
+                (compound_expression
                   (simple_expression
-                    (qualified_identifier
-                      (lowercase_identifier)))
-                  (colon))))))
+                    (array_access_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))
+                      (colon))))))))
         (statement_expression
           (let_expression
             (pattern
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (array_access_expression
+              (pipeline_expression
+                (compound_expression
                   (simple_expression
-                    (qualified_identifier
-                      (lowercase_identifier)))
-                  (colon)
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))
+                    (array_access_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))
+                      (colon)
+                      (expression
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (integer_literal))))))))))))))
         (statement_expression
           (let_expression
             (pattern
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (array_access_expression
+              (pipeline_expression
+                (compound_expression
                   (simple_expression
-                    (qualified_identifier
-                      (lowercase_identifier)))
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
-                  (colon)
-                  (expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+                    (array_access_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))
+                      (expression
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (integer_literal)))))))
+                      (colon)
+                      (expression
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (integer_literal))))))))))))))))))
 
 ================================================================================
 boolean expression
@@ -438,34 +482,36 @@ fn main {
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (binary_expression
+              (pipeline_expression
+                (compound_expression
                   (simple_expression
                     (binary_expression
                       (simple_expression
                         (binary_expression
                           (simple_expression
-                            (atomic_expression
-                              (literal
-                                (integer_literal))))
+                            (binary_expression
+                              (simple_expression
+                                (atomic_expression
+                                  (literal
+                                    (integer_literal))))
+                              (simple_expression
+                                (atomic_expression
+                                  (literal
+                                    (integer_literal))))))
                           (simple_expression
-                            (atomic_expression
-                              (literal
-                                (integer_literal))))))
+                            (binary_expression
+                              (simple_expression
+                                (atomic_expression
+                                  (literal
+                                    (integer_literal))))
+                              (simple_expression
+                                (atomic_expression
+                                  (literal
+                                    (integer_literal))))))))
                       (simple_expression
-                        (binary_expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (integer_literal))))
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (integer_literal))))))))
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (integer_literal)))))))))))))
+                        (atomic_expression
+                          (literal
+                            (integer_literal)))))))))))))))
 
 ================================================================================
 shift expression
@@ -487,8 +533,8 @@ fn main {
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (binary_expression
+              (pipeline_expression
+                (compound_expression
                   (simple_expression
                     (binary_expression
                       (simple_expression
@@ -496,55 +542,57 @@ fn main {
                           (simple_expression
                             (binary_expression
                               (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))
+                                (binary_expression
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))))
                               (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))))
+                                (binary_expression
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))))))
                           (simple_expression
                             (binary_expression
                               (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))
+                                (binary_expression
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))))
                               (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))))))
+                                (binary_expression
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))))))))
                       (simple_expression
                         (binary_expression
                           (simple_expression
-                            (binary_expression
-                              (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))
-                              (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))))
+                            (atomic_expression
+                              (literal
+                                (integer_literal))))
                           (simple_expression
-                            (binary_expression
-                              (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))
-                              (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))))))))
-                  (simple_expression
-                    (binary_expression
-                      (simple_expression
-                        (atomic_expression
-                          (literal
-                            (integer_literal))))
-                      (simple_expression
-                        (atomic_expression
-                          (literal
-                            (integer_literal)))))))))))))))
+                            (atomic_expression
+                              (literal
+                                (integer_literal)))))))))))))))))
 
 ================================================================================
 xor expression
@@ -566,8 +614,8 @@ fn main {
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (simple_expression
-                (binary_expression
+              (pipeline_expression
+                (compound_expression
                   (simple_expression
                     (binary_expression
                       (simple_expression
@@ -575,19 +623,43 @@ fn main {
                           (simple_expression
                             (binary_expression
                               (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))
+                                (binary_expression
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))))
                               (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))))
+                                (binary_expression
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))))))
                           (simple_expression
                             (binary_expression
                               (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))
+                                (binary_expression
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))
+                                  (simple_expression
+                                    (binary_expression
+                                      (simple_expression
+                                        (atomic_expression
+                                          (literal
+                                            (integer_literal))))
+                                      (simple_expression
+                                        (atomic_expression
+                                          (literal
+                                            (integer_literal))))))))
                               (simple_expression
                                 (atomic_expression
                                   (literal
@@ -597,9 +669,21 @@ fn main {
                           (simple_expression
                             (binary_expression
                               (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))
+                                (binary_expression
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (integer_literal))))
+                                  (simple_expression
+                                    (binary_expression
+                                      (simple_expression
+                                        (atomic_expression
+                                          (literal
+                                            (integer_literal))))
+                                      (simple_expression
+                                        (atomic_expression
+                                          (literal
+                                            (integer_literal))))))))
                               (simple_expression
                                 (binary_expression
                                   (simple_expression
@@ -613,41 +697,7 @@ fn main {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal))))))))
-                  (simple_expression
-                    (binary_expression
-                      (simple_expression
-                        (binary_expression
-                          (simple_expression
-                            (binary_expression
-                              (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))
-                              (simple_expression
-                                (binary_expression
-                                  (simple_expression
-                                    (atomic_expression
-                                      (literal
-                                        (integer_literal))))
-                                  (simple_expression
-                                    (atomic_expression
-                                      (literal
-                                        (integer_literal))))))))
-                          (simple_expression
-                            (binary_expression
-                              (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))
-                              (simple_expression
-                                (atomic_expression
-                                  (literal
-                                    (integer_literal))))))))
-                      (simple_expression
-                        (atomic_expression
-                          (literal
-                            (integer_literal)))))))))))))))
+                                (integer_literal)))))))))))))))))
 
 ================================================================================
 as expression
@@ -665,26 +715,188 @@ fn main {
       (block_expression
         (statement_expression
           (expression
-            (simple_expression
-              (dot_apply_expression
+            (pipeline_expression
+              (compound_expression
                 (simple_expression
-                  (tuple_expression
-                    (expression
-                      (simple_expression
-                        (as_expression
-                          (simple_expression
-                            (qualified_identifier
-                              (lowercase_identifier)))
-                          (qualified_type_identifier
-                            (identifier
-                              (uppercase_identifier))))))))
-                (dot_identifier
-                  (dot))
-                (argument
-                  (expression
+                  (dot_apply_expression
                     (simple_expression
-                      (atomic_expression
+                      (tuple_expression
+                        (expression
+                          (pipeline_expression
+                            (compound_expression
+                              (postfix_expression
+                                (as_expression
+                                  (simple_expression
+                                    (qualified_identifier
+                                      (lowercase_identifier)))
+                                  (qualified_type_identifier
+                                    (identifier
+                                      (uppercase_identifier))))))))))
+                    (dot_identifier
+                      (dot))
+                    (argument
+                      (expression
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (string_literal
+                                    (string_fragment
+                                      (unescaped_string_fragment))))))))))))))))))))
+
+================================================================================
+is expression
+================================================================================
+fn main {
+  a is None
+  b is Some(3)
+  c is '\b'..='\r'
+  d is '\u0600'..='\u0666'
+  guard e
+  guard f is None
+  guard g is Some(3)
+  guard h is '\b'..='\r' else {
+    4
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (pipeline_expression
+              (compound_expression
+                (postfix_expression
+                  (is_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))
+                    (simple_pattern
+                      (constructor_pattern
+                        (constructor_expression
+                          (uppercase_identifier))))))))))
+        (statement_expression
+          (expression
+            (pipeline_expression
+              (compound_expression
+                (postfix_expression
+                  (is_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))
+                    (simple_pattern
+                      (constructor_pattern
+                        (constructor_expression
+                          (uppercase_identifier))
+                        (constructor_pattern_argument
+                          (pattern
+                            (simple_pattern
+                              (literal
+                                (integer_literal)))))))))))))
+        (statement_expression
+          (expression
+            (pipeline_expression
+              (compound_expression
+                (postfix_expression
+                  (is_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))
+                    (range_pattern
+                      (simple_pattern
                         (literal
-                          (string_literal
-                            (string_fragment
-                              (unescaped_string_fragment))))))))))))))))
+                          (char_literal
+                            (byte_char_escape_sequence))))
+                      (dot_dot_eq)
+                      (simple_pattern
+                        (literal
+                          (char_literal
+                            (byte_char_escape_sequence)))))))))))
+        (statement_expression
+          (expression
+            (pipeline_expression
+              (compound_expression
+                (postfix_expression
+                  (is_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))
+                    (range_pattern
+                      (simple_pattern
+                        (literal
+                          (char_literal
+                            (byte_char_escape_sequence))))
+                      (dot_dot_eq)
+                      (simple_pattern
+                        (literal
+                          (char_literal
+                            (byte_char_escape_sequence)))))))))))
+        (statement_expression
+          (guard_expression
+            (compound_expression
+              (simple_expression
+                (qualified_identifier
+                  (lowercase_identifier))))))
+        (statement_expression
+          (guard_expression
+            (compound_expression
+              (postfix_expression
+                (is_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier)))))))))
+        (statement_expression
+          (guard_expression
+            (compound_expression
+              (postfix_expression
+                (is_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (constructor_pattern_argument
+                        (pattern
+                          (simple_pattern
+                            (literal
+                              (integer_literal))))))))))))
+        (statement_expression
+          (guard_expression
+            (compound_expression
+              (postfix_expression
+                (is_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (range_pattern
+                    (simple_pattern
+                      (literal
+                        (char_literal
+                          (byte_char_escape_sequence))))
+                    (dot_dot_eq)
+                    (simple_pattern
+                      (literal
+                        (char_literal
+                          (byte_char_escape_sequence))))))))
+            (guard_else_expression
+              (block_expression
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (atomic_expression
+                            (literal
+                              (integer_literal))))))))))))))))
