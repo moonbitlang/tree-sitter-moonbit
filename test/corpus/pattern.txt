@@ -730,8 +730,17 @@ array patterns
 ================================================================================
 fn main {
   match a {
+    [] => ()
+    [a, b] => ()
     [a, ..] => ()
     [a, .. as d] => ()
+    [a, .. d] => ()
+    [.., a] => ()
+    [.. as d, a] => ()
+    [.. d, a] => ()
+    [a, .., b] => ()
+    [a, .. as d, b] => ()
+    [a, .. d, b] => ()
   }
 }
 --------------------------------------------------------------------------------
@@ -752,11 +761,40 @@ fn main {
               (case_clause
                 (pattern
                   (simple_pattern
+                    (array_pattern)))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
                     (array_pattern
                       (array_sub_pattern
                         (pattern
                           (simple_pattern
-                            (lowercase_identifier)))
+                            (lowercase_identifier))))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier))))
+                      (array_sub_pattern
                         (pattern
                           (simple_pattern
                             (dot_dot)))))))
@@ -773,12 +811,154 @@ fn main {
                       (array_sub_pattern
                         (pattern
                           (simple_pattern
-                            (lowercase_identifier)))
+                            (lowercase_identifier))))
+                      (array_sub_pattern
                         (pattern
                           (as_pattern
                             (pattern
                               (simple_pattern
                                 (dot_dot)))
+                            (lowercase_identifier)))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier))))
+                      (array_sub_pattern
+                        (dot_dot)
+                        (lowercase_identifier)))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (dot_dot))))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (pattern
+                          (as_pattern
+                            (pattern
+                              (simple_pattern
+                                (dot_dot)))
+                            (lowercase_identifier))))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (dot_dot)
+                        (lowercase_identifier))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier))))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (dot_dot))))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier))))
+                      (array_sub_pattern
+                        (pattern
+                          (as_pattern
+                            (pattern
+                              (simple_pattern
+                                (dot_dot)))
+                            (lowercase_identifier))))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier))))
+                      (array_sub_pattern
+                        (dot_dot)
+                        (lowercase_identifier))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
                             (lowercase_identifier)))))))
                 (case_clause_body
                   (expression
