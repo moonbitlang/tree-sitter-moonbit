@@ -759,6 +759,8 @@ fn main {
   guard h is '\b'..='\r' else {
     4
   }
+  i
+  is ('\u0600'..='\u0666' | '\u0667'..='\u0668')
 }
 --------------------------------------------------------------------------------
 
@@ -777,6 +779,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
+                    (is)
                     (simple_pattern
                       (constructor_pattern
                         (constructor_expression
@@ -790,6 +793,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
+                    (is)
                     (simple_pattern
                       (constructor_pattern
                         (constructor_expression
@@ -808,6 +812,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
+                    (is)
                     (range_pattern
                       (simple_pattern
                         (literal
@@ -827,6 +832,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
+                    (is)
                     (range_pattern
                       (simple_pattern
                         (literal
@@ -851,6 +857,7 @@ fn main {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
+                  (is)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
@@ -863,6 +870,7 @@ fn main {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
+                  (is)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
@@ -880,6 +888,7 @@ fn main {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
+                  (is)
                   (range_pattern
                     (simple_pattern
                       (literal
@@ -899,4 +908,39 @@ fn main {
                         (simple_expression
                           (atomic_expression
                             (literal
-                              (integer_literal))))))))))))))))
+                              (integer_literal))))))))))))
+        (statement_expression
+          (expression
+            (pipeline_expression
+              (compound_expression
+                (postfix_expression
+                  (is_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))
+                    (is)
+                    (simple_pattern
+                      (pattern
+                        (or_pattern
+                          (pattern
+                            (range_pattern
+                              (simple_pattern
+                                (literal
+                                  (char_literal
+                                    (byte_char_escape_sequence))))
+                              (dot_dot_eq)
+                              (simple_pattern
+                                (literal
+                                  (char_literal
+                                    (byte_char_escape_sequence))))))
+                          (pattern
+                            (range_pattern
+                              (simple_pattern
+                                (literal
+                                  (char_literal
+                                    (byte_char_escape_sequence))))
+                              (dot_dot_eq)
+                              (simple_pattern
+                                (literal
+                                  (char_literal
+                                    (byte_char_escape_sequence)))))))))))))))))))
