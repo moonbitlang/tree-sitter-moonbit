@@ -1366,6 +1366,10 @@
       "required": true,
       "types": [
         {
+          "type": "is",
+          "named": true
+        },
+        {
           "type": "range_pattern",
           "named": true
         },
@@ -3445,7 +3449,7 @@
   },
   {
     "type": "is",
-    "named": false
+    "named": true
   },
   {
     "type": "let",

@@ -3778,8 +3778,8 @@
           "name": "simple_expression"
         },
         {
-          "type": "STRING",
-          "value": "is"
+          "type": "SYMBOL",
+          "name": "is"
         },
         {
           "type": "CHOICE",
@@ -6618,6 +6618,10 @@
     {
       "type": "SYMBOL",
       "name": "dot_dot_eq"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "is"
     }
   ],
   "inline": [],
