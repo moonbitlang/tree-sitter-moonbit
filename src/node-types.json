@@ -509,6 +509,29 @@
     }
   },
   {
+    "type": "compound_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "postfix_expression",
+          "named": true
+        },
+        {
+          "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "const_definition",
     "named": true,
     "fields": {},
@@ -644,6 +667,29 @@
       "types": [
         {
           "type": "constructor_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_pattern_argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "constructor_pattern_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "parameter_label",
           "named": true
         },
         {
@@ -917,10 +963,6 @@
           "named": true
         },
         {
-          "type": "for_in_range_expression",
-          "named": true
-        },
-        {
           "type": "if_expression",
           "named": true
         },
@@ -933,7 +975,7 @@
           "named": true
         },
         {
-          "type": "simple_expression",
+          "type": "pipeline_expression",
           "named": true
         },
         {
@@ -1009,6 +1051,10 @@
           "named": true
         },
         {
+          "type": "compound_expression",
+          "named": true
+        },
+        {
           "type": "else_clause",
           "named": true
         },
@@ -1018,10 +1064,6 @@
         },
         {
           "type": "loop_label",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
           "named": true
         }
       ]
@@ -1044,34 +1086,7 @@
           "named": true
         },
         {
-          "type": "loop_label",
-          "named": true
-        },
-        {
-          "type": "lowercase_identifier",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "for_in_range_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "block_expression",
-          "named": true
-        },
-        {
-          "type": "else_clause",
+          "type": "expression",
           "named": true
         },
         {
@@ -1080,10 +1095,6 @@
         },
         {
           "type": "lowercase_identifier",
-          "named": true
-        },
-        {
-          "type": "range_expression",
           "named": true
         }
       ]
@@ -1198,34 +1209,11 @@
       "required": true,
       "types": [
         {
-          "type": "guard_else_expression",
+          "type": "compound_expression",
           "named": true
         },
-        {
-          "type": "simple_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "guard_is_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
         {
           "type": "guard_else_expression",
-          "named": true
-        },
-        {
-          "type": "pattern",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
           "named": true
         }
       ]
@@ -1301,11 +1289,11 @@
           "named": true
         },
         {
-          "type": "else_clause",
+          "type": "compound_expression",
           "named": true
         },
         {
-          "type": "simple_expression",
+          "type": "else_clause",
           "named": true
         }
       ]
@@ -1364,6 +1352,29 @@
       "types": [
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "is_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "range_pattern",
+          "named": true
+        },
+        {
+          "type": "simple_expression",
+          "named": true
+        },
+        {
+          "type": "simple_pattern",
           "named": true
         }
       ]
@@ -1570,15 +1581,15 @@
       "required": true,
       "types": [
         {
+          "type": "expression",
+          "named": true
+        },
+        {
           "type": "loop_label",
           "named": true
         },
         {
           "type": "matrix_case_clause",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
           "named": true
         }
       ]
@@ -1692,7 +1703,7 @@
           "named": true
         },
         {
-          "type": "simple_expression",
+          "type": "compound_expression",
           "named": true
         }
       ]
@@ -1982,6 +1993,48 @@
     }
   },
   {
+    "type": "pipeline_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "compound_expression",
+          "named": true
+        },
+        {
+          "type": "pipe_operator",
+          "named": true
+        },
+        {
+          "type": "pipeline_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "postfix_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "as_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "pub",
     "named": true,
     "fields": {}
@@ -2165,10 +2218,6 @@
           "named": true
         },
         {
-          "type": "as_expression",
-          "named": true
-        },
-        {
           "type": "atomic_expression",
           "named": true
         },
@@ -2268,14 +2317,6 @@
           "named": true
         },
         {
-          "type": "optional_parameter_label",
-          "named": true
-        },
-        {
-          "type": "parameter_label",
-          "named": true
-        },
-        {
           "type": "pattern",
           "named": true
         },
@@ -2316,10 +2357,6 @@
         },
         {
           "type": "guard_expression",
-          "named": true
-        },
-        {
-          "type": "guard_is_expression",
           "named": true
         },
         {
@@ -3116,15 +3153,15 @@
           "named": true
         },
         {
+          "type": "compound_expression",
+          "named": true
+        },
+        {
           "type": "else_clause",
           "named": true
         },
         {
           "type": "loop_label",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
           "named": true
         }
       ]
