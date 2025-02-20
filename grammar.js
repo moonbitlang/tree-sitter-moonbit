@@ -55,6 +55,7 @@ module.exports = grammar({
     $.multiline_string_separator,
     $.dot_dot_lt,
     $.dot_dot_eq,
+    $.is,
   ],
 
   word: $ => $.lowercase_identifier,
@@ -653,7 +654,7 @@ module.exports = grammar({
 
     is_expression: $ => seq(
       $.simple_expression,
-      'is',
+      $.is,
       choice(
         $.range_pattern,
         $.simple_pattern,

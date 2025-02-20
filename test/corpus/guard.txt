@@ -208,6 +208,7 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
+                  (is)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
@@ -229,6 +230,7 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
+                  (is)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
@@ -326,6 +328,7 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                                                                 (simple_expression
                                                                   (qualified_identifier
                                                                     (lowercase_identifier)))))))))
+                                                    (is)
                                                     (simple_pattern
                                                       (constructor_pattern
                                                         (constructor_expression
