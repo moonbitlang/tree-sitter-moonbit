@@ -922,10 +922,11 @@ module.exports = grammar({
 
     constraint_pattern: $ => seq('(', $.pattern, $.colon, $.type, ')'),
 
-    array_pattern: $ => seq('[', optional($.array_sub_pattern), ']'),
+    array_pattern: $ => seq('[', commaList($.array_sub_pattern), ']'),
 
     array_sub_pattern: $ => choice(
-      commaList1($.pattern),
+      seq($.dot_dot, $.lowercase_identifier),
+      $.pattern,
     ),
 
     struct_pattern: $ => seq(
