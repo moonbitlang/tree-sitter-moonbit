@@ -122,6 +122,82 @@ fn main {
                       (unit_expression))))))))))))
 
 ================================================================================
+literal pattern
+================================================================================
+fn main {
+  match x {
+    1 => ()
+    1.0 => ()
+    "hello" => ()
+    '\r' => ()
+    '\u0660' => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (match_expression
+              (simple_expression
+                (qualified_identifier
+                  (lowercase_identifier)))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (integer_literal))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (float_literal))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (string_literal
+                        (string_fragment
+                          (unescaped_string_fragment))))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (char_literal
+                        (byte_char_escape_sequence)))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression)))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (char_literal
+                        (byte_char_escape_sequence)))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (unit_expression))))))))))))
+
+================================================================================
 range pattern
 ================================================================================
 fn init {
@@ -133,6 +209,7 @@ fn init {
     (1 | 2)..<(3 | _) => println("z")
     1..=(4..<5) => println("z")
     (1..=4)..<5 => println("z")
+   '\u0660'..='\u0669' => println("z")
   }
 }
 --------------------------------------------------------------------------------
@@ -331,6 +408,33 @@ fn init {
                     (simple_pattern
                       (literal
                         (integer_literal)))))
+                (case_clause_body
+                  (expression
+                    (simple_expression
+                      (apply_expression
+                        (simple_expression
+                          (qualified_identifier
+                            (lowercase_identifier)))
+                        (argument
+                          (expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (string_literal
+                                    (string_fragment
+                                      (unescaped_string_fragment)))))))))))))
+              (case_clause
+                (pattern
+                  (range_pattern
+                    (simple_pattern
+                      (literal
+                        (char_literal
+                          (byte_char_escape_sequence))))
+                    (dot_dot_eq)
+                    (simple_pattern
+                      (literal
+                        (char_literal
+                          (byte_char_escape_sequence))))))
                 (case_clause_body
                   (expression
                     (simple_expression
