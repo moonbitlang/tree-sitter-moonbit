@@ -22,9 +22,10 @@ fn main {
         (statement_expression
           (expression
             (match_expression
-              (simple_expression
-                (qualified_identifier
-                  (lowercase_identifier)))
+              (compound_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier))))
               (case_clause
                 (pattern
                   (or_pattern
@@ -40,8 +41,10 @@ fn main {
                             (uppercase_identifier)))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (unit_expression)))))
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
               (case_clause
                 (pattern
                   (as_pattern
@@ -53,86 +56,99 @@ fn main {
                     (lowercase_identifier)))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (unit_expression)))))
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
               (case_clause
                 (pattern
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
                         (uppercase_identifier))
-                      (pattern
-                        (simple_pattern
-                          (dot_dot))))))
+                      (constructor_pattern_argument
+                        (pattern
+                          (simple_pattern
+                            (dot_dot)))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (unit_expression)))))
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
               (case_clause
                 (pattern
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
                         (uppercase_identifier))
-                      (pattern
-                        (simple_pattern
-                          (parameter_label
+                      (constructor_pattern_argument
+                        (parameter_label
+                          (lowercase_identifier)))
+                      (constructor_pattern_argument
+                        (pattern
+                          (simple_pattern
+                            (dot_dot)))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (constructor_pattern_argument
+                        (pattern
+                          (simple_pattern
                             (lowercase_identifier))))
-                      (pattern
-                        (simple_pattern
-                          (dot_dot))))))
+                      (constructor_pattern_argument
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (unit_expression)))))
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
               (case_clause
                 (pattern
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
                         (uppercase_identifier))
-                      (pattern
-                        (simple_pattern
-                          (lowercase_identifier)))
-                      (pattern
-                        (simple_pattern
-                          (lowercase_identifier))))))
+                      (constructor_pattern_argument
+                        (pattern
+                          (as_pattern
+                            (pattern
+                              (simple_pattern
+                                (lowercase_identifier)))
+                            (lowercase_identifier))))
+                      (constructor_pattern_argument
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (unit_expression)))))
-              (case_clause
-                (pattern
-                  (simple_pattern
-                    (constructor_pattern
-                      (constructor_expression
-                        (uppercase_identifier))
-                      (pattern
-                        (as_pattern
-                          (pattern
-                            (simple_pattern
-                              (lowercase_identifier)))
-                          (lowercase_identifier)))
-                      (pattern
-                        (simple_pattern
-                          (lowercase_identifier))))))
-                (case_clause_body
-                  (expression
-                    (simple_expression
-                      (unit_expression))))))))))))
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression))))))))))))))
 
 ================================================================================
-range pattern
+literal pattern
 ================================================================================
-fn init {
+fn main {
   match x {
-    0..=3 => println("x")
-    0..<4 => println("y")
-    _..<5 => println("z")
-    _..<_ => println("z")
-    (1 | 2)..<(3 | _) => println("z")
-    1..=(4..<5) => println("z")
-    (1..=4)..<5 => println("z")
+    1 => ()
+    1.0 => ()
+    "hello" => ()
+    '\r' => ()
+    '\u0660' => ()
   }
 }
 --------------------------------------------------------------------------------
@@ -146,9 +162,100 @@ fn init {
         (statement_expression
           (expression
             (match_expression
-              (simple_expression
-                (qualified_identifier
-                  (lowercase_identifier)))
+              (compound_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (integer_literal))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (float_literal))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (string_literal
+                        (string_fragment
+                          (unescaped_string_fragment))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (char_literal
+                        (byte_char_escape_sequence)))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (literal
+                      (char_literal
+                        (byte_char_escape_sequence)))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression))))))))))))))
+
+================================================================================
+range pattern
+================================================================================
+fn init {
+  match x {
+    0..=3 => println("x")
+    0..<4 => println("y")
+    _..<5 => println("z")
+    _..<_ => println("z")
+    (1 | 2)..<(3 | _) => println("z")
+    1..=(4..<5) => println("z")
+    (1..=4)..<5 => println("z")
+   '\u0660'..='\u0669' => println("z")
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (match_expression
+              (compound_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier))))
               (case_clause
                 (pattern
                   (range_pattern
@@ -161,19 +268,23 @@ fn init {
                         (integer_literal)))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (range_pattern
@@ -186,19 +297,23 @@ fn init {
                         (integer_literal)))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (range_pattern
@@ -209,19 +324,23 @@ fn init {
                         (integer_literal)))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (range_pattern
@@ -230,19 +349,23 @@ fn init {
                     (simple_pattern)))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (range_pattern
@@ -269,19 +392,23 @@ fn init {
                             (simple_pattern)))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (range_pattern
@@ -301,19 +428,23 @@ fn init {
                               (integer_literal))))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (range_pattern
@@ -333,19 +464,54 @@ fn init {
                         (integer_literal)))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment))))))))))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
+              (case_clause
+                (pattern
+                  (range_pattern
+                    (simple_pattern
+                      (literal
+                        (char_literal
+                          (byte_char_escape_sequence))))
+                    (dot_dot_eq)
+                    (simple_pattern
+                      (literal
+                        (char_literal
+                          (byte_char_escape_sequence))))))
+                (case_clause_body
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (apply_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment))))))))))))))))))))))))
 
 ================================================================================
 map pattern
@@ -370,28 +536,33 @@ fn main {
         (statement_expression
           (expression
             (match_expression
-              (simple_expression
-                (qualified_identifier
-                  (lowercase_identifier)))
+              (compound_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier))))
               (case_clause
                 (pattern
                   (simple_pattern
                     (empty_struct_or_map_pattern)))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -408,19 +579,23 @@ fn main {
                               (integer_literal))))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -438,19 +613,23 @@ fn main {
                       (dot_dot))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -475,19 +654,23 @@ fn main {
                               (integer_literal))))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment)))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -524,19 +707,23 @@ fn main {
                               (integer_literal))))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (apply_expression
+                    (pipeline_expression
+                      (compound_expression
                         (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (argument
-                          (expression
+                          (apply_expression
                             (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment))))))))))))))))))))
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment))))))))))))))))))))))))
 
 ================================================================================
 array patterns
@@ -558,9 +745,10 @@ fn main {
         (statement_expression
           (expression
             (match_expression
-              (simple_expression
-                (qualified_identifier
-                  (lowercase_identifier)))
+              (compound_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -574,8 +762,10 @@ fn main {
                             (dot_dot)))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (unit_expression)))))
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -592,5 +782,7 @@ fn main {
                             (lowercase_identifier)))))))
                 (case_clause_body
                   (expression
-                    (simple_expression
-                      (unit_expression))))))))))))
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression))))))))))))))

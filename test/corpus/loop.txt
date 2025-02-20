@@ -22,13 +22,19 @@ fn init {
                 (lowercase_identifier)))
             (expression
               (loop_expression
-                (simple_expression
-                  (qualified_identifier
-                    (lowercase_identifier)))
-                (simple_expression
-                  (atomic_expression
-                    (literal
-                      (integer_literal))))
+                (expression
+                  (pipeline_expression
+                    (compound_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier))))))
+                (expression
+                  (pipeline_expression
+                    (compound_expression
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal)))))))
                 (matrix_case_clause
                   (pattern
                     (simple_pattern
@@ -39,13 +45,17 @@ fn init {
                   (case_clause_body
                     (continue_expression
                       (expression
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier))))
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier))))))
                       (expression
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))))))
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))))))))
                 (matrix_case_clause
                   (pattern
                     (simple_pattern
@@ -55,9 +65,11 @@ fn init {
                       (lowercase_identifier)))
                   (case_clause_body
                     (expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier))))))))))))))
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier))))))))))))))))
 
 ================================================================================
 loop expression with multiple argument
@@ -83,17 +95,26 @@ fn init {
                 (lowercase_identifier)))
             (expression
               (loop_expression
-                (simple_expression
-                  (qualified_identifier
-                    (lowercase_identifier)))
-                (simple_expression
-                  (atomic_expression
-                    (literal
-                      (integer_literal))))
-                (simple_expression
-                  (atomic_expression
-                    (literal
-                      (integer_literal))))
+                (expression
+                  (pipeline_expression
+                    (compound_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier))))))
+                (expression
+                  (pipeline_expression
+                    (compound_expression
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal)))))))
+                (expression
+                  (pipeline_expression
+                    (compound_expression
+                      (simple_expression
+                        (atomic_expression
+                          (literal
+                            (integer_literal)))))))
                 (matrix_case_clause
                   (pattern
                     (simple_pattern
@@ -107,13 +128,17 @@ fn init {
                   (case_clause_body
                     (continue_expression
                       (expression
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier))))
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier))))))
                       (expression
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))))))
+                        (pipeline_expression
+                          (compound_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))))))))
                 (matrix_case_clause
                   (pattern
                     (simple_pattern
@@ -123,9 +148,11 @@ fn init {
                       (lowercase_identifier)))
                   (case_clause_body
                     (expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier))))))))))))))
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier))))))))))))))))
 
 ================================================================================
 loop expression with label
@@ -149,13 +176,19 @@ fn init {
             (loop_expression
               (loop_label
                 (lowercase_identifier))
-              (simple_expression
-                (qualified_identifier
-                  (lowercase_identifier)))
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (integer_literal))))
+              (expression
+                (pipeline_expression
+                  (compound_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))))
+              (expression
+                (pipeline_expression
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))))
               (matrix_case_clause
                 (pattern
                   (simple_pattern
@@ -168,13 +201,17 @@ fn init {
                     (parameter_label
                       (lowercase_identifier))
                     (expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier))))
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier))))))
                     (expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier)))))))
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier)))))))))
               (matrix_case_clause
                 (pattern
                   (simple_pattern
@@ -187,13 +224,17 @@ fn init {
                     (parameter_label
                       (lowercase_identifier))
                     (expression
-                      (simple_expression
-                        (apply_expression
+                      (pipeline_expression
+                        (compound_expression
                           (simple_expression
-                            (constructor_expression
-                              (uppercase_identifier)))
-                          (argument
-                            (expression
+                            (apply_expression
                               (simple_expression
-                                (qualified_identifier
-                                  (lowercase_identifier))))))))))))))))))
+                                (constructor_expression
+                                  (uppercase_identifier)))
+                              (argument
+                                (expression
+                                  (pipeline_expression
+                                    (compound_expression
+                                      (simple_expression
+                                        (qualified_identifier
+                                          (lowercase_identifier))))))))))))))))))))))
