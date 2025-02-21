@@ -84,7 +84,7 @@ module.exports = grammar({
 
     pub_attribute: _ => seq('(', choice('readonly', 'all', 'open'), ')'),
 
-    derive_item: $ => $.qualified_type_identifier,
+    derive_item: $ => $.type_name,
 
     derive: _ => 'derive',
 
@@ -255,7 +255,7 @@ module.exports = grammar({
       optional($.visibility),
       'impl',
       optional($.type_parameters),
-      $.qualified_type_identifier,
+      $.type_name,
       optional(seq(
         'for',
         $.type,
@@ -649,7 +649,7 @@ module.exports = grammar({
     ),
 
     as_expression: $ => seq(
-      $.simple_expression, 'as', optional('&'), $.qualified_type_identifier
+      $.simple_expression, 'as', $.type_name
     ),
 
     is_expression: $ => seq(
@@ -973,7 +973,13 @@ module.exports = grammar({
 
     tuple_type: $ => seq('(', commaList($.type), ')'),
 
-    function_type: $ => prec.right(TYPE_PREC.arrow, seq(optional('async'), '(', commaList($.type), ')', $.return_type)),
+    function_type: $ => prec.right(TYPE_PREC.arrow, seq(
+      optional('async'),
+      '(',
+      commaList($.type),
+      ')',
+      $.return_type
+    )),
 
     apply_type: $ => seq($.qualified_type_identifier, optional($.type_arguments)),
 
@@ -1058,14 +1064,20 @@ module.exports = grammar({
       $.lowercase_identifier,
       seq($.package_identifier, $.dot_identifier)
     ),
+
     qualified_type_identifier: $ => choice(
       $.identifier,
       seq($.package_identifier, $.dot_identifier)
     ),
 
+    type_name: $ => choice(
+      $.qualified_type_identifier,
+      seq('&', $.qualified_type_identifier)
+    ),
+
     function_identifier: $ => choice(
       $.lowercase_identifier,
-      seq($.qualified_type_identifier, $.colon_colon, $.lowercase_identifier)
+      seq($.type_name, $.colon_colon, $.lowercase_identifier)
     ),
 
     type_identifier: $ => choice(
