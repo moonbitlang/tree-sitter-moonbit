@@ -12,13 +12,15 @@ type X derive (A, B)
       (derive_directive
         (derive)
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))))
 
 ================================================================================
 struct
@@ -35,13 +37,15 @@ struct A {
       (derive_directive
         (derive)
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))))
 
 ================================================================================
 enum
@@ -58,13 +62,15 @@ enum A {
       (derive_directive
         (derive)
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))))
 
 ================================================================================
 empty
@@ -96,9 +102,10 @@ enum A {
       (derive_directive
         (derive)
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))))
 
 ================================================================================
 multiple
@@ -115,30 +122,37 @@ enum A {
       (derive_directive
         (derive)
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))))

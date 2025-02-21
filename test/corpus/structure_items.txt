@@ -100,9 +100,10 @@ type! X {
       (derive_directive
         (derive)
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))))
   (structure_item
     (error_type_definition
       (identifier
@@ -124,9 +125,10 @@ type! X {
       (derive_directive
         (derive)
         (derive_item
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))))
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))))
 
 ================================================================================
 Struct definitions
@@ -321,6 +323,7 @@ fn id[T] (x: T) -> T { x }
 fn empty () { }
 fn error(a: T) -> T! {}
 fn error(a: T) -> T!Error {}
+fn &Trait::method(self: Self) -> Int { 42 }
 --------------------------------------------------------------------------------
 
 (structure
@@ -410,7 +413,41 @@ fn error(a: T) -> T!Error {}
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))
-      (block_expression))))
+      (block_expression)))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (colon_colon)
+        (lowercase_identifier))
+      (parameters
+        (parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (return_type
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (block_expression
+        (statement_expression
+          (expression
+            (pipeline_expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))))))
 
 ================================================================================
 Trait definitions
@@ -697,9 +734,10 @@ fn repr(self:MyInt) -> String {
       (comment)))
   (structure_item
     (impl_definition
-      (qualified_type_identifier
-        (identifier
-          (uppercase_identifier)))
+      (type_name
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (function_identifier
         (lowercase_identifier))
       (parameters
@@ -1020,9 +1058,10 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))
-      (qualified_type_identifier
-        (identifier
-          (uppercase_identifier)))
+      (type_name
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (type
         (apply_type
           (qualified_type_identifier
@@ -1222,9 +1261,10 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
     (function_definition
       (visibility)
       (function_identifier
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
         (colon_colon)
         (lowercase_identifier))
       (type_parameters
