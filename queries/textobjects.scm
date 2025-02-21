@@ -46,10 +46,24 @@
 
 ; function
 
-(function_definition) @function.outer
+((function_definition
+  (external_source (_) @function.inner)
+  .)
+ @function.outer)
 
-(test_definition) @function.outer
+((function_definition
+  (block_expression (_) @function.inner)
+  .)
+ @function.outer)
+
+((test_definition
+  (block_expression (_) @function.inner)
+  .)
+ @function.outer)
 
 (trait_method_declaration) @function.outer
 
-(impl_definition) @function.outer
+((impl_definition
+  (block_expression (_) @function.inner)
+  .)
+ @function.outer)
