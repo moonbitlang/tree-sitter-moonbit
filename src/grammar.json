@@ -185,7 +185,7 @@
     },
     "derive_item": {
       "type": "SYMBOL",
-      "name": "qualified_type_identifier"
+      "name": "type_name"
     },
     "derive": {
       "type": "STRING",
@@ -1473,7 +1473,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "qualified_type_identifier"
+          "name": "type_name"
         },
         {
           "type": "CHOICE",
@@ -3753,20 +3753,8 @@
           "value": "as"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "&"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
           "type": "SYMBOL",
-          "name": "qualified_type_identifier"
+          "name": "type_name"
         }
       ]
     },
@@ -6473,6 +6461,28 @@
         }
       ]
     },
+    "type_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "qualified_type_identifier"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "&"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "qualified_type_identifier"
+            }
+          ]
+        }
+      ]
+    },
     "function_identifier": {
       "type": "CHOICE",
       "members": [
@@ -6485,7 +6495,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "qualified_type_identifier"
+              "name": "type_name"
             },
             {
               "type": "SYMBOL",
