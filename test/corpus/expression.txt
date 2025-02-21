@@ -729,9 +729,10 @@ fn main {
                                   (simple_expression
                                     (qualified_identifier
                                       (lowercase_identifier)))
-                                  (qualified_type_identifier
-                                    (identifier
-                                      (uppercase_identifier))))))))))
+                                  (type_name
+                                    (qualified_type_identifier
+                                      (identifier
+                                        (uppercase_identifier)))))))))))
                     (dot_identifier
                       (dot))
                     (argument

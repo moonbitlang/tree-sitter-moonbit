@@ -8,9 +8,10 @@ impl Show for T? with output(self : T, logger : &Logger) -> Unit {
 (structure
   (structure_item
     (impl_definition
-      (qualified_type_identifier
-        (identifier
-          (uppercase_identifier)))
+      (type_name
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (type
         (option_type
           (type
@@ -60,9 +61,10 @@ impl Show for (Int) -> Unit with output(self : T, logger : &Logger) -> Unit {
 (structure
   (structure_item
     (impl_definition
-      (qualified_type_identifier
-        (identifier
-          (uppercase_identifier)))
+      (type_name
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (type
         (function_type
           (type
@@ -117,9 +119,10 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit {
 (structure
   (structure_item
     (impl_definition
-      (qualified_type_identifier
-        (identifier
-          (uppercase_identifier)))
+      (type_name
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (type
         (tuple_type
           (type

@@ -239,9 +239,10 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
     (function_definition
       (visibility)
       (function_identifier
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
         (colon_colon)
         (lowercase_identifier))
       (type_parameters
