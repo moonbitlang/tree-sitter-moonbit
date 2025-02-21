@@ -44,6 +44,10 @@
   (interpolator (expression) @parameter.inner)
    @parameter.outer))
 
+; block
+
+((block_expression (_) @block.inner) @block.outer)
+
 ; function
 
 ((function_definition
