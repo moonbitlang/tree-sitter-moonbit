@@ -40,6 +40,10 @@
   ","? @_end)
   (#make-range! "parameter.outer" @parameter.inner @_end))
 
+((string_interpolation
+  (interpolator (expression) @parameter.inner)
+   @parameter.outer))
+
 ; function
 
 (function_definition) @function.outer
