@@ -48,6 +48,20 @@
 
 ((block_expression (_) @block.inner) @block.outer)
 
+; assignment
+
+((let_expression
+  .
+  ((pattern) @assignment.lhs)
+  ((expression) @assignment.inner @assignment.rhs))
+ @assignment.outer)
+
+((assign_expression
+  .
+  ((left_value) @assignment.lhs)
+  ((expression) @assignment.inner @assignment.rhs))
+ @assignment.outer)
+
 ; function
 
 ((function_definition
