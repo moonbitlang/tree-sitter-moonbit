@@ -3042,6 +3042,25 @@
     }
   },
   {
+    "type": "try_else_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "case_clause",
+          "named": true
+        },
+        {
+          "type": "semicolon",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "try_expression",
     "named": true,
     "fields": {},
@@ -3054,15 +3073,15 @@
           "named": true
         },
         {
-          "type": "else_clause",
-          "named": true
-        },
-        {
           "type": "expression",
           "named": true
         },
         {
           "type": "semicolon",
+          "named": true
+        },
+        {
+          "type": "try_else_clause",
           "named": true
         }
       ]
