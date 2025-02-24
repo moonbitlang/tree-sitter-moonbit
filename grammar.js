@@ -711,7 +711,14 @@ module.exports = grammar({
       '{',
       list($.semicolon, $.case_clause),
       '}',
-      optional($.else_clause)
+      optional($.try_else_clause)
+    ),
+
+    try_else_clause: $ => seq(
+      'else',
+      '{',
+      list($.semicolon, $.case_clause),
+      '}'
     ),
 
     if_expression: $ => seq(
