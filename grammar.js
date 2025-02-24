@@ -27,10 +27,7 @@ const
   multiplicative_operators = ['*', '/', '%'],
   additive_operators = ['+', '-'],
   shift_operators = ['<<', '>>'],
-  comparative_operators = ['>', '>=', '<=', '<', '==', '!='],
-  assignment_operators = ['=', '+=', '-=', '*=', '/=', '%='],
-
-  terminator = choice('\n', ';', '\0')
+  comparative_operators = ['>', '>=', '<=', '<', '==', '!=']
 
 module.exports = grammar({
   name: 'moonbit',
@@ -38,28 +35,23 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     $.docstring,
-    /\s/
+    /\s/,
+    $.automatic_newline,
   ],
 
   externals: $ => [
-    $.float_literal,
-    $.comment,
-    $.docstring,
-    $.pipe_operator,
-    $.dot,
-    $.colon,
-    $.colon_colon,
-    $.question_operator,
-    $.dot_dot,
+    $.automatic_newline,
+    $.automatic_semicolon,
     $.multiline_string_separator,
-    $.dot_dot_lt,
-    $.dot_dot_eq,
+    $.multiline_interpolation_separator,
+    $.float_literal,
+    $.for_keyword
   ],
 
   word: $ => $.lowercase_identifier,
 
   rules: {
-    structure: $ => semiList($.structure_item),
+    structure: $ => list($.semicolon, $.structure_item),
 
     structure_item: $ => choice(
       $.type_definition,
@@ -90,7 +82,7 @@ module.exports = grammar({
     derive_directive: $ => seq(
       $.derive_keyword,
       '(',
-      commaList($.derive_item),
+      list(',', $.derive_item),
       ')',
     ),
 
@@ -112,7 +104,7 @@ module.exports = grammar({
         $.type,
         seq(
           '{',
-          semiList($.enum_constructor),
+          list($.semicolon, $.enum_constructor),
           '}',
         )
       )),
@@ -134,7 +126,7 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       '{',
-      semiList($.struct_field_declaration),
+      list($.semicolon, $.struct_field_declaration),
       '}',
       optional($.derive_directive),
     ),
@@ -153,7 +145,7 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       '{',
-      semiList($.enum_constructor),
+      list($.semicolon, $.enum_constructor),
       '}',
       optional($.derive_directive),
     ),
@@ -162,7 +154,7 @@ module.exports = grammar({
       $.uppercase_identifier,
       optional(seq(
         '(',
-        commaList1($.constructor_parameter),
+        list1(',', $.constructor_parameter),
         ')'
       ))
     ),
@@ -230,7 +222,7 @@ module.exports = grammar({
       $.identifier,
       optional($.super_trait_declaration),
       '{',
-      semiList($.trait_method_declaration),
+      list($.semicolon, $.trait_method_declaration),
       '}'
     ),
 
@@ -250,7 +242,7 @@ module.exports = grammar({
     trait_method_declaration: $ => seq(
       $.function_identifier,
       '(',
-      commaList($.trait_method_parameter),
+      list(',', $.trait_method_parameter),
       ')',
       $.return_type,
     ),
@@ -528,13 +520,13 @@ module.exports = grammar({
 
     block_expression: $ => seq(
       '{',
-      semiList($.statement_expression),
+      list($.semicolon, $.statement_expression),
       '}',
     ),
 
     nonempty_block_expression: $ => seq(
       '{',
-      semiList1($.statement_expression),
+      list1($.semicolon, $.statement_expression),
       '}'
     ),
 
@@ -552,12 +544,12 @@ module.exports = grammar({
       'fn',
       optional('!'),
       '{',
-      semiList($.matrix_case_clause),
+      list($.semicolon, $.matrix_case_clause),
       '}',
     ),
 
     matrix_case_clause: $ => seq(
-      commaList1($.pattern),
+      list1(',', $.pattern),
       '=>',
       $.statement_expression,
     ),
@@ -597,7 +589,7 @@ module.exports = grammar({
       $.simple_expression,
       optional($.apply_operator),
       '(',
-      commaList($.argument),
+      list(',', $.argument),
       ')'
     )),
 
@@ -612,7 +604,7 @@ module.exports = grammar({
       $.simple_expression,
       $.dot_identifier,
       '(',
-      commaList($.argument),
+      list(',', $.argument),
       ')'
     )),
 
@@ -620,7 +612,7 @@ module.exports = grammar({
       $.simple_expression,
       $.dot_dot_identifier,
       '(',
-      commaList($.argument),
+      list(',', $.argument),
       ')'
     )),
 
@@ -644,7 +636,7 @@ module.exports = grammar({
 
     tuple_expression: $ => seq(
       '(',
-      commaList1($.expression),
+      list1(',', $.expression),
       ')'
     ),
 
@@ -658,13 +650,13 @@ module.exports = grammar({
 
     array_expression: $ => seq(
       '[',
-      commaList($.expression),
+      list(',', seq(optional($.dot_dot), $.expression)),
       ']'
     ),
 
     map_expression: $ => seq(
       '{',
-      commaList($.map_element_expression),
+      list(',', $.map_element_expression),
       '}'
     ),
 
@@ -694,7 +686,7 @@ module.exports = grammar({
       'match',
       $.compound_expression,
       '{',
-      semiList($.case_clause),
+      list($.semicolon, $.case_clause),
       '}'
     ),
 
@@ -705,11 +697,11 @@ module.exports = grammar({
     ),
 
     break_expression: $ => seq(
-      'break', optional($.parameter_label), commaList($.expression)
+      'break', optional($.parameter_label), strictList(',', $.expression)
     ),
 
     continue_expression: $ => seq(
-      'continue', optional($.parameter_label), commaList($.expression)
+      'continue', optional($.parameter_label), strictList(',', $.expression)
     ),
 
     try_expression: $ => seq(
@@ -717,7 +709,7 @@ module.exports = grammar({
       $.expression,
       'catch',
       '{',
-      semiList($.case_clause),
+      list($.semicolon, $.case_clause),
       '}',
       optional($.else_clause)
     ),
@@ -794,7 +786,7 @@ module.exports = grammar({
     guard_let_else_expression: $ => seq(
       'else',
       '{',
-      semiList($.case_clause),
+      list($.semicolon, $.case_clause),
       '}'
     ),
 
@@ -831,7 +823,7 @@ module.exports = grammar({
       $.lowercase_identifier,
       optional('!'),
       '{',
-      semiList($.matrix_case_clause),
+      list($.semicolon, $.matrix_case_clause),
       '}',
     ),
 
@@ -851,9 +843,9 @@ module.exports = grammar({
     loop_expression: $ => seq(
       optional($.loop_label),
       'loop',
-      commaStrictList1($.expression),
+      strictList1(',', $.expression),
       '{',
-      semiList($.matrix_case_clause),
+      list($.semicolon, $.matrix_case_clause),
       '}',
     ),
 
@@ -867,13 +859,13 @@ module.exports = grammar({
 
     for_expression: $ => seq(
       optional($.loop_label),
-      commaStrictList($.for_binder),
       $.for_keyword,
+      strictList(',', $.for_binder),
       optional(seq(
-        terminator,
+        $.semicolon,
         optional($.compound_expression),
-        terminator,
-        commaStrictList($.for_binder)
+        $.semicolon,
+        strictList(',', $.for_binder)
       )),
       $.block_expression,
       optional($.else_clause),
@@ -881,8 +873,8 @@ module.exports = grammar({
 
     for_in_expression: $ => seq(
       optional($.loop_label),
-      commaStrictList($.lowercase_identifier),
       $.for_keyword,
+      strictList(',', $.lowercase_identifier),
       'in',
       $.expression,
       $.block_expression,
@@ -943,7 +935,7 @@ module.exports = grammar({
       $.constructor_expression,
       optional(seq(
         '(',
-        commaList($.constructor_pattern_argument),
+        list(',', $.constructor_pattern_argument),
         ')'
       ))
     )),
@@ -952,13 +944,13 @@ module.exports = grammar({
       '(',
       $.pattern,
       ',',
-      commaList1($.pattern),
+      list1(',', $.pattern),
       ')'
     ),
 
     constraint_pattern: $ => seq('(', $.pattern, $.colon, $.type, ')'),
 
-    array_pattern: $ => seq('[', commaList($.array_sub_pattern), ']'),
+    array_pattern: $ => seq('[', list(',', $.array_sub_pattern), ']'),
 
     array_sub_pattern: $ => choice(
       seq($.dot_dot, $.qualified_identifier),
@@ -968,7 +960,7 @@ module.exports = grammar({
 
     struct_pattern: $ => seq(
       '{',
-      commaList1($.struct_field_pattern),
+      list1(',', $.struct_field_pattern),
       optional($.dot_dot),
       '}'
     ),
@@ -984,7 +976,7 @@ module.exports = grammar({
 
     map_pattern: $ => seq(
       '{',
-      commaList1($.map_element_pattern),
+      list1(',', $.map_element_pattern),
       optional($.dot_dot),
       '}',
     ),
@@ -1013,12 +1005,12 @@ module.exports = grammar({
       $.any
     ),
 
-    tuple_type: $ => seq('(', commaList($.type), ')'),
+    tuple_type: $ => seq('(', list(',', $.type), ')'),
 
     function_type: $ => prec.right(TYPE_PREC.arrow, seq(
       optional('async'),
       '(',
-      commaList($.type),
+      list(',', $.type),
       ')',
       $.return_type
     )),
@@ -1031,13 +1023,13 @@ module.exports = grammar({
 
     type_arguments: $ => seq(
       '[',
-      commaList1($.type),
+      list1(',', $.type),
       ']'
     ),
 
     type_parameters: $ => seq(
       '[',
-      commaList1($.type_identifier),
+      list1(',', $.type_identifier),
       ']'
     ),
 
@@ -1069,7 +1061,7 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      commaList($.parameter),
+      list(',', $.parameter),
       ')'
     ),
 
@@ -1087,6 +1079,8 @@ module.exports = grammar({
       $.lowercase_identifier,
     ),
 
+    semicolon: $ => choice($.automatic_semicolon, ';'),
+
     dot: _ => '.',
 
     dot_dot: _ => '..',
@@ -1096,7 +1090,10 @@ module.exports = grammar({
     dot_dot_eq: _ => '..=',
 
     colon: _ => ':',
-    // colon_colon: _ => '::',
+
+    colon_colon: _ => '::',
+
+    question_operator: _ => '?',
 
     is_keyword: _ => 'is',
 
@@ -1127,7 +1124,7 @@ module.exports = grammar({
 
     qualified_identifier: $ => choice(
       $.lowercase_identifier,
-      seq($.package_identifier, $.dot_identifier)
+      seq($.package_identifier, $.dot_lowercase_identifier)
     ),
 
     qualified_type_identifier: $ => choice(
@@ -1150,7 +1147,7 @@ module.exports = grammar({
       seq($.identifier, $.colon, $.constraints)
     ),
 
-    constraints: $ => sepBy1('+', $.constraint),
+    constraints: $ => list1('+', $.constraint),
 
     constraint: $ => $.qualified_type_identifier,
 
@@ -1161,92 +1158,47 @@ module.exports = grammar({
 })
 
 /**
+ * @param {RuleOrLiteral} separator
+ * @param {Rule} rule
+ * @returns {Rule}
+ */
+function list(separator, rule) {
+  return optional(list1(separator, rule))
+}
+
+/**
  *
  * @param {RuleOrLiteral} separator
  * @param {Rule} rule
  * @returns {SeqRule}
  */
-
-function sepBy1(separator, rule) {
+function list1(separator, rule) {
   return seq(
     rule,
-    repeat(seq(separator, rule))
+    repeat(seq(separator, rule)),
+    optional(separator)
   )
 }
 
 /**
- *
+ * @param {RuleOrLiteral} separator
  * @param {Rule} rule
- *
- * @return {ChoiceRule}
- *
+ * @returns {Rule}
  */
-function commaList(rule) {
-  return optional(commaList1(rule))
+function strictList(separator, rule) {
+  return optional(strictList1(separator, rule))
 }
 
-
 /**
- *
+ * @param {RuleOrLiteral} separator
  * @param {Rule} rule
- *
- * @return {SeqRule}
- *
+ * @returns {SeqRule}
  */
-function commaList1(rule) {
+function strictList1(separator, rule) {
   return seq(
     rule,
-    repeat(seq(',', rule)),
-    optional(',')
-  );
-}
-
-
-/**
- * @param {Rule} rule
- *
- * @return {ChoiceRule}
- */
-function commaStrictList(rule) {
-  return optional(commaStrictList1(rule))
-}
-
-/**
- * @param {Rule} rule
- *
- * @return {SeqRule}
- */
-function commaStrictList1(rule) {
-  return seq(
-    rule,
-    repeat(seq(',', rule)),
-  );
-}
-
-/**
- *
- * @param {Rule} rule
- *
- * @return {ChoiceRule}
- *
- */
-function semiList(rule) {
-  return optional(semiList1(rule))
-}
-
-/**
- *
- * @param {Rule} rule
- *
- * @return {SeqRule}
- *
- */
-function semiList1(rule) {
-  return seq(
-    rule,
-    repeat(seq(terminator, rule)),
-    optional(terminator)
-  );
+    repeat(seq(separator, rule))
+  )
 }
 
 /**
