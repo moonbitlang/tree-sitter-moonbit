@@ -48,6 +48,8 @@ let d_mile: Length[Mile] = Length(16)
           (qualified_type_identifier
             (identifier
               (uppercase_identifier)))))))
+  (semicolon
+    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier
@@ -56,14 +58,20 @@ let d_mile: Length[Mile] = Length(16)
         (type_identifier
           (identifier
             (lowercase_identifier))))))
+  (semicolon
+    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier
         (uppercase_identifier))))
+  (semicolon
+    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier
         (uppercase_identifier))))
+  (semicolon
+    (automatic_semicolon))
   (structure_item
     (function_definition
       (function_identifier
@@ -124,31 +132,37 @@ let d_mile: Length[Mile] = Length(16)
                   (apply_expression
                     (simple_expression
                       (constructor_expression
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))
+                        (type_name
+                          (qualified_type_identifier
+                            (identifier
+                              (uppercase_identifier))))
                         (colon_colon)
                         (uppercase_identifier)))
                     (argument
                       (expression
                         (pipeline_expression
                           (compound_expression
-                            (simple_expression
-                              (binary_expression
+                            (binary_expression
+                              (compound_expression
                                 (simple_expression
                                   (access_expression
                                     (simple_expression
                                       (qualified_identifier
                                         (lowercase_identifier)))
                                     (accessor
-                                      (dot))))
+                                      (dot)))))
+                              (compound_expression
                                 (simple_expression
                                   (access_expression
                                     (simple_expression
                                       (qualified_identifier
                                         (lowercase_identifier)))
                                     (accessor
-                                      (dot)))))))))))))))))))
+                                      (dot))))))))))))))))
+        (semicolon
+          (automatic_semicolon)))))
+  (semicolon
+    (automatic_semicolon))
   (structure_item
     (value_definition
       (lowercase_identifier)
@@ -181,6 +195,8 @@ let d_mile: Length[Mile] = Length(16)
                           (atomic_expression
                             (literal
                               (integer_literal)))))))))))))))
+  (semicolon
+    (automatic_semicolon))
   (structure_item
     (value_definition
       (lowercase_identifier)

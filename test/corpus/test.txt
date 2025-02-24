@@ -24,7 +24,9 @@ test "t" {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))))))
+                        (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 anonymous
@@ -49,7 +51,9 @@ test {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))))))
+                        (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 snapshot
@@ -76,7 +80,7 @@ test "a" (it : @test.T) {
                 (qualified_type_identifier
                   (package_identifier)
                   (dot_identifier
-                    (dot))))))))
+                    (dot_uppercase_identifier))))))))
       (block_expression
         (statement_expression
           (expression
@@ -88,7 +92,7 @@ test "a" (it : @test.T) {
                       (qualified_identifier
                         (lowercase_identifier)))
                     (dot_identifier
-                      (dot))
+                      (dot_lowercase_identifier))
                     (argument
                       (expression
                         (pipeline_expression
@@ -99,6 +103,8 @@ test "a" (it : @test.T) {
                                   (string_literal
                                     (string_fragment
                                       (unescaped_string_fragment))))))))))))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -112,7 +118,7 @@ test "a" (it : @test.T) {
                             (lowercase_identifier)))
                         (accessor
                           (dot_identifier
-                            (dot)))))
+                            (dot_lowercase_identifier)))))
                     (apply_operator)
                     (argument
                       (argument_label
@@ -127,4 +133,6 @@ test "a" (it : @test.T) {
                                 (literal
                                   (string_literal
                                     (string_fragment
-                                      (unescaped_string_fragment))))))))))))))))))))
+                                      (unescaped_string_fragment))))))))))))))))
+        (semicolon
+          (automatic_semicolon))))))

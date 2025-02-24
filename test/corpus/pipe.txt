@@ -21,17 +21,20 @@ fn init {
             (expression
               (pipeline_expression
                 (compound_expression
-                  (simple_expression
-                    (binary_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
-                      (pipe_operator)
+                            (integer_literal)))))
+                    (pipe_operator)
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))))))
+                            (integer_literal)))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 pipe (left aligned)
@@ -56,17 +59,20 @@ fn init {
             (expression
               (pipeline_expression
                 (compound_expression
-                  (simple_expression
-                    (binary_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
-                      (pipe_operator)
+                            (integer_literal)))))
+                    (pipe_operator)
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))))))
+                            (integer_literal)))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 pipe (multiple empty line)
@@ -94,17 +100,20 @@ fn init {
             (expression
               (pipeline_expression
                 (compound_expression
-                  (simple_expression
-                    (binary_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
-                      (pipe_operator)
+                            (integer_literal)))))
+                    (pipe_operator)
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))))))
+                            (integer_literal)))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 pipe (multiple empty line with spaces)
@@ -132,17 +141,20 @@ fn init {
             (expression
               (pipeline_expression
                 (compound_expression
-                  (simple_expression
-                    (binary_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
-                      (pipe_operator)
+                            (integer_literal)))))
+                    (pipe_operator)
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))))))
+                            (integer_literal)))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 pipe (comment)
@@ -167,18 +179,21 @@ fn init {
             (expression
               (pipeline_expression
                 (compound_expression
-                  (simple_expression
-                    (binary_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
-                      (comment)
-                      (pipe_operator)
+                            (integer_literal)))))
+                    (comment)
+                    (pipe_operator)
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))))))
+                            (integer_literal)))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 pipe (multi line with single line comment)
@@ -207,20 +222,23 @@ fn init {
             (expression
               (pipeline_expression
                 (compound_expression
-                  (simple_expression
-                    (binary_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
-                      (comment)
-                      (comment)
-                      (comment)
-                      (pipe_operator)
+                            (integer_literal)))))
+                    (comment)
+                    (comment)
+                    (comment)
+                    (pipe_operator)
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))))))
+                            (integer_literal)))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 pipe (multi line with single line comment, not left aligned)
@@ -249,17 +267,20 @@ fn init {
             (expression
               (pipeline_expression
                 (compound_expression
-                  (simple_expression
-                    (binary_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
-                      (comment)
-                      (comment)
-                      (comment)
-                      (pipe_operator)
+                            (integer_literal)))))
+                    (comment)
+                    (comment)
+                    (comment)
+                    (pipe_operator)
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))))))
+                            (integer_literal)))))))))))
+        (semicolon
+          (automatic_semicolon))))))

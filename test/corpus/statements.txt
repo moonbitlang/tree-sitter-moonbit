@@ -20,10 +20,9 @@ fn init {
                   (simple_expression
                     (apply_expression
                       (simple_expression
-                        (qualified_identifier
+                        (constructor_expression
                           (package_identifier)
-                          (dot_identifier
-                            (dot))))
+                          (dot_uppercase_identifier)))
                       (argument
                         (expression
                           (pipeline_expression
@@ -44,7 +43,9 @@ fn init {
                                             (literal
                                               (string_literal
                                                 (string_fragment
-                                                  (unescaped_string_fragment))))))))))))))))))))))))))
+                                                  (unescaped_string_fragment))))))))))))))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 raise statement in match
@@ -72,7 +73,7 @@ fn init {
               (case_clause
                 (pattern
                   (simple_pattern))
-                (case_clause_body
+                (statement_expression
                   (raise_expression
                     (expression
                       (pipeline_expression
@@ -80,10 +81,9 @@ fn init {
                           (simple_expression
                             (apply_expression
                               (simple_expression
-                                (qualified_identifier
+                                (constructor_expression
                                   (package_identifier)
-                                  (dot_identifier
-                                    (dot))))
+                                  (dot_uppercase_identifier)))
                               (argument
                                 (expression
                                   (pipeline_expression
@@ -104,4 +104,8 @@ fn init {
                                                     (literal
                                                       (string_literal
                                                         (string_fragment
-                                                          (unescaped_string_fragment))))))))))))))))))))))))))))))
+                                                          (unescaped_string_fragment)))))))))))))))))))))))
+              (semicolon
+                (automatic_semicolon)))))
+        (semicolon
+          (automatic_semicolon))))))

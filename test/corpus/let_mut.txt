@@ -23,20 +23,27 @@ fn init {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
+            (assign_operator
+              (equal))
             (expression
               (pipeline_expression
                 (compound_expression
-                  (simple_expression
-                    (binary_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (qualified_identifier
-                          (lowercase_identifier)))
+                          (lowercase_identifier))))
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))))))
+                            (integer_literal)))))))))))
+        (semicolon
+          (automatic_semicolon))))))

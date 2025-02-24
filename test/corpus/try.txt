@@ -42,16 +42,22 @@ fn main {
                                                 (literal
                                                   (string_literal
                                                     (string_fragment
-                                                      (unescaped_string_fragment)))))))))))))))))))))
+                                                      (unescaped_string_fragment))))))))))))))))
+                        (semicolon
+                          (automatic_semicolon)))))))
               (case_clause
                 (pattern
                   (simple_pattern))
-                (case_clause_body
+                (statement_expression
                   (expression
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression))))))))))))))
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon)))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 try with else
@@ -99,32 +105,41 @@ fn main {
                                                 (literal
                                                   (string_literal
                                                     (string_fragment
-                                                      (unescaped_string_fragment)))))))))))))))))))))
+                                                      (unescaped_string_fragment))))))))))))))))
+                        (semicolon
+                          (automatic_semicolon)))))))
               (case_clause
                 (pattern
                   (simple_pattern))
-                (case_clause_body
+                (statement_expression
                   (expression
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon))
               (else_clause
                 (block_expression
                   (statement_expression
                     (expression
                       (pipeline_expression
                         (compound_expression
-                          (simple_expression
-                            (binary_expression
+                          (binary_expression
+                            (compound_expression
                               (simple_expression
                                 (atomic_expression
                                   (literal
-                                    (integer_literal))))
+                                    (integer_literal)))))
+                            (compound_expression
                               (simple_expression
                                 (atomic_expression
                                   (literal
-                                    (integer_literal)))))))))))))))))))
+                                    (integer_literal))))))))))
+                  (semicolon
+                    (automatic_semicolon)))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 try with multiple catch clauses
@@ -171,7 +186,9 @@ fn main {
                                                 (literal
                                                   (string_literal
                                                     (string_fragment
-                                                      (unescaped_string_fragment)))))))))))))))))))))
+                                                      (unescaped_string_fragment))))))))))))))))
+                        (semicolon
+                          (automatic_semicolon)))))))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -181,12 +198,14 @@ fn main {
                       (constructor_pattern_argument
                         (pattern
                           (simple_pattern))))))
-                (case_clause_body
+                (statement_expression
                   (expression
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -196,9 +215,13 @@ fn main {
                       (constructor_pattern_argument
                         (pattern
                           (simple_pattern))))))
-                (case_clause_body
+                (statement_expression
                   (expression
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression))))))))))))))
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon)))))
+        (semicolon
+          (automatic_semicolon))))))
