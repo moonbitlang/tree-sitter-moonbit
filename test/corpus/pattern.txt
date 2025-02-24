@@ -804,6 +804,7 @@ fn main {
     [a, .., b] => ()
     [a, .. as d, b] => ()
     [a, .. d, b] => ()
+    [.. A, .. @a.T] => ()
   }
 }
 --------------------------------------------------------------------------------
@@ -1046,6 +1047,27 @@ fn main {
                         (pattern
                           (simple_pattern
                             (lowercase_identifier)))))))
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (dot_dot)
+                        (constructor_expression
+                          (uppercase_identifier)))
+                      (array_sub_pattern
+                        (dot_dot)
+                        (constructor_expression
+                          (package_identifier)
+                          (dot_uppercase_identifier))))))
                 (statement_expression
                   (expression
                     (pipeline_expression
