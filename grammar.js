@@ -438,16 +438,29 @@ module.exports = grammar({
       token.immediate(/\\u\{[0-9a-fA-F]+\}/),
     ),
 
-    multiline_string_separator: _ => /#\|/,
+    multiline_string_separator: _ => '#|',
+
+    multiline_interpolation_separator: _ => '$|',
 
     multiline_string_content: _ => /[^\n]*/,
 
     multiline_string_fragment: $ => seq($.multiline_string_separator, $.multiline_string_content),
 
-    multiline_string_literal: $ => seq(
-      $.multiline_string_fragment,
-      repeat($.multiline_string_fragment),
+    multiline_interpolation_content: $ => choice(
+      token.immediate(prec(1, /\\[^{]/)),
+      token.immediate(prec(1, /[^\n\\]+/)),
+      $.interpolator,
     ),
+
+    multiline_interpolation_fragment: $ => seq(
+      $.multiline_interpolation_separator,
+      repeat($.multiline_interpolation_content)
+    ),
+
+    multiline_string_literal: $ => repeat1(choice(
+      $.multiline_string_fragment,
+      $.multiline_interpolation_fragment
+    )),
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '+'),
