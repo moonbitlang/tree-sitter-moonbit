@@ -725,6 +725,7 @@ module.exports = grammar({
 
     statement_expression: $ => choice(
       $.struct_definition,
+      $.enum_definition,
       $.let_expression,
       $.let_mut_expression,
       $.guard_expression,
