@@ -240,11 +240,14 @@ module.exports = grammar({
     ),
 
     trait_method_declaration: $ => seq(
+      optional('async'),
       $.function_identifier,
+      optional('!'),
+      optional($.type_parameters),
       '(',
       list(',', $.trait_method_parameter),
       ')',
-      $.return_type,
+      optional($.return_type),
     ),
 
     trait_alias_definition: $ => seq(
