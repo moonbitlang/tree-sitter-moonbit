@@ -68,7 +68,7 @@ fn main {
   } catch {
     _ => ()
   } else {
-    1 + 1
+    _ => 1 + 1
   }
 }
 --------------------------------------------------------------------------------
@@ -119,8 +119,10 @@ fn main {
                           (unit_expression)))))))
               (semicolon
                 (automatic_semicolon))
-              (else_clause
-                (block_expression
+              (try_else_clause
+                (case_clause
+                  (pattern
+                    (simple_pattern))
                   (statement_expression
                     (expression
                       (pipeline_expression
@@ -135,9 +137,9 @@ fn main {
                               (simple_expression
                                 (atomic_expression
                                   (literal
-                                    (integer_literal))))))))))
-                  (semicolon
-                    (automatic_semicolon)))))))
+                                    (integer_literal)))))))))))
+                (semicolon
+                  (automatic_semicolon))))))
         (semicolon
           (automatic_semicolon))))))
 
