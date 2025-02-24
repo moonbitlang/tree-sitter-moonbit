@@ -34,6 +34,12 @@
   ","? @_end)
   (#make-range! "parameter.outer" @parameter.inner @_end))
 
+((dot_dot_apply_expression
+  (argument) @parameter.inner
+  .
+  ","? @_end)
+  (#make-range! "parameter.outer" @parameter.inner @_end))
+
 ((type_arguments
   (type) @parameter.inner
   .
