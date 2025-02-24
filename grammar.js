@@ -50,12 +50,10 @@ module.exports = grammar({
     $.colon,
     $.colon_colon,
     $.question_operator,
-    $.derive,
     $.dot_dot,
     $.multiline_string_separator,
     $.dot_dot_lt,
     $.dot_dot_eq,
-    $.is,
   ],
 
   word: $ => $.lowercase_identifier,
@@ -87,10 +85,10 @@ module.exports = grammar({
 
     derive_item: $ => $.type_name,
 
-    derive: _ => 'derive',
+    derive_keyword: _ => 'derive',
 
     derive_directive: $ => seq(
-      $.derive,
+      $.derive_keyword,
       '(',
       commaList($.derive_item),
       ')',
@@ -684,7 +682,7 @@ module.exports = grammar({
 
     is_expression: $ => seq(
       $.simple_expression,
-      $.is,
+      $.is_keyword,
       choice(
         $.range_pattern,
         $.simple_pattern,
@@ -1098,6 +1096,8 @@ module.exports = grammar({
     // colon_colon: _ => '::',
 
     dot_identifier: $ => seq($.dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
+    is_keyword: _ => 'is',
+
     equal: _ => '=',
 
     plus_equal: _ => '+=',
