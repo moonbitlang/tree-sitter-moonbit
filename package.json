@@ -1,22 +1,37 @@
 {
   "name": "tree-sitter-moonbit",
-  "version": "1.0.0",
-  "description": "",
-  "main": "bindings/node",
-  "scripts": {
-    "generate": "tree-sitter generate",
-    "test": "tree-sitter generate && tree-sitter test",
-    "promote": "tree-sitter generate && tree-sitter test -u",
-    "playground": "tree-sitter generate && tree-sitter build --wasm && tree-sitter playground"
-  },
-  "keywords": [],
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for Moonbit",
+  "repository": "https://github.com/moonbitlang/tree-sitter-moonbit",
+  "license": "Apache-2.0",
   "author": "",
-  "license": "ISC",
+  "main": "bindings/node",
+  "types": "bindings/node",
+  "keywords": [
+    "tree-sitter",
+    "moonbit"
+  ],
+  "files": [
+    "grammar.js",
+    "tree-sitter.json",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**",
+    "*.wasm"
+  ],
   "dependencies": {
     "nan": "^2.22.0"
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.24.7"
+  },
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "test": "tree-sitter generate && tree-sitter test",
+    "promote": "tree-sitter generate && tree-sitter test -u",
+    "playground": "tree-sitter generate && tree-sitter build --wasm && tree-sitter playground"
   },
   "packageManager": "pnpm@8.15.7+sha256.50783dd0fa303852de2dd1557cd4b9f07cb5b018154a6e76d0f40635d6cee019"
 }

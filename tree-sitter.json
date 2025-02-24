@@ -13,10 +13,10 @@
   ],
   "metadata": {
     "version": "1.0.0",
-    "license": "ISC",
-    "description": "",
+    "license": "Apache-2.0",
+    "description": "Tree-sitter grammar for Moonbit",
     "links": {
-      "repository": "https://github.com/tree-sitter/tree-sitter-moonbit"
+      "repository": "https://github.com/moonbitlang/tree-sitter-moonbit"
     }
   },
   "bindings": {
