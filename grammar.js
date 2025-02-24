@@ -893,6 +893,8 @@ module.exports = grammar({
       $.dot_dot,
       seq('(', $.pattern, ')'),
       $.literal,
+      seq('-', $.integer_literal),
+      seq('-', $.float_literal),
       $.lowercase_identifier,
       $.constructor_pattern,
       $.tuple_pattern,
