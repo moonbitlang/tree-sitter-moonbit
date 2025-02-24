@@ -920,7 +920,8 @@ module.exports = grammar({
     array_pattern: $ => seq('[', commaList($.array_sub_pattern), ']'),
 
     array_sub_pattern: $ => choice(
-      seq($.dot_dot, $.lowercase_identifier),
+      seq($.dot_dot, $.qualified_identifier),
+      seq($.dot_dot, $.string_literal),
       $.pattern,
     ),
 
