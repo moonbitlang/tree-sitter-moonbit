@@ -128,3 +128,10 @@
 ; statement
 
 (block_expression (_) @statement.outer)
+
+; number
+
+[
+  (integer_literal)
+  (float_literal)
+] @number.inner
