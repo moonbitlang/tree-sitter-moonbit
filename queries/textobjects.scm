@@ -91,3 +91,26 @@
   (block_expression (_) @function.inner)
   .)
  @function.outer)
+
+; call
+
+(((apply_expression
+   "("
+   (_) @_start (_)? @_end
+   . ")"
+   (#make-range! "call.inner" @_start @_end)))
+ @call.outer)
+
+(((dot_apply_expression
+   "("
+   (_) @_start (_)? @_end
+   . ")"
+   (#make-range! "call.inner" @_start @_end)))
+ @call.outer)
+
+(((dot_dot_apply_expression
+   "("
+   (_) @_start (_)? @_end
+   . ")"
+   (#make-range! "call.inner" @_start @_end)))
+ @call.outer)
