@@ -3007,6 +3007,10 @@
         {
           "type": "trait_method_parameter",
           "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
         }
       ]
     }
