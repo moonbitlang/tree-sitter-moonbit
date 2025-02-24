@@ -1,34 +1,29 @@
-lockfileVersion: '9.0'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-importers:
+dependencies:
+  node-addon-api:
+    specifier: ^8.3.1
+    version: 8.3.1
 
-  .:
-    dependencies:
-      node-addon-api:
-        specifier: ^8.3.1
-        version: 8.3.1
-    devDependencies:
-      tree-sitter-cli:
-        specifier: ^0.24.7
-        version: 0.24.7
+devDependencies:
+  tree-sitter-cli:
+    specifier: ^0.24.7
+    version: 0.24.7
 
 packages:
 
-  node-addon-api@8.3.1:
+  /node-addon-api@8.3.1:
     resolution: {integrity: sha512-lytcDEdxKjGJPTLEfW4mYMigRezMlyJY8W4wxJK8zE533Jlb8L8dRuObJFWg2P+AuOIxoCgKF+2Oq4d4Zd0OUA==}
     engines: {node: ^18 || ^20 || >= 21}
+    dev: false
 
-  tree-sitter-cli@0.24.7:
+  /tree-sitter-cli@0.24.7:
     resolution: {integrity: sha512-o4gnE82pVmMMhJbWwD6+I9yr4lXii5Ci5qEQ2pFpUbVy1YiD8cizTJaqdcznA0qEbo7l2OneI1GocChPrI4YGQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
-
-snapshots:
-
-  node-addon-api@8.3.1: {}
-
-  tree-sitter-cli@0.24.7: {}
+    requiresBuild: true
+    dev: true
