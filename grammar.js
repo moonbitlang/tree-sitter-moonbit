@@ -564,7 +564,8 @@ module.exports = grammar({
 
     constructor_expression: $ => choice(
       $.uppercase_identifier,
-      seq($.qualified_type_identifier, $.colon_colon, $.uppercase_identifier)
+      seq($.package_identifier, $.dot_uppercase_identifier),
+      seq($.type_name, $.colon_colon, $.uppercase_identifier)
     ),
 
     argument_label: $ => seq(
