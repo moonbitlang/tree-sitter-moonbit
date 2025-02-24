@@ -2893,7 +2893,7 @@
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "qualified_type_identifier",
           "named": true
         }
       ]

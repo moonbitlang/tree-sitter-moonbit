@@ -1210,7 +1210,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "identifier"
+                  "name": "qualified_type_identifier"
                 },
                 {
                   "type": "REPEAT",
@@ -1223,7 +1223,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "identifier"
+                        "name": "qualified_type_identifier"
                       }
                     ]
                   }
