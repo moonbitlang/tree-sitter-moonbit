@@ -1,4 +1,3 @@
-
 ================================================================================
 Trait definitions
 ================================================================================
@@ -177,6 +176,10 @@ Trait definitions with super trait
 trait A: B + Compare {
   a(Self) -> Int
 }
+
+trait B: @a.T + @c.D {
+  x(Self) -> Int
+}
 --------------------------------------------------------------------------------
 
 (structure
@@ -186,10 +189,45 @@ trait A: B + Compare {
         (uppercase_identifier))
       (super_trait_declaration
         (colon)
-        (identifier
-          (uppercase_identifier))
-        (identifier
-          (uppercase_identifier)))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (trait_method_declaration
+        (function_identifier
+          (lowercase_identifier))
+        (trait_method_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (return_type
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))
+      (semicolon
+        (automatic_semicolon))))
+  (semicolon
+    (automatic_semicolon))
+  (structure_item
+    (trait_definition
+      (identifier
+        (uppercase_identifier))
+      (super_trait_declaration
+        (colon)
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_uppercase_identifier)))
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_uppercase_identifier))))
       (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
