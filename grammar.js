@@ -707,7 +707,10 @@ module.exports = grammar({
     try_expression: $ => seq(
       'try',
       $.expression,
-      'catch',
+      optional(choice(
+        'catch',
+        seq('catch', '!')
+      )),
       '{',
       list($.semicolon, $.case_clause),
       '}',
