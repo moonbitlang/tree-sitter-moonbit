@@ -1,7 +1,3 @@
-bindings/**              -diff
-binding.gyp              -diff
-Cargo.toml               -diff
-Cargo.lock               -diff
 src/parser.c             -diff
 src/tree_sitter/parser.h -diff
 src/node-types.json      -diff
