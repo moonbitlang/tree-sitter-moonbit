@@ -175,7 +175,7 @@ module.exports = grammar({
     ),
 
     value_definition: $ => seq(
-      optional($.pub),
+      optional($.visibility),
       'let',
       $.lowercase_identifier,
       optional($.type_annotation),
