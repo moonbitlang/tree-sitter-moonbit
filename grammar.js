@@ -967,6 +967,7 @@ module.exports = grammar({
 
     array_sub_pattern: $ => choice(
       seq($.dot_dot, $.qualified_identifier),
+      seq($.dot_dot, $.constructor_expression),
       seq($.dot_dot, $.string_literal),
       $.pattern,
     ),
