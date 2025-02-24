@@ -164,9 +164,14 @@ module.exports = grammar({
       $.uppercase_identifier,
       optional(seq(
         '(',
-        commaList1(choice($.type, seq($.parameter_label, $.colon, $.type))),
+        commaList1($.constructor_parameter),
         ')'
       ))
+    ),
+
+    constructor_parameter: $ => choice(
+      seq(optional('mut'), $.type),
+      seq(optional('mut'), $.parameter_label, $.colon, $.type)
     ),
 
     value_definition: $ => seq(
