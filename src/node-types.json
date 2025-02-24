@@ -268,6 +268,10 @@
       "required": true,
       "types": [
         {
+          "type": "constructor_expression",
+          "named": true
+        },
+        {
           "type": "dot_dot",
           "named": true
         },

@@ -5633,6 +5633,19 @@
             },
             {
               "type": "SYMBOL",
+              "name": "constructor_expression"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "dot_dot"
+            },
+            {
+              "type": "SYMBOL",
               "name": "string_literal"
             }
           ]
