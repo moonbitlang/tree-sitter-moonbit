@@ -753,8 +753,11 @@ module.exports = grammar({
       $.continue_expression,
       $.return_expression,
       $.raise_expression,
-      $.expression
+      $.expression,
+      $.unfinished,
     ),
+
+    unfinished: _ => '...',
 
     let_expression: $ => seq(
       'let',
