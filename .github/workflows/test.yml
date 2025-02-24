@@ -13,24 +13,6 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: '.node-version'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm run test
-
-  test-binding:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v4
-
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
 
@@ -61,9 +43,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-
       - name: Test core
-        run: python scripts/test.py core
+        uses: tree-sitter/parse-action@v4
+        with:
+          files: |
+            core/**/*.mbt
