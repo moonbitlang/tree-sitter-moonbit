@@ -536,7 +536,7 @@ module.exports = grammar({
     matrix_case_clause: $ => seq(
       commaList1($.pattern),
       '=>',
-      $.case_clause_body,
+      $.statement_expression,
     ),
 
     constructor_expression: $ => choice(
@@ -672,17 +672,7 @@ module.exports = grammar({
     case_clause: $ => seq(
       $.pattern,
       '=>',
-      $.case_clause_body,
-    ),
-
-    case_clause_body: $ => choice(
-      $.assign_expression,
-      $.while_expression,
-      $.break_expression,
-      $.continue_expression,
-      $.return_expression,
-      $.raise_expression,
-      $.expression,
+      $.statement_expression,
     ),
 
     break_expression: $ => seq(
