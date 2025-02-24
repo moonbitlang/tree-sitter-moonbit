@@ -34,6 +34,7 @@ Trait definitions
 ================================================================================
 trait A {
   a(Int, Self) -> Self
+  a(Self)
 }
 --------------------------------------------------------------------------------
 
@@ -58,6 +59,17 @@ trait A {
                 (identifier
                   (uppercase_identifier))))))
         (return_type
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))
+      (semicolon
+        (automatic_semicolon))
+      (trait_method_declaration
+        (function_identifier
+          (lowercase_identifier))
+        (trait_method_parameter
           (type
             (apply_type
               (qualified_type_identifier
