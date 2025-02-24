@@ -16,8 +16,8 @@ const
     and: 9,
     or: 8,
     pipe: 7,
-    orPattern: 6,
-    asPattern: 5,
+    or_pattern: 6,
+    as_pattern: 5,
   },
   TYPE_PREC = {
     option: 19,
@@ -874,13 +874,13 @@ module.exports = grammar({
       $.or_pattern
     ),
 
-    as_pattern: $ => prec(PREC.asPattern, seq(
+    as_pattern: $ => prec(PREC.as_pattern, seq(
       $.pattern,
       'as',
       $.lowercase_identifier
     )),
 
-    or_pattern: $ => prec.right(PREC.orPattern, seq($.pattern, '|', $.pattern)),
+    or_pattern: $ => prec.right(PREC.or_pattern, seq($.pattern, '|', $.pattern)),
 
     simple_pattern: $ => choice(
       '_',
