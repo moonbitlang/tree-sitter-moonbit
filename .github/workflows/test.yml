@@ -13,24 +13,17 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: '10.4.1'
-
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: Run tests
-        shell: bash
-        run: |
-          pnpm run test
+        run: npm run test
 
   test-binding:
     runs-on: ubuntu-latest
@@ -59,24 +52,18 @@ jobs:
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: '10.4.1'
-
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
 
       - name: Test core
-        run:
-          python scripts/test.py core
+        run: python scripts/test.py core
