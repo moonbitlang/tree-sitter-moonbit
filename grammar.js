@@ -490,24 +490,38 @@ module.exports = grammar({
       ))
     },
 
-    struct_expression: $ => seq(
-      optional(seq($.qualified_type_identifier, $.colon_colon)),
-      choice(
-        seq('{', $.struct_field_expressions, '}'),
-        seq('{', $.dot_dot, $.expression, '}'),
-        seq('{', $.dot_dot, $.expression, ',', optional($.struct_field_expressions), '}'),
+    struct_expression: $ => choice(
+      seq(
+        '{',
+        choice(
+          seq($.labeled_expression_pun, ',', list(',', $.struct_field_expression)),
+          seq($.labeled_expression, optional(',')),
+          seq($.labeled_expression, ',', list1(',', $.struct_field_expression)),
+        ),
+        '}',
       ),
-    ),
-
-    struct_field_expressions: $ => choice(
-      seq($.labeled_expression_pun, ',', commaList($.struct_field_expression)),
-      seq($.labeled_expression, optional(',')),
-      seq($.labeled_expression, ',', commaList1($.struct_field_expression)),
+      seq($.type_name, $.colon_colon, '{', list(',', $.struct_field_expression), '}'),
+      seq(
+        optional(seq($.type_name, $.colon_colon)),
+        '{',
+        '..',
+        $.expression,
+        '}'
+      ),
+      seq(
+        optional(seq($.type_name, $.colon_colon)),
+        '{',
+        '..',
+        $.expression,
+        ',',
+        list(',', $.struct_field_expression),
+        '}'
+      ),
     ),
 
     struct_field_expression: $ => choice(
       $.labeled_expression,
-      $.labeled_expression_pun
+      $.labeled_expression_pun,
     ),
 
     labeled_expression: $ => seq($.lowercase_identifier, $.colon, $.expression),
