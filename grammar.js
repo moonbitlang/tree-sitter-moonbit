@@ -640,12 +640,17 @@ module.exports = grammar({
 
     map_expression: $ => seq(
       '{',
-      commaList($.map_entry_expression),
+      commaList($.map_element_expression),
       '}'
     ),
 
-    map_entry_expression: $ => seq(
-      $.literal, $.colon, $.simple_expression,
+    map_element_key: $ => choice(
+      $.literal,
+      seq('-', choice($.integer_literal, $.float_literal)),
+    ),
+
+    map_element_expression: $ => seq(
+      $.map_element_key, $.colon, $.expression,
     ),
 
     as_expression: $ => seq(
@@ -937,12 +942,17 @@ module.exports = grammar({
 
     map_pattern: $ => seq(
       '{',
-      commaList1($.map_entry_pattern),
+      commaList1($.map_element_pattern),
       optional($.dot_dot),
       '}',
     ),
 
-    map_entry_pattern: $ => seq($.literal, $.colon, $.pattern),
+    map_element_pattern: $ => seq(
+      $.map_element_key,
+      optional($.question_operator),
+      $.colon,
+      $.pattern
+    ),
 
     empty_struct_or_map_pattern: _ => seq('{', '}'),
 
