@@ -48,7 +48,7 @@
 
 ((string_interpolation
   (interpolator (expression) @parameter.inner)
-   @parameter.outer))
+  @parameter.outer))
 
 ; block
 
@@ -135,3 +135,28 @@
   (integer_literal)
   (float_literal)
 ] @number.inner
+
+; conditional
+
+((if_expression
+  .
+  (compound_expression) @conditional.inner)
+ @conditional.outer)
+
+((if_expression
+  (block_expression ((_) @conditional.inner))
+  . (_)?)
+ @conditional.outer)
+
+((if_expression
+  (else_clause (block_expression
+                ((_) @conditional.inner))))
+ @conditional.outer)
+
+((match_expression
+  .
+  ((compound_expression) @conditional.inner))
+ @conditional.outer)
+
+((match_expression
+  ((case_clause) @conditional.inner)))
