@@ -391,7 +391,7 @@ module.exports = grammar({
     byte_literal: $ => seq(
       'b\'',
       choice(
-        $.byte_char_escape_sequence,
+        $.escape_sequence,
         token.immediate(/[^']/)
       ),
       '\''
@@ -400,23 +400,10 @@ module.exports = grammar({
     char_literal: $ => seq(
       '\'',
       choice(
-        $.byte_char_escape_sequence,
+        $.escape_sequence,
         token.immediate(/[^']/)
       ),
       '\''
-    ),
-
-    byte_char_escape_sequence: _ => choice(
-      // \n, \t, \b, \r, \', \\
-      token.immediate(/\\[ntbr'\\]/),
-      // octal
-      token.immediate(/\\o[0-7]{1,3}/),
-      // hex
-      token.immediate(/\\x[0-9a-fA-F]{1,2}/),
-      token.immediate(/\\x\{[0-9a-fA-F]+\}/),
-      // unicode
-      token.immediate(/\\u[0-9a-fA-F]{4}/),
-      token.immediate(/\\u\{[0-9a-fA-F]+\}/),
     ),
 
     string_literal: $ => seq(
