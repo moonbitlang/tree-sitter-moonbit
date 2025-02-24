@@ -74,6 +74,7 @@ module.exports = grammar({
       $.function_definition,
       $.test_definition,
       $.trait_definition,
+      $.trait_alias_definition,
       $.impl_definition,
     ),
 
@@ -249,6 +250,15 @@ module.exports = grammar({
       commaList($.trait_method_parameter),
       ')',
       $.return_type,
+    ),
+
+    trait_alias_definition: $ => seq(
+      optional($.visibility),
+      'traitalias',
+      $.identifier,
+      optional($.type_parameters),
+      '=',
+      $.type,
     ),
 
     impl_definition: $ => seq(
