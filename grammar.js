@@ -277,6 +277,7 @@ module.exports = grammar({
       )),
       'with',
       $.function_identifier,
+      optional('!'),
       $.parameters,
       optional($.return_type),
       $.block_expression,
