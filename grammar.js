@@ -257,7 +257,7 @@ module.exports = grammar({
       optional($.type_parameters),
       $.type_name,
       optional(seq(
-        'for',
+        $.for_keyword,
         $.type,
       )),
       'with',
@@ -826,10 +826,12 @@ module.exports = grammar({
       $.expression
     ),
 
+    for_keyword: _ => 'for',
+
     for_expression: $ => seq(
       optional($.loop_label),
-      'for',
       commaStrictList($.for_binder),
+      $.for_keyword,
       optional(seq(
         terminator,
         optional($.compound_expression),
@@ -842,8 +844,8 @@ module.exports = grammar({
 
     for_in_expression: $ => seq(
       optional($.loop_label),
-      'for',
       commaStrictList($.lowercase_identifier),
+      $.for_keyword,
       'in',
       $.expression,
       $.block_expression,
