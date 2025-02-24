@@ -118,3 +118,9 @@
 ; comment
 
 (comment) @comment.outer
+
+; return
+
+((return_expression
+  (_)? @return.inner)
+ @return.outer)
