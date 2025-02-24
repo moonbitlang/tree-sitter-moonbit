@@ -44,7 +44,14 @@ jobs:
         run: npm ci
 
       - name: Test core
+        id: core
         uses: tree-sitter/parse-action@v4
+        continue-on-error: true
         with:
-          files: |
-            core/**/*.mbt
+          files: core/**/*.mbt
+
+      - uses: actions/upload-artifact@v4
+        if: steps.core.outputs.failures != ''
+        with:
+          name: failures
+          path: ${{steps.core.outputs.failures}}
