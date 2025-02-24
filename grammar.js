@@ -774,7 +774,16 @@ module.exports = grammar({
       '}'
     ),
 
-    assign_expression: $ => seq($.left_value, choice(...assignment_operators), $.expression),
+    assign_operator: $ => choice(
+      $.equal,
+      $.plus_equal,
+      $.minus_equal,
+      $.asterisk_equal,
+      $.slash_equal,
+      $.percent_equal,
+    ),
+
+    assign_expression: $ => seq($.left_value, $.assign_operator, $.expression),
 
     left_value: $ => choice(
       $.qualified_identifier,
@@ -1058,10 +1067,20 @@ module.exports = grammar({
     // colon_colon: _ => '::',
 
     dot_identifier: $ => seq($.dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
+    equal: _ => '=',
+
+    plus_equal: _ => '+=',
 
     dot_dot_identifier: $ => seq($.dot_dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
+    minus_equal: _ => '-=',
+
+    asterisk_equal: _ => '*=',
 
     package_identifier: _ => /@[_\p{XID_Start}/][_\p{XID_Continue}/]*/,
+    slash_equal: _ => '/=',
+
+    percent_equal: _ => '%=',
+
 
     qualified_identifier: $ => choice(
       $.lowercase_identifier,
