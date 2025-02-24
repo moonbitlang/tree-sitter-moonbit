@@ -4319,8 +4319,16 @@
         {
           "type": "SYMBOL",
           "name": "expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unfinished"
         }
       ]
+    },
+    "unfinished": {
+      "type": "STRING",
+      "value": "..."
     },
     "let_expression": {
       "type": "SEQ",

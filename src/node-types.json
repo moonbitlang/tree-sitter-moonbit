@@ -2586,6 +2586,10 @@
         {
           "type": "struct_definition",
           "named": true
+        },
+        {
+          "type": "unfinished",
+          "named": true
         }
       ]
     }
@@ -3804,6 +3808,10 @@
   {
     "type": "typealias",
     "named": false
+  },
+  {
+    "type": "unfinished",
+    "named": true
   },
   {
     "type": "uppercase_identifier",
