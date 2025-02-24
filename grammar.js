@@ -228,7 +228,7 @@ module.exports = grammar({
 
     super_trait_declaration: $ => seq(
       $.colon,
-      plusList($.identifier),
+      plusList($.qualified_type_identifier),
     ),
 
     trait_method_parameter: $ => choice(
