@@ -48,7 +48,7 @@
 
 ((string_interpolation
   (interpolator (expression) @parameter.inner)
-   @parameter.outer))
+  @parameter.outer))
 
 ; block
 
