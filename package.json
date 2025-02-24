@@ -22,12 +22,17 @@
     "*.wasm"
   ],
   "dependencies": {
-    "node-addon-api": "^8.3.1"
+    "node-addon-api": "^8.3.1",
+    "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {
+    "eslint": "^9.21.0",
+    "eslint-config-treesitter": "^1.0.2",
+    "tree-sitter": "^0.22.4",
     "tree-sitter-cli": "^0.24.7"
   },
   "scripts": {
+    "lint": "eslint grammar.js",
     "generate": "tree-sitter generate",
     "test": "tree-sitter generate && tree-sitter test",
     "promote": "tree-sitter generate && tree-sitter test -u",
