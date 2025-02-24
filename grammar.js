@@ -243,6 +243,7 @@ module.exports = grammar({
       optional('async'),
       $.function_identifier,
       optional('!'),
+      optional($.type_parameters),
       '(',
       list(',', $.trait_method_parameter),
       ')',
