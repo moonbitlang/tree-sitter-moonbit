@@ -286,6 +286,7 @@ module.exports = grammar({
       $.range_expression,
       $.postfix_expression,
       $.simple_expression,
+      $.binary_expression,
     ),
 
     postfix_expression: $ => choice(
@@ -297,7 +298,6 @@ module.exports = grammar({
       $.atomic_expression,
       $.qualified_identifier,
       $.unary_expression,
-      $.binary_expression,
       $.struct_expression,
       $.nonempty_block_expression,
       $.anonymous_lambda_expression,
@@ -486,10 +486,10 @@ module.exports = grammar({
       return choice(...table.map(([precedence, operator]) =>
         //@ts-ignore
         prec.left(precedence, seq(
-          $.simple_expression,
+          $.compound_expression,
           //@ts-ignore
           operator,
-          $.simple_expression
+          $.compound_expression
         ))
       ))
     },
