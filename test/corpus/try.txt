@@ -60,6 +60,165 @@ fn main {
           (automatic_semicolon))))))
 
 ================================================================================
+try with no catch
+================================================================================
+fn main {
+  try {
+    println("hello")
+  } {
+    _ => ()
+  }
+  try println("Hello") {
+    _ => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (try_expression
+              (expression
+                (pipeline_expression
+                  (compound_expression
+                    (simple_expression
+                      (nonempty_block_expression
+                        (statement_expression
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (apply_expression
+                                    (simple_expression
+                                      (qualified_identifier
+                                        (lowercase_identifier)))
+                                    (argument
+                                      (expression
+                                        (pipeline_expression
+                                          (compound_expression
+                                            (simple_expression
+                                              (atomic_expression
+                                                (literal
+                                                  (string_literal
+                                                    (string_fragment
+                                                      (unescaped_string_fragment))))))))))))))))
+                        (semicolon
+                          (automatic_semicolon)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern))
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon)))))
+        (semicolon
+          (automatic_semicolon))
+        (statement_expression
+          (expression
+            (try_expression
+              (expression
+                (pipeline_expression
+                  (compound_expression
+                    (simple_expression
+                      (apply_expression
+                        (simple_expression
+                          (qualified_identifier
+                            (lowercase_identifier)))
+                        (argument
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (atomic_expression
+                                    (literal
+                                      (string_literal
+                                        (string_fragment
+                                          (unescaped_string_fragment)))))))))))))))
+              (case_clause
+                (pattern
+                  (simple_pattern))
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon)))))
+        (semicolon
+          (automatic_semicolon))))))
+
+================================================================================
+try with catch all
+================================================================================
+fn main {
+  try {
+    println("hello")
+  } catch! {
+    _ => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (try_expression
+              (expression
+                (pipeline_expression
+                  (compound_expression
+                    (simple_expression
+                      (nonempty_block_expression
+                        (statement_expression
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (apply_expression
+                                    (simple_expression
+                                      (qualified_identifier
+                                        (lowercase_identifier)))
+                                    (argument
+                                      (expression
+                                        (pipeline_expression
+                                          (compound_expression
+                                            (simple_expression
+                                              (atomic_expression
+                                                (literal
+                                                  (string_literal
+                                                    (string_fragment
+                                                      (unescaped_string_fragment))))))))))))))))
+                        (semicolon
+                          (automatic_semicolon)))))))
+              (case_clause
+                (pattern
+                  (simple_pattern))
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon)))))
+        (semicolon
+          (automatic_semicolon))))))
+
+================================================================================
 try with else
 ================================================================================
 fn main {
