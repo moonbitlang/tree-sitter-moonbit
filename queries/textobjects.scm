@@ -124,3 +124,7 @@
 ((return_expression
   (_)? @return.inner)
  @return.outer)
+
+; statement
+
+(block_expression (_) @statement.outer)
