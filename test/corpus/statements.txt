@@ -109,3 +109,22 @@ fn init {
                 (automatic_semicolon)))))
         (semicolon
           (automatic_semicolon))))))
+
+================================================================================
+unfinished code
+================================================================================
+fn main {
+  ...
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (unfinished))
+        (semicolon
+          (automatic_semicolon))))))
