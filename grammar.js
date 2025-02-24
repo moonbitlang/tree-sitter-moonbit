@@ -527,7 +527,9 @@ module.exports = grammar({
     ),
 
     anonymous_matrix_lambda_expression: $ => seq(
+      optional('async'),
       'fn',
+      optional('!'),
       '{',
       semiList($.matrix_case_clause),
       '}',
@@ -792,16 +794,20 @@ module.exports = grammar({
     ),
 
     named_lambda_expression: $ => seq(
+      optional('async'),
       'fn',
       $.lowercase_identifier,
+      optional('!'),
       $.parameters,
       optional($.return_type),
       $.block_expression
     ),
 
     named_matrix_expression: $ => seq(
+      optional('async'),
       'fn',
       $.lowercase_identifier,
+      optional('!'),
       '{',
       semiList($.matrix_case_clause),
       '}',
