@@ -15,28 +15,33 @@ fn init {
         (statement_expression
           (guard_expression
             (compound_expression
-              (simple_expression
-                (binary_expression
-                  (simple_expression
-                    (binary_expression
+              (binary_expression
+                (compound_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
+                            (integer_literal)))))
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))))
-                  (simple_expression
-                    (binary_expression
+                            (integer_literal)))))))
+                (compound_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
+                            (integer_literal)))))
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))))))
+                            (integer_literal)))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 guard with else
@@ -57,24 +62,27 @@ fn init {
         (statement_expression
           (guard_expression
             (compound_expression
-              (simple_expression
-                (binary_expression
-                  (simple_expression
-                    (binary_expression
+              (binary_expression
+                (compound_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
+                            (integer_literal)))))
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))))
-                  (simple_expression
-                    (binary_expression
+                            (integer_literal)))))))
+                (compound_expression
+                  (binary_expression
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal))))
+                            (integer_literal)))))
+                    (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
@@ -82,7 +90,11 @@ fn init {
             (guard_else_expression
               (block_expression
                 (statement_expression
-                  (return_expression))))))))))
+                  (return_expression))
+                (semicolon
+                  (automatic_semicolon))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 guard let
@@ -117,7 +129,9 @@ fn init {
                         (simple_expression
                           (atomic_expression
                             (literal
-                              (integer_literal))))))))))))))))
+                              (integer_literal))))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 guard let with else
@@ -165,12 +179,16 @@ fn init {
                       (constructor_pattern_argument
                         (pattern
                           (simple_pattern))))))
-                (case_clause_body
+                (statement_expression
                   (expression
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression))))))))))))))
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon)))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 guard is
@@ -208,7 +226,7 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
-                  (is)
+                  (is_keyword)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
@@ -221,7 +239,11 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
             (guard_else_expression
               (block_expression
                 (statement_expression
-                  (return_expression))))))
+                  (return_expression))
+                (semicolon
+                  (automatic_semicolon))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (guard_expression
             (compound_expression
@@ -230,11 +252,15 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
-                  (is)
+                  (is_keyword)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
-                        (uppercase_identifier))))))))))))
+                        (uppercase_identifier)))))))))
+        (semicolon
+          (automatic_semicolon)))))
+  (semicolon
+    (automatic_semicolon))
   (structure_item
     (function_definition
       (visibility)
@@ -286,9 +312,10 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                   (apply_expression
                     (simple_expression
                       (method_expression
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))
+                        (type_name
+                          (qualified_type_identifier
+                            (identifier
+                              (uppercase_identifier))))
                         (colon_colon)
                         (lowercase_identifier)))
                     (argument
@@ -304,6 +331,7 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                                   (statement_expression
                                     (expression
                                       (for_in_expression
+                                        (for_keyword)
                                         (lowercase_identifier)
                                         (expression
                                           (pipeline_expression
@@ -329,7 +357,7 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                                                                 (simple_expression
                                                                   (qualified_identifier
                                                                     (lowercase_identifier)))))))))
-                                                    (is)
+                                                    (is_keyword)
                                                     (simple_pattern
                                                       (constructor_pattern
                                                         (constructor_expression
@@ -343,7 +371,9 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                                                           (compound_expression
                                                             (simple_expression
                                                               (constructor_expression
-                                                                (uppercase_identifier)))))))))))))
+                                                                (uppercase_identifier))))))))))))
+                                          (semicolon
+                                            (automatic_semicolon)))
                                         (else_clause
                                           (block_expression
                                             (statement_expression
@@ -352,4 +382,10 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
                                                   (compound_expression
                                                     (simple_expression
                                                       (constructor_expression
-                                                        (uppercase_identifier)))))))))))))))))))))))))))))
+                                                        (uppercase_identifier)))))))
+                                            (semicolon
+                                              (automatic_semicolon)))))))
+                                  (semicolon
+                                    (automatic_semicolon)))))))))))))))
+        (semicolon
+          (automatic_semicolon))))))

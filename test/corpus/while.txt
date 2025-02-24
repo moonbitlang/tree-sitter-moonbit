@@ -15,32 +15,37 @@ fn main {
         (lowercase_identifier))
       (block_expression
         (statement_expression
-          (while_expression
-            (compound_expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (boolean_literal)))))
-            (block_expression
-              (statement_expression
-                (expression
-                  (pipeline_expression
-                    (compound_expression
-                      (simple_expression
-                        (apply_expression
-                          (simple_expression
-                            (qualified_identifier
-                              (lowercase_identifier)))
-                          (argument
-                            (expression
-                              (pipeline_expression
-                                (compound_expression
-                                  (simple_expression
-                                    (atomic_expression
-                                      (literal
-                                        (string_literal
-                                          (string_fragment
-                                            (unescaped_string_fragment)))))))))))))))))))))))
+          (expression
+            (while_expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (boolean_literal)))))
+              (block_expression
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (apply_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))
+                            (argument
+                              (expression
+                                (pipeline_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (string_literal
+                                            (string_fragment
+                                              (unescaped_string_fragment))))))))))))))))
+                (semicolon
+                  (automatic_semicolon))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 while expression with else clause
@@ -61,32 +66,32 @@ fn main {
         (lowercase_identifier))
       (block_expression
         (statement_expression
-          (while_expression
-            (compound_expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (boolean_literal)))))
-            (block_expression
-              (statement_expression
-                (break_expression
-                  (expression
-                    (pipeline_expression
-                      (compound_expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal))))))))))
-            (else_clause
+          (expression
+            (while_expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (boolean_literal)))))
               (block_expression
                 (statement_expression
-                  (expression
-                    (pipeline_expression
-                      (compound_expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal))))))))))))))))
+                  (break_expression))
+                (semicolon
+                  (automatic_semicolon)))
+              (else_clause
+                (block_expression
+                  (statement_expression
+                    (expression
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal))))))))
+                  (semicolon
+                    (automatic_semicolon)))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 while expression with label
@@ -107,33 +112,33 @@ fn main {
         (lowercase_identifier))
       (block_expression
         (statement_expression
-          (while_expression
-            (loop_label
-              (lowercase_identifier))
-            (compound_expression
-              (simple_expression
-                (atomic_expression
-                  (literal
-                    (boolean_literal)))))
-            (block_expression
-              (statement_expression
-                (break_expression
-                  (parameter_label
-                    (lowercase_identifier))
-                  (expression
-                    (pipeline_expression
-                      (compound_expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal))))))))))
-            (else_clause
+          (expression
+            (while_expression
+              (loop_label
+                (lowercase_identifier))
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (boolean_literal)))))
               (block_expression
                 (statement_expression
-                  (expression
-                    (pipeline_expression
-                      (compound_expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal))))))))))))))))
+                  (break_expression
+                    (parameter_label
+                      (lowercase_identifier))))
+                (semicolon
+                  (automatic_semicolon)))
+              (else_clause
+                (block_expression
+                  (statement_expression
+                    (expression
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal))))))))
+                  (semicolon
+                    (automatic_semicolon)))))))
+        (semicolon
+          (automatic_semicolon))))))

@@ -7,8 +7,8 @@ type X
 --------------------------------------------------------------------------------
 
 (structure
-  (docstring)
-  (docstring)
+  (comment)
+  (comment)
   (structure_item
     (type_definition
       (identifier
@@ -23,8 +23,8 @@ struct X {}
 --------------------------------------------------------------------------------
 
 (structure
-  (docstring)
-  (docstring)
+  (comment)
+  (comment)
   (structure_item
     (struct_definition
       (identifier
@@ -39,8 +39,8 @@ enum X {}
 --------------------------------------------------------------------------------
 
 (structure
-  (docstring)
-  (docstring)
+  (comment)
+  (comment)
   (structure_item
     (enum_definition
       (identifier
@@ -55,8 +55,8 @@ fn x {}
 --------------------------------------------------------------------------------
 
 (structure
-  (docstring)
-  (docstring)
+  (comment)
+  (comment)
   (structure_item
     (function_definition
       (function_identifier
@@ -74,8 +74,8 @@ trait X {}
 --------------------------------------------------------------------------------
 
 (structure
-  (docstring)
-  (docstring)
+  (comment)
+  (comment)
   (comment)
   (comment)
   (structure_item

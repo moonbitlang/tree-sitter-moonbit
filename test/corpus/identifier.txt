@@ -18,16 +18,18 @@ fn main {
             (pipeline_expression
               (compound_expression
                 (simple_expression
-                  (qualified_identifier
+                  (constructor_expression
                     (package_identifier)
-                    (dot_identifier
-                      (dot))))))))
+                    (dot_uppercase_identifier)))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
               (compound_expression
                 (simple_expression
-                  (qualified_identifier
+                  (constructor_expression
                     (package_identifier)
-                    (dot_identifier
-                      (dot))))))))))))
+                    (dot_uppercase_identifier)))))))
+        (semicolon
+          (automatic_semicolon))))))

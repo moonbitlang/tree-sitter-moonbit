@@ -23,18 +23,24 @@ fn init {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
+            (assign_operator
+              (plus_equal))
             (expression
               (pipeline_expression
                 (compound_expression
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))))))
+                        (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 add
@@ -61,18 +67,24 @@ fn init {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
+            (assign_operator
+              (minus_equal))
             (expression
               (pipeline_expression
                 (compound_expression
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))))))
+                        (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 mul
@@ -99,18 +111,24 @@ fn init {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
+            (assign_operator
+              (asterisk_equal))
             (expression
               (pipeline_expression
                 (compound_expression
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))))))
+                        (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 div
@@ -137,18 +155,24 @@ fn init {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (assign_expression
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
+            (assign_operator
+              (slash_equal))
             (expression
               (pipeline_expression
                 (compound_expression
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))))))
+                        (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 mod
@@ -169,10 +193,14 @@ fn init {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
+            (assign_operator
+              (percent_equal))
             (expression
               (pipeline_expression
                 (compound_expression
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))))))
+                        (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))))))

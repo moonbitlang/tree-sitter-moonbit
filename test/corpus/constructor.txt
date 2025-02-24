@@ -20,6 +20,8 @@ fn init {
                 (simple_expression
                   (constructor_expression
                     (uppercase_identifier)))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -36,7 +38,9 @@ fn init {
                             (simple_expression
                               (atomic_expression
                                 (literal
-                                  (integer_literal))))))))))))))))))
+                                  (integer_literal))))))))))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 qualified
@@ -59,22 +63,28 @@ fn init {
               (compound_expression
                 (simple_expression
                   (constructor_expression
-                    (qualified_type_identifier
-                      (identifier
-                        (lowercase_identifier)))
+                    (type_name
+                      (qualified_type_identifier
+                        (identifier
+                          (lowercase_identifier))))
                     (colon_colon)
                     (uppercase_identifier)))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
               (compound_expression
                 (simple_expression
                   (constructor_expression
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))
+                    (type_name
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier))))
                     (colon_colon)
-                    (uppercase_identifier)))))))))))
+                    (uppercase_identifier)))))))
+        (semicolon
+          (automatic_semicolon))))))
 
 ================================================================================
 package-qualified
@@ -97,21 +107,27 @@ fn init {
               (compound_expression
                 (simple_expression
                   (constructor_expression
-                    (qualified_type_identifier
-                      (package_identifier)
-                      (dot_identifier
-                        (dot)))
+                    (type_name
+                      (qualified_type_identifier
+                        (package_identifier)
+                        (dot_identifier
+                          (dot_lowercase_identifier))))
                     (colon_colon)
                     (uppercase_identifier)))))))
+        (semicolon
+          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
               (compound_expression
                 (simple_expression
                   (constructor_expression
-                    (qualified_type_identifier
-                      (package_identifier)
-                      (dot_identifier
-                        (dot)))
+                    (type_name
+                      (qualified_type_identifier
+                        (package_identifier)
+                        (dot_identifier
+                          (dot_uppercase_identifier))))
                     (colon_colon)
-                    (uppercase_identifier)))))))))))
+                    (uppercase_identifier)))))))
+        (semicolon
+          (automatic_semicolon))))))
