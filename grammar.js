@@ -1077,8 +1077,10 @@ module.exports = grammar({
     pub: _ => 'pub',
 
     // Identifiers
-    uppercase_identifier: _ => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/,
+    uppercase_identifier: _ => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/v,
+
     lowercase_identifier: _ => /[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
+
     identifier: $ => choice(
       $.uppercase_identifier,
       $.lowercase_identifier,
@@ -1095,23 +1097,32 @@ module.exports = grammar({
     colon: _ => ':',
     // colon_colon: _ => '::',
 
-    dot_identifier: $ => seq($.dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
     is_keyword: _ => 'is',
 
     equal: _ => '=',
 
     plus_equal: _ => '+=',
 
-    dot_dot_identifier: $ => seq($.dot_dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/),
     minus_equal: _ => '-=',
 
     asterisk_equal: _ => '*=',
 
-    package_identifier: _ => /@[_\p{XID_Start}/][_\p{XID_Continue}/]*/,
     slash_equal: _ => '/=',
 
     percent_equal: _ => '%=',
 
+    dot_identifier: $ => choice(
+      $.dot_lowercase_identifier,
+      $.dot_uppercase_identifier,
+    ),
+
+    dot_lowercase_identifier: _ => /\.[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
+
+    dot_uppercase_identifier: _ => /\.[\p{Uppercase_Letter}][_\p{XID_Continue}]*/v,
+
+    dot_dot_identifier: $ => seq($.dot_dot, /[_\p{XID_Start}][_\p{XID_Continue}]*/v),
+
+    package_identifier: _ => /@[_\p{XID_Start}\/][_\p{XID_Continue}\/]*/v,
 
     qualified_identifier: $ => choice(
       $.lowercase_identifier,
