@@ -421,13 +421,13 @@ module.exports = grammar({
     ),
 
     unescaped_string_fragment: _ => choice(
-      token.immediate(/\\[^ntbr"\\{]/),
-      token.immediate(/[^"\\]+/),
+      token.immediate(prec(1, /\\[^ntbr'"\\{]/)),
+      token.immediate(prec(1, /[^"\\]+/)),
     ),
 
     escape_sequence: _ => choice(
       // \n, \t, \b, \r, \", \\
-      token.immediate(/\\[ntbr"\\]/),
+      token.immediate(/\\[ntbr'"\\]/),
       // octal
       token.immediate(/\\o[0-7]{1,3}/),
       // hex
