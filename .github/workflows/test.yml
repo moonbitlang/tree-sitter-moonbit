@@ -31,6 +31,9 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
+      - name: Setup tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git
 
