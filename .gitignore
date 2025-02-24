@@ -1,4 +1,5 @@
-.vscode
-node_modules
-target
-tree-sitter-moonbit.wasm
+/node_modules/
+/target/
+/tree-sitter-moonbit.wasm
+/build/
+/parser.dylib

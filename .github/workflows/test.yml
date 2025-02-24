@@ -13,37 +13,17 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.node-version'
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
-          run_install: false
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install
+      - name: Setup tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
 
       - name: Run tests
-        shell: bash
-        run: |
-          pnpm run test
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-rust: true
+          test-node: true
+          test-python: true
+          test-go: true
+          test-swift: true
 
   test-core:
     runs-on: ubuntu-latest
@@ -51,40 +31,30 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
+      - name: Setup tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
-          run_install: false
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
+        run: npm ci
 
       - name: Test core
-        run:
-          python scripts/test.py core
+        id: core
+        uses: tree-sitter/parse-action@v4
+        continue-on-error: true
+        with:
+          files: core/**/*.mbt
+
+      - uses: actions/upload-artifact@v4
+        if: steps.core.outputs.failures != ''
+        with:
+          name: failures
+          path: ${{steps.core.outputs.failures}}

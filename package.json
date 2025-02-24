@@ -28,8 +28,15 @@
   "devDependencies": {
     "eslint": "^9.21.0",
     "eslint-config-treesitter": "^1.0.2",
-    "tree-sitter": "^0.22.4",
     "tree-sitter-cli": "^0.24.7"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.22.4"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
+    }
   },
   "scripts": {
     "lint": "eslint grammar.js",
@@ -37,5 +44,11 @@
     "test": "tree-sitter generate && tree-sitter test",
     "promote": "tree-sitter generate && tree-sitter test -u",
     "playground": "tree-sitter generate && tree-sitter build --wasm && tree-sitter playground"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "tree-sitter",
+      "tree-sitter-cli"
+    ]
   }
 }
