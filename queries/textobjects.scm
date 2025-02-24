@@ -114,3 +114,7 @@
    . ")"
    (#make-range! "call.inner" @_start @_end)))
  @call.outer)
+
+; comment
+
+(comment) @comment.outer
