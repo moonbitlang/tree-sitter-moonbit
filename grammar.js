@@ -626,7 +626,7 @@ module.exports = grammar({
     ),
 
     method_expression: $ => seq(
-      $.qualified_type_identifier,
+      $.type_name,
       $.colon_colon,
       $.lowercase_identifier
     ),
