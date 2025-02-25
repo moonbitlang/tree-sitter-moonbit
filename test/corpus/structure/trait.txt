@@ -7,7 +7,7 @@ trait A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (trait_definition
       (identifier
         (uppercase_identifier))
@@ -39,7 +39,7 @@ trait A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (trait_definition
       (identifier
         (uppercase_identifier))
@@ -87,7 +87,7 @@ trait A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (trait_definition
       (identifier
         (uppercase_identifier))
@@ -125,7 +125,7 @@ trait A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (trait_definition
       (identifier
         (uppercase_identifier))
@@ -193,7 +193,7 @@ trait A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (trait_definition
       (identifier
         (uppercase_identifier))
@@ -244,7 +244,7 @@ pub(all) trait A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (trait_definition
       (visibility
         (pub_attribute))
@@ -301,7 +301,7 @@ trait B: @a.T + @c.D {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (trait_definition
       (identifier
         (uppercase_identifier))
@@ -332,7 +332,7 @@ trait B: @a.T + @c.D {
         (automatic_semicolon))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (trait_definition
       (identifier
         (uppercase_identifier))
@@ -384,7 +384,7 @@ fn repr(self:MyInt) -> String {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (trait_definition
       (identifier
         (uppercase_identifier))
@@ -425,7 +425,7 @@ fn repr(self:MyInt) -> String {
         (automatic_semicolon))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (impl_definition
       (type_name
         (qualified_type_identifier
@@ -466,7 +466,7 @@ fn repr(self:MyInt) -> String {
           (automatic_semicolon)))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -477,8 +477,8 @@ fn repr(self:MyInt) -> String {
               (uppercase_identifier)))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (parameters

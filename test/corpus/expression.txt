@@ -5,10 +5,8 @@ fn init() { 1 * 5 |> f(5) |> g  }
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (parameters)
       (block_expression
         (statement_expression
@@ -67,10 +65,8 @@ fn init() {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (parameters)
       (block_expression
         (statement_expression
@@ -175,10 +171,8 @@ fn init() { let a = A::{ ..id, name: "John Doe" } }
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (parameters)
       (block_expression
         (statement_expression
@@ -226,10 +220,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (let_expression
@@ -308,10 +300,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (let_expression
@@ -366,10 +356,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (assign_expression
@@ -416,10 +404,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (let_expression
@@ -523,10 +509,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (let_expression
@@ -580,10 +564,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (let_expression
@@ -672,10 +654,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (let_expression
@@ -792,10 +772,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -852,10 +830,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression

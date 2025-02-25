@@ -7,10 +7,8 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (guard_expression
@@ -54,10 +52,8 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (guard_expression
@@ -105,10 +101,8 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (guard_let_expression
@@ -144,10 +138,8 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (guard_let_expression
@@ -213,10 +205,8 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (guard_expression
@@ -261,8 +251,8 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
           (automatic_semicolon)))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (visibility)
       (function_identifier
         (type_name

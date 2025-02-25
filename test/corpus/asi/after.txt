@@ -13,10 +13,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -69,10 +67,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -124,10 +120,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -174,8 +168,8 @@ fn f()
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (parameters)
@@ -203,10 +197,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -259,10 +251,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -347,7 +337,7 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (type_alias_definition
       (identifier
         (uppercase_identifier))
@@ -358,7 +348,7 @@ fn main {
               (uppercase_identifier)))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (trait_alias_definition
       (identifier
         (uppercase_identifier))
@@ -369,8 +359,8 @@ fn main {
               (uppercase_identifier)))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (external_linkage
         (string_literal
           (string_fragment
@@ -384,10 +374,8 @@ fn main {
             (unescaped_string_fragment))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (let_expression
@@ -525,10 +513,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (assign_expression
@@ -618,10 +604,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -648,10 +632,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -681,10 +663,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -745,8 +725,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (parameters
@@ -768,10 +748,8 @@ fn main {
       (block_expression)))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -814,10 +792,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -877,10 +853,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -927,10 +901,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -961,7 +933,7 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier))
@@ -975,10 +947,8 @@ fn main {
                 (uppercase_identifier))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (enum_definition
@@ -1005,7 +975,7 @@ with f() -> Unit {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (impl_definition
       (type_name
         (qualified_type_identifier
@@ -1039,10 +1009,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -1088,10 +1056,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -1147,10 +1113,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression

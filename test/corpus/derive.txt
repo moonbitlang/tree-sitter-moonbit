@@ -5,7 +5,7 @@ type X derive (A, B)
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -30,7 +30,7 @@ struct A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (struct_definition
       (identifier
         (uppercase_identifier))
@@ -55,7 +55,7 @@ enum A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier))
@@ -80,7 +80,7 @@ enum A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier))
@@ -95,7 +95,7 @@ enum A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier))
@@ -115,7 +115,7 @@ enum A {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier))
