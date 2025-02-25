@@ -7,7 +7,7 @@ test "t" {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (test_definition
       (string_literal
         (string_fragment
@@ -37,7 +37,7 @@ test {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (test_definition
       (block_expression
         (statement_expression
@@ -65,7 +65,7 @@ test "a" (it : @test.T) {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (test_definition
       (string_literal
         (string_fragment

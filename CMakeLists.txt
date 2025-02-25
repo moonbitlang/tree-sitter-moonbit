@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(tree-sitter-moonbit
-        VERSION "1.0.0"
+        VERSION "0.1.0"
         DESCRIPTION "Tree-sitter grammar for Moonbit"
         HOMEPAGE_URL "https://github.com/moonbitlang/tree-sitter-moonbit"
         LANGUAGES C)

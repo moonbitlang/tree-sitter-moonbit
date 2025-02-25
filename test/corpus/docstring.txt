@@ -9,7 +9,7 @@ type X
 (structure
   (comment)
   (comment)
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier)))))
@@ -25,7 +25,7 @@ struct X {}
 (structure
   (comment)
   (comment)
-  (structure_item
+  (statement_expression
     (struct_definition
       (identifier
         (uppercase_identifier)))))
@@ -41,7 +41,7 @@ enum X {}
 (structure
   (comment)
   (comment)
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier)))))
@@ -57,11 +57,10 @@ fn x {}
 (structure
   (comment)
   (comment)
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_matrix_expression
       (function_identifier
-        (lowercase_identifier))
-      (block_expression))))
+        (lowercase_identifier)))))
 
 ================================================================================
 trait definitions
@@ -78,7 +77,7 @@ trait X {}
   (comment)
   (comment)
   (comment)
-  (structure_item
+  (statement_expression
     (trait_definition
       (identifier
         (uppercase_identifier)))))

@@ -9,8 +9,8 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (type_parameters
@@ -83,8 +83,8 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
             (unescaped_string_fragment))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (parameters
@@ -122,10 +122,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -184,10 +182,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression

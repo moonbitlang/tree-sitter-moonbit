@@ -6,7 +6,7 @@ impl Show for T? with output(self : T, logger : &Logger) -> Unit {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (impl_definition
       (type_name
         (qualified_type_identifier
@@ -60,7 +60,7 @@ impl Show for (Int) -> Unit with output(self : T, logger : &Logger) -> Unit {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (impl_definition
       (type_name
         (qualified_type_identifier
@@ -119,7 +119,7 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (impl_definition
       (type_name
         (qualified_type_identifier
