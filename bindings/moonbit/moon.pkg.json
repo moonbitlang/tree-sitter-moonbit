@@ -1,0 +1,14 @@
+{
+  "pre-build": [
+    {
+      "input": "binding.c",
+      "output": "binding-lib.c",
+      "command": "python3 preprocess.py $input $output"
+    }
+  ],
+  "import": [
+    "tonyfettes/tree_sitter_language"
+  ],
+  "native-stub": ["binding-lib.c"],
+  "support-targets": ["native"]
+}
