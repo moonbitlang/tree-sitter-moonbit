@@ -1209,10 +1209,6 @@
           "named": true
         },
         {
-          "type": "function_identifier",
-          "named": true
-        },
-        {
           "type": "parameters",
           "named": true
         },
@@ -1598,6 +1594,10 @@
         {
           "type": "type_annotation",
           "named": true
+        },
+        {
+          "type": "visibility",
+          "named": true
         }
       ]
     }
@@ -1972,7 +1972,15 @@
           "named": true
         },
         {
-          "type": "lowercase_identifier",
+          "type": "external_linkage",
+          "named": true
+        },
+        {
+          "type": "external_source",
+          "named": true
+        },
+        {
+          "type": "function_identifier",
           "named": true
         },
         {
@@ -1981,6 +1989,14 @@
         },
         {
           "type": "return_type",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "visibility",
           "named": true
         }
       ]
@@ -1995,7 +2011,7 @@
       "required": true,
       "types": [
         {
-          "type": "lowercase_identifier",
+          "type": "function_identifier",
           "named": true
         },
         {
@@ -2544,6 +2560,10 @@
           "named": true
         },
         {
+          "type": "const_definition",
+          "named": true
+        },
+        {
           "type": "continue_expression",
           "named": true
         },
@@ -2552,7 +2572,15 @@
           "named": true
         },
         {
+          "type": "error_type_definition",
+          "named": true
+        },
+        {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "function_definition",
           "named": true
         },
         {
@@ -2561,6 +2589,10 @@
         },
         {
           "type": "guard_let_expression",
+          "named": true
+        },
+        {
+          "type": "impl_definition",
           "named": true
         },
         {
@@ -2589,6 +2621,26 @@
         },
         {
           "type": "struct_definition",
+          "named": true
+        },
+        {
+          "type": "test_definition",
+          "named": true
+        },
+        {
+          "type": "trait_alias_definition",
+          "named": true
+        },
+        {
+          "type": "trait_definition",
+          "named": true
+        },
+        {
+          "type": "type_alias_definition",
+          "named": true
+        },
+        {
+          "type": "type_definition",
           "named": true
         },
         {
@@ -2823,66 +2875,7 @@
           "named": true
         },
         {
-          "type": "structure_item",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "structure_item",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "const_definition",
-          "named": true
-        },
-        {
-          "type": "enum_definition",
-          "named": true
-        },
-        {
-          "type": "error_type_definition",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "impl_definition",
-          "named": true
-        },
-        {
-          "type": "struct_definition",
-          "named": true
-        },
-        {
-          "type": "test_definition",
-          "named": true
-        },
-        {
-          "type": "trait_alias_definition",
-          "named": true
-        },
-        {
-          "type": "trait_definition",
-          "named": true
-        },
-        {
-          "type": "type_alias_definition",
-          "named": true
-        },
-        {
-          "type": "type_definition",
-          "named": true
-        },
-        {
-          "type": "value_definition",
+          "type": "statement_expression",
           "named": true
         }
       ]
@@ -3365,33 +3358,6 @@
     "fields": {}
   },
   {
-    "type": "value_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "lowercase_identifier",
-          "named": true
-        },
-        {
-          "type": "type_annotation",
-          "named": true
-        },
-        {
-          "type": "visibility",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "visibility",
     "named": true,
     "fields": {},
@@ -3694,6 +3660,10 @@
     "named": false
   },
   {
+    "type": "init",
+    "named": false
+  },
+  {
     "type": "integer_literal",
     "named": true
   },
@@ -3712,6 +3682,10 @@
   {
     "type": "lowercase_identifier",
     "named": true
+  },
+  {
+    "type": "main",
+    "named": false
   },
   {
     "type": "match",

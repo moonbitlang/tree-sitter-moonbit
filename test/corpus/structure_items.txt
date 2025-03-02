@@ -8,20 +8,20 @@ type X[t]
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (visibility)
       (identifier
         (uppercase_identifier))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (visibility
         (pub_attribute))
@@ -29,7 +29,7 @@ type X[t]
         (uppercase_identifier))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -57,13 +57,13 @@ type! X {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (error_type_definition
       (identifier
         (uppercase_identifier))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (error_type_definition
       (identifier
         (uppercase_identifier))
@@ -74,14 +74,14 @@ type! X {
               (uppercase_identifier)))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (error_type_definition
       (visibility)
       (identifier
         (uppercase_identifier))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (error_type_definition
       (visibility
         (pub_attribute))
@@ -89,7 +89,7 @@ type! X {
         (uppercase_identifier))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (error_type_definition
       (identifier
         (uppercase_identifier))
@@ -115,7 +115,7 @@ type! X {
         (automatic_semicolon))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (error_type_definition
       (identifier
         (uppercase_identifier))
@@ -128,7 +128,7 @@ type! X {
                 (uppercase_identifier))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (error_type_definition
       (identifier
         (uppercase_identifier))
@@ -178,7 +178,7 @@ struct Color {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (struct_definition
       (visibility)
       (identifier
@@ -198,7 +198,7 @@ struct Color {
                 (uppercase_identifier))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (struct_definition
       (identifier
         (uppercase_identifier))
@@ -240,7 +240,7 @@ struct Color {
         (automatic_semicolon))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (struct_definition
       (identifier
         (uppercase_identifier))
@@ -287,13 +287,13 @@ enum Two[A, B] {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier))
@@ -301,7 +301,7 @@ enum Two[A, B] {
         (uppercase_identifier))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier))
@@ -341,9 +341,11 @@ pub let y: Int = 42
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (value_definition
-      (lowercase_identifier)
+  (statement_expression
+    (let_expression
+      (pattern
+        (simple_pattern
+          (lowercase_identifier)))
       (expression
         (pipeline_expression
           (compound_expression
@@ -353,10 +355,12 @@ pub let y: Int = 42
                   (integer_literal)))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (value_definition
+  (statement_expression
+    (let_expression
       (visibility)
-      (lowercase_identifier)
+      (pattern
+        (simple_pattern
+          (lowercase_identifier)))
       (type_annotation
         (colon)
         (type
@@ -383,8 +387,8 @@ fn &Trait::method(self: Self) -> Int { 42 }
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (type_parameters
@@ -417,16 +421,16 @@ fn &Trait::method(self: Self) -> Int { 42 }
                     (lowercase_identifier))))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (parameters)
       (block_expression)))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (parameters
@@ -449,8 +453,8 @@ fn &Trait::method(self: Self) -> Int { 42 }
       (block_expression)))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (parameters
@@ -478,8 +482,8 @@ fn &Trait::method(self: Self) -> Int { 42 }
       (block_expression)))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (type_name
           (qualified_type_identifier
@@ -521,9 +525,11 @@ let printable = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (value_definition
-      (lowercase_identifier)
+  (statement_expression
+    (let_expression
+      (pattern
+        (simple_pattern
+          (lowercase_identifier)))
       (expression
         (pipeline_expression
           (compound_expression
@@ -559,8 +565,8 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (function_identifier
         (lowercase_identifier))
       (parameters
@@ -696,10 +702,8 @@ fn init {
           (automatic_semicolon)))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -784,7 +788,7 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (impl_definition
       (visibility)
       (type_parameters
@@ -844,8 +848,8 @@ extern "c" fn ffi(a: Int) = "return 0"
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (visibility
         (pub_attribute))
       (external_linkage
@@ -883,8 +887,8 @@ extern "c" fn ffi(a: Int) = "return 0"
             (unescaped_string_fragment))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (visibility)
       (external_linkage
         (string_literal
@@ -919,8 +923,8 @@ extern "c" fn ffi(a: Int) = "return 0"
             (multiline_string_content))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (visibility)
       (external_linkage
         (string_literal
@@ -945,8 +949,8 @@ extern "c" fn ffi(a: Int) = "return 0"
             (multiline_string_content))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (external_linkage
         (string_literal
           (string_fragment
@@ -975,7 +979,7 @@ const A = 'a'
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (const_definition
       (uppercase_identifier)
       (expression
@@ -1003,8 +1007,8 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
+  (statement_expression
+    (named_lambda_expression
       (visibility)
       (function_identifier
         (type_name
@@ -1098,7 +1102,8 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
           (automatic_semicolon))
         (statement_expression
           (named_lambda_expression
-            (lowercase_identifier)
+            (function_identifier
+              (lowercase_identifier))
             (parameters
               (parameter
                 (lowercase_identifier)
@@ -1148,7 +1153,7 @@ typealias X[t] = Y[T]
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (type_alias_definition
       (identifier
         (uppercase_identifier))
@@ -1159,7 +1164,7 @@ typealias X[t] = Y[T]
               (uppercase_identifier)))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_alias_definition
       (visibility)
       (identifier
@@ -1171,7 +1176,7 @@ typealias X[t] = Y[T]
               (uppercase_identifier)))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_alias_definition
       (visibility
         (pub_attribute))
@@ -1184,7 +1189,7 @@ typealias X[t] = Y[T]
               (uppercase_identifier)))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_alias_definition
       (identifier
         (uppercase_identifier))

@@ -51,22 +51,7 @@ module.exports = grammar({
   word: $ => $.lowercase_identifier,
 
   rules: {
-    structure: $ => list($.semicolon, $.structure_item),
-
-    structure_item: $ => choice(
-      $.type_definition,
-      $.error_type_definition,
-      $.type_alias_definition,
-      $.struct_definition,
-      $.enum_definition,
-      $.value_definition,
-      $.const_definition,
-      $.function_definition,
-      $.test_definition,
-      $.trait_definition,
-      $.trait_alias_definition,
-      $.impl_definition,
-    ),
+    structure: $ => list($.semicolon, $.statement_expression),
 
     visibility: $ => choice(
       'priv',
@@ -198,7 +183,7 @@ module.exports = grammar({
       optional($.external_linkage),
       optional('async'),
       'fn',
-      $.function_identifier,
+      choice('main', 'init'),
       optional('!'),
       optional($.type_parameters),
       optional($.parameters),
@@ -745,6 +730,15 @@ module.exports = grammar({
     statement_expression: $ => choice(
       $.struct_definition,
       $.enum_definition,
+      $.type_definition,
+      $.error_type_definition,
+      $.type_alias_definition,
+      $.const_definition,
+      $.test_definition,
+      $.trait_definition,
+      $.trait_alias_definition,
+      $.impl_definition,
+      $.function_definition,
       $.let_expression,
       $.let_mut_expression,
       $.guard_expression,
@@ -763,6 +757,7 @@ module.exports = grammar({
     unfinished: _ => '...',
 
     let_expression: $ => seq(
+      optional($.visibility),
       'let',
       $.pattern,
       optional($.type_annotation),
@@ -824,19 +819,25 @@ module.exports = grammar({
     ),
 
     named_lambda_expression: $ => seq(
+      optional($.visibility),
+      optional($.external_linkage),
       optional('async'),
       'fn',
-      $.lowercase_identifier,
+      $.function_identifier,
       optional('!'),
+      optional($.type_parameters),
       $.parameters,
       optional($.return_type),
-      $.block_expression,
+      choice(
+        $.block_expression,
+        seq('=', $.external_source),
+      ),
     ),
 
     named_matrix_expression: $ => seq(
       optional('async'),
       'fn',
-      $.lowercase_identifier,
+      $.function_identifier,
       optional('!'),
       '{',
       list($.semicolon, $.matrix_case_clause),

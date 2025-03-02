@@ -5,7 +5,7 @@ type T (Int) -> Int?
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -39,7 +39,7 @@ type T6 () -> ((Int) -> Int?!)!Error?
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -59,7 +59,7 @@ type T6 () -> ((Int) -> Int?!)!Error?
                       (uppercase_identifier)))))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -82,7 +82,7 @@ type T6 () -> ((Int) -> Int?!)!Error?
                   (question_operator)))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -107,7 +107,7 @@ type T6 () -> ((Int) -> Int?!)!Error?
                       (uppercase_identifier)))))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -138,7 +138,7 @@ type T6 () -> ((Int) -> Int?!)!Error?
                   (question_operator)))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -168,7 +168,7 @@ type T6 () -> ((Int) -> Int?!)!Error?
                       (uppercase_identifier)))))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -204,7 +204,7 @@ type T6 () -> ((Int) -> Int?!)!Error?
                   (question_operator)))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -250,7 +250,7 @@ impl Show for T with output(self : T, logger : &Logger) -> Unit {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (type_definition
       (identifier
         (uppercase_identifier))
@@ -263,7 +263,7 @@ impl Show for T with output(self : T, logger : &Logger) -> Unit {
                   (uppercase_identifier)))))))))
   (semicolon
     (automatic_semicolon))
-  (structure_item
+  (statement_expression
     (impl_definition
       (type_name
         (qualified_type_identifier

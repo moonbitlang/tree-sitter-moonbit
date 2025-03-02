@@ -10,7 +10,7 @@ enum T {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (enum_definition
       (identifier
         (uppercase_identifier))

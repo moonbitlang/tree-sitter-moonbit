@@ -8,10 +8,8 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -41,10 +39,8 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -77,10 +73,8 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
@@ -144,10 +138,8 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (let_expression
@@ -210,10 +202,8 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
+  (statement_expression
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (block_expression
         (statement_expression
           (expression
