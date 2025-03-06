@@ -100,8 +100,7 @@ static void advance_blanks(TSLexer *lexer) {
 }
 
 static bool scan_decimal_float_literal_fractional_part(
-  TSLexer *lexer,
-  const bool *valid_symbols
+  TSLexer *lexer
 ) {
   if (lexer->lookahead == '.') {
     return false;
@@ -122,7 +121,7 @@ static bool scan_decimal_float_literal_fractional_part(
 }
 
 static bool
-scan_decimal_float_literal(TSLexer *lexer, const bool *valid_symbols) {
+scan_decimal_float_literal(TSLexer *lexer) {
   while (iswdigit(lexer->lookahead) || lexer->lookahead == '_') {
     advance(lexer);
   }
@@ -130,7 +129,7 @@ scan_decimal_float_literal(TSLexer *lexer, const bool *valid_symbols) {
     return false;
   }
   advance(lexer);
-  return scan_decimal_float_literal_fractional_part(lexer, valid_symbols);
+  return scan_decimal_float_literal_fractional_part(lexer);
 }
 
 static bool scan_float_literal(TSLexer *lexer, const bool *valid_symbols) {
@@ -145,11 +144,11 @@ static bool scan_float_literal(TSLexer *lexer, const bool *valid_symbols) {
     advance(lexer);
     if (lexer->lookahead == '.') {
       advance(lexer);
-      return scan_decimal_float_literal_fractional_part(lexer, valid_symbols);
+      return scan_decimal_float_literal_fractional_part(lexer);
     }
     if (iswdigit(lexer->lookahead)) {
       advance(lexer);
-      return scan_decimal_float_literal(lexer, valid_symbols);
+      return scan_decimal_float_literal(lexer);
     }
     if (lexer->lookahead != 'x' && lexer->lookahead != 'X') {
       return false;
@@ -180,7 +179,7 @@ static bool scan_float_literal(TSLexer *lexer, const bool *valid_symbols) {
     return true;
   } else {
     advance(lexer);
-    return scan_decimal_float_literal(lexer, valid_symbols);
+    return scan_decimal_float_literal(lexer);
   }
 }
 
@@ -238,6 +237,7 @@ can_insert_semi(TSLexer *lexer, struct ScannerState *state) {
       default:
         break;
       }
+      break;
     case '$':
       advance(lexer);
       switch (lexer->lookahead) {
@@ -246,6 +246,7 @@ can_insert_semi(TSLexer *lexer, struct ScannerState *state) {
       default:
         break;
       }
+      break;
     default:
       break;
     }
