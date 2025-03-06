@@ -2592,6 +2592,10 @@
           "named": true
         },
         {
+          "type": "type_definition",
+          "named": true
+        },
+        {
           "type": "unfinished",
           "named": true
         }
