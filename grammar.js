@@ -88,6 +88,7 @@ module.exports = grammar({
 
     type_definition: $ => seq(
       optional($.visibility),
+      optional('extern'),
       'type',
       $.identifier,
       optional($.type_parameters),
@@ -97,6 +98,7 @@ module.exports = grammar({
 
     error_type_definition: $ => seq(
       optional($.visibility),
+      optional('extern'),
       'type',
       '!',
       $.identifier,
@@ -745,6 +747,7 @@ module.exports = grammar({
     statement_expression: $ => choice(
       $.struct_definition,
       $.enum_definition,
+      $.type_definition,
       $.let_expression,
       $.let_mut_expression,
       $.guard_expression,
