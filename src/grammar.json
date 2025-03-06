@@ -1531,8 +1531,26 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "block_expression"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "block_expression"
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "external_source"
+                }
+              ]
+            }
+          ]
         }
       ]
     },

@@ -1404,6 +1404,10 @@
           "named": true
         },
         {
+          "type": "external_source",
+          "named": true
+        },
+        {
           "type": "for_keyword",
           "named": true
         },
