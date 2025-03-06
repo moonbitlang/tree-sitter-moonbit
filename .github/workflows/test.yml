@@ -16,6 +16,9 @@ jobs:
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
 
+      - name: Generate tree-sitter parser
+        run: tree-sitter generate
+
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
         with:
@@ -33,6 +36,9 @@ jobs:
 
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
+
+      - name: Generate tree-sitter parser
+        run: tree-sitter generate
 
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git
