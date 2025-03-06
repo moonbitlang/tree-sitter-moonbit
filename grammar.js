@@ -275,7 +275,10 @@ module.exports = grammar({
       optional('!'),
       $.parameters,
       optional($.return_type),
-      $.block_expression,
+      choice(
+        $.block_expression,
+        seq('=', $.external_source),
+      ),
     ),
 
     expression: $ => choice(
