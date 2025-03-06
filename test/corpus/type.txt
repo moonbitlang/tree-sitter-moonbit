@@ -305,3 +305,24 @@ impl Show for T with output(self : T, logger : &Logger) -> Unit {
               (identifier
                 (uppercase_identifier))))))
       (block_expression))))
+
+================================================================================
+extern type
+================================================================================
+priv extern type A
+
+extern type B
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (type_definition
+      (visibility)
+      (identifier
+        (uppercase_identifier))))
+  (semicolon
+    (automatic_semicolon))
+  (structure_item
+    (type_definition
+      (identifier
+        (uppercase_identifier)))))
