@@ -93,9 +93,9 @@ static void skip_spaces(TSLexer *lexer, const bool *valid_symbols) {
   }
 }
 
-static void skip_blanks(TSLexer *lexer) {
+static void advance_blanks(TSLexer *lexer) {
   while (iswblank(lexer->lookahead) && !lexer->eof(lexer)) {
-    skip(lexer);
+    advance(lexer);
   }
 }
 
@@ -410,7 +410,7 @@ bool tree_sitter_moonbit_external_scanner_scan(
     if (test_symbol(lexer, "for")) {
       lexer->result_symbol = FOR_KEYWORD;
       lexer->mark_end(lexer);
-      skip_blanks(lexer);
+      advance_blanks(lexer);
       if (lexer->lookahead == '\n') {
         context->remove_semi = true;
       }
