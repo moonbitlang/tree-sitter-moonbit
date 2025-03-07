@@ -2,3 +2,7 @@ src/parser.c             -diff
 src/tree_sitter/parser.h -diff
 src/node-types.json      -diff
 src/grammar.json         -diff
+
+# Zig bindings
+build.zig linguist-generated
+build.zig.zon linguist-generated
