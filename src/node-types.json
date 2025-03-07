@@ -928,11 +928,30 @@
       "required": true,
       "types": [
         {
-          "type": "constructor_parameter",
+          "type": "enum_constructor_payload",
           "named": true
         },
         {
           "type": "uppercase_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_constructor_payload",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_parameter",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
           "named": true
         }
       ]

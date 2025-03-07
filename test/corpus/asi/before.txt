@@ -1381,18 +1381,19 @@ b: Int) -> Unit {
         (uppercase_identifier))
       (enum_constructor
         (uppercase_identifier)
-        (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))
-        (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
+        (enum_constructor_payload
+          (constructor_parameter
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))
+          (constructor_parameter
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
       (semicolon
         (automatic_semicolon))))
   (semicolon

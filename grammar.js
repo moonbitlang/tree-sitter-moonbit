@@ -152,13 +152,21 @@ module.exports = grammar({
       optional($.derive_directive),
     ),
 
-    enum_constructor: $ => seq(
-      $.uppercase_identifier,
-      optional(seq(
+    enum_constructor_payload: $ => choice(
+      seq(
         '(',
         list1(',', $.constructor_parameter),
         ')',
-      )),
+      ),
+      seq(
+        '=',
+        $.integer_literal,
+      ),
+    ),
+
+    enum_constructor: $ => seq(
+      $.uppercase_identifier,
+      optional($.enum_constructor_payload),
     ),
 
     constructor_parameter: $ => choice(

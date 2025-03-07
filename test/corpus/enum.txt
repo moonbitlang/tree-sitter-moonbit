@@ -20,46 +20,90 @@ enum T {
         (automatic_semicolon))
       (enum_constructor
         (uppercase_identifier)
-        (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
+        (enum_constructor_payload
+          (constructor_parameter
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
       (semicolon
         (automatic_semicolon))
       (enum_constructor
         (uppercase_identifier)
-        (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))
-        (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
+        (enum_constructor_payload
+          (constructor_parameter
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))
+          (constructor_parameter
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
       (semicolon
         (automatic_semicolon))
       (enum_constructor
         (uppercase_identifier)
-        (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))
-        (constructor_parameter
-          (parameter_label
-            (lowercase_identifier))
-          (colon)
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
+        (enum_constructor_payload
+          (constructor_parameter
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))
+          (constructor_parameter
+            (parameter_label
+              (lowercase_identifier))
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (semicolon
+        (automatic_semicolon)))))
+
+================================================================================
+extern enum with integer discriminants
+================================================================================
+enum T {
+  A = 0
+  B = 1N
+  C = 3UL
+  D = 4U
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (enum_definition
+      (identifier
+        (uppercase_identifier))
+      (enum_constructor
+        (uppercase_identifier)
+        (enum_constructor_payload
+          (integer_literal)))
+      (semicolon
+        (automatic_semicolon))
+      (enum_constructor
+        (uppercase_identifier)
+        (enum_constructor_payload
+          (integer_literal)))
+      (semicolon
+        (automatic_semicolon))
+      (enum_constructor
+        (uppercase_identifier)
+        (enum_constructor_payload
+          (integer_literal)))
+      (semicolon
+        (automatic_semicolon))
+      (enum_constructor
+        (uppercase_identifier)
+        (enum_constructor_payload
+          (integer_literal)))
       (semicolon
         (automatic_semicolon)))))
