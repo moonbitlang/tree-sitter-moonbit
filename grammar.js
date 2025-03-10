@@ -564,8 +564,14 @@ module.exports = grammar({
       '}',
     ),
 
+    pattern_guard: $ => seq(
+      'if',
+      $.expression,
+    ),
+
     matrix_case_clause: $ => seq(
       list1(',', $.pattern),
+      optional($.pattern_guard),
       '=>',
       $.statement_expression,
     ),
@@ -708,6 +714,7 @@ module.exports = grammar({
 
     case_clause: $ => seq(
       $.pattern,
+      optional($.pattern_guard),
       '=>',
       $.statement_expression,
     ),

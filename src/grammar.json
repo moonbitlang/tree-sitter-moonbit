@@ -3108,6 +3108,19 @@
         }
       ]
     },
+    "pattern_guard": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        }
+      ]
+    },
     "matrix_case_clause": {
       "type": "SEQ",
       "members": [
@@ -3145,6 +3158,18 @@
                   "type": "BLANK"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "pattern_guard"
+            },
+            {
+              "type": "BLANK"
             }
           ]
         },
@@ -4029,6 +4054,18 @@
         {
           "type": "SYMBOL",
           "name": "pattern"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "pattern_guard"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",

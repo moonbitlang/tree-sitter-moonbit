@@ -510,6 +510,10 @@
           "named": true
         },
         {
+          "type": "pattern_guard",
+          "named": true
+        },
+        {
           "type": "statement_expression",
           "named": true
         }
@@ -1876,6 +1880,10 @@
           "named": true
         },
         {
+          "type": "pattern_guard",
+          "named": true
+        },
+        {
           "type": "statement_expression",
           "named": true
         }
@@ -2187,6 +2195,21 @@
         },
         {
           "type": "simple_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pattern_guard",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
           "named": true
         }
       ]
