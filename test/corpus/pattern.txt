@@ -1078,3 +1078,170 @@ fn main {
                 (automatic_semicolon)))))
         (semicolon
           (automatic_semicolon))))))
+
+================================================================================
+pattern guard
+================================================================================
+fn main {
+  match x {
+    A(a) if a > 0 => ()
+  }
+
+  let f = fn {
+    B(a) if a > 0 => ()
+  }
+
+  loop a, b {
+    A(a), B(b) if a == b => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (match_expression
+              (compound_expression
+                (simple_expression
+                  (qualified_identifier
+                    (lowercase_identifier))))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (constructor_pattern_argument
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
+                (pattern_guard
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (binary_expression
+                          (compound_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier))))
+                          (compound_expression
+                            (simple_expression
+                              (atomic_expression
+                                (literal
+                                  (integer_literal))))))))))
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon)))))
+        (semicolon
+          (automatic_semicolon))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (anonymous_matrix_lambda_expression
+                      (matrix_case_clause
+                        (pattern
+                          (simple_pattern
+                            (constructor_pattern
+                              (constructor_expression
+                                (uppercase_identifier))
+                              (constructor_pattern_argument
+                                (pattern
+                                  (simple_pattern
+                                    (lowercase_identifier)))))))
+                        (pattern_guard
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (binary_expression
+                                  (compound_expression
+                                    (simple_expression
+                                      (qualified_identifier
+                                        (lowercase_identifier))))
+                                  (compound_expression
+                                    (simple_expression
+                                      (atomic_expression
+                                        (literal
+                                          (integer_literal))))))))))
+                        (statement_expression
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (unit_expression)))))))
+                      (semicolon
+                        (automatic_semicolon)))))))))
+        (semicolon
+          (automatic_semicolon))
+        (statement_expression
+          (expression
+            (loop_expression
+              (expression
+                (pipeline_expression
+                  (compound_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))))
+              (expression
+                (pipeline_expression
+                  (compound_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))))
+              (matrix_case_clause
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (constructor_pattern_argument
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
+                (pattern
+                  (simple_pattern
+                    (constructor_pattern
+                      (constructor_expression
+                        (uppercase_identifier))
+                      (constructor_pattern_argument
+                        (pattern
+                          (simple_pattern
+                            (lowercase_identifier)))))))
+                (pattern_guard
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (binary_expression
+                          (compound_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier))))
+                          (compound_expression
+                            (simple_expression
+                              (qualified_identifier
+                                (lowercase_identifier)))))))))
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon)))))
+        (semicolon
+          (automatic_semicolon))))))
