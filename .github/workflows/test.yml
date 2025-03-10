@@ -15,6 +15,11 @@ jobs:
 
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: v0.24.7
+
+      - name: Generate tree-sitter parser
+        run: tree-sitter generate
 
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
@@ -33,6 +38,8 @@ jobs:
 
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: v0.24.7
 
       - name: Generate tree-sitter parser
         run: tree-sitter generate
