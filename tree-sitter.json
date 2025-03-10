@@ -8,7 +8,8 @@
       "file-types": [
         "mbt",
         "moonbit"
-      ]
+      ],
+      "highlights": "queries/highlights.scm"
     }
   ],
   "metadata": {
