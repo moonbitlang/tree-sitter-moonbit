@@ -1,6 +1,6 @@
 fn fib(n : Int) -> Int {
 // <- keyword.function
-// ^^^ function 
+// ^^^ function
   //  ^ punctuation.bracket
   //   ^ variable.parameter
   //       ^^^ type.builtin
