@@ -87,6 +87,7 @@ module.exports = grammar({
     ),
 
     type_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       optional('extern'),
       'type',
@@ -97,6 +98,7 @@ module.exports = grammar({
     ),
 
     error_type_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       optional('extern'),
       'type',
@@ -114,6 +116,7 @@ module.exports = grammar({
     ),
 
     type_alias_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       'typealias',
       $.identifier,
@@ -123,6 +126,7 @@ module.exports = grammar({
     ),
 
     struct_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       'struct',
       $.identifier,
@@ -142,6 +146,7 @@ module.exports = grammar({
     ),
 
     enum_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       'enum',
       $.identifier,
@@ -175,6 +180,7 @@ module.exports = grammar({
     ),
 
     value_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       'let',
       $.lowercase_identifier,
@@ -184,6 +190,7 @@ module.exports = grammar({
     ),
 
     const_definition: $ => seq(
+      optional($.attributes),
       optional($.pub),
       'const',
       $.uppercase_identifier,
@@ -204,6 +211,7 @@ module.exports = grammar({
     ),
 
     function_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       optional($.external_linkage),
       optional('async'),
@@ -220,6 +228,7 @@ module.exports = grammar({
     ),
 
     test_definition: $ => seq(
+      optional($.attributes),
       'test',
       optional($.string_literal),
       optional($.parameters),
@@ -227,6 +236,7 @@ module.exports = grammar({
     ),
 
     trait_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       'trait',
       $.identifier,
@@ -270,6 +280,7 @@ module.exports = grammar({
     ),
 
     impl_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       'impl',
       optional($.type_parameters),
@@ -1192,6 +1203,29 @@ module.exports = grammar({
     comment: _ => /\/\/.*/,
 
     docstring: _ => /\/\/\/.*/,
+
+    attribute_properties: $ => seq(
+      '(',
+      list(',', $.attribute_property),
+      ')',
+    ),
+
+    attribute_property: $ => choice(
+      seq($.lowercase_identifier, '=', $.attribute_expression),
+      $.attribute_expression,
+    ),
+
+    attribute_expression: $ => choice(
+      $.lowercase_identifier,
+      seq($.lowercase_identifier, $.dot_lowercase_identifier),
+      seq($.lowercase_identifier, $.attribute_properties),
+      seq($.lowercase_identifier, $.dot_lowercase_identifier, $.attribute_properties),
+      $.string_literal,
+    ),
+
+    attribute: $ => seq('#', $.attribute_expression),
+
+    attributes: $ => repeat1($.attribute),
   },
 });
 
