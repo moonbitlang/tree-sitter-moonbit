@@ -28,6 +28,10 @@
 
 (let_mut_expression (lowercase_identifier) @variable)
 
+(for_in_expression (for_keyword) (lowercase_identifier) @variable "in")
+
+(for_binder (lowercase_identifier) @variable)
+
 ; Constants
 
 (const_definition (uppercase_identifier) @constant)
