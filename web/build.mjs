@@ -22,9 +22,12 @@ Object.entries(resources).forEach(([filename, resource]) => {
     });
 });
 
-cp.spawnSync("npm", ["exec", "tree-sitter", "build", "--wasm"]);
-
-fs.copyFileSync(
-  path.join("tree-sitter-moonbit.wasm"),
-  path.join("web", "tree-sitter-moonbit.wasm")
-);
+cp.spawnSync("npm", [
+  "exec",
+  "tree-sitter",
+  "--",
+  "build",
+  "--wasm",
+  "--output",
+  path.join("web", "tree-sitter-moonbit.wasm"),
+]);
