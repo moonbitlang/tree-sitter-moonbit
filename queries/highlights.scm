@@ -93,6 +93,16 @@
 (struct_pattern (struct_field_pattern (labeled_pattern_pun (lowercase_identifier) @field)))
 (access_expression (accessor (dot_identifier) @field))
 
+; Attributes
+
+(attribute) @attribute
+((attribute) @attribute.builtin
+ (#eq? @attribute.builtin
+          "#coverage.skip"))
+((attribute) @attribute.builtin
+ (#match? @attribute.builtin
+          "^#deprecated\\(.*\\)"))
+
 ;; Functions
 
 ; Function calls
