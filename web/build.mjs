@@ -2,6 +2,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import cp from "node:child_process";
+import { env } from "node:process";
+
+const base_path = env["BASE_PATH"];
+
+const index_html = fs
+  .readFileSync(path.join("web", "index.html"), "utf-8")
+  .replace(/LANGUAGE_BASE_URL = ""/, `LANGUAGE_BASE_URL = "${base_path}"`);
+
+fs.writeFileSync(path.join("web", "index.html"), index_html);
 
 /**
  * @type {Record<string, string>}
