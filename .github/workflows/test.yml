@@ -8,10 +8,20 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: "npm"
 
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
@@ -31,10 +41,20 @@ jobs:
           test-swift: true
 
   test-core:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: "npm"
 
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
@@ -46,12 +66,6 @@ jobs:
 
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ".node-version"
-          cache: "npm"
 
       - name: Install dependencies
         run: npm ci

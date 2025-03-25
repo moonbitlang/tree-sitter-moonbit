@@ -10,7 +10,7 @@ on:
       - src/scanner.c
 
 jobs:
-  test:
+  fuzz:
     name: fuzz
     runs-on: ubuntu-latest
     steps:
