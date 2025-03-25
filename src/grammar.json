@@ -1556,7 +1556,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "identifier"
+          "name": "qualified_type_identifier"
         },
         {
           "type": "CHOICE",
@@ -1571,12 +1571,25 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "type"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
