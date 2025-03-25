@@ -1156,56 +1156,60 @@ typealias X[t] = Y[T]
 (structure
   (structure_item
     (type_alias_definition
-      (identifier
-        (uppercase_identifier))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (type_alias_targets
+        (identifier
+          (uppercase_identifier))
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))))
   (semicolon
     (automatic_semicolon))
   (structure_item
     (type_alias_definition
       (visibility)
-      (identifier
-        (uppercase_identifier))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (type_alias_targets
+        (identifier
+          (uppercase_identifier))
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))))
   (semicolon
     (automatic_semicolon))
   (structure_item
     (type_alias_definition
       (visibility
         (pub_attribute))
-      (identifier
-        (uppercase_identifier))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (type_alias_targets
+        (identifier
+          (uppercase_identifier))
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))))
   (semicolon
     (automatic_semicolon))
   (structure_item
     (type_alias_definition
-      (identifier
-        (uppercase_identifier))
-      (type_parameters
-        (type_identifier
-          (identifier
-            (lowercase_identifier))))
-      (type
-        (apply_type
-          (qualified_type_identifier
+      (type_alias_targets
+        (identifier
+          (uppercase_identifier))
+        (type_parameters
+          (type_identifier
             (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))))
+              (lowercase_identifier))))
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier))))))))))))
