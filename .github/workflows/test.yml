@@ -16,6 +16,12 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: "npm"
+
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
@@ -42,6 +48,12 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: "npm"
+
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
@@ -52,12 +64,6 @@ jobs:
 
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ".node-version"
-          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
