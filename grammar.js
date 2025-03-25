@@ -56,7 +56,6 @@ module.exports = grammar({
     structure_item: $ => choice(
       $.type_definition,
       $.error_type_definition,
-      $.type_alias_definition,
       $.struct_definition,
       $.enum_definition,
       $.value_definition,
@@ -64,8 +63,10 @@ module.exports = grammar({
       $.function_definition,
       $.test_definition,
       $.trait_definition,
-      $.trait_alias_definition,
       $.impl_definition,
+      $.type_alias_definition,
+      $.trait_alias_definition,
+      $.function_alias_definition,
     ),
 
     visibility: $ => choice(
@@ -115,14 +116,21 @@ module.exports = grammar({
       optional($.derive_directive),
     ),
 
+    type_alias_target: $ => seq(
+      $.identifier, optional($.type_parameters),
+    ),
+
+    type_alias_targets: $ => choice(
+      seq($.identifier, optional($.type_parameters), '=', $.type),
+      seq($.package_identifier, $.dot_identifier, optional($.type_parameters)),
+      seq($.package_identifier, '.(', list(',', $.type_alias_target), ')'),
+    ),
+
     type_alias_definition: $ => seq(
       optional($.attributes),
       optional($.visibility),
       'typealias',
-      $.identifier,
-      optional($.type_parameters),
-      '=',
-      $.type,
+      $.type_alias_targets,
     ),
 
     struct_definition: $ => seq(
@@ -270,15 +278,42 @@ module.exports = grammar({
       optional($.return_type),
     ),
 
+    trait_alias_target: $ => seq(
+      $.identifier, optional($.type_parameters),
+    ),
+
+    trait_alias_targets: $ => choice(
+      seq($.identifier, optional($.type_parameters), '=', $.type),
+      seq($.package_identifier, $.dot_identifier, optional($.type_parameters)),
+      seq($.package_identifier, '.(', list(',', $.trait_alias_target), optional(','), ')'),
+    ),
+
     trait_alias_definition: $ => seq(
+      optional($.attributes),
       optional($.visibility),
       'traitalias',
-      $.qualified_type_identifier,
-      optional($.type_parameters),
-      optional(seq(
-        '=',
-        $.type,
-      )),
+      $.trait_alias_targets,
+    ),
+
+    function_alias_target: $ => choice(
+      $.lowercase_identifier,
+      seq($.lowercase_identifier, 'as', $.lowercase_identifier),
+    ),
+
+    function_alias_targets: $ => choice(
+      seq($.lowercase_identifier, '=', $.qualified_identifier),
+      $.function_alias_target,
+      seq($.package_identifier, $.dot_lowercase_identifier),
+      seq($.package_identifier, $.dot_lowercase_identifier, 'as', $.lowercase_identifier),
+      seq('(', list1(',', $.function_alias_target), ')'),
+      seq($.package_identifier, '.(', list(',', $.function_alias_target), ')'),
+    ),
+
+    function_alias_definition: $ => seq(
+      optional($.attributes),
+      optional($.visibility),
+      'fnalias',
+      $.function_alias_targets,
     ),
 
     impl_definition: $ => seq(
