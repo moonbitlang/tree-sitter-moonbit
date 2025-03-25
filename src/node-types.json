@@ -1315,6 +1315,75 @@
     }
   },
   {
+    "type": "function_alias_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "function_alias_targets",
+          "named": true
+        },
+        {
+          "type": "visibility",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_alias_target",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_alias_targets",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dot_lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "function_alias_target",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "package_identifier",
+          "named": true
+        },
+        {
+          "type": "qualified_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "function_definition",
     "named": true,
     "fields": {},
@@ -3015,6 +3084,10 @@
           "named": true
         },
         {
+          "type": "function_alias_definition",
+          "named": true
+        },
+        {
           "type": "function_definition",
           "named": true
         },
@@ -3108,7 +3181,61 @@
       "required": true,
       "types": [
         {
-          "type": "qualified_type_identifier",
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "trait_alias_targets",
+          "named": true
+        },
+        {
+          "type": "visibility",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait_alias_target",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait_alias_targets",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dot_identifier",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "package_identifier",
+          "named": true
+        },
+        {
+          "type": "trait_alias_target",
           "named": true
         },
         {
@@ -3117,10 +3244,6 @@
         },
         {
           "type": "type_parameters",
-          "named": true
-        },
-        {
-          "type": "visibility",
           "named": true
         }
       ]
@@ -3365,7 +3488,53 @@
           "named": true
         },
         {
+          "type": "type_alias_targets",
+          "named": true
+        },
+        {
+          "type": "visibility",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_alias_target",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_alias_targets",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dot_identifier",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "package_identifier",
           "named": true
         },
         {
@@ -3373,11 +3542,11 @@
           "named": true
         },
         {
-          "type": "type_parameters",
+          "type": "type_alias_target",
           "named": true
         },
         {
-          "type": "visibility",
+          "type": "type_parameters",
           "named": true
         }
       ]
@@ -3683,6 +3852,10 @@
     "named": false
   },
   {
+    "type": ".(",
+    "named": false
+  },
+  {
     "type": "..",
     "named": false
   },
@@ -3860,6 +4033,10 @@
   },
   {
     "type": "fn",
+    "named": false
+  },
+  {
+    "type": "fnalias",
     "named": false
   },
   {
