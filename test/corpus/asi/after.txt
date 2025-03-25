@@ -360,8 +360,9 @@ fn main {
     (automatic_semicolon))
   (structure_item
     (trait_alias_definition
-      (identifier
-        (uppercase_identifier))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
       (type
         (apply_type
           (qualified_type_identifier
