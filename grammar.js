@@ -273,10 +273,12 @@ module.exports = grammar({
     trait_alias_definition: $ => seq(
       optional($.visibility),
       'traitalias',
-      $.identifier,
+      $.qualified_type_identifier,
       optional($.type_parameters),
-      '=',
-      $.type,
+      optional(seq(
+        '=',
+        $.type,
+      )),
     ),
 
     impl_definition: $ => seq(
