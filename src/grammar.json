@@ -6439,6 +6439,19 @@
           ]
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "dot_dot"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "bytes_literal"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "pattern"
         }
