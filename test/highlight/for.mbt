@@ -3,6 +3,7 @@ pub fn print_array[T : Show](array : Array[T]) -> Unit {
   let buffer = StringBuilder::new()
   buffer.write_char('[')
   for i, value in array {
+  // <- keyword.repeat
     //^ variable
     //   ^^^^^ variable  
     buffer.write_object(value)
