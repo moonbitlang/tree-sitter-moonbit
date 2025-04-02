@@ -805,6 +805,8 @@ fn main {
     [a, .. as d, b] => ()
     [a, .. d, b] => ()
     [.. A, .. @a.T] => ()
+    [.. "a", ..] => ()
+    [.. b"a", ..] => ()
   }
 }
 --------------------------------------------------------------------------------
@@ -1068,6 +1070,48 @@ fn main {
                         (constructor_expression
                           (package_identifier)
                           (dot_uppercase_identifier))))))
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (dot_dot)
+                        (string_literal
+                          (string_fragment
+                            (unescaped_string_fragment))))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (dot_dot)))))))
+                (statement_expression
+                  (expression
+                    (pipeline_expression
+                      (compound_expression
+                        (simple_expression
+                          (unit_expression)))))))
+              (semicolon
+                (automatic_semicolon))
+              (case_clause
+                (pattern
+                  (simple_pattern
+                    (array_pattern
+                      (array_sub_pattern
+                        (dot_dot)
+                        (bytes_literal
+                          (string_fragment
+                            (unescaped_string_fragment))))
+                      (array_sub_pattern
+                        (pattern
+                          (simple_pattern
+                            (dot_dot)))))))
                 (statement_expression
                   (expression
                     (pipeline_expression

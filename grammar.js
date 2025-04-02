@@ -1041,6 +1041,7 @@ module.exports = grammar({
       seq($.dot_dot, $.qualified_identifier),
       seq($.dot_dot, $.constructor_expression),
       seq($.dot_dot, $.string_literal),
+      seq($.dot_dot, $.bytes_literal),
       $.pattern,
     ),
 
