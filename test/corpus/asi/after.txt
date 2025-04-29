@@ -466,46 +466,56 @@ fn main {
             (assign_operator
               (equal))
             (expression
-              (for_expression
-                (for_keyword)
-                (for_binder
-                  (lowercase_identifier)
-                  (expression
-                    (pipeline_expression
-                      (compound_expression
-                        (simple_expression
-                          (atomic_expression
-                            (literal
-                              (integer_literal))))))))
-                (semicolon)
+              (pipeline_expression
                 (compound_expression
-                  (binary_expression
-                    (compound_expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier))))
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))
+        (statement_expression
+          (expression
+            (for_expression
+              (for_keyword)
+              (for_binder
+                (lowercase_identifier)
+                (expression
+                  (pipeline_expression
                     (compound_expression
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))
-                (semicolon)
-                (for_binder
-                  (lowercase_identifier)
-                  (expression
-                    (pipeline_expression
-                      (compound_expression
-                        (binary_expression
-                          (compound_expression
-                            (simple_expression
-                              (qualified_identifier
-                                (lowercase_identifier))))
-                          (compound_expression
-                            (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (integer_literal))))))))))
-                (block_expression)))))
+                            (integer_literal))))))))
+              (semicolon)
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))))
+              (semicolon)
+              (for_binder
+                (lowercase_identifier)
+                (expression
+                  (pipeline_expression
+                    (compound_expression
+                      (binary_expression
+                        (compound_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier))))
+                        (compound_expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal))))))))))
+              (block_expression))))
         (semicolon
           (automatic_semicolon))))))
 

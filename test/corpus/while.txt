@@ -75,7 +75,14 @@ fn main {
                       (boolean_literal)))))
               (block_expression
                 (statement_expression
-                  (break_expression))
+                  (break_expression
+                    (expression
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal)))))))))
                 (semicolon
                   (automatic_semicolon)))
               (else_clause
@@ -125,7 +132,14 @@ fn main {
                 (statement_expression
                   (break_expression
                     (parameter_label
-                      (lowercase_identifier))))
+                      (lowercase_identifier))
+                    (expression
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal)))))))))
                 (semicolon
                   (automatic_semicolon)))
               (else_clause
