@@ -54,7 +54,7 @@ fn init() { 1 * 5 |> f(5) |> g  }
 ================================================================================
 match expression
 ================================================================================
-fn init() {
+fn init {
   match x {
     A => return
     B => return 1
@@ -71,7 +71,6 @@ fn init() {
     (function_definition
       (function_identifier
         (lowercase_identifier))
-      (parameters)
       (block_expression
         (statement_expression
           (expression
@@ -97,7 +96,14 @@ fn init() {
                       (constructor_expression
                         (uppercase_identifier)))))
                 (statement_expression
-                  (return_expression)))
+                  (return_expression
+                    (expression
+                      (pipeline_expression
+                        (compound_expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal))))))))))
               (semicolon
                 (automatic_semicolon))
               (case_clause
