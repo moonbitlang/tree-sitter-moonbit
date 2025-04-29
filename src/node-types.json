@@ -3305,6 +3305,10 @@
           "named": true
         },
         {
+          "type": "trait_method_default_annotation",
+          "named": true
+        },
+        {
           "type": "trait_method_parameter",
           "named": true
         },
@@ -3314,6 +3318,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "trait_method_default_annotation",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "trait_method_parameter",
