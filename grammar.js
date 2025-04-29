@@ -276,7 +276,10 @@ module.exports = grammar({
       list(',', $.trait_method_parameter),
       ')',
       optional($.return_type),
+      optional($.trait_method_default_annotation),
     ),
+
+    trait_method_default_annotation: _ => seq('=', '_'),
 
     trait_alias_target: $ => seq(
       $.identifier, optional($.type_parameters),
