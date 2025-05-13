@@ -320,6 +320,18 @@ static enum AsiResult can_insert_semi(TSLexer *lexer,
       return ASI_INSERT;
     }
   case '.':
+    advance(lexer);
+    if (lexer->lookahead == '.') {
+      advance(lexer);
+      if (lexer->lookahead == '.') {
+        advance(lexer);
+        return ASI_INSERT;
+      } else {
+        return ASI_REMOVE;
+      }
+    } else {
+      return ASI_REMOVE;
+    }
   case ':':
   case ',':
   case ')':
