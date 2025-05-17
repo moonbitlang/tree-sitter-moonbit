@@ -71,14 +71,57 @@ jobs:
         run: npm ci
 
       - name: Test core
-        id: core
+        id: test
         uses: tree-sitter/parse-action@v4
         with:
           files: core/**/*.mbt
 
       - name: Upload failures
         uses: actions/upload-artifact@v4
-        if: ${{ always() && steps.core.outputs.failures != '' }}
+        if: ${{ always() && steps.test.outputs.failures != '' }}
         with:
           name: failures
-          path: ${{steps.core.outputs.failures}}
+          path: ${{steps.test.outputs.failures}}
+
+  test-uv:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: "npm"
+
+      - name: Setup tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: v0.24.7
+
+      - name: Generate tree-sitter parser
+        run: tree-sitter generate
+
+      - name: Checkout tonyfettes/uv.mbt
+        run: git clone https://github.com/tonyfettes/uv.mbt.git
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test uv
+        id: test
+        uses: tree-sitter/parse-action@v4
+        with:
+          files: uv.mbt/**/*.mbt
+
+      - name: Upload failures
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.test.outputs.failures != '' }}
+        with:
+          name: failures
+          path: ${{steps.test.outputs.failures}}
