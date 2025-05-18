@@ -56,7 +56,7 @@ enum T {
                   (identifier
                     (uppercase_identifier))))))
           (constructor_parameter
-            (parameter_label
+            (label
               (lowercase_identifier))
             (colon)
             (type

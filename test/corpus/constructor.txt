@@ -31,14 +31,15 @@ fn init {
                     (simple_expression
                       (constructor_expression
                         (uppercase_identifier)))
-                    (argument
-                      (expression
-                        (pipeline_expression
-                          (compound_expression
-                            (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (integer_literal))))))))))))))
+                    (arguments
+                      (argument
+                        (expression
+                          (pipeline_expression
+                            (compound_expression
+                              (simple_expression
+                                (atomic_expression
+                                  (literal
+                                    (integer_literal)))))))))))))))
         (semicolon
           (automatic_semicolon))))))
 

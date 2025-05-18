@@ -399,14 +399,15 @@ fn &Trait::method(self: Self) -> Int { 42 }
             (uppercase_identifier))))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type
@@ -437,14 +438,15 @@ fn &Trait::method(self: Self) -> Int { 42 }
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type_with_error
           (type
@@ -461,14 +463,15 @@ fn &Trait::method(self: Self) -> Int { 42 }
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type_with_error
           (type
@@ -495,14 +498,15 @@ fn &Trait::method(self: Self) -> Int { 42 }
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type
@@ -571,37 +575,39 @@ fn init {
         (lowercase_identifier))
       (parameters
         (parameter
-          (parameter_label
-            (lowercase_identifier))
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))
+          (labelled_parameter
+            (label
+              (lowercase_identifier))
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier))))))))
         (parameter
-          (parameter_label
-            (lowercase_identifier))
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))
-                (type_arguments
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))))))
-          (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (constructor_expression
-                    (uppercase_identifier))))))))
+          (optional_parameter_with_default
+            (label
+              (lowercase_identifier))
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))
+                  (type_arguments
+                    (type
+                      (apply_type
+                        (qualified_type_identifier
+                          (identifier
+                            (uppercase_identifier)))))))))
+            (expression
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (constructor_expression
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type
@@ -634,24 +640,25 @@ fn init {
                             (simple_expression
                               (qualified_identifier
                                 (lowercase_identifier)))
-                            (argument
-                              (expression
-                                (pipeline_expression
-                                  (compound_expression
-                                    (simple_expression
-                                      (atomic_expression
-                                        (string_interpolation
-                                          (string_fragment
-                                            (unescaped_string_fragment))
-                                          (interpolator
-                                            (expression
-                                              (pipeline_expression
-                                                (compound_expression
-                                                  (simple_expression
-                                                    (qualified_identifier
-                                                      (lowercase_identifier)))))))
-                                          (string_fragment
-                                            (unescaped_string_fragment))))))))))))))))
+                            (arguments
+                              (argument
+                                (expression
+                                  (pipeline_expression
+                                    (compound_expression
+                                      (simple_expression
+                                        (atomic_expression
+                                          (string_interpolation
+                                            (string_fragment
+                                              (unescaped_string_fragment))
+                                            (interpolator
+                                              (expression
+                                                (pipeline_expression
+                                                  (compound_expression
+                                                    (simple_expression
+                                                      (qualified_identifier
+                                                        (lowercase_identifier)))))))
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (semicolon
                 (automatic_semicolon))
               (case_clause
@@ -669,33 +676,34 @@ fn init {
                             (simple_expression
                               (qualified_identifier
                                 (lowercase_identifier)))
-                            (argument
-                              (expression
-                                (pipeline_expression
-                                  (compound_expression
-                                    (simple_expression
-                                      (atomic_expression
-                                        (string_interpolation
-                                          (string_fragment
-                                            (unescaped_string_fragment))
-                                          (interpolator
-                                            (expression
-                                              (pipeline_expression
-                                                (compound_expression
-                                                  (simple_expression
-                                                    (qualified_identifier
-                                                      (lowercase_identifier)))))))
-                                          (string_fragment
-                                            (unescaped_string_fragment))
-                                          (interpolator
-                                            (expression
-                                              (pipeline_expression
-                                                (compound_expression
-                                                  (simple_expression
-                                                    (qualified_identifier
-                                                      (lowercase_identifier)))))))
-                                          (string_fragment
-                                            (unescaped_string_fragment))))))))))))))))
+                            (arguments
+                              (argument
+                                (expression
+                                  (pipeline_expression
+                                    (compound_expression
+                                      (simple_expression
+                                        (atomic_expression
+                                          (string_interpolation
+                                            (string_fragment
+                                              (unescaped_string_fragment))
+                                            (interpolator
+                                              (expression
+                                                (pipeline_expression
+                                                  (compound_expression
+                                                    (simple_expression
+                                                      (qualified_identifier
+                                                        (lowercase_identifier)))))))
+                                            (string_fragment
+                                              (unescaped_string_fragment))
+                                            (interpolator
+                                              (expression
+                                                (pipeline_expression
+                                                  (compound_expression
+                                                    (simple_expression
+                                                      (qualified_identifier
+                                                        (lowercase_identifier)))))))
+                                            (string_fragment
+                                              (unescaped_string_fragment)))))))))))))))))
               (semicolon
                 (automatic_semicolon)))))
         (semicolon
@@ -716,20 +724,19 @@ fn init {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (argument
-                      (argument_label
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier))))
-                      (expression
-                        (pipeline_expression
-                          (compound_expression
-                            (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment))))))))))))))))
+                    (arguments
+                      (argument
+                        (labelled_argument
+                          (lowercase_identifier)
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (atomic_expression
+                                    (literal
+                                      (string_literal
+                                        (string_fragment
+                                          (unescaped_string_fragment))))))))))))))))))
         (comment)
         (semicolon
           (automatic_semicolon))
@@ -742,43 +749,41 @@ fn init {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (argument
-                      (argument_label
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier))))
-                      (expression
-                        (pipeline_expression
-                          (compound_expression
-                            (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment))))))))))
-                    (argument
-                      (argument_label
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier))))
-                      (expression
-                        (pipeline_expression
-                          (compound_expression
-                            (simple_expression
-                              (apply_expression
+                    (arguments
+                      (argument
+                        (labelled_argument
+                          (lowercase_identifier)
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
                                 (simple_expression
-                                  (constructor_expression
-                                    (uppercase_identifier)))
-                                (argument
-                                  (expression
-                                    (pipeline_expression
-                                      (compound_expression
-                                        (simple_expression
-                                          (atomic_expression
-                                            (literal
-                                              (string_literal
-                                                (string_fragment
-                                                  (unescaped_string_fragment))))))))))))))))))))))
+                                  (atomic_expression
+                                    (literal
+                                      (string_literal
+                                        (string_fragment
+                                          (unescaped_string_fragment)))))))))))
+                      (argument
+                        (labelled_argument
+                          (lowercase_identifier)
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (apply_expression
+                                    (simple_expression
+                                      (constructor_expression
+                                        (uppercase_identifier)))
+                                    (arguments
+                                      (argument
+                                        (expression
+                                          (pipeline_expression
+                                            (compound_expression
+                                              (simple_expression
+                                                (atomic_expression
+                                                  (literal
+                                                    (string_literal
+                                                      (string_fragment
+                                                        (unescaped_string_fragment)))))))))))))))))))))))))
         (semicolon
           (automatic_semicolon))))))
 
@@ -823,14 +828,15 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type
@@ -866,14 +872,15 @@ extern "c" fn ffi(a: Int) = "return 0"
             (uppercase_identifier))))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type
@@ -904,14 +911,15 @@ extern "c" fn ffi(a: Int) = "return 0"
             (uppercase_identifier))))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type
@@ -936,14 +944,15 @@ extern "c" fn ffi(a: Int) = "return 0"
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (external_source
         (multiline_string_literal
           (multiline_string_fragment
@@ -961,14 +970,15 @@ extern "c" fn ffi(a: Int) = "return 0"
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (external_source
         (string_literal
           (string_fragment
@@ -1025,20 +1035,21 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
             (uppercase_identifier))))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))
-                (type_arguments
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))
+                  (type_arguments
+                    (type
+                      (apply_type
+                        (qualified_type_identifier
+                          (identifier
+                            (uppercase_identifier))))))))))))
       (return_type
         (type
           (apply_type
@@ -1107,14 +1118,15 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
             (lowercase_identifier)
             (parameters
               (parameter
-                (lowercase_identifier)
-                (type_annotation
-                  (colon)
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier))))))))
+                (positional_parameter
+                  (lowercase_identifier)
+                  (type_annotation
+                    (colon)
+                    (type
+                      (apply_type
+                        (qualified_type_identifier
+                          (identifier
+                            (uppercase_identifier)))))))))
             (return_type
               (type
                 (apply_type
@@ -1134,13 +1146,14 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (argument
-                      (expression
-                        (pipeline_expression
-                          (compound_expression
-                            (simple_expression
-                              (qualified_identifier
-                                (lowercase_identifier)))))))))))))
+                    (arguments
+                      (argument
+                        (expression
+                          (pipeline_expression
+                            (compound_expression
+                              (simple_expression
+                                (qualified_identifier
+                                  (lowercase_identifier))))))))))))))
         (semicolon
           (automatic_semicolon))))))
 

@@ -97,7 +97,15 @@
           "named": true
         },
         {
-          "type": "argument",
+          "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "question_operator",
           "named": true
         },
         {
@@ -146,57 +154,42 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "argument_label",
-          "named": true
-        },
-        {
-          "type": "argument_pun",
-          "named": true
-        },
         {
           "type": "expression",
           "named": true
+        },
+        {
+          "type": "forwarded_labelled_argument",
+          "named": true
+        },
+        {
+          "type": "forwarded_optional_argument",
+          "named": true
+        },
+        {
+          "type": "labelled_argument",
+          "named": true
+        },
+        {
+          "type": "optional_argument",
+          "named": true
         }
       ]
     }
   },
   {
-    "type": "argument_label",
+    "type": "arguments",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "question_operator",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "argument_pun",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "question_operator",
-          "named": true
-        },
-        {
-          "type": "simple_expression",
+          "type": "argument",
           "named": true
         }
       ]
@@ -556,7 +549,7 @@
           "named": true
         },
         {
-          "type": "parameter_label",
+          "type": "label",
           "named": true
         }
       ]
@@ -629,6 +622,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "colon",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "compound_expression",
@@ -808,7 +806,7 @@
           "named": true
         },
         {
-          "type": "parameter_label",
+          "type": "label",
           "named": true
         },
         {
@@ -846,11 +844,11 @@
       "required": true,
       "types": [
         {
-          "type": "lowercase_identifier",
+          "type": "label",
           "named": true
         },
         {
-          "type": "parameter_label",
+          "type": "lowercase_identifier",
           "named": true
         },
         {
@@ -873,7 +871,7 @@
           "named": true
         },
         {
-          "type": "parameter_label",
+          "type": "label",
           "named": true
         }
       ]
@@ -1319,6 +1317,36 @@
     }
   },
   {
+    "type": "forwarded_labelled_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "forwarded_optional_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "optional_label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "function_alias_definition",
     "named": true,
     "fields": {},
@@ -1692,6 +1720,21 @@
     }
   },
   {
+    "type": "label",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "labeled_expression",
     "named": true,
     "fields": {},
@@ -1762,6 +1805,44 @@
       "types": [
         {
           "type": "lowercase_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "labelled_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "labelled_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
           "named": true
         }
       ]
@@ -1915,7 +1996,7 @@
       "required": true,
       "types": [
         {
-          "type": "lowercase_identifier",
+          "type": "label",
           "named": true
         }
       ]
@@ -2263,7 +2344,26 @@
     }
   },
   {
-    "type": "optional_parameter_label",
+    "type": "optional_argument",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "optional_label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "optional_label",
     "named": true,
     "fields": {},
     "children": {
@@ -2276,6 +2376,48 @@
         },
         {
           "type": "question_operator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "optional_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "optional_label",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "optional_parameter_with_default",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
           "named": true
         }
       ]
@@ -2301,42 +2443,23 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "lowercase_identifier",
-          "named": true
-        },
-        {
-          "type": "optional_parameter_label",
-          "named": true
-        },
-        {
-          "type": "parameter_label",
-          "named": true
-        },
-        {
-          "type": "type_annotation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "parameter_label",
-    "named": true,
-    "fields": {},
-    "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "lowercase_identifier",
+          "type": "labelled_parameter",
+          "named": true
+        },
+        {
+          "type": "optional_parameter",
+          "named": true
+        },
+        {
+          "type": "optional_parameter_with_default",
+          "named": true
+        },
+        {
+          "type": "positional_parameter",
           "named": true
         }
       ]
@@ -2417,6 +2540,25 @@
         },
         {
           "type": "pipeline_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "positional_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "type_annotation",
           "named": true
         }
       ]
@@ -3333,7 +3475,7 @@
       "required": true,
       "types": [
         {
-          "type": "parameter_label",
+          "type": "label",
           "named": true
         },
         {
@@ -3877,6 +4019,10 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": ";",
     "named": false
   },
@@ -3975,10 +4121,6 @@
   {
     "type": "catch",
     "named": false
-  },
-  {
-    "type": "colon",
-    "named": true
   },
   {
     "type": "colon_colon",
@@ -4230,10 +4372,6 @@
   },
   {
     "type": "~",
-    "named": false
-  },
-  {
-    "type": "~:",
     "named": false
   }
 ]

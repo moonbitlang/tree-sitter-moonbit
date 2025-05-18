@@ -72,15 +72,16 @@ test "a" (it : @test.T) {
           (unescaped_string_fragment)))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (package_identifier)
-                  (dot_identifier
-                    (dot_uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (package_identifier)
+                    (dot_identifier
+                      (dot_uppercase_identifier)))))))))
       (block_expression
         (statement_expression
           (expression
@@ -120,19 +121,18 @@ test "a" (it : @test.T) {
                           (dot_identifier
                             (dot_lowercase_identifier)))))
                     (apply_operator)
-                    (argument
-                      (argument_label
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier))))
-                      (expression
-                        (pipeline_expression
-                          (compound_expression
-                            (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment))))))))))))))))
+                    (arguments
+                      (argument
+                        (labelled_argument
+                          (lowercase_identifier)
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (atomic_expression
+                                    (literal
+                                      (string_literal
+                                        (string_fragment
+                                          (unescaped_string_fragment))))))))))))))))))
         (semicolon
           (automatic_semicolon))))))

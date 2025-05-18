@@ -23,27 +23,28 @@ fn init {
                         (constructor_expression
                           (package_identifier)
                           (dot_uppercase_identifier)))
-                      (argument
-                        (expression
-                          (pipeline_expression
-                            (compound_expression
-                              (simple_expression
-                                (tuple_expression
-                                  (expression
-                                    (pipeline_expression
-                                      (compound_expression
-                                        (simple_expression
-                                          (qualified_identifier
-                                            (lowercase_identifier))))))
-                                  (expression
-                                    (pipeline_expression
-                                      (compound_expression
-                                        (simple_expression
-                                          (atomic_expression
-                                            (literal
-                                              (string_literal
-                                                (string_fragment
-                                                  (unescaped_string_fragment))))))))))))))))))))))
+                      (arguments
+                        (argument
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (tuple_expression
+                                    (expression
+                                      (pipeline_expression
+                                        (compound_expression
+                                          (simple_expression
+                                            (qualified_identifier
+                                              (lowercase_identifier))))))
+                                    (expression
+                                      (pipeline_expression
+                                        (compound_expression
+                                          (simple_expression
+                                            (atomic_expression
+                                              (literal
+                                                (string_literal
+                                                  (string_fragment
+                                                    (unescaped_string_fragment)))))))))))))))))))))))
         (semicolon
           (automatic_semicolon))))))
 
@@ -84,27 +85,28 @@ fn init {
                                 (constructor_expression
                                   (package_identifier)
                                   (dot_uppercase_identifier)))
-                              (argument
-                                (expression
-                                  (pipeline_expression
-                                    (compound_expression
-                                      (simple_expression
-                                        (tuple_expression
-                                          (expression
-                                            (pipeline_expression
-                                              (compound_expression
-                                                (simple_expression
-                                                  (qualified_identifier
-                                                    (lowercase_identifier))))))
-                                          (expression
-                                            (pipeline_expression
-                                              (compound_expression
-                                                (simple_expression
-                                                  (atomic_expression
-                                                    (literal
-                                                      (string_literal
-                                                        (string_fragment
-                                                          (unescaped_string_fragment)))))))))))))))))))))))
+                              (arguments
+                                (argument
+                                  (expression
+                                    (pipeline_expression
+                                      (compound_expression
+                                        (simple_expression
+                                          (tuple_expression
+                                            (expression
+                                              (pipeline_expression
+                                                (compound_expression
+                                                  (simple_expression
+                                                    (qualified_identifier
+                                                      (lowercase_identifier))))))
+                                            (expression
+                                              (pipeline_expression
+                                                (compound_expression
+                                                  (simple_expression
+                                                    (atomic_expression
+                                                      (literal
+                                                        (string_literal
+                                                          (string_fragment
+                                                            (unescaped_string_fragment))))))))))))))))))))))))
               (semicolon
                 (automatic_semicolon)))))
         (semicolon

@@ -37,14 +37,15 @@ fn init() { 1 * 5 |> f(5) |> g  }
                             (simple_expression
                               (qualified_identifier
                                 (lowercase_identifier)))
-                            (argument
-                              (expression
-                                (pipeline_expression
-                                  (compound_expression
-                                    (simple_expression
-                                      (atomic_expression
-                                        (literal
-                                          (integer_literal)))))))))))))
+                            (arguments
+                              (argument
+                                (expression
+                                  (pipeline_expression
+                                    (compound_expression
+                                      (simple_expression
+                                        (atomic_expression
+                                          (literal
+                                            (integer_literal))))))))))))))
                   (pipe_operator)
                   (compound_expression
                     (simple_expression
@@ -1082,16 +1083,17 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (argument
-                      (expression
-                        (pipeline_expression
-                          (compound_expression
-                            (simple_expression
-                              (atomic_expression
-                                (literal
-                                  (string_literal
-                                    (string_fragment
-                                      (unescaped_string_fragment))))))))))))))))
+                    (arguments
+                      (argument
+                        (expression
+                          (pipeline_expression
+                            (compound_expression
+                              (simple_expression
+                                (atomic_expression
+                                  (literal
+                                    (string_literal
+                                      (string_fragment
+                                        (unescaped_string_fragment)))))))))))))))))
         (semicolon
           (automatic_semicolon))
         (statement_expression
