@@ -7,17 +7,12 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (expression
-            (compound_expression
-              (simple_expression
-                (quotation_expression_expander
-                  (quotation_variable))))))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (quotation_expression_expander
+        (quotation_variable)))))
 
 ================================================================================
 pat
@@ -30,29 +25,20 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (expression
-            (match_expression
-              (compound_expression
-                (simple_expression
-                  (quotation_expression_expander
-                    (quotation_variable))))
-              (case_clause
-                (pattern
-                  (simple_pattern
-                    (quotation_pattern_expander
-                      (quotation_variable))))
-                (statement_expression
-                  (expression
-                    (compound_expression
-                      (simple_expression
-                        (quotation_expression_expander
-                          (quotation_variable))))))))))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (match_expression
+        (quotation_expression_expander
+          (quotation_variable))
+        (case_clause
+          (pattern
+            (simple_pattern
+              (quotation_pattern_expander
+                (quotation_variable))))
+          (quotation_expression_expander
+            (quotation_variable)))))))
 
 ================================================================================
 ty
@@ -62,18 +48,17 @@ fn $id:name() -> $ty:retty {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier
-          (quotation_lowercase_identifier_expander
-            (quotation_variable))))
-      (parameters)
-      (return_type
-        (type
-          (quotation_type_expander
-            (quotation_variable))))
-      (block_expression))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier
+        (quotation_lowercase_identifier_expander
+          (quotation_variable))))
+    (parameters)
+    (return_type
+      (type
+        (quotation_type_expander
+          (quotation_variable))))
+    (block_expression)))
 
 ================================================================================
 ty
@@ -82,20 +67,16 @@ let $id:id : $ty:ty = $exp:exp
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (value_definition
-      (lowercase_identifier
-        (quotation_lowercase_identifier_expander
-          (quotation_variable)))
-      (type_annotation
-        (type
-          (quotation_type_expander
-            (quotation_variable))))
-      (expression
-        (compound_expression
-          (simple_expression
-            (quotation_expression_expander
-              (quotation_variable))))))))
+  (value_definition
+    (lowercase_identifier
+      (quotation_lowercase_identifier_expander
+        (quotation_variable)))
+    (type_annotation
+      (type
+        (quotation_type_expander
+          (quotation_variable))))
+    (quotation_expression_expander
+      (quotation_variable))))
 
 ================================================================================
 Id
@@ -106,28 +87,19 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (expression
-            (compound_expression
-              (simple_expression
-                (apply_expression
-                  (simple_expression
-                    (constructor_expression
-                      (uppercase_identifier
-                        (quotation_uppercase_identifier_expander
-                          (quotation_variable)))))
-                  (arguments
-                    (argument
-                      (expression
-                        (compound_expression
-                          (simple_expression
-                            (quotation_expression_expander
-                              (quotation_variable))))))))))))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (apply_expression
+        (constructor_expression
+          (uppercase_identifier
+            (quotation_uppercase_identifier_expander
+              (quotation_variable))))
+        (arguments
+          (argument
+            (quotation_expression_expander
+              (quotation_variable))))))))
 
 ================================================================================
 lit
@@ -138,30 +110,22 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (let_expression
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
-            (expression
-              (compound_expression
-                (simple_expression
-                  (map_expression
-                    (map_element_expression
-                      (map_element_key
-                        (literal
-                          (quotation_literal_expander
-                            (quotation_variable))))
-                      (expression
-                        (compound_expression
-                          (simple_expression
-                            (quotation_expression_expander
-                              (quotation_variable))))))))))))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (pattern
+          (simple_pattern
+            (lowercase_identifier)))
+        (map_expression
+          (map_element_expression
+            (map_element_key
+              (literal
+                (quotation_literal_expander
+                  (quotation_variable))))
+            (quotation_expression_expander
+              (quotation_variable))))))))
 
 ================================================================================
 str
@@ -174,48 +138,38 @@ extern $str:extern fn f(a : Int) = $str:ffi
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (expression
-            (compound_expression
-              (simple_expression
-                (apply_expression
-                  (simple_expression
-                    (qualified_identifier
-                      (lowercase_identifier)))
-                  (arguments
-                    (argument
-                      (expression
-                        (compound_expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (string_literal
-                                  (quotation_string_expander
-                                    (quotation_variable))))))))))))))))))
-  (structure_item
-    (function_definition
-      (external_linkage
-        (string_literal
-          (quotation_string_expander
-            (quotation_variable))))
-      (function_identifier
-        (lowercase_identifier))
-      (parameters
-        (parameter
-          (positional_parameter
-            (lowercase_identifier)
-            (type_annotation
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier)))))))))
-      (external_source
-        (string_literal
-          (quotation_string_expander
-            (quotation_variable)))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (arguments
+          (argument
+            (atomic_expression
+              (literal
+                (string_literal
+                  (quotation_string_expander
+                    (quotation_variable))))))))))
+  (function_definition
+    (external_linkage
+      (string_literal
+        (quotation_string_expander
+          (quotation_variable))))
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))))
+    (external_source
+      (string_literal
+        (quotation_string_expander
+          (quotation_variable))))))
