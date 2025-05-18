@@ -207,7 +207,7 @@ trait A {
                 (identifier
                   (uppercase_identifier))))))
         (trait_method_parameter
-          (parameter_label
+          (label
             (lowercase_identifier))
           (type_annotation
             (colon)
@@ -217,7 +217,7 @@ trait A {
                   (identifier
                     (uppercase_identifier)))))))
         (trait_method_parameter
-          (parameter_label
+          (label
             (lowercase_identifier))
           (type_annotation
             (colon)
@@ -260,7 +260,7 @@ pub(all) trait A {
                 (identifier
                   (uppercase_identifier))))))
         (trait_method_parameter
-          (parameter_label
+          (label
             (lowercase_identifier))
           (type_annotation
             (colon)
@@ -270,7 +270,7 @@ pub(all) trait A {
                   (identifier
                     (uppercase_identifier)))))))
         (trait_method_parameter
-          (parameter_label
+          (label
             (lowercase_identifier))
           (type_annotation
             (colon)
@@ -435,14 +435,15 @@ fn repr(self:MyInt) -> String {
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type
@@ -483,14 +484,15 @@ fn repr(self:MyInt) -> String {
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type

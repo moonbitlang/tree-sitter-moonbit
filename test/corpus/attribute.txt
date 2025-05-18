@@ -24,14 +24,15 @@ fn fib(n : Int) -> Int {
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type
@@ -73,14 +74,15 @@ fn fib(n : Int) -> Int {
         (lowercase_identifier))
       (parameters
         (parameter
-          (lowercase_identifier)
-          (type_annotation
-            (colon)
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (colon)
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (return_type
         (type
           (apply_type

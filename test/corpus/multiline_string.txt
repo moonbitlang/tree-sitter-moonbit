@@ -274,12 +274,13 @@ fn main {
                                         (simple_expression
                                           (qualified_identifier
                                             (lowercase_identifier)))
-                                        (argument
-                                          (expression
-                                            (pipeline_expression
-                                              (compound_expression
-                                                (simple_expression
-                                                  (qualified_identifier
-                                                    (lowercase_identifier)))))))))))))))))))))))
+                                        (arguments
+                                          (argument
+                                            (expression
+                                              (pipeline_expression
+                                                (compound_expression
+                                                  (simple_expression
+                                                    (qualified_identifier
+                                                      (lowercase_identifier))))))))))))))))))))))))
         (semicolon
           (automatic_semicolon))))))

@@ -33,16 +33,17 @@ fn main {
                                     (simple_expression
                                       (qualified_identifier
                                         (lowercase_identifier)))
-                                    (argument
-                                      (expression
-                                        (pipeline_expression
-                                          (compound_expression
-                                            (simple_expression
-                                              (atomic_expression
-                                                (literal
-                                                  (string_literal
-                                                    (string_fragment
-                                                      (unescaped_string_fragment))))))))))))))))
+                                    (arguments
+                                      (argument
+                                        (expression
+                                          (pipeline_expression
+                                            (compound_expression
+                                              (simple_expression
+                                                (atomic_expression
+                                                  (literal
+                                                    (string_literal
+                                                      (string_fragment
+                                                        (unescaped_string_fragment)))))))))))))))))
                         (semicolon
                           (automatic_semicolon)))))))
               (case_clause
@@ -97,16 +98,17 @@ fn main {
                                     (simple_expression
                                       (qualified_identifier
                                         (lowercase_identifier)))
-                                    (argument
-                                      (expression
-                                        (pipeline_expression
-                                          (compound_expression
-                                            (simple_expression
-                                              (atomic_expression
-                                                (literal
-                                                  (string_literal
-                                                    (string_fragment
-                                                      (unescaped_string_fragment))))))))))))))))
+                                    (arguments
+                                      (argument
+                                        (expression
+                                          (pipeline_expression
+                                            (compound_expression
+                                              (simple_expression
+                                                (atomic_expression
+                                                  (literal
+                                                    (string_literal
+                                                      (string_fragment
+                                                        (unescaped_string_fragment)))))))))))))))))
                         (semicolon
                           (automatic_semicolon)))))))
               (case_clause
@@ -133,16 +135,17 @@ fn main {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (argument
-                          (expression
-                            (pipeline_expression
-                              (compound_expression
-                                (simple_expression
-                                  (atomic_expression
-                                    (literal
-                                      (string_literal
-                                        (string_fragment
-                                          (unescaped_string_fragment)))))))))))))))
+                        (arguments
+                          (argument
+                            (expression
+                              (pipeline_expression
+                                (compound_expression
+                                  (simple_expression
+                                    (atomic_expression
+                                      (literal
+                                        (string_literal
+                                          (string_fragment
+                                            (unescaped_string_fragment))))))))))))))))
               (case_clause
                 (pattern
                   (simple_pattern))
@@ -192,16 +195,17 @@ fn main {
                                     (simple_expression
                                       (qualified_identifier
                                         (lowercase_identifier)))
-                                    (argument
-                                      (expression
-                                        (pipeline_expression
-                                          (compound_expression
-                                            (simple_expression
-                                              (atomic_expression
-                                                (literal
-                                                  (string_literal
-                                                    (string_fragment
-                                                      (unescaped_string_fragment))))))))))))))))
+                                    (arguments
+                                      (argument
+                                        (expression
+                                          (pipeline_expression
+                                            (compound_expression
+                                              (simple_expression
+                                                (atomic_expression
+                                                  (literal
+                                                    (string_literal
+                                                      (string_fragment
+                                                        (unescaped_string_fragment)))))))))))))))))
                         (semicolon
                           (automatic_semicolon)))))))
               (case_clause
@@ -255,16 +259,17 @@ fn main {
                                     (simple_expression
                                       (qualified_identifier
                                         (lowercase_identifier)))
-                                    (argument
-                                      (expression
-                                        (pipeline_expression
-                                          (compound_expression
-                                            (simple_expression
-                                              (atomic_expression
-                                                (literal
-                                                  (string_literal
-                                                    (string_fragment
-                                                      (unescaped_string_fragment))))))))))))))))
+                                    (arguments
+                                      (argument
+                                        (expression
+                                          (pipeline_expression
+                                            (compound_expression
+                                              (simple_expression
+                                                (atomic_expression
+                                                  (literal
+                                                    (string_literal
+                                                      (string_fragment
+                                                        (unescaped_string_fragment)))))))))))))))))
                         (semicolon
                           (automatic_semicolon)))))))
               (case_clause
@@ -338,16 +343,17 @@ fn main {
                                     (simple_expression
                                       (qualified_identifier
                                         (lowercase_identifier)))
-                                    (argument
-                                      (expression
-                                        (pipeline_expression
-                                          (compound_expression
-                                            (simple_expression
-                                              (atomic_expression
-                                                (literal
-                                                  (string_literal
-                                                    (string_fragment
-                                                      (unescaped_string_fragment))))))))))))))))
+                                    (arguments
+                                      (argument
+                                        (expression
+                                          (pipeline_expression
+                                            (compound_expression
+                                              (simple_expression
+                                                (atomic_expression
+                                                  (literal
+                                                    (string_literal
+                                                      (string_fragment
+                                                        (unescaped_string_fragment)))))))))))))))))
                         (semicolon
                           (automatic_semicolon)))))))
               (case_clause

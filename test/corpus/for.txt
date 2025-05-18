@@ -600,7 +600,8 @@ fn main {
           (expression
             (for_in_expression
               (loop_label
-                (lowercase_identifier))
+                (label
+                  (lowercase_identifier)))
               (for_keyword)
               (lowercase_identifier)
               (expression
@@ -619,13 +620,14 @@ fn main {
                             (simple_expression
                               (qualified_identifier
                                 (lowercase_identifier)))
-                            (argument
-                              (expression
-                                (pipeline_expression
-                                  (compound_expression
-                                    (simple_expression
-                                      (qualified_identifier
-                                        (lowercase_identifier)))))))))))))
+                            (arguments
+                              (argument
+                                (expression
+                                  (pipeline_expression
+                                    (compound_expression
+                                      (simple_expression
+                                        (qualified_identifier
+                                          (lowercase_identifier))))))))))))))
                 (semicolon
                   (automatic_semicolon))))))
         (semicolon

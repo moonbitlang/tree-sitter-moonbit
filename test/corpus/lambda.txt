@@ -22,14 +22,15 @@ fn init {
                   (anonymous_lambda_expression
                     (parameters
                       (parameter
-                        (lowercase_identifier)
-                        (type_annotation
-                          (colon)
-                          (type
-                            (apply_type
-                              (qualified_type_identifier
-                                (identifier
-                                  (uppercase_identifier))))))))
+                        (positional_parameter
+                          (lowercase_identifier)
+                          (type_annotation
+                            (colon)
+                            (type
+                              (apply_type
+                                (qualified_type_identifier
+                                  (identifier
+                                    (uppercase_identifier)))))))))
                     (block_expression
                       (statement_expression
                         (expression
@@ -65,14 +66,15 @@ fn init {
                   (anonymous_lambda_expression
                     (parameters
                       (parameter
-                        (lowercase_identifier)
-                        (type_annotation
-                          (colon)
-                          (type
-                            (apply_type
-                              (qualified_type_identifier
-                                (identifier
-                                  (uppercase_identifier))))))))
+                        (positional_parameter
+                          (lowercase_identifier)
+                          (type_annotation
+                            (colon)
+                            (type
+                              (apply_type
+                                (qualified_type_identifier
+                                  (identifier
+                                    (uppercase_identifier)))))))))
                     (block_expression
                       (statement_expression
                         (expression
@@ -110,14 +112,15 @@ fn init {
                     (anonymous_lambda_expression
                       (parameters
                         (parameter
-                          (lowercase_identifier)
-                          (type_annotation
-                            (colon)
-                            (type
-                              (apply_type
-                                (qualified_type_identifier
-                                  (identifier
-                                    (uppercase_identifier))))))))
+                          (positional_parameter
+                            (lowercase_identifier)
+                            (type_annotation
+                              (colon)
+                              (type
+                                (apply_type
+                                  (qualified_type_identifier
+                                    (identifier
+                                      (uppercase_identifier)))))))))
                       (block_expression
                         (statement_expression
                           (expression
@@ -127,14 +130,15 @@ fn init {
                                   (anonymous_lambda_expression
                                     (parameters
                                       (parameter
-                                        (lowercase_identifier)
-                                        (type_annotation
-                                          (colon)
-                                          (type
-                                            (apply_type
-                                              (qualified_type_identifier
-                                                (identifier
-                                                  (uppercase_identifier))))))))
+                                        (positional_parameter
+                                          (lowercase_identifier)
+                                          (type_annotation
+                                            (colon)
+                                            (type
+                                              (apply_type
+                                                (qualified_type_identifier
+                                                  (identifier
+                                                    (uppercase_identifier)))))))))
                                     (block_expression
                                       (statement_expression
                                         (expression

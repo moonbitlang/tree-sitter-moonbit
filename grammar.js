@@ -184,7 +184,7 @@ module.exports = grammar({
 
     constructor_parameter: $ => choice(
       seq(optional('mut'), $.type),
-      seq(optional('mut'), $.parameter_label, $.colon, $.type),
+      seq(optional('mut'), $.label, $.colon, $.type),
     ),
 
     value_definition: $ => seq(
@@ -262,7 +262,7 @@ module.exports = grammar({
     trait_method_parameter: $ => choice(
       $.type,
       seq(
-        $.parameter_label,
+        $.label,
         $.type_annotation,
       ),
     ),
@@ -633,23 +633,26 @@ module.exports = grammar({
       seq($.type_name, $.colon_colon, $.uppercase_identifier),
     ),
 
-    argument_label: $ => seq(
-      $.simple_expression,
-      optional($.question_operator),
-      '=',
+    labelled_argument: $ => seq(
+      $.lowercase_identifier, '=', $.expression,
     ),
 
-    argument_pun: $ => seq(
-      $.simple_expression,
-      choice('~', $.question_operator),
+    forwarded_labelled_argument: $ => $.label,
+
+    optional_argument: $ => seq(
+      $.optional_label, '=', $.expression,
+    ),
+
+    forwarded_optional_argument: $ => seq(
+      $.optional_label,
     ),
 
     argument: $ => choice(
-      seq(
-        optional($.argument_label),
-        $.expression,
-      ),
-      $.argument_pun,
+      $.expression,
+      $.labelled_argument,
+      $.forwarded_labelled_argument,
+      $.optional_argument,
+      $.forwarded_optional_argument,
     ),
 
     apply_operator: $ => choice(
@@ -658,13 +661,24 @@ module.exports = grammar({
       $.question_operator,
     ),
 
-    apply_expression: $ => prec(PREC.apply, seq(
-      $.simple_expression,
-      optional($.apply_operator),
+    arguments: $ => seq(
       '(',
       list(',', $.argument),
       ')',
-    )),
+    ),
+
+    apply_expression: $ => prec(PREC.apply, choice(
+      seq(
+        $.lowercase_identifier,
+        $.question_operator,
+        $.arguments,
+      ),
+      seq(
+        $.simple_expression,
+        optional($.apply_operator),
+        $.arguments,
+      )),
+    ),
 
     array_access_expression: $ => prec(PREC.access, seq(
       $.simple_expression,
@@ -771,11 +785,11 @@ module.exports = grammar({
     ),
 
     break_expression: $ => seq(
-      'break', optional($.parameter_label), strictList(',', $.expression),
+      'break', optional($.label), strictList(',', $.expression),
     ),
 
     continue_expression: $ => seq(
-      'continue', optional($.parameter_label), strictList(',', $.expression),
+      'continue', optional($.label), strictList(',', $.expression),
     ),
 
     try_expression: $ => seq(
@@ -915,10 +929,7 @@ module.exports = grammar({
       '}',
     ),
 
-    loop_label: $ => seq(
-      $.lowercase_identifier,
-      '~:',
-    ),
+    loop_label: $ => seq($.label, ':'),
 
     while_expression: $ => seq(
       optional($.loop_label),
@@ -1015,7 +1026,7 @@ module.exports = grammar({
 
     constructor_pattern_argument: $ => choice(
       seq($.lowercase_identifier, '=', $.pattern),
-      $.parameter_label,
+      $.label,
       $.pattern,
     ),
 
@@ -1129,24 +1140,37 @@ module.exports = grammar({
 
     return_type: $ => seq('->', choice($.type, $.type_with_error)),
 
-    parameter_label: $ => seq(
-      $.lowercase_identifier,
-      '~',
-    ),
+    label: $ => seq($.lowercase_identifier, '~'),
 
-    optional_parameter_label: $ => seq(
-      $.lowercase_identifier,
-      $.question_operator,
-    ),
+    optional_label: $ => seq($.lowercase_identifier, $.question_operator),
 
-    parameter: $ => seq(
-      choice(
-        $.optional_parameter_label,
-        $.parameter_label,
-        $.lowercase_identifier,
-      ),
+    positional_parameter: $ => seq(
+      $.lowercase_identifier,
       optional($.type_annotation),
-      optional(seq('=', $.expression)),
+    ),
+
+    labelled_parameter: $ => seq(
+      $.label,
+      optional($.type_annotation),
+    ),
+
+    optional_parameter: $ => seq(
+      $.optional_label,
+      optional($.type_annotation),
+    ),
+
+    optional_parameter_with_default: $ => seq(
+      $.label,
+      optional($.type_annotation),
+      '=',
+      $.expression,
+    ),
+
+    parameter: $ => choice(
+      $.positional_parameter,
+      $.labelled_parameter,
+      $.optional_parameter,
+      $.optional_parameter_with_default,
     ),
 
     parameters: $ => seq(
