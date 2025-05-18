@@ -50,10 +50,16 @@ module.exports = grammar({
 
   word: $ => $.lowercase_identifier,
 
-  rules: {
-    structure: $ => list($.semicolon, $.structure_item),
+  supertypes: $ => [
+    $._expression,
+    $._statement_expression,
+    $._structure_item,
+  ],
 
-    structure_item: $ => choice(
+  rules: {
+    structure: $ => list($.semicolon, $._structure_item),
+
+    _structure_item: $ => choice(
       $.type_definition,
       $.error_type_definition,
       $.struct_definition,
@@ -194,7 +200,7 @@ module.exports = grammar({
       $.lowercase_identifier,
       optional($.type_annotation),
       '=',
-      $.expression,
+      $._expression,
     ),
 
     const_definition: $ => seq(
@@ -204,7 +210,7 @@ module.exports = grammar({
       $.uppercase_identifier,
       optional($.type_annotation),
       '=',
-      $.expression,
+      $._expression,
     ),
 
     external_linkage: $ => seq(
@@ -340,7 +346,7 @@ module.exports = grammar({
       ),
     ),
 
-    expression: $ => choice(
+    _expression: $ => choice(
       $.if_expression,
       $.while_expression,
       $.loop_expression,
@@ -348,27 +354,22 @@ module.exports = grammar({
       $.for_expression,
       $.for_in_expression,
       $.try_expression,
-      $.pipeline_expression,
+      $._compound_expression,
     ),
 
-    pipeline_expression: $ => choice(
-      seq($.pipeline_expression, $.pipe_operator, $.compound_expression),
-      $.compound_expression,
-    ),
-
-    compound_expression: $ => choice(
+    _compound_expression: $ => choice(
       $.range_expression,
-      $.postfix_expression,
-      $.simple_expression,
+      $._postfix_expression,
+      $._simple_expression,
       $.binary_expression,
     ),
 
-    postfix_expression: $ => choice(
+    _postfix_expression: $ => choice(
       $.as_expression,
       $.is_expression,
     ),
 
-    simple_expression: $ => choice(
+    _simple_expression: $ => choice(
       $.atomic_expression,
       $.qualified_identifier,
       $.unary_expression,
@@ -409,7 +410,7 @@ module.exports = grammar({
 
     interpolator: $ => seq(
       '\\{',
-      $.expression,
+      $._expression,
       '}',
     ),
 
@@ -517,7 +518,7 @@ module.exports = grammar({
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '+'),
-      $.simple_expression,
+      $._simple_expression,
     )),
 
     pipe_operator: _ => '|>',
@@ -539,10 +540,10 @@ module.exports = grammar({
       return choice(...table.map(([precedence, operator]) =>
         // @ts-ignore
         prec.left(precedence, seq(
-          $.compound_expression,
+          $._compound_expression,
           // @ts-ignore
           operator,
-          $.compound_expression,
+          $._compound_expression,
         )),
       ));
     },
@@ -562,14 +563,14 @@ module.exports = grammar({
         optional(seq($.type_name, $.colon_colon)),
         '{',
         '..',
-        $.expression,
+        $._expression,
         '}',
       ),
       seq(
         optional(seq($.type_name, $.colon_colon)),
         '{',
         '..',
-        $.expression,
+        $._expression,
         ',',
         list(',', $.struct_field_expression),
         '}',
@@ -581,19 +582,19 @@ module.exports = grammar({
       $.labeled_expression_pun,
     ),
 
-    labeled_expression: $ => seq($.lowercase_identifier, $.colon, $.expression),
+    labeled_expression: $ => seq($.lowercase_identifier, $.colon, $._expression),
 
     labeled_expression_pun: $ => $.lowercase_identifier,
 
     block_expression: $ => seq(
       '{',
-      list($.semicolon, $.statement_expression),
+      list($.semicolon, $._statement_expression),
       '}',
     ),
 
     nonempty_block_expression: $ => seq(
       '{',
-      list1($.semicolon, $.statement_expression),
+      list1($.semicolon, $._statement_expression),
       '}',
     ),
 
@@ -617,14 +618,14 @@ module.exports = grammar({
 
     pattern_guard: $ => seq(
       'if',
-      $.expression,
+      $._expression,
     ),
 
     matrix_case_clause: $ => seq(
       list1(',', $.pattern),
       optional($.pattern_guard),
       '=>',
-      $.statement_expression,
+      $._statement_expression,
     ),
 
     constructor_expression: $ => choice(
@@ -634,13 +635,13 @@ module.exports = grammar({
     ),
 
     labelled_argument: $ => seq(
-      $.lowercase_identifier, '=', $.expression,
+      $.lowercase_identifier, '=', $._expression,
     ),
 
     forwarded_labelled_argument: $ => $.label,
 
     optional_argument: $ => seq(
-      $.optional_label, '=', $.expression,
+      $.optional_label, '=', $._expression,
     ),
 
     forwarded_optional_argument: $ => seq(
@@ -648,7 +649,7 @@ module.exports = grammar({
     ),
 
     argument: $ => choice(
-      $.expression,
+      $._expression,
       $.labelled_argument,
       $.forwarded_labelled_argument,
       $.optional_argument,
@@ -674,21 +675,21 @@ module.exports = grammar({
         $.arguments,
       ),
       seq(
-        $.simple_expression,
+        $._simple_expression,
         optional($.apply_operator),
         $.arguments,
       )),
     ),
 
     array_access_expression: $ => prec(PREC.access, seq(
-      $.simple_expression,
+      $._simple_expression,
       '[',
-      choice($.expression, seq(optional($.expression), $.colon, optional($.expression))),
+      choice($._expression, seq(optional($._expression), $.colon, optional($._expression))),
       ']',
     )),
 
     dot_apply_expression: $ => prec(PREC.apply, seq(
-      $.simple_expression,
+      $._simple_expression,
       $.dot_identifier,
       '(',
       list(',', $.argument),
@@ -696,7 +697,7 @@ module.exports = grammar({
     )),
 
     dot_dot_apply_expression: $ => prec(PREC.apply, seq(
-      $.simple_expression,
+      $._simple_expression,
       $.dot_dot_identifier,
       '(',
       list(',', $.argument),
@@ -704,7 +705,7 @@ module.exports = grammar({
     )),
 
     access_expression: $ => prec(PREC.access, seq(
-      $.simple_expression,
+      $._simple_expression,
       $.accessor,
     )),
 
@@ -723,13 +724,13 @@ module.exports = grammar({
 
     tuple_expression: $ => seq(
       '(',
-      list1(',', $.expression),
+      list1(',', $._expression),
       ')',
     ),
 
     constraint_expression: $ => seq(
       '(',
-      $.expression,
+      $._expression,
       $.colon,
       $.type,
       ')',
@@ -737,7 +738,7 @@ module.exports = grammar({
 
     array_expression: $ => seq(
       '[',
-      list(',', seq(optional($.dot_dot), $.expression)),
+      list(',', seq(optional($.dot_dot), $._expression)),
       ']',
     ),
 
@@ -753,15 +754,15 @@ module.exports = grammar({
     ),
 
     map_element_expression: $ => seq(
-      $.map_element_key, $.colon, $.expression,
+      $.map_element_key, $.colon, $._expression,
     ),
 
     as_expression: $ => seq(
-      $.simple_expression, 'as', $.type_name,
+      $._simple_expression, 'as', $.type_name,
     ),
 
     is_expression: $ => seq(
-      $.simple_expression,
+      $._simple_expression,
       $.is_keyword,
       choice(
         $.range_pattern,
@@ -771,7 +772,7 @@ module.exports = grammar({
 
     match_expression: $ => seq(
       'match',
-      $.compound_expression,
+      $._compound_expression,
       '{',
       list($.semicolon, $.case_clause),
       '}',
@@ -781,20 +782,20 @@ module.exports = grammar({
       $.pattern,
       optional($.pattern_guard),
       '=>',
-      $.statement_expression,
+      $._statement_expression,
     ),
 
     break_expression: $ => seq(
-      'break', optional($.label), strictList(',', $.expression),
+      'break', optional($.label), strictList(',', $._expression),
     ),
 
     continue_expression: $ => seq(
-      'continue', optional($.label), strictList(',', $.expression),
+      'continue', optional($.label), strictList(',', $._expression),
     ),
 
     try_expression: $ => seq(
       'try',
-      $.expression,
+      $._expression,
       optional(choice(
         'catch',
         seq('catch', '!'),
@@ -814,7 +815,7 @@ module.exports = grammar({
 
     if_expression: $ => seq(
       'if',
-      $.compound_expression,
+      $._compound_expression,
       $.block_expression,
       optional($.else_clause),
     ),
@@ -827,7 +828,7 @@ module.exports = grammar({
       ),
     ),
 
-    statement_expression: $ => choice(
+    _statement_expression: $ => choice(
       $.struct_definition,
       $.enum_definition,
       $.type_definition,
@@ -842,7 +843,7 @@ module.exports = grammar({
       $.continue_expression,
       $.return_expression,
       $.raise_expression,
-      $.expression,
+      $._expression,
       $.unfinished,
     ),
 
@@ -853,7 +854,7 @@ module.exports = grammar({
       $.pattern,
       optional($.type_annotation),
       '=',
-      $.expression,
+      $._expression,
     ),
 
     let_mut_expression: $ => seq(
@@ -862,12 +863,12 @@ module.exports = grammar({
       $.lowercase_identifier,
       optional($.type_annotation),
       '=',
-      $.expression,
+      $._expression,
     ),
 
     guard_expression: $ => seq(
       'guard',
-      $.compound_expression,
+      $._compound_expression,
       optional($.guard_else_expression),
     ),
 
@@ -881,7 +882,7 @@ module.exports = grammar({
       'let',
       $.pattern,
       '=',
-      $.simple_expression,
+      $._simple_expression,
       optional($.guard_let_else_expression),
     ),
 
@@ -901,7 +902,7 @@ module.exports = grammar({
       $.percent_equal,
     ),
 
-    assign_expression: $ => seq($.left_value, $.assign_operator, $.expression),
+    assign_expression: $ => seq($.left_value, $.assign_operator, $._expression),
 
     left_value: $ => choice(
       $.qualified_identifier,
@@ -934,7 +935,7 @@ module.exports = grammar({
     while_expression: $ => seq(
       optional($.loop_label),
       'while',
-      $.compound_expression,
+      $._compound_expression,
       $.block_expression,
       optional($.else_clause),
     ),
@@ -942,7 +943,7 @@ module.exports = grammar({
     loop_expression: $ => seq(
       optional($.loop_label),
       'loop',
-      strictList1(',', $.expression),
+      strictList1(',', $._expression),
       '{',
       list($.semicolon, $.matrix_case_clause),
       '}',
@@ -951,7 +952,7 @@ module.exports = grammar({
     for_binder: $ => seq(
       $.lowercase_identifier,
       '=',
-      $.expression,
+      $._expression,
     ),
 
     for_keyword: _ => 'for',
@@ -962,7 +963,7 @@ module.exports = grammar({
       strictList(',', $.for_binder),
       optional(seq(
         $.semicolon,
-        optional($.compound_expression),
+        optional($._compound_expression),
         $.semicolon,
         strictList(',', $.for_binder),
       )),
@@ -975,20 +976,20 @@ module.exports = grammar({
       $.for_keyword,
       strictList(',', $.lowercase_identifier),
       'in',
-      $.expression,
+      $._expression,
       $.block_expression,
       optional($.else_clause),
     ),
 
     range_expression: $ => seq(
-      $.simple_expression,
+      $._simple_expression,
       choice($.dot_dot_lt, $.dot_dot_eq),
-      $.simple_expression,
+      $._simple_expression,
     ),
 
-    return_expression: $ => seq('return', optional($.expression)),
+    return_expression: $ => seq('return', optional($._expression)),
 
-    raise_expression: $ => seq('raise', optional($.expression)),
+    raise_expression: $ => seq('raise', optional($._expression)),
 
     // Patterns
 
@@ -1163,7 +1164,7 @@ module.exports = grammar({
       $.label,
       optional($.type_annotation),
       '=',
-      $.expression,
+      $._expression,
     ),
 
     parameter: $ => choice(
