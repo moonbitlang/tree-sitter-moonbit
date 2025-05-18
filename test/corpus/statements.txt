@@ -7,46 +7,27 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (raise_expression
-            (expression
-              (pipeline_expression
-                (compound_expression
-                  (simple_expression
-                    (apply_expression
-                      (simple_expression
-                        (constructor_expression
-                          (package_identifier)
-                          (dot_uppercase_identifier)))
-                      (arguments
-                        (argument
-                          (expression
-                            (pipeline_expression
-                              (compound_expression
-                                (simple_expression
-                                  (tuple_expression
-                                    (expression
-                                      (pipeline_expression
-                                        (compound_expression
-                                          (simple_expression
-                                            (qualified_identifier
-                                              (lowercase_identifier))))))
-                                    (expression
-                                      (pipeline_expression
-                                        (compound_expression
-                                          (simple_expression
-                                            (atomic_expression
-                                              (literal
-                                                (string_literal
-                                                  (string_fragment
-                                                    (unescaped_string_fragment)))))))))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (raise_expression
+        (apply_expression
+          (constructor_expression
+            (package_identifier)
+            (dot_uppercase_identifier))
+          (arguments
+            (argument
+              (tuple_expression
+                (qualified_identifier
+                  (lowercase_identifier))
+                (atomic_expression
+                  (literal
+                    (string_literal
+                      (string_fragment
+                        (unescaped_string_fragment))))))))))
+      (semicolon
+        (automatic_semicolon)))))
 
 ================================================================================
 raise statement in match
@@ -59,58 +40,35 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (expression
-            (match_expression
-              (compound_expression
-                (simple_expression
-                  (qualified_identifier
-                    (lowercase_identifier))))
-              (case_clause
-                (pattern
-                  (simple_pattern))
-                (statement_expression
-                  (raise_expression
-                    (expression
-                      (pipeline_expression
-                        (compound_expression
-                          (simple_expression
-                            (apply_expression
-                              (simple_expression
-                                (constructor_expression
-                                  (package_identifier)
-                                  (dot_uppercase_identifier)))
-                              (arguments
-                                (argument
-                                  (expression
-                                    (pipeline_expression
-                                      (compound_expression
-                                        (simple_expression
-                                          (tuple_expression
-                                            (expression
-                                              (pipeline_expression
-                                                (compound_expression
-                                                  (simple_expression
-                                                    (qualified_identifier
-                                                      (lowercase_identifier))))))
-                                            (expression
-                                              (pipeline_expression
-                                                (compound_expression
-                                                  (simple_expression
-                                                    (atomic_expression
-                                                      (literal
-                                                        (string_literal
-                                                          (string_fragment
-                                                            (unescaped_string_fragment))))))))))))))))))))))))
-              (semicolon
-                (automatic_semicolon)))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (match_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (case_clause
+          (pattern
+            (simple_pattern))
+          (raise_expression
+            (apply_expression
+              (constructor_expression
+                (package_identifier)
+                (dot_uppercase_identifier))
+              (arguments
+                (argument
+                  (tuple_expression
+                    (qualified_identifier
+                      (lowercase_identifier))
+                    (atomic_expression
+                      (literal
+                        (string_literal
+                          (string_fragment
+                            (unescaped_string_fragment)))))))))))
         (semicolon
-          (automatic_semicolon))))))
+          (automatic_semicolon)))
+      (semicolon
+        (automatic_semicolon)))))
 
 ================================================================================
 unfinished code
@@ -121,15 +79,13 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (unfinished))
-        (semicolon
-          (automatic_semicolon))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (unfinished)
+      (semicolon
+        (automatic_semicolon)))))
 
 ================================================================================
 return expression
@@ -140,19 +96,13 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (return_expression
-            (expression
-              (pipeline_expression
-                (compound_expression
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (return_expression
+        (atomic_expression
+          (literal
+            (integer_literal))))
+      (semicolon
+        (automatic_semicolon)))))
