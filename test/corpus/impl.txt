@@ -6,53 +6,52 @@ impl Show for T? with output(self : T, logger : &Logger) -> Unit {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (impl_definition
-      (type_name
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier))))
-      (for_keyword)
-      (type
-        (option_type
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))
-          (question_operator)))
-      (function_identifier
-        (lowercase_identifier))
-      (parameters
-        (parameter
-          (positional_parameter
-            (lowercase_identifier)
-            (type_annotation
-              (colon)
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier))))))))
-        (parameter
-          (positional_parameter
-            (lowercase_identifier)
-            (type_annotation
-              (colon)
-              (type
-                (trait_object_type
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))))))))
-      (return_type
+  (impl_definition
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (for_keyword)
+    (type
+      (option_type
         (type
           (apply_type
             (qualified_type_identifier
               (identifier
-                (uppercase_identifier))))))
-      (block_expression))))
+                (uppercase_identifier)))))
+        (question_operator)))
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (trait_object_type
+                (type
+                  (apply_type
+                    (qualified_type_identifier
+                      (identifier
+                        (uppercase_identifier)))))))))))
+    (return_type
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (block_expression)))
 
 ================================================================================
 impl func type
@@ -62,58 +61,57 @@ impl Show for (Int) -> Unit with output(self : T, logger : &Logger) -> Unit {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (impl_definition
-      (type_name
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier))))
-      (for_keyword)
-      (type
-        (function_type
+  (impl_definition
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (for_keyword)
+    (type
+      (function_type
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
+        (return_type
           (type
             (apply_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))
-          (return_type
+                  (uppercase_identifier))))))))
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
             (type
               (apply_type
                 (qualified_type_identifier
                   (identifier
                     (uppercase_identifier))))))))
-      (function_identifier
-        (lowercase_identifier))
-      (parameters
-        (parameter
-          (positional_parameter
-            (lowercase_identifier)
-            (type_annotation
-              (colon)
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier))))))))
-        (parameter
-          (positional_parameter
-            (lowercase_identifier)
-            (type_annotation
-              (colon)
-              (type
-                (trait_object_type
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))))))))
-      (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
-      (block_expression))))
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (trait_object_type
+                (type
+                  (apply_type
+                    (qualified_type_identifier
+                      (identifier
+                        (uppercase_identifier)))))))))))
+    (return_type
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (block_expression)))
 
 ================================================================================
 impl tuple
@@ -123,57 +121,56 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (impl_definition
-      (type_name
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier))))
-      (for_keyword)
-      (type
-        (tuple_type
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
-      (function_identifier
-        (lowercase_identifier))
-      (parameters
-        (parameter
-          (positional_parameter
-            (lowercase_identifier)
-            (type_annotation
-              (colon)
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier))))))))
-        (parameter
-          (positional_parameter
-            (lowercase_identifier)
-            (type_annotation
-              (colon)
-              (type
-                (trait_object_type
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))))))))
-      (return_type
+  (impl_definition
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (for_keyword)
+    (type
+      (tuple_type
         (type
           (apply_type
             (qualified_type_identifier
               (identifier
-                (uppercase_identifier))))))
-      (block_expression))))
+                (uppercase_identifier)))))
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (trait_object_type
+                (type
+                  (apply_type
+                    (qualified_type_identifier
+                      (identifier
+                        (uppercase_identifier)))))))))))
+    (return_type
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (block_expression)))
 
 ================================================================================
 impl ffi
@@ -182,57 +179,56 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit = "%s"
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (impl_definition
-      (type_name
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier))))
-      (for_keyword)
-      (type
-        (tuple_type
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
-      (function_identifier
-        (lowercase_identifier))
-      (parameters
-        (parameter
-          (positional_parameter
-            (lowercase_identifier)
-            (type_annotation
-              (colon)
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier))))))))
-        (parameter
-          (positional_parameter
-            (lowercase_identifier)
-            (type_annotation
-              (colon)
-              (type
-                (trait_object_type
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))))))))
-      (return_type
+  (impl_definition
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (for_keyword)
+    (type
+      (tuple_type
         (type
           (apply_type
             (qualified_type_identifier
               (identifier
-                (uppercase_identifier))))))
-      (external_source
-        (string_literal
-          (string_fragment
-            (unescaped_string_fragment)))))))
+                (uppercase_identifier)))))
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (colon)
+            (type
+              (trait_object_type
+                (type
+                  (apply_type
+                    (qualified_type_identifier
+                      (identifier
+                        (uppercase_identifier)))))))))))
+    (return_type
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (external_source
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))))
