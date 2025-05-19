@@ -2,7 +2,10 @@
   "name": "tree-sitter-moonbit",
   "version": "0.1.0",
   "description": "Tree-sitter grammar for Moonbit",
-  "repository": "https://github.com/moonbitlang/tree-sitter-moonbit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moonbitlang/tree-sitter-moonbit.git"
+  },
   "license": "Apache-2.0",
   "author": "",
   "main": "bindings/node",
