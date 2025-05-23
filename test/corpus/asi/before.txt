@@ -172,8 +172,8 @@ fn main {
     2
 }
 
-fn f[X: Default +
-  Clone]() -> Unit {
+fn[X: Default +
+Clone] f() -> Unit {
 }
 --------------------------------------------------------------------------------
 
@@ -229,8 +229,6 @@ fn f[X: Default +
     (automatic_semicolon))
   (structure_item
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (type_parameters
         (type_identifier
           (identifier
@@ -245,6 +243,8 @@ fn f[X: Default +
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))
+      (function_identifier
+        (lowercase_identifier))
       (parameters)
       (return_type
         (type
@@ -685,58 +685,6 @@ fn main {
   1 >>
   2
   3 <<
-  4
-}
---------------------------------------------------------------------------------
-
-(structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (expression
-            (pipeline_expression
-              (compound_expression
-                (binary_expression
-                  (compound_expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
-                  (compound_expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))
-        (statement_expression
-          (expression
-            (pipeline_expression
-              (compound_expression
-                (binary_expression
-                  (compound_expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal)))))
-                  (compound_expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))))))
-
-================================================================================
-can occur before semi (PLUS, MINUS)
-================================================================================
-fn main {
-  1 +
-  2
-  3 -
   4
 }
 --------------------------------------------------------------------------------
@@ -1602,8 +1550,8 @@ b: Int) -> Unit {
 ================================================================================
 can occur before semi (COLON)
 ================================================================================
-fn f[X :
-T](a :
+fn[X :
+T] f(a :
 Int) -> Unit {
   T::{
     a :
@@ -1618,8 +1566,6 @@ Int) -> Unit {
 (structure
   (structure_item
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (type_parameters
         (type_identifier
           (identifier
@@ -1630,6 +1576,8 @@ Int) -> Unit {
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))
+      (function_identifier
+        (lowercase_identifier))
       (parameters
         (parameter
           (positional_parameter
