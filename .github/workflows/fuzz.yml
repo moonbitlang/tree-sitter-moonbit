@@ -2,7 +2,7 @@ name: Fuzz
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
       - src/scanner.c
   pull_request:
@@ -14,7 +14,18 @@ jobs:
     name: fuzz
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: tree-sitter/fuzz-action@v4
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Install tree-sitter CLI
+        uses: tree-sitter/setup-action@v2
+        with:
+          tree-sitter-ref: v0.25.4
+
+      - name: Generate tree-sitter grammar
+        run: tree-sitter generate
+
+      - name: Run fuzz tests
+        uses: tree-sitter/fuzz-action@v4
         with:
           corpus: test/corpus

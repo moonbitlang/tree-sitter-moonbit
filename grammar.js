@@ -46,6 +46,7 @@ module.exports = grammar({
     $.multiline_interpolation_separator,
     $.float_literal,
     $.for_keyword,
+    $.error_sentinel,
   ],
 
   word: $ => $.lowercase_identifier,
