@@ -1,7 +1,8 @@
 [package]
 name = "tree-sitter-moonbit"
-description = "Tree-sitter grammar for Moonbit"
+description = "Moonbit grammar for tree-sitter"
 version = "0.1.0"
+authors = ["Moonbit Language Team <support@moonbitlang.com>"]
 license = "Apache-2.0"
 readme = "README.md"
 keywords = ["incremental", "parsing", "tree-sitter", "moonbit"]
@@ -30,4 +31,4 @@ tree-sitter-language = "0.1"
 cc = "1.2"
 
 [dev-dependencies]
-tree-sitter = "0.25.3"
+tree-sitter = "0.25.4"

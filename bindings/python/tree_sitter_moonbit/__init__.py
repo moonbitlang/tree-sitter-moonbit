@@ -1,4 +1,4 @@
-"""Tree-sitter grammar for Moonbit"""
+"""Moonbit grammar for tree-sitter"""
 
 from importlib.resources import files as _files
 

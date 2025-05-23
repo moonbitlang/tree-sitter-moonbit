@@ -1,22 +1,28 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
   "grammars": [
     {
       "name": "moonbit",
-      "camelcase": "Moonbit",
-      "scope": "source.mbt",
-      "path": ".",
-      "file-types": [
-        "mbt",
-        "moonbit"
-      ],
+      "camelcase": "MoonBit",
+      "scope": "source.moonbit",
+      "file-types": ["mbt", "moonbit"],
+      "injection-regex": "^(mbt|moonbit)$",
       "highlights": "queries/highlights.scm",
-      "tags": "queries/tags.scm"
+      "tags": "queries/tags.scm",
+      "class-name": "TreeSitterMoonbit"
     }
   ],
   "metadata": {
     "version": "0.1.0",
     "license": "Apache-2.0",
-    "description": "Tree-sitter grammar for Moonbit",
+    "description": "Moonbit grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Moonbit Language Team",
+        "email": "support@moonbitlang.com",
+        "url": "https://www.moonbitlang.com"
+      }
+    ],
     "links": {
       "repository": "https://github.com/moonbitlang/tree-sitter-moonbit"
     }
@@ -27,6 +33,7 @@
     "node": true,
     "python": true,
     "rust": true,
-    "swift": true
+    "swift": true,
+    "zig": true
   }
 }

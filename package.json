@@ -1,7 +1,7 @@
 {
   "name": "tree-sitter-moonbit",
   "version": "0.1.0",
-  "description": "Tree-sitter grammar for Moonbit",
+  "description": "Moonbit grammar for tree-sitter",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/moonbitlang/tree-sitter-moonbit.git"
@@ -31,17 +31,17 @@
     "*.wasm"
   ],
   "dependencies": {
-    "node-addon-api": "^8.3.1",
-    "node-gyp-build": "^4.8.4"
+    "node-addon-api": "^8.2.1",
+    "node-gyp-build": "^4.8.2"
   },
   "devDependencies": {
     "eslint": "^9.21.0",
     "eslint-config-treesitter": "^1.0.2",
     "prebuildify": "^6.0.1",
-    "tree-sitter-cli": "^0.25.3"
+    "tree-sitter-cli": "^0.25.4"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.21.1"
+    "tree-sitter": "^0.22.4"
   },
   "peerDependenciesMeta": {
     "tree-sitter": {
@@ -52,6 +52,7 @@
     "install": "node-gyp-build",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
-    "test": "node --test bindings/node/*_test.js"
+    "test": "node --test bindings/node/*_test.js",
+    "lint": "eslint grammar.js"
   }
 }
