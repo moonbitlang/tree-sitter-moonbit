@@ -1393,6 +1393,10 @@
       "required": true,
       "types": [
         {
+          "type": "colon_colon",
+          "named": true
+        },
+        {
           "type": "dot_lowercase_identifier",
           "named": true
         },
@@ -1410,6 +1414,10 @@
         },
         {
           "type": "qualified_identifier",
+          "named": true
+        },
+        {
+          "type": "type_name",
           "named": true
         }
       ]
