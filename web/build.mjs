@@ -7,8 +7,12 @@ import { env } from "node:process";
 const base_path = env["BASE_PATH"];
 const dist_path = env["DIST_PATH"] || "dist";
 
+if (!fs.existsSync(dist_path)) {
+  fs.mkdirSync(dist_path, { recursive: true });
+}
+
 const index_html = fs
-  .readFileSync(path.join(dist_path, "index.html"), "utf-8")
+  .readFileSync(path.join("web", "index.html"), "utf-8")
   .replace(/LANGUAGE_BASE_URL = ""/, `LANGUAGE_BASE_URL = "${base_path}"`);
 
 fs.writeFileSync(path.join(dist_path, "index.html"), index_html);
