@@ -3,8 +3,17 @@ name: Test
 on:
   push:
     branches: ["main"]
+    paths:
+      - grammar.js
+      - src/**
+      - bindings/**
+      - binding.gyp
   pull_request:
-    branches: ["main"]
+    paths:
+      - grammar.js
+      - src/**
+      - bindings/**
+      - binding.gyp
 
 jobs:
   test:
@@ -17,16 +26,10 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ".node-version"
-          cache: "npm"
-
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.24.7
+          tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
         run: tree-sitter generate
@@ -50,25 +53,16 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ".node-version"
-          cache: "npm"
-
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.24.7
+          tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
         run: tree-sitter generate
 
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git
-
-      - name: Install dependencies
-        run: npm ci
 
       - name: Test core
         id: core
