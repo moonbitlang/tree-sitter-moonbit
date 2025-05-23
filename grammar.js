@@ -308,8 +308,11 @@ module.exports = grammar({
       $.function_alias_target,
       seq($.package_identifier, $.dot_lowercase_identifier),
       seq($.package_identifier, $.dot_lowercase_identifier, 'as', $.lowercase_identifier),
+      seq($.type_name, $.colon_colon, $.lowercase_identifier),
+      seq($.type_name, $.colon_colon, $.lowercase_identifier, 'as', $.lowercase_identifier),
       seq('(', list1(',', $.function_alias_target), ')'),
       seq($.package_identifier, '.(', list(',', $.function_alias_target), ')'),
+      seq($.type_name, $.colon_colon, '(', list(',', $.function_alias_target), ')'),
     ),
 
     function_alias_definition: $ => seq(

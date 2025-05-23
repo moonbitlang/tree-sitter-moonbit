@@ -32,6 +32,8 @@ jobs:
 
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
+        with:
+          generate: false
 
   test-go:
     runs-on: ubuntu-latest
@@ -50,6 +52,7 @@ jobs:
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
         with:
+          generate: false
           test-parser: false
           test-go: true
 
@@ -70,6 +73,7 @@ jobs:
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
         with:
+          generate: false
           test-parser: false
           test-rust: true
 
@@ -90,6 +94,7 @@ jobs:
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
         with:
+          generate: false
           test-parser: false
           test-python: true
 
