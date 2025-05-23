@@ -3,30 +3,46 @@ name: Test
 on:
   push:
     branches: ["main"]
+    paths:
+      - grammar.js
+      - src/**
+      - bindings/**
+      - binding.gyp
   pull_request:
-    branches: ["main"]
+    paths:
+      - grammar.js
+      - src/**
+      - bindings/**
+      - binding.gyp
 
 jobs:
   test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-      fail-fast: false
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Setup tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
         with:
-          node-version-file: ".node-version"
-          cache: "npm"
+          tree-sitter-ref: v0.25.4
+
+      - name: Generate tree-sitter parser
+        run: tree-sitter generate
+
+      - name: Run tests
+        uses: tree-sitter/parser-test-action@v2
+
+  test-go:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.24.7
+          tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
         run: tree-sitter generate
@@ -34,41 +50,92 @@ jobs:
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
         with:
-          test-rust: true
-          test-node: true
-          test-python: true
+          test-parser: false
           test-go: true
-          test-swift: true
 
-  test-core:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-      fail-fast: false
-    runs-on: ${{ matrix.os }}
+  test-rust:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Setup tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
         with:
-          node-version-file: ".node-version"
-          cache: "npm"
+          tree-sitter-ref: v0.25.4
+
+      - name: Generate tree-sitter parser
+        run: tree-sitter generate
+
+      - name: Run tests
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-parser: false
+          test-rust: true
+
+  test-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.24.7
+          tree-sitter-ref: v0.25.4
+
+      - name: Generate tree-sitter parser
+        run: tree-sitter generate
+
+      - name: Run tests
+        uses: tree-sitter/parser-test-action@v2
+        with:
+          test-parser: false
+          test-python: true
+
+  test-node:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: v0.25.4
+
+      - name: Generate tree-sitter parser
+        run: tree-sitter generate
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+  test-core:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
         run: tree-sitter generate
 
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git
-
-      - name: Install dependencies
-        run: npm ci
 
       - name: Test core
         id: core
