@@ -24,9 +24,7 @@ test "t" {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 anonymous
@@ -51,9 +49,7 @@ test {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 snapshot
@@ -104,8 +100,6 @@ test "a" (it : @test.T) {
                                   (string_literal
                                     (string_fragment
                                       (unescaped_string_fragment))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -133,6 +127,4 @@ test "a" (it : @test.T) {
                                     (literal
                                       (string_literal
                                         (string_fragment
-                                          (unescaped_string_fragment))))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                          (unescaped_string_fragment))))))))))))))))))))))

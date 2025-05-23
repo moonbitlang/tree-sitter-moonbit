@@ -30,8 +30,6 @@ traitalias C = @quickcheck.C
             (qualified_type_identifier
               (identifier
                 (uppercase_identifier))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (trait_alias_definition
       (trait_alias_targets
@@ -80,8 +78,6 @@ typealias @quickcheck.Arbitrary[X, F]
         (package_identifier)
         (dot_identifier
           (dot_uppercase_identifier)))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_alias_definition
       (type_alias_targets
@@ -92,8 +88,6 @@ typealias @quickcheck.Arbitrary[X, F]
           (type_identifier
             (identifier
               (uppercase_identifier)))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_alias_definition
       (type_alias_targets
@@ -128,8 +122,6 @@ typealias D[E, F] = @quickcheck.D[E, F]
             (qualified_type_identifier
               (identifier
                 (uppercase_identifier))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_alias_definition
       (type_alias_targets
@@ -141,8 +133,6 @@ typealias D[E, F] = @quickcheck.D[E, F]
               (package_identifier)
               (dot_identifier
                 (dot_uppercase_identifier))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_alias_definition
       (type_alias_targets
@@ -164,8 +154,6 @@ typealias D[E, F] = @quickcheck.D[E, F]
                   (qualified_type_identifier
                     (identifier
                       (uppercase_identifier)))))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_alias_definition
       (type_alias_targets

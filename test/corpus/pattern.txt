@@ -45,8 +45,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (as_pattern
@@ -62,8 +60,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -80,8 +76,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -101,8 +95,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -123,8 +115,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -147,11 +137,7 @@ fn main {
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (unit_expression))))))))))))))
 
 ================================================================================
 literal pattern
@@ -191,8 +177,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -204,8 +188,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -219,8 +201,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -233,8 +213,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -246,11 +224,7 @@ fn main {
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (unit_expression))))))))))))))
 
 ================================================================================
 range pattern
@@ -312,8 +286,6 @@ fn init {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (range_pattern
@@ -344,8 +316,6 @@ fn init {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (range_pattern
@@ -374,8 +344,6 @@ fn init {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (range_pattern
@@ -402,8 +370,6 @@ fn init {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (range_pattern
@@ -448,8 +414,6 @@ fn init {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (range_pattern
@@ -487,8 +451,6 @@ fn init {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (range_pattern
@@ -526,8 +488,6 @@ fn init {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (range_pattern
@@ -559,11 +519,7 @@ fn init {
                                           (literal
                                             (string_literal
                                               (string_fragment
-                                                (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                                                (unescaped_string_fragment)))))))))))))))))))))))))
 
 ================================================================================
 map pattern
@@ -616,8 +572,6 @@ fn main {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -653,8 +607,6 @@ fn main {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -691,8 +643,6 @@ fn main {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -737,8 +687,6 @@ fn main {
                                             (string_literal
                                               (string_fragment
                                                 (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -795,11 +743,7 @@ fn main {
                                           (literal
                                             (string_literal
                                               (string_fragment
-                                                (unescaped_string_fragment))))))))))))))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                                                (unescaped_string_fragment)))))))))))))))))))))))))
 
 ================================================================================
 array patterns
@@ -847,8 +791,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -867,8 +809,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -887,8 +827,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -910,8 +848,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -930,8 +866,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -950,8 +884,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -973,8 +905,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -993,8 +923,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -1017,8 +945,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -1044,8 +970,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -1068,8 +992,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -1089,8 +1011,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -1110,8 +1030,6 @@ fn main {
                       (compound_expression
                         (simple_expression
                           (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon))
               (case_clause
                 (pattern
                   (simple_pattern
@@ -1130,11 +1048,7 @@ fn main {
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (unit_expression))))))))))))))
 
 ================================================================================
 pattern guard
@@ -1196,11 +1110,7 @@ fn main {
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))
+                          (unit_expression))))))))))
         (statement_expression
           (let_expression
             (pattern
@@ -1240,11 +1150,7 @@ fn main {
                             (pipeline_expression
                               (compound_expression
                                 (simple_expression
-                                  (unit_expression)))))))
-                      (semicolon
-                        (automatic_semicolon)))))))))
-        (semicolon
-          (automatic_semicolon))
+                                  (unit_expression))))))))))))))
         (statement_expression
           (expression
             (loop_expression
@@ -1297,8 +1203,4 @@ fn main {
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (unit_expression))))))))))))))

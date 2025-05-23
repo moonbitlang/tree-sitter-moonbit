@@ -23,8 +23,6 @@ fn init {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (assign_expression
             (left_value
@@ -38,9 +36,7 @@ fn init {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 add
@@ -67,8 +63,6 @@ fn init {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (assign_expression
             (left_value
@@ -82,9 +76,7 @@ fn init {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 mul
@@ -111,8 +103,6 @@ fn init {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (assign_expression
             (left_value
@@ -126,9 +116,7 @@ fn init {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 div
@@ -155,8 +143,6 @@ fn init {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (assign_expression
             (left_value
@@ -170,9 +156,7 @@ fn init {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 mod
@@ -201,6 +185,4 @@ fn init {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))

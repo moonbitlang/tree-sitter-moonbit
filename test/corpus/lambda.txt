@@ -38,11 +38,7 @@ fn init {
                             (compound_expression
                               (simple_expression
                                 (qualified_identifier
-                                  (lowercase_identifier)))))))
-                      (semicolon
-                        (automatic_semicolon)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                  (lowercase_identifier))))))))))))))))))
 
 ================================================================================
 one-line
@@ -82,9 +78,7 @@ fn init {
                             (compound_expression
                               (simple_expression
                                 (qualified_identifier
-                                  (lowercase_identifier))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                  (lowercase_identifier))))))))))))))))))
 
 ================================================================================
 lambda_curry
@@ -152,9 +146,7 @@ fn init {
                                                 (compound_expression
                                                   (simple_expression
                                                     (qualified_identifier
-                                                      (lowercase_identifier))))))))))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                                      (lowercase_identifier))))))))))))))))))))))))))))
 
 ================================================================================
 matrix functions
@@ -192,8 +184,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (boolean_literal)))))))))
-            (semicolon
-              (automatic_semicolon))
             (matrix_case_clause
               (pattern
                 (simple_pattern))
@@ -209,8 +199,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (boolean_literal)))))))))
-            (semicolon
-              (automatic_semicolon))
             (matrix_case_clause
               (pattern
                 (simple_pattern))
@@ -223,11 +211,7 @@ fn init {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (boolean_literal)))))))))
-            (semicolon
-              (automatic_semicolon))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (boolean_literal)))))))))))))))
 
 ================================================================================
 matrix functions complex
@@ -269,6 +253,4 @@ fn init {
                                     (simple_expression
                                       (atomic_expression
                                         (literal
-                                          (integer_literal))))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                          (integer_literal))))))))))))))))))))))

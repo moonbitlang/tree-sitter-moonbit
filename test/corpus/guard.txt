@@ -39,9 +39,7 @@ fn init {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (integer_literal)))))))))))))))
 
 ================================================================================
 guard with else
@@ -90,11 +88,7 @@ fn init {
             (guard_else_expression
               (block_expression
                 (statement_expression
-                  (return_expression))
-                (semicolon
-                  (automatic_semicolon))))))
-        (semicolon
-          (automatic_semicolon))))))
+                  (return_expression))))))))))
 
 ================================================================================
 guard let
@@ -130,9 +124,7 @@ fn init {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal)))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                (integer_literal)))))))))))))))))
 
 ================================================================================
 guard let with else
@@ -186,11 +178,7 @@ fn init {
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (unit_expression))))))))))))))
 
 ================================================================================
 guard is
@@ -241,11 +229,7 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
             (guard_else_expression
               (block_expression
                 (statement_expression
-                  (return_expression))
-                (semicolon
-                  (automatic_semicolon))))))
-        (semicolon
-          (automatic_semicolon))
+                  (return_expression))))))
         (statement_expression
           (guard_expression
             (compound_expression
@@ -258,11 +242,7 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
-                        (uppercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon)))))
-  (semicolon
-    (automatic_semicolon))
+                        (uppercase_identifier))))))))))))
   (structure_item
     (function_definition
       (visibility)
@@ -377,9 +357,7 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
                                                             (compound_expression
                                                               (simple_expression
                                                                 (constructor_expression
-                                                                  (uppercase_identifier))))))))))))
-                                            (semicolon
-                                              (automatic_semicolon)))
+                                                                  (uppercase_identifier)))))))))))))
                                           (else_clause
                                             (block_expression
                                               (statement_expression
@@ -388,10 +366,4 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
                                                     (compound_expression
                                                       (simple_expression
                                                         (constructor_expression
-                                                          (uppercase_identifier)))))))
-                                              (semicolon
-                                                (automatic_semicolon)))))))
-                                    (semicolon
-                                      (automatic_semicolon))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                                          (uppercase_identifier))))))))))))))))))))))))))))))

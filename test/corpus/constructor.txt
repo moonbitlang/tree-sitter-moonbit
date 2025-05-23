@@ -20,8 +20,6 @@ fn init {
                 (simple_expression
                   (constructor_expression
                     (uppercase_identifier)))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -39,9 +37,7 @@ fn init {
                               (simple_expression
                                 (atomic_expression
                                   (literal
-                                    (integer_literal)))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                    (integer_literal)))))))))))))))))))
 
 ================================================================================
 qualified
@@ -70,8 +66,6 @@ fn init {
                           (lowercase_identifier))))
                     (colon_colon)
                     (uppercase_identifier)))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -83,9 +77,7 @@ fn init {
                         (identifier
                           (uppercase_identifier))))
                     (colon_colon)
-                    (uppercase_identifier)))))))
-        (semicolon
-          (automatic_semicolon))))))
+                    (uppercase_identifier)))))))))))
 
 ================================================================================
 package-qualified
@@ -115,8 +107,6 @@ fn init {
                           (dot_lowercase_identifier))))
                     (colon_colon)
                     (uppercase_identifier)))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -129,6 +119,4 @@ fn init {
                         (dot_identifier
                           (dot_uppercase_identifier))))
                     (colon_colon)
-                    (uppercase_identifier)))))))
-        (semicolon
-          (automatic_semicolon))))))
+                    (uppercase_identifier)))))))))))

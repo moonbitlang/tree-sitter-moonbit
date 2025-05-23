@@ -25,9 +25,7 @@ trait A {
             (apply_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon)))))
+                  (uppercase_identifier))))))))))
 
 ================================================================================
 trait definitions
@@ -64,8 +62,6 @@ trait A {
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon))
       (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
@@ -74,9 +70,7 @@ trait A {
             (apply_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon)))))
+                  (uppercase_identifier))))))))))
 
 ================================================================================
 trait definitions with error
@@ -111,9 +105,7 @@ trait A {
             (apply_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon)))))
+                  (uppercase_identifier))))))))))
 
 ================================================================================
 trait definitions with type parameters
@@ -154,8 +146,6 @@ trait A {
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon))
       (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
@@ -180,9 +170,7 @@ trait A {
             (apply_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon)))))
+                  (uppercase_identifier))))))))))
 
 ================================================================================
 trait definitions with labeled parameters
@@ -231,9 +219,7 @@ trait A {
             (apply_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon)))))
+                  (uppercase_identifier))))))))))
 
 ================================================================================
 trait definitions with visibility
@@ -284,9 +270,7 @@ pub(all) trait A {
             (apply_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon)))))
+                  (uppercase_identifier))))))))))
 
 ================================================================================
 trait definitions with super trait
@@ -327,11 +311,7 @@ trait B: @a.T + @c.D {
             (apply_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon))))
-  (semicolon
-    (automatic_semicolon))
+                  (uppercase_identifier)))))))))
   (structure_item
     (trait_definition
       (identifier
@@ -360,9 +340,7 @@ trait B: @a.T + @c.D {
             (apply_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon)))))
+                  (uppercase_identifier))))))))))
 
 ================================================================================
 Default implementations for methods in trait
@@ -403,8 +381,6 @@ fn repr(self:MyInt) -> String {
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))
-      (semicolon
-        (automatic_semicolon))
       (trait_method_declaration
         (function_identifier
           (lowercase_identifier))
@@ -420,11 +396,7 @@ fn repr(self:MyInt) -> String {
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))
-      (comment)
-      (semicolon
-        (automatic_semicolon))))
-  (semicolon
-    (automatic_semicolon))
+      (comment)))
   (structure_item
     (impl_definition
       (type_name
@@ -462,11 +434,7 @@ fn repr(self:MyInt) -> String {
                       (qualified_identifier
                         (lowercase_identifier)))
                     (dot_identifier
-                      (dot_lowercase_identifier))))))))
-        (semicolon
-          (automatic_semicolon)))))
-  (semicolon
-    (automatic_semicolon))
+                      (dot_lowercase_identifier)))))))))))
   (structure_item
     (type_definition
       (identifier
@@ -476,8 +444,6 @@ fn repr(self:MyInt) -> String {
           (qualified_type_identifier
             (identifier
               (uppercase_identifier)))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (function_definition
       (function_identifier
@@ -514,9 +480,7 @@ fn repr(self:MyInt) -> String {
                         (accessor
                           (dot))))
                     (dot_identifier
-                      (dot_lowercase_identifier))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                      (dot_lowercase_identifier))))))))))))
 
 ================================================================================
 annotation for default implementation
@@ -546,6 +510,4 @@ trait A {
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier))))))
-        (trait_method_default_annotation))
-      (semicolon
-        (automatic_semicolon)))))
+        (trait_method_default_annotation)))))

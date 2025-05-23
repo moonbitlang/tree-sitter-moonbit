@@ -24,12 +24,9 @@ fn init {
                         (multiline_string_fragment
                           (multiline_string_separator)
                           (multiline_string_content))
-                        (automatic_newline)
                         (multiline_string_fragment
                           (multiline_string_separator)
-                          (multiline_string_content))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (multiline_string_content))))))))))))))
 
 ================================================================================
 multiline string (left aligned)
@@ -57,12 +54,9 @@ fn init {
                         (multiline_string_fragment
                           (multiline_string_separator)
                           (multiline_string_content))
-                        (automatic_newline)
                         (multiline_string_fragment
                           (multiline_string_separator)
-                          (multiline_string_content))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (multiline_string_content))))))))))))))
 
 ================================================================================
 multiline string (with pipe)
@@ -95,18 +89,14 @@ fn init {
                             (multiline_string_fragment
                               (multiline_string_separator)
                               (multiline_string_content))
-                            (automatic_newline)
                             (multiline_string_fragment
                               (multiline_string_separator)
                               (multiline_string_content)))))))
-                  (automatic_newline)
                   (pipe_operator)
                   (compound_expression
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -120,14 +110,11 @@ fn init {
                             (multiline_string_fragment
                               (multiline_string_separator)
                               (multiline_string_content)))))))
-                  (automatic_newline)
                   (pipe_operator)
                   (compound_expression
                     (simple_expression
                       (qualified_identifier
-                        (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (lowercase_identifier)))))))))))))
 
 ================================================================================
 multiline string (mixed indentation)
@@ -168,23 +155,18 @@ fn init {
                                   (multiline_string_fragment
                                     (multiline_string_separator)
                                     (multiline_string_content))
-                                  (automatic_newline)
                                   (multiline_string_fragment
                                     (multiline_string_separator)
                                     (multiline_string_content))
-                                  (automatic_newline)
                                   (multiline_string_fragment
                                     (multiline_string_separator)
                                     (multiline_string_content))
-                                  (automatic_newline)
                                   (multiline_string_fragment
                                     (multiline_string_separator)
                                     (multiline_string_content))
-                                  (automatic_newline)
                                   (multiline_string_fragment
                                     (multiline_string_separator)
                                     (multiline_string_content)))))))
-                        (automatic_newline)
                         (pipe_operator)
                         (compound_expression
                           (simple_expression
@@ -194,9 +176,7 @@ fn init {
                     (compound_expression
                       (simple_expression
                         (qualified_identifier
-                          (lowercase_identifier))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (lowercase_identifier))))))))))))))
 
 ================================================================================
 multiline interpolation
@@ -226,7 +206,6 @@ fn main {
                         (multiline_interpolation_fragment
                           (multiline_interpolation_separator)
                           (multiline_interpolation_content))
-                        (automatic_newline)
                         (multiline_interpolation_fragment
                           (multiline_interpolation_separator)
                           (multiline_interpolation_content)
@@ -238,7 +217,6 @@ fn main {
                                     (simple_expression
                                       (qualified_identifier
                                         (lowercase_identifier)))))))))
-                        (automatic_newline)
                         (multiline_interpolation_fragment
                           (multiline_interpolation_separator)
                           (multiline_interpolation_content
@@ -261,7 +239,6 @@ fn main {
                                             (simple_expression
                                               (qualified_identifier
                                                 (lowercase_identifier)))))))))))))
-                        (automatic_newline)
                         (multiline_interpolation_fragment
                           (multiline_interpolation_separator)
                           (multiline_interpolation_content
@@ -281,6 +258,4 @@ fn main {
                                                 (compound_expression
                                                   (simple_expression
                                                     (qualified_identifier
-                                                      (lowercase_identifier))))))))))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                                      (lowercase_identifier))))))))))))))))))))))))))))

@@ -21,8 +21,6 @@ fn main {
                   (constructor_expression
                     (package_identifier)
                     (dot_uppercase_identifier)))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -30,6 +28,4 @@ fn main {
                 (simple_expression
                   (constructor_expression
                     (package_identifier)
-                    (dot_uppercase_identifier)))))))
-        (semicolon
-          (automatic_semicolon))))))
+                    (dot_uppercase_identifier)))))))))))
