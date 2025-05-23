@@ -42,11 +42,7 @@ fn main {
                                           (literal
                                             (string_literal
                                               (string_fragment
-                                                (unescaped_string_fragment)))))))))))))))))
-                (semicolon
-                  (automatic_semicolon))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                                (unescaped_string_fragment)))))))))))))))))))))))))
 
 ================================================================================
 while expression with else clause
@@ -83,9 +79,7 @@ fn main {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal)))))))))
-                (semicolon
-                  (automatic_semicolon)))
+                                (integer_literal))))))))))
               (else_clause
                 (block_expression
                   (statement_expression
@@ -95,11 +89,7 @@ fn main {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal))))))))
-                  (semicolon
-                    (automatic_semicolon)))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                (integer_literal)))))))))))))))))
 
 ================================================================================
 while expression with label
@@ -141,9 +131,7 @@ fn main {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal)))))))))
-                (semicolon
-                  (automatic_semicolon)))
+                                (integer_literal))))))))))
               (else_clause
                 (block_expression
                   (statement_expression
@@ -153,8 +141,4 @@ fn main {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal))))))))
-                  (semicolon
-                    (automatic_semicolon)))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                (integer_literal)))))))))))))))))

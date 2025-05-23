@@ -28,17 +28,13 @@ fn main {
                           (multiline_string_separator)
                           (multiline_string_content))
                         (comment)
-                        (automatic_newline)
                         (multiline_interpolation_fragment
                           (multiline_interpolation_separator)
                           (multiline_interpolation_content))
                         (comment)
-                        (automatic_newline)
                         (multiline_string_fragment
                           (multiline_string_separator)
-                          (multiline_string_content))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (multiline_string_content))))))))))))))
 
 ================================================================================
 can occur before semi (RBRACE, RBRACKET, RPAREN)
@@ -69,8 +65,6 @@ fn main {
                             (simple_expression
                               (qualified_identifier
                                 (lowercase_identifier)))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -83,8 +77,6 @@ fn main {
                           (simple_expression
                             (qualified_identifier
                               (lowercase_identifier))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -96,9 +88,7 @@ fn main {
                         (compound_expression
                           (simple_expression
                             (qualified_identifier
-                              (lowercase_identifier))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                              (lowercase_identifier))))))))))))))))
 
 ================================================================================
 can occur before semi (BREAK, CONTINUE, RETURN)
@@ -121,8 +111,6 @@ fn main {
       (block_expression
         (statement_expression
           (break_expression))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -131,12 +119,8 @@ fn main {
                   (atomic_expression
                     (literal
                       (integer_literal))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (continue_expression))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -145,12 +129,8 @@ fn main {
                   (atomic_expression
                     (literal
                       (integer_literal))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (return_expression))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -158,9 +138,7 @@ fn main {
                 (simple_expression
                   (atomic_expression
                     (literal
-                      (integer_literal))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                      (integer_literal))))))))))))
 
 ================================================================================
 can occur before semi (PLUS, MINUS)
@@ -202,8 +180,6 @@ Clone] f() -> Unit {
                         (atomic_expression
                           (literal
                             (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -222,11 +198,7 @@ Clone] f() -> Unit {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon)))))
-  (semicolon
-    (automatic_semicolon))
+                            (integer_literal))))))))))))))
   (structure_item
     (function_definition
       (type_parameters
@@ -280,9 +252,7 @@ fn main {
                   (simple_expression
                     (constructor_expression
                       (package_identifier)
-                      (dot_uppercase_identifier))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                      (dot_uppercase_identifier))))))))))))
 
 ================================================================================
 can occur before semi (LET, MUTABLE)
@@ -313,8 +283,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_mut_expression
             (lowercase_identifier)
@@ -324,9 +292,7 @@ fn main {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 can occur before semi (MATCH)
@@ -360,11 +326,7 @@ fn main {
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (unit_expression)))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (unit_expression))))))))))))))
 
 ================================================================================
 can occur before semi (TRY)
@@ -392,9 +354,7 @@ fn main {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (arguments)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (arguments)))))))))))))
 
 ================================================================================
 can occur before semi (CATCH)
@@ -423,9 +383,7 @@ fn main {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (arguments)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (arguments)))))))))))))
 
 ================================================================================
 can occur before semi (LPAREN)
@@ -459,9 +417,7 @@ fn main {
                               (simple_expression
                                 (atomic_expression
                                   (literal
-                                    (integer_literal)))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                    (integer_literal)))))))))))))))))))
 
 ================================================================================
 can occur before semi (CONST)
@@ -512,9 +468,7 @@ fn main {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal)))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                (integer_literal)))))))))))))))))
 
 ================================================================================
 can occur before semi (LBRACE)
@@ -547,11 +501,7 @@ fn main {
                           (compound_expression
                             (simple_expression
                               (qualified_identifier
-                                (lowercase_identifier)))))))
-                    (semicolon
-                      (automatic_semicolon))))))))
-        (semicolon
-          (automatic_semicolon))
+                                (lowercase_identifier)))))))))))))
         (statement_expression
           (expression
             (pipeline_expression
@@ -565,9 +515,7 @@ fn main {
                     (colon_colon)
                     (struct_field_expression
                       (labeled_expression_pun
-                        (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (lowercase_identifier)))))))))))))
 
 ================================================================================
 can occur before semi (INFIX1)
@@ -607,8 +555,6 @@ fn main {
                       (atomic_expression
                         (literal
                           (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -624,8 +570,6 @@ fn main {
                       (atomic_expression
                         (literal
                           (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -641,8 +585,6 @@ fn main {
                       (atomic_expression
                         (literal
                           (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -658,8 +600,6 @@ fn main {
                       (atomic_expression
                         (literal
                           (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -674,9 +614,7 @@ fn main {
                     (simple_expression
                       (atomic_expression
                         (literal
-                          (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (integer_literal))))))))))))))
 
 ================================================================================
 can occur before semi (INFIX2)
@@ -710,8 +648,6 @@ fn main {
                       (atomic_expression
                         (literal
                           (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -726,9 +662,7 @@ fn main {
                     (simple_expression
                       (atomic_expression
                         (literal
-                          (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (integer_literal))))))))))))))
 
 ================================================================================
 can occur before semi (INFIX3)
@@ -764,8 +698,6 @@ fn main {
                       (atomic_expression
                         (literal
                           (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -781,8 +713,6 @@ fn main {
                       (atomic_expression
                         (literal
                           (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -797,9 +727,7 @@ fn main {
                     (simple_expression
                       (atomic_expression
                         (literal
-                          (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (integer_literal))))))))))))))
 
 ================================================================================
 can occur before semi (IMPL)
@@ -850,9 +778,7 @@ fn main {
                   (atomic_expression
                     (literal
                       (boolean_literal)))))
-              (block_expression))))
-        (semicolon
-          (automatic_semicolon))))))
+              (block_expression))))))))
 
 ================================================================================
 can occur before semi (GUARD)
@@ -878,9 +804,7 @@ fn main {
             (simple_expression
               (atomic_expression
                 (literal
-                  (integer_literal))))))
-        (semicolon
-          (automatic_semicolon))))))
+                  (integer_literal))))))))))
 
 ================================================================================
 can occur before semi (WHILE)
@@ -906,9 +830,7 @@ fn main {
                   (atomic_expression
                     (literal
                       (boolean_literal)))))
-              (block_expression))))
-        (semicolon
-          (automatic_semicolon))))))
+              (block_expression))))))))
 
 ================================================================================
 can occur before semi (ASYNC)
@@ -934,8 +856,6 @@ fn main {
         (lowercase_identifier))
       (parameters)
       (block_expression)))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (function_definition
       (function_identifier
@@ -951,15 +871,11 @@ fn main {
                 (compound_expression
                   (simple_expression
                     (anonymous_matrix_lambda_expression)))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (named_lambda_expression
             (lowercase_identifier)
             (parameters)
-            (block_expression)))
-        (semicolon
-          (automatic_semicolon))))))
+            (block_expression)))))))
 
 ================================================================================
 can occur before semi (FN)
@@ -988,8 +904,6 @@ fn main {
         (lowercase_identifier))
       (parameters)
       (block_expression)))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (function_definition
       (function_identifier
@@ -1006,16 +920,12 @@ fn main {
                   (simple_expression
                     (anonymous_matrix_lambda_expression
                       (comment))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (named_lambda_expression
             (comment)
             (lowercase_identifier)
             (parameters)
-            (block_expression)))
-        (semicolon
-          (automatic_semicolon))))))
+            (block_expression)))))))
 
 ================================================================================
 can occur before semi (FAT_ARROW)
@@ -1060,14 +970,9 @@ fn main {
                                   (multiline_string_separator)
                                   (multiline_string_content))
                                 (comment)
-                                (automatic_newline)
                                 (multiline_interpolation_fragment
                                   (multiline_interpolation_separator)
-                                  (multiline_interpolation_content)))))))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                                  (multiline_interpolation_content))))))))))))))))))
 
 ================================================================================
 can occur before semi (THIN_ARROW)
@@ -1144,9 +1049,7 @@ fn main {
                                 (atomic_expression
                                   (literal
                                     (integer_literal))))))))))))
-              (block_expression))))
-        (semicolon
-          (automatic_semicolon))))))
+              (block_expression))))))))
 
 ================================================================================
 can occur before semi (EQUAL)
@@ -1176,9 +1079,7 @@ fn main {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 can occur before semi (AUGMENTED_ASSIGNMENT)
@@ -1208,9 +1109,7 @@ fn main {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 can occur before semi (ENUM)
@@ -1231,12 +1130,8 @@ E {
         (uppercase_identifier))
       (enum_constructor
         (uppercase_identifier))
-      (semicolon
-        (automatic_semicolon))
       (enum_constructor
-        (uppercase_identifier))
-      (semicolon
-        (automatic_semicolon)))))
+        (uppercase_identifier)))))
 
 ================================================================================
 can occur before semi (ELSE)
@@ -1266,9 +1161,7 @@ fn main {
               (block_expression)
               (else_clause
                 (comment)
-                (block_expression)))))
-        (semicolon
-          (automatic_semicolon))))))
+                (block_expression)))))))))
 
 ================================================================================
 can occur before semi (EXTERN)
@@ -1344,11 +1237,7 @@ b: Int) -> Unit {
               (apply_type
                 (qualified_type_identifier
                   (identifier
-                    (uppercase_identifier))))))))
-      (semicolon
-        (automatic_semicolon))))
-  (semicolon
-    (automatic_semicolon))
+                    (uppercase_identifier))))))))))
   (structure_item
     (function_definition
       (function_identifier
@@ -1370,8 +1259,6 @@ b: Int) -> Unit {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -1392,8 +1279,6 @@ b: Int) -> Unit {
                             (atomic_expression
                               (literal
                                 (integer_literal)))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (loop_expression
@@ -1409,8 +1294,6 @@ b: Int) -> Unit {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (for_expression
@@ -1433,13 +1316,11 @@ b: Int) -> Unit {
                         (atomic_expression
                           (literal
                             (integer_literal))))))))
-              (semicolon)
               (compound_expression
                 (simple_expression
                   (atomic_expression
                     (literal
                       (boolean_literal)))))
-              (semicolon)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -1456,8 +1337,6 @@ b: Int) -> Unit {
                               (literal
                                 (integer_literal))))))))))
               (block_expression))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (for_in_expression
@@ -1491,8 +1370,6 @@ b: Int) -> Unit {
                                   (literal
                                     (integer_literal))))))))))))
               (block_expression))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -1509,11 +1386,7 @@ b: Int) -> Unit {
                         (lowercase_identifier)))
                     (struct_field_expression
                       (labeled_expression_pun
-                        (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon)))))
-  (semicolon
-    (automatic_semicolon))
+                        (lowercase_identifier))))))))))))
   (structure_item
     (function_definition
       (function_identifier
@@ -1618,8 +1491,6 @@ Int) -> Unit {
                               (simple_expression
                                 (qualified_identifier
                                   (lowercase_identifier))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -1643,9 +1514,7 @@ Int) -> Unit {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal)))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                (integer_literal)))))))))))))))))
 
 ================================================================================
 can occur before semi (BARBAR)
@@ -1676,9 +1545,7 @@ fn main {
                   (compound_expression
                     (simple_expression
                       (qualified_identifier
-                        (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (lowercase_identifier)))))))))))))
 
 ================================================================================
 can occur before semi (BAR)
@@ -1716,8 +1583,6 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (match_expression
@@ -1752,11 +1617,7 @@ fn main {
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (map_expression)))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (map_expression))))))))))))))
 
 ================================================================================
 can occur before semi (AS)
@@ -1796,8 +1657,6 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -1816,8 +1675,6 @@ fn main {
                                 (qualified_type_identifier
                                   (identifier
                                     (uppercase_identifier)))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (match_expression
@@ -1855,11 +1712,7 @@ fn main {
                     (pipeline_expression
                       (compound_expression
                         (simple_expression
-                          (map_expression)))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (map_expression))))))))))))))
 
 ================================================================================
 can occur before semi (IS)
@@ -1891,8 +1744,6 @@ fn main {
                     (simple_pattern
                       (literal
                         (boolean_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (guard_expression
             (compound_expression
@@ -1936,11 +1787,7 @@ fn main {
                         (simple_expression
                           (atomic_expression
                             (literal
-                              (integer_literal))))))))
-                (semicolon
-                  (automatic_semicolon))))))
-        (semicolon
-          (automatic_semicolon))))))
+                              (integer_literal))))))))))))))))
 
 ================================================================================
 can occur before semi (AMPERAMPER)
@@ -1971,9 +1818,7 @@ fn main {
                   (compound_expression
                     (simple_expression
                       (qualified_identifier
-                        (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (lowercase_identifier)))))))))))))
 
 ================================================================================
 can occur before semi (DOTDOT)
@@ -2009,9 +1854,7 @@ fn main {
                         (compound_expression
                           (simple_expression
                             (qualified_identifier
-                              (lowercase_identifier))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                              (lowercase_identifier))))))))))))))))
 
 ================================================================================
 can occur before semi (PUB, PRIV, READONLY)
@@ -2043,15 +1886,11 @@ pub(readonly
               (identifier
                 (uppercase_identifier))))))
       (block_expression)))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (struct_definition
       (visibility)
       (identifier
         (uppercase_identifier))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (enum_definition
       (visibility
@@ -2121,8 +1960,6 @@ fn main {
             (qualified_type_identifier
               (identifier
                 (uppercase_identifier))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (function_definition
       (function_identifier
@@ -2138,9 +1975,7 @@ fn main {
                 (type_name
                   (qualified_type_identifier
                     (identifier
-                      (uppercase_identifier))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                      (uppercase_identifier))))))))))))
 
 ================================================================================
 can occur before semi (COLONCOLON)
@@ -2181,8 +2016,6 @@ f() -> Unit {
                     (struct_field_expression
                       (labeled_expression_pun
                         (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -2196,8 +2029,6 @@ f() -> Unit {
                           (dot_uppercase_identifier))))
                     (colon_colon)
                     (uppercase_identifier)))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -2213,11 +2044,7 @@ f() -> Unit {
                               (dot_uppercase_identifier))))
                         (colon_colon)
                         (lowercase_identifier)))
-                    (arguments)))))))
-        (semicolon
-          (automatic_semicolon)))))
-  (semicolon
-    (automatic_semicolon))
+                    (arguments))))))))))
   (structure_item
     (function_definition
       (function_identifier
@@ -2256,8 +2083,6 @@ test
     (test_definition
       (comment)
       (block_expression)))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (test_definition
       (comment)
@@ -2299,9 +2124,7 @@ fn main {
                   (compound_expression
                     (simple_expression
                       (qualified_identifier
-                        (lowercase_identifier)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (lowercase_identifier)))))))))))))
 
 ================================================================================
 can occur before semi (FOR)
@@ -2325,7 +2148,6 @@ fn main {
             (for_in_expression
               (for_keyword)
               (comment)
-              (automatic_newline)
               (lowercase_identifier)
               (lowercase_identifier)
               (expression
@@ -2333,9 +2155,7 @@ fn main {
                   (compound_expression
                     (simple_expression
                       (array_expression)))))
-              (block_expression))))
-        (semicolon
-          (automatic_semicolon))))))
+              (block_expression))))))))
 
 ================================================================================
 can occur before semi (AMPER, CARET)
@@ -2369,8 +2189,6 @@ fn main {
                       (atomic_expression
                         (literal
                           (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -2385,9 +2203,7 @@ fn main {
                     (simple_expression
                       (atomic_expression
                         (literal
-                          (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (integer_literal))))))))))))))
 
 ================================================================================
 can occur before semi (RAISE)
@@ -2406,8 +2222,6 @@ fn main {
       (block_expression
         (statement_expression
           (raise_expression))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -2427,6 +2241,4 @@ fn main {
                                   (literal
                                     (string_literal
                                       (string_fragment
-                                        (unescaped_string_fragment)))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                        (unescaped_string_fragment)))))))))))))))))))))

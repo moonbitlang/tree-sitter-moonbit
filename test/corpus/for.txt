@@ -26,7 +26,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (integer_literal))))))))
-              (semicolon)
               (compound_expression
                 (binary_expression
                   (compound_expression
@@ -38,7 +37,6 @@ fn init {
                       (atomic_expression
                         (literal
                           (integer_literal)))))))
-              (semicolon)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -54,9 +52,7 @@ fn init {
                             (atomic_expression
                               (literal
                                 (integer_literal))))))))))
-              (block_expression))))
-        (semicolon
-          (automatic_semicolon))))))
+              (block_expression))))))))
 
 ================================================================================
 forever
@@ -86,7 +82,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (integer_literal))))))))
-              (semicolon)
               (compound_expression
                 (binary_expression
                   (compound_expression
@@ -98,10 +93,7 @@ fn init {
                       (atomic_expression
                         (literal
                           (integer_literal)))))))
-              (semicolon)
-              (block_expression))))
-        (semicolon
-          (automatic_semicolon))))))
+              (block_expression))))))))
 
 ================================================================================
 simple for
@@ -154,8 +146,6 @@ fn init {
                                 (atomic_expression
                                   (literal
                                     (integer_literal)))))))))))
-                (semicolon
-                  (automatic_semicolon))
                 (statement_expression
                   (continue_expression
                     (expression
@@ -170,11 +160,7 @@ fn init {
                               (simple_expression
                                 (atomic_expression
                                   (literal
-                                    (integer_literal)))))))))))
-                (semicolon
-                  (automatic_semicolon))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                    (integer_literal)))))))))))))))))))
 
 ================================================================================
 for-in
@@ -238,8 +224,6 @@ fn init {
                               (atomic_expression
                                 (literal
                                   (integer_literal))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (for_in_expression
@@ -258,11 +242,7 @@ fn init {
                       (compound_expression
                         (simple_expression
                           (qualified_identifier
-                            (lowercase_identifier)))))))
-                (semicolon
-                  (automatic_semicolon))))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (lowercase_identifier)))))))))))))))
 
 ================================================================================
 for-else
@@ -295,7 +275,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (integer_literal))))))))
-              (semicolon)
               (compound_expression
                 (binary_expression
                   (compound_expression
@@ -307,7 +286,6 @@ fn init {
                       (atomic_expression
                         (literal
                           (integer_literal)))))))
-              (semicolon)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -330,9 +308,7 @@ fn init {
                       (compound_expression
                         (simple_expression
                           (qualified_identifier
-                            (lowercase_identifier)))))))
-                (semicolon
-                  (automatic_semicolon)))
+                            (lowercase_identifier))))))))
               (else_clause
                 (block_expression
                   (statement_expression
@@ -342,11 +318,7 @@ fn init {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal))))))))
-                  (semicolon
-                    (automatic_semicolon)))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                (integer_literal)))))))))))))))))
 
 ================================================================================
 for-in-else
@@ -412,8 +384,6 @@ fn init {
                               (atomic_expression
                                 (literal
                                   (integer_literal))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (for_in_expression
@@ -432,9 +402,7 @@ fn init {
                       (compound_expression
                         (simple_expression
                           (qualified_identifier
-                            (lowercase_identifier)))))))
-                (semicolon
-                  (automatic_semicolon)))
+                            (lowercase_identifier))))))))
               (else_clause
                 (block_expression
                   (statement_expression
@@ -444,11 +412,7 @@ fn init {
                           (simple_expression
                             (atomic_expression
                               (literal
-                                (integer_literal))))))))
-                  (semicolon
-                    (automatic_semicolon)))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                (integer_literal)))))))))))))))))
 
 ================================================================================
 for in range
@@ -489,8 +453,6 @@ fn main {
                           (dot_identifier
                             (dot_lowercase_identifier))))))))
               (block_expression))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (for_in_expression
@@ -512,9 +474,7 @@ fn main {
                               (lowercase_identifier)))
                           (dot_identifier
                             (dot_lowercase_identifier))))))))
-              (block_expression))))
-        (semicolon
-          (automatic_semicolon))))))
+              (block_expression))))))))
 
 ================================================================================
 for with line break
@@ -546,8 +506,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (integer_literal))))))))
-              (semicolon
-                (automatic_semicolon))
               (compound_expression
                 (binary_expression
                   (compound_expression
@@ -559,8 +517,6 @@ fn init {
                       (atomic_expression
                         (literal
                           (integer_literal)))))))
-              (semicolon
-                (automatic_semicolon))
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -576,9 +532,7 @@ fn init {
                             (atomic_expression
                               (literal
                                 (integer_literal))))))))))
-              (block_expression))))
-        (semicolon
-          (automatic_semicolon))))))
+              (block_expression))))))))
 
 ================================================================================
 for with loop
@@ -627,8 +581,4 @@ fn main {
                                     (compound_expression
                                       (simple_expression
                                         (qualified_identifier
-                                          (lowercase_identifier))))))))))))))
-                (semicolon
-                  (automatic_semicolon))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                          (lowercase_identifier))))))))))))))))))))))

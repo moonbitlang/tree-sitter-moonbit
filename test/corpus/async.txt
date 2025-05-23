@@ -82,8 +82,6 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
         (string_literal
           (string_fragment
             (unescaped_string_fragment))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (function_definition
       (function_identifier
@@ -171,11 +169,7 @@ fn main {
                                                                 (parameter
                                                                   (positional_parameter
                                                                     (lowercase_identifier))))
-                                                              (block_expression))))))))))))))
-                                    (semicolon
-                                      (automatic_semicolon))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                                              (block_expression))))))))))))))))))))))))))))))))
 
 ================================================================================
 async closure
@@ -237,11 +231,7 @@ fn main {
                                                                 (parameter
                                                                   (positional_parameter
                                                                     (lowercase_identifier))))
-                                                              (block_expression))))))))))))))
-                                    (semicolon
-                                      (automatic_semicolon))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
+                                                              (block_expression))))))))))))))))))))))))))))
         (statement_expression
           (let_expression
             (pattern
@@ -253,6 +243,4 @@ fn main {
                   (simple_expression
                     (anonymous_lambda_expression
                       (parameters)
-                      (block_expression))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                      (block_expression))))))))))))

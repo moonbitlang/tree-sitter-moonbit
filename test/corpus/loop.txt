@@ -56,8 +56,6 @@ fn init {
                             (simple_expression
                               (qualified_identifier
                                 (lowercase_identifier)))))))))
-                (semicolon
-                  (automatic_semicolon))
                 (matrix_case_clause
                   (pattern
                     (simple_pattern
@@ -71,11 +69,7 @@ fn init {
                         (compound_expression
                           (simple_expression
                             (qualified_identifier
-                              (lowercase_identifier))))))))
-                (semicolon
-                  (automatic_semicolon))))))
-        (semicolon
-          (automatic_semicolon))))))
+                              (lowercase_identifier))))))))))))))))
 
 ================================================================================
 loop expression with multiple argument
@@ -145,8 +139,6 @@ fn init {
                             (simple_expression
                               (qualified_identifier
                                 (lowercase_identifier)))))))))
-                (semicolon
-                  (automatic_semicolon))
                 (matrix_case_clause
                   (pattern
                     (simple_pattern
@@ -160,11 +152,7 @@ fn init {
                         (compound_expression
                           (simple_expression
                             (qualified_identifier
-                              (lowercase_identifier))))))))
-                (semicolon
-                  (automatic_semicolon))))))
-        (semicolon
-          (automatic_semicolon))))))
+                              (lowercase_identifier))))))))))))))))
 
 ================================================================================
 loop expression with label
@@ -225,8 +213,6 @@ fn init {
                           (simple_expression
                             (qualified_identifier
                               (lowercase_identifier)))))))))
-              (semicolon
-                (automatic_semicolon))
               (matrix_case_clause
                 (pattern
                   (simple_pattern
@@ -253,8 +239,4 @@ fn init {
                                       (compound_expression
                                         (simple_expression
                                           (qualified_identifier
-                                            (lowercase_identifier))))))))))))))))
-              (semicolon
-                (automatic_semicolon)))))
-        (semicolon
-          (automatic_semicolon))))))
+                                            (lowercase_identifier)))))))))))))))))))))))

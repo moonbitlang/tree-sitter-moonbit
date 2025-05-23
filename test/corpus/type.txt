@@ -57,8 +57,6 @@ type T6 () -> ((Int) -> Int?!)!Error?
                   (qualified_type_identifier
                     (identifier
                       (uppercase_identifier)))))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier
@@ -80,8 +78,6 @@ type T6 () -> ((Int) -> Int?!)!Error?
                         (identifier
                           (uppercase_identifier)))))
                   (question_operator)))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier
@@ -105,8 +101,6 @@ type T6 () -> ((Int) -> Int?!)!Error?
                   (qualified_type_identifier
                     (identifier
                       (uppercase_identifier)))))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier
@@ -136,8 +130,6 @@ type T6 () -> ((Int) -> Int?!)!Error?
                         (identifier
                           (uppercase_identifier)))))
                   (question_operator)))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier
@@ -166,8 +158,6 @@ type T6 () -> ((Int) -> Int?!)!Error?
                   (qualified_type_identifier
                     (identifier
                       (uppercase_identifier)))))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier
@@ -202,8 +192,6 @@ type T6 () -> ((Int) -> Int?!)!Error?
                         (identifier
                           (uppercase_identifier)))))
                   (question_operator)))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier
@@ -261,8 +249,6 @@ impl Show for T with output(self : T, logger : &Logger) -> Unit {
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (impl_definition
       (type_name
@@ -322,8 +308,6 @@ extern type B
       (visibility)
       (identifier
         (uppercase_identifier))))
-  (semicolon
-    (automatic_semicolon))
   (structure_item
     (type_definition
       (identifier

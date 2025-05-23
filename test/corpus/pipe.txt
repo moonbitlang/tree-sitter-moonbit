@@ -32,9 +32,7 @@ fn init {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (integer_literal)))))))))))))))
 
 ================================================================================
 pipe (left aligned)
@@ -70,9 +68,7 @@ fn init {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (integer_literal)))))))))))))))
 
 ================================================================================
 pipe (multiple empty line)
@@ -111,9 +107,7 @@ fn init {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (integer_literal)))))))))))))))
 
 ================================================================================
 pipe (multiple empty line with spaces)
@@ -152,9 +146,7 @@ fn init {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (integer_literal)))))))))))))))
 
 ================================================================================
 pipe (comment)
@@ -191,9 +183,7 @@ fn init {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (integer_literal)))))))))))))))
 
 ================================================================================
 pipe (multi line with single line comment)
@@ -236,9 +226,7 @@ fn init {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (integer_literal)))))))))))))))
 
 ================================================================================
 pipe (multi line with single line comment, not left aligned)
@@ -281,6 +269,4 @@ fn init {
                       (simple_expression
                         (atomic_expression
                           (literal
-                            (integer_literal)))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                            (integer_literal)))))))))))))))

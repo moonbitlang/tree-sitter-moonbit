@@ -49,9 +49,7 @@ fn fib(n : Int) -> Int {
                     (simple_expression
                       (atomic_expression
                         (literal
-                          (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (integer_literal))))))))))))))
 
 ================================================================================
 coverage skip
@@ -99,6 +97,4 @@ fn fib(n : Int) -> Int {
                     (simple_expression
                       (atomic_expression
                         (literal
-                          (integer_literal))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                          (integer_literal))))))))))))))

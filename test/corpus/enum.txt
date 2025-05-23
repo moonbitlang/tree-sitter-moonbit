@@ -16,8 +16,6 @@ enum T {
         (uppercase_identifier))
       (enum_constructor
         (uppercase_identifier))
-      (semicolon
-        (automatic_semicolon))
       (enum_constructor
         (uppercase_identifier)
         (enum_constructor_payload
@@ -27,8 +25,6 @@ enum T {
                 (qualified_type_identifier
                   (identifier
                     (uppercase_identifier))))))))
-      (semicolon
-        (automatic_semicolon))
       (enum_constructor
         (uppercase_identifier)
         (enum_constructor_payload
@@ -44,8 +40,6 @@ enum T {
                 (qualified_type_identifier
                   (identifier
                     (uppercase_identifier))))))))
-      (semicolon
-        (automatic_semicolon))
       (enum_constructor
         (uppercase_identifier)
         (enum_constructor_payload
@@ -63,9 +57,7 @@ enum T {
               (apply_type
                 (qualified_type_identifier
                   (identifier
-                    (uppercase_identifier))))))))
-      (semicolon
-        (automatic_semicolon)))))
+                    (uppercase_identifier)))))))))))
 
 ================================================================================
 extern enum with integer discriminants
@@ -87,23 +79,15 @@ enum T {
         (uppercase_identifier)
         (enum_constructor_payload
           (integer_literal)))
-      (semicolon
-        (automatic_semicolon))
       (enum_constructor
         (uppercase_identifier)
         (enum_constructor_payload
           (integer_literal)))
-      (semicolon
-        (automatic_semicolon))
       (enum_constructor
         (uppercase_identifier)
         (enum_constructor_payload
           (integer_literal)))
-      (semicolon
-        (automatic_semicolon))
       (enum_constructor
         (uppercase_identifier)
         (enum_constructor_payload
-          (integer_literal)))
-      (semicolon
-        (automatic_semicolon)))))
+          (integer_literal))))))

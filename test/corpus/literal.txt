@@ -40,8 +40,6 @@ fn init {
                                   (literal
                                     (char_literal
                                       (escape_sequence))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -61,8 +59,6 @@ fn init {
                                   (literal
                                     (char_literal
                                       (escape_sequence))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -82,8 +78,6 @@ fn init {
                                   (literal
                                     (char_literal
                                       (escape_sequence))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -103,8 +97,6 @@ fn init {
                                   (literal
                                     (char_literal
                                       (escape_sequence))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -124,8 +116,6 @@ fn init {
                                   (literal
                                     (char_literal
                                       (escape_sequence))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -145,8 +135,6 @@ fn init {
                                   (literal
                                     (char_literal
                                       (escape_sequence))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -169,8 +157,6 @@ fn init {
                                         (unescaped_string_fragment))
                                       (string_fragment
                                         (unescaped_string_fragment)))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -193,8 +179,6 @@ fn init {
                                         (unescaped_string_fragment))
                                       (string_fragment
                                         (unescaped_string_fragment)))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -217,8 +201,6 @@ fn init {
                                         (unescaped_string_fragment))
                                       (string_fragment
                                         (unescaped_string_fragment)))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -242,9 +224,7 @@ fn init {
                                       (string_fragment
                                         (unescaped_string_fragment))
                                       (string_fragment
-                                        (escape_sequence)))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                        (escape_sequence)))))))))))))))))))))
 
 ================================================================================
 byte literal
@@ -275,8 +255,6 @@ fn init {
                     (atomic_expression
                       (literal
                         (byte_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -298,8 +276,6 @@ fn init {
                                       (lowercase_identifier)))
                                   (dot_identifier
                                     (dot_lowercase_identifier)))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -313,8 +289,6 @@ fn init {
                       (literal
                         (byte_literal
                           (escape_sequence))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -335,9 +309,7 @@ fn init {
                                     (qualified_identifier
                                       (lowercase_identifier)))
                                   (dot_identifier
-                                    (dot_lowercase_identifier)))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                    (dot_lowercase_identifier)))))))))))))))))))
 
 ================================================================================
 interpolation
@@ -380,8 +352,6 @@ fn main {
                                             (simple_expression
                                               (qualified_identifier
                                                 (lowercase_identifier)))))))))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -407,9 +377,7 @@ fn main {
                                           (compound_expression
                                             (simple_expression
                                               (qualified_identifier
-                                                (lowercase_identifier)))))))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                                (lowercase_identifier)))))))))))))))))))))))))
 
 ================================================================================
 bytes literal
@@ -441,8 +409,6 @@ fn init {
                         (bytes_literal
                           (string_fragment
                             (unescaped_string_fragment)))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -464,8 +430,6 @@ fn init {
                                       (lowercase_identifier)))
                                   (dot_identifier
                                     (dot_lowercase_identifier)))))))))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (expression
             (pipeline_expression
@@ -485,9 +449,7 @@ fn init {
                                   (literal
                                     (bytes_literal
                                       (string_fragment
-                                        (unescaped_string_fragment)))))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                        (unescaped_string_fragment)))))))))))))))))))))
 
 ================================================================================
 integer literal
@@ -523,8 +485,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -537,8 +497,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -551,8 +509,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -565,8 +521,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -579,8 +533,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -593,8 +545,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -607,8 +557,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -621,8 +569,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -634,9 +580,7 @@ fn main {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 bigint literal
@@ -667,8 +611,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -681,8 +623,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -695,8 +635,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -708,9 +646,7 @@ fn main {
                   (simple_expression
                     (atomic_expression
                       (literal
-                        (integer_literal)))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                        (integer_literal)))))))))))))
 
 ================================================================================
 float literal
@@ -747,8 +683,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (float_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -761,8 +695,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (float_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -775,8 +707,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (float_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -789,8 +719,6 @@ fn main {
                     (atomic_expression
                       (literal
                         (float_literal)))))))))
-        (semicolon
-          (automatic_semicolon))
         (statement_expression
           (let_expression
             (pattern
@@ -912,6 +840,4 @@ fn main {
                             (simple_expression
                               (atomic_expression
                                 (literal
-                                  (float_literal))))))))))))))
-        (semicolon
-          (automatic_semicolon))))))
+                                  (float_literal))))))))))))))))))
