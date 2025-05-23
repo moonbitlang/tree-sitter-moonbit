@@ -49,7 +49,7 @@ module.exports = grammar({
     $.error_sentinel,
   ],
 
-  word: $ => $.lowercase_identifier,
+  word: $ => $._lowercase_identifier,
 
   rules: {
     structure: $ => list($._semicolon, $.structure_item),
@@ -393,6 +393,7 @@ module.exports = grammar({
       $.array_expression,
       $.map_expression,
       '_',
+      $.quotation_expression_expander,
     ),
 
     atomic_expression: $ => choice(
@@ -426,6 +427,7 @@ module.exports = grammar({
       $.string_literal,
       $.bytes_literal,
       $.multiline_string_literal,
+      $.quotation_literal_expander,
     ),
 
     boolean_literal: _ => choice('true', 'false'),
@@ -460,10 +462,13 @@ module.exports = grammar({
       '\'',
     ),
 
-    string_literal: $ => seq(
-      '"',
-      repeat($.string_fragment),
-      '"',
+    string_literal: $ => choice(
+      seq(
+        '"',
+        repeat($.string_fragment),
+        '"',
+      ),
+      $.quotation_string_expander,
     ),
 
     bytes_literal: $ => seq(
@@ -514,10 +519,10 @@ module.exports = grammar({
       repeat($.multiline_interpolation_content),
     ),
 
-    multiline_string_literal: $ => repeat1(choice(
+    multiline_string_literal: $ => prec.left(repeat1(choice(
       $.multiline_string_fragment,
       $.multiline_interpolation_fragment,
-    )),
+    ))),
 
     unary_expression: $ => prec(PREC.unary, seq(
       choice('-', '+'),
@@ -557,7 +562,7 @@ module.exports = grammar({
         choice(
           seq($.labeled_expression_pun, ',', list(',', $.struct_field_expression)),
           seq($.labeled_expression, optional(',')),
-          seq($.labeled_expression, ',', list1(',', $.struct_field_expression)),
+          seq($.labeled_expression, ',', choice($.struct_field_expression, '...'), list(',', $.struct_field_expression)),
         ),
         '}',
       ),
@@ -847,10 +852,7 @@ module.exports = grammar({
       $.return_expression,
       $.raise_expression,
       $.expression,
-      $.unfinished,
     ),
-
-    unfinished: _ => '...',
 
     let_expression: $ => seq(
       'let',
@@ -1026,6 +1028,7 @@ module.exports = grammar({
       $.struct_pattern,
       $.map_pattern,
       $.empty_struct_or_map_pattern,
+      $.quotation_pattern_expander,
     ),
 
     constructor_pattern_argument: $ => choice(
@@ -1093,7 +1096,7 @@ module.exports = grammar({
       $.pattern,
     ),
 
-    empty_struct_or_map_pattern: _ => seq('{', '}'),
+    empty_struct_or_map_pattern: $ => seq('{', optional('...'), '}'),
 
     range_pattern: $ => seq(
       $.simple_pattern,
@@ -1108,6 +1111,7 @@ module.exports = grammar({
       $.option_type,
       $.trait_object_type,
       $.any,
+      $.quotation_type_expander,
     ),
 
     tuple_type: $ => seq('(', list(',', $.type), ')'),
@@ -1188,9 +1192,19 @@ module.exports = grammar({
     pub: _ => 'pub',
 
     // Identifiers
-    uppercase_identifier: _ => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/v,
+    _uppercase_identifier: _ => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/v,
 
-    lowercase_identifier: _ => /[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
+    uppercase_identifier: $ => choice(
+      $.quotation_uppercase_identifier_expander,
+      $._uppercase_identifier,
+    ),
+
+    _lowercase_identifier: _ => /[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
+
+    lowercase_identifier: $ => choice(
+      $.quotation_lowercase_identifier_expander,
+      $._lowercase_identifier,
+    ),
 
     identifier: $ => choice(
       $.uppercase_identifier,
@@ -1295,6 +1309,36 @@ module.exports = grammar({
     attribute: $ => seq('#', $.attribute_expression),
 
     attributes: $ => repeat1($.attribute),
+
+    quotation_variable: $ => $._lowercase_identifier,
+
+    quotation_expression_expander: $ => seq(
+      '$', 'exp', ':', $.quotation_variable,
+    ),
+
+    quotation_pattern_expander: $ => seq(
+      '$', 'pat', ':', $.quotation_variable,
+    ),
+
+    quotation_lowercase_identifier_expander: $ => seq(
+      '$', 'id', ':', $.quotation_variable,
+    ),
+
+    quotation_uppercase_identifier_expander: $ => seq(
+      '$', 'Id', ':', $.quotation_variable,
+    ),
+
+    quotation_type_expander: $ => seq(
+      '$', 'ty', ':', $.quotation_variable,
+    ),
+
+    quotation_literal_expander: $ => seq(
+      '$', 'lit', ':', $.quotation_variable,
+    ),
+
+    quotation_string_expander: $ => seq(
+      '$', 'str', ':', $.quotation_variable,
+    ),
   },
 });
 
@@ -1316,7 +1360,7 @@ function list(separator, rule) {
 function list1(separator, rule) {
   return seq(
     rule,
-    repeat(seq(separator, rule)),
+    repeat(seq(separator, choice(rule, '...'))),
     optional(separator),
   );
 }
@@ -1338,7 +1382,7 @@ function strictList(separator, rule) {
 function strictList1(separator, rule) {
   return seq(
     rule,
-    repeat(seq(separator, rule)),
+    repeat(seq(separator, choice(rule, '...'))),
   );
 }
 
