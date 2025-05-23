@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src {{cspSource}} 'nonce-{{nonce}}'; script-src 'nonce-{{nonce}}'; font-src {{cspSource}};"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{styleUri}}" nonce="{{nonce}}" />
+    <script nonce="{{nonce}}" src="{{scriptUri}}"></script>
+    <title>Moon Grep Search</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

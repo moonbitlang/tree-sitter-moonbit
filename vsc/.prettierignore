@@ -1,0 +1,12 @@
+# Build output
+dist/
+out/
+
+# Dependencies
+node_modules/
+
+# VSCode specific files
+.vscode-test/
+
+# Other
+pnpm-lock.yaml

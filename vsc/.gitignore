@@ -1,0 +1,11 @@
+out
+dist
+node_modules
+.vscode-test/
+*.vsix
+!.vscode/
+*.tsbuildinfo
+target/
+.mooncakes/
+/wasi-sdk/
+/build/
