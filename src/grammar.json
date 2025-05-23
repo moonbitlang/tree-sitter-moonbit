@@ -7937,6 +7937,10 @@
     {
       "type": "SYMBOL",
       "name": "for_keyword"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "error_sentinel"
     }
   ],
   "inline": [],
