@@ -71,10 +71,6 @@
         {
           "type": "matrix_case_clause",
           "named": true
-        },
-        {
-          "type": "semicolon",
-          "named": true
         }
       ]
     }
@@ -520,10 +516,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "semicolon",
-          "named": true
-        },
         {
           "type": "statement_expression",
           "named": true
@@ -1083,10 +1075,6 @@
           "named": true
         },
         {
-          "type": "semicolon",
-          "named": true
-        },
-        {
           "type": "type_parameters",
           "named": true
         },
@@ -1124,10 +1112,6 @@
         },
         {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "semicolon",
           "named": true
         },
         {
@@ -1272,10 +1256,6 @@
         },
         {
           "type": "loop_label",
-          "named": true
-        },
-        {
-          "type": "semicolon",
           "named": true
         }
       ]
@@ -1556,10 +1536,6 @@
       "types": [
         {
           "type": "case_clause",
-          "named": true
-        },
-        {
-          "type": "semicolon",
           "named": true
         }
       ]
@@ -1987,10 +1963,6 @@
         {
           "type": "matrix_case_clause",
           "named": true
-        },
-        {
-          "type": "semicolon",
-          "named": true
         }
       ]
     }
@@ -2131,10 +2103,6 @@
         },
         {
           "type": "compound_expression",
-          "named": true
-        },
-        {
-          "type": "semicolon",
           "named": true
         }
       ]
@@ -2305,10 +2273,6 @@
         {
           "type": "matrix_case_clause",
           "named": true
-        },
-        {
-          "type": "semicolon",
-          "named": true
         }
       ]
     }
@@ -2321,10 +2285,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "semicolon",
-          "named": true
-        },
         {
           "type": "statement_expression",
           "named": true
@@ -2743,21 +2703,6 @@
     }
   },
   {
-    "type": "semicolon",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "automatic_semicolon",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "simple_expression",
     "named": true,
     "fields": {},
@@ -3056,10 +3001,6 @@
           "named": true
         },
         {
-          "type": "semicolon",
-          "named": true
-        },
-        {
           "type": "struct_field_declaration",
           "named": true
         },
@@ -3206,10 +3147,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "semicolon",
-          "named": true
-        },
         {
           "type": "structure_item",
           "named": true
@@ -3420,10 +3357,6 @@
           "named": true
         },
         {
-          "type": "semicolon",
-          "named": true
-        },
-        {
           "type": "super_trait_declaration",
           "named": true
         },
@@ -3523,10 +3456,6 @@
         {
           "type": "case_clause",
           "named": true
-        },
-        {
-          "type": "semicolon",
-          "named": true
         }
       ]
     }
@@ -3545,10 +3474,6 @@
         },
         {
           "type": "expression",
-          "named": true
-        },
-        {
-          "type": "semicolon",
           "named": true
         },
         {
@@ -4105,15 +4030,6 @@
   {
     "type": "async",
     "named": false
-  },
-  {
-    "type": "automatic_newline",
-    "named": true,
-    "extra": true
-  },
-  {
-    "type": "automatic_semicolon",
-    "named": true
   },
   {
     "type": "b\"",

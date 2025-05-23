@@ -20,7 +20,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "semicolon"
+                    "name": "_semicolon"
                   },
                   {
                     "type": "SYMBOL",
@@ -34,7 +34,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "semicolon"
+                  "name": "_semicolon"
                 },
                 {
                   "type": "BLANK"
@@ -405,7 +405,7 @@
                                 "members": [
                                   {
                                     "type": "SYMBOL",
-                                    "name": "semicolon"
+                                    "name": "_semicolon"
                                   },
                                   {
                                     "type": "SYMBOL",
@@ -419,7 +419,7 @@
                               "members": [
                                 {
                                   "type": "SYMBOL",
-                                  "name": "semicolon"
+                                  "name": "_semicolon"
                                 },
                                 {
                                   "type": "BLANK"
@@ -707,7 +707,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -721,7 +721,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -862,7 +862,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -876,7 +876,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -1453,7 +1453,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -1467,7 +1467,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -3657,7 +3657,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -3671,7 +3671,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -3712,7 +3712,7 @@
                 "members": [
                   {
                     "type": "SYMBOL",
-                    "name": "semicolon"
+                    "name": "_semicolon"
                   },
                   {
                     "type": "SYMBOL",
@@ -3726,7 +3726,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "semicolon"
+                  "name": "_semicolon"
                 },
                 {
                   "type": "BLANK"
@@ -3846,7 +3846,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -3860,7 +3860,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -4812,7 +4812,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -4826,7 +4826,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -5045,7 +5045,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -5059,7 +5059,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -5119,7 +5119,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -5133,7 +5133,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -5450,7 +5450,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -5464,7 +5464,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -5660,7 +5660,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -5674,7 +5674,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -5813,7 +5813,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "semicolon"
+                        "name": "_semicolon"
                       },
                       {
                         "type": "SYMBOL",
@@ -5827,7 +5827,7 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "semicolon"
+                      "name": "_semicolon"
                     },
                     {
                       "type": "BLANK"
@@ -5928,7 +5928,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "semicolon"
+                  "name": "_semicolon"
                 },
                 {
                   "type": "CHOICE",
@@ -5944,7 +5944,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "semicolon"
+                  "name": "_semicolon"
                 },
                 {
                   "type": "CHOICE",
@@ -7454,12 +7454,12 @@
         }
       ]
     },
-    "semicolon": {
+    "_semicolon": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "automatic_semicolon"
+          "name": "_automatic_semicolon"
         },
         {
           "type": "STRING",
@@ -7908,7 +7908,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "automatic_newline"
+      "name": "_automatic_newline"
     }
   ],
   "conflicts": [],
@@ -7916,11 +7916,11 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "automatic_newline"
+      "name": "_automatic_newline"
     },
     {
       "type": "SYMBOL",
-      "name": "automatic_semicolon"
+      "name": "_automatic_semicolon"
     },
     {
       "type": "SYMBOL",
