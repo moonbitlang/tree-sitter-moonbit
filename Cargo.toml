@@ -2,6 +2,7 @@
 name = "tree-sitter-moonbit"
 description = "Tree-sitter grammar for Moonbit"
 version = "0.1.0"
+authors = ["Moonbit Language Team <support@moonbitlang.com>"]
 license = "Apache-2.0"
 readme = "README.md"
 keywords = ["incremental", "parsing", "tree-sitter", "moonbit"]
