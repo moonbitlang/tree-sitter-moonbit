@@ -224,9 +224,9 @@ module.exports = grammar({
       optional($.external_linkage),
       optional('async'),
       'fn',
+      optional($.type_parameters),
       $.function_identifier,
       optional('!'),
-      optional($.type_parameters),
       optional($.parameters),
       optional($.return_type),
       choice(
