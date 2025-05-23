@@ -1,0 +1,3 @@
+{
+  "test-import": ["tonyfettes/uv/async", "tonyfettes/encoding"]
+}
