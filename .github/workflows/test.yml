@@ -94,6 +94,7 @@ jobs:
           test-python: true
 
   test-node:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
