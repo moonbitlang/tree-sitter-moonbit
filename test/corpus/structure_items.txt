@@ -381,7 +381,7 @@ pub let y: Int = 42
 ================================================================================
 Function definitions
 ================================================================================
-fn id[T] (x: T) -> T { x }
+fn[T] id (x: T) -> T { x }
 fn empty () { }
 fn error(a: T) -> T! {}
 fn error(a: T) -> T!Error {}
@@ -391,12 +391,12 @@ fn &Trait::method(self: Self) -> Int { 42 }
 (structure
   (structure_item
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (type_parameters
         (type_identifier
           (identifier
             (uppercase_identifier))))
+      (function_identifier
+        (lowercase_identifier))
       (parameters
         (parameter
           (positional_parameter
@@ -848,8 +848,8 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
 ================================================================================
 extern function definitions
 ================================================================================
-pub(readonly) extern "js" fn ffi[X](a: X) -> R = "a" "b"
-priv extern "wasm" fn ffi[X](a: X) -> R =
+pub(readonly) extern "js" fn[X] ffi(a: X) -> R = "a" "b"
+priv extern "wasm" fn[X] ffi(a: X) -> R =
   #|(func (param i32))
 pub extern "wasm-gc" fn ffi(a: X) = #|(func (result i32))
 extern "c" fn ffi(a: Int) = "return 0"
@@ -864,12 +864,12 @@ extern "c" fn ffi(a: Int) = "return 0"
         (string_literal
           (string_fragment
             (unescaped_string_fragment))))
-      (function_identifier
-        (lowercase_identifier))
       (type_parameters
         (type_identifier
           (identifier
             (uppercase_identifier))))
+      (function_identifier
+        (lowercase_identifier))
       (parameters
         (parameter
           (positional_parameter
@@ -903,12 +903,12 @@ extern "c" fn ffi(a: Int) = "return 0"
         (string_literal
           (string_fragment
             (unescaped_string_fragment))))
-      (function_identifier
-        (lowercase_identifier))
       (type_parameters
         (type_identifier
           (identifier
             (uppercase_identifier))))
+      (function_identifier
+        (lowercase_identifier))
       (parameters
         (parameter
           (positional_parameter
@@ -1005,7 +1005,7 @@ const A = 'a'
 ================================================================================
 Function definition with local types
 ================================================================================
-pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
+pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
   struct Context {
     args : Array[@type.Type]
     vals : Array[FixedArray[T]]
@@ -1022,6 +1022,10 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
   (structure_item
     (function_definition
       (visibility)
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
       (function_identifier
         (type_name
           (qualified_type_identifier
@@ -1029,10 +1033,6 @@ pub fn Tensor::compile[T](self : Tensor[T]) -> @expr.Expr {
               (uppercase_identifier))))
         (colon_colon)
         (lowercase_identifier))
-      (type_parameters
-        (type_identifier
-          (identifier
-            (uppercase_identifier))))
       (parameters
         (parameter
           (positional_parameter

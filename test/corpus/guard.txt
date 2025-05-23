@@ -202,7 +202,7 @@ fn init {
   guard b is None
 }
 
-pub fn View::iter[A](self : View[A]) -> Iter[A] {
+pub fn[A] View::iter(self : View[A]) -> Iter[A] {
   Iter::new(fn(yield_) {
     for v in self {
       guard yield_(v) is IterContinue else { break IterEnd }
@@ -266,6 +266,10 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
   (structure_item
     (function_definition
       (visibility)
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))
       (function_identifier
         (type_name
           (qualified_type_identifier
@@ -273,10 +277,6 @@ pub fn View::iter[A](self : View[A]) -> Iter[A] {
               (uppercase_identifier))))
         (colon_colon)
         (lowercase_identifier))
-      (type_parameters
-        (type_identifier
-          (identifier
-            (uppercase_identifier))))
       (parameters
         (parameter
           (positional_parameter

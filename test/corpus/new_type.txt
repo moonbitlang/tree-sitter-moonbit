@@ -26,7 +26,7 @@ type Length[_]
 type Kilometer
 type Mile
 
-fn add[T](x: Length[T], y:Length[T]) -> Length[T] {
+fn[T] add(x: Length[T], y:Length[T]) -> Length[T] {
   Length::Length(x.0 + y.0)
 }
 
@@ -74,12 +74,12 @@ let d_mile: Length[Mile] = Length(16)
     (automatic_semicolon))
   (structure_item
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (type_parameters
         (type_identifier
           (identifier
             (uppercase_identifier))))
+      (function_identifier
+        (lowercase_identifier))
       (parameters
         (parameter
           (positional_parameter

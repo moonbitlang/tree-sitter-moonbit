@@ -1,7 +1,7 @@
 ================================================================================
 async function
 ================================================================================
-async fn suspend[T, E : Error](
+async fn[T, E : Error] suspend(
   f : ((T) -> Unit, (E) -> Unit) -> Unit
 ) -> T!E = "%async.suspend"
 
@@ -11,8 +11,6 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
 (structure
   (structure_item
     (function_definition
-      (function_identifier
-        (lowercase_identifier))
       (type_parameters
         (type_identifier
           (identifier
@@ -26,6 +24,8 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
               (qualified_type_identifier
                 (identifier
                   (uppercase_identifier)))))))
+      (function_identifier
+        (lowercase_identifier))
       (parameters
         (parameter
           (positional_parameter
