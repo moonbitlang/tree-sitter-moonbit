@@ -5,12 +5,13 @@ import cp from "node:child_process";
 import { env } from "node:process";
 
 const base_path = env["BASE_PATH"];
+const dist_path = env["DIST_PATH"] || "dist";
 
 const index_html = fs
-  .readFileSync(path.join("web", "index.html"), "utf-8")
+  .readFileSync(path.join(dist_path, "index.html"), "utf-8")
   .replace(/LANGUAGE_BASE_URL = ""/, `LANGUAGE_BASE_URL = "${base_path}"`);
 
-fs.writeFileSync(path.join("web", "index.html"), index_html);
+fs.writeFileSync(path.join(dist_path, "index.html"), index_html);
 
 /**
  * @type {Record<string, string>}
@@ -18,10 +19,10 @@ fs.writeFileSync(path.join("web", "index.html"), index_html);
  */
 const resources = {};
 
-resources[path.join("web", "web-tree-sitter.js")] =
-  "https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.3/web-tree-sitter.js";
-resources[path.join("web", "tree-sitter.wasm")] =
-  "https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.3/web-tree-sitter.wasm";
+resources[path.join(dist_path, "web-tree-sitter.js")] =
+  "https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.4/web-tree-sitter.js";
+resources[path.join(dist_path, "tree-sitter.wasm")] =
+  "https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.4/web-tree-sitter.wasm";
 
 Object.entries(resources).forEach(([filename, resource]) => {
   fetch(resource)
@@ -31,12 +32,9 @@ Object.entries(resources).forEach(([filename, resource]) => {
     });
 });
 
-cp.spawnSync("npm", [
-  "exec",
-  "tree-sitter",
-  "--",
+cp.spawnSync("tree-sitter", [
   "build",
   "--wasm",
   "--output",
-  path.join("web", "tree-sitter-moonbit.wasm"),
+  path.join(dist_path, "tree-sitter-moonbit.wasm"),
 ]);

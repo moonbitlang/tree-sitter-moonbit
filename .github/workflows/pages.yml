@@ -1,8 +1,9 @@
-name: Deploy to GitHub Pages
+name: Playground
 
 on:
   push:
     branches: ["main"]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -15,16 +16,49 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  refs:
+    runs-on: ubuntu-latest
+    outputs:
+      prs: ${{ steps.refs.outputs.prs }}
+    steps:
+      - name: Get all open PRs with repository info and main branch
+        id: refs
+        run: |
+          # Get main branch info
+          main=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/branches/main" \
+            | jq -c '{name: "main", ref: "main", repo: "${{ github.repository }}", sha: .commit.sha}')
+
+          # Get open PRs
+          prs=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls?state=open" \
+            | jq -c '[.[] | {name: ("pr-" + (.number | tostring)), ref: .head.ref, repo: .head.repo.full_name, sha: .head.sha}]')
+
+          # Combine main branch and PRs
+          combined=$(echo "[$main]" | jq -c ". + $prs")
+          echo "prs=$combined" >> $GITHUB_OUTPUT
+
   build:
     runs-on: ubuntu-latest
+    needs: refs
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.refs.outputs.prs) }}
     steps:
-      - name: Checkout
+      - name: Checkout PR from ${{ matrix.repo }}
         uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.repo }}
+          ref: ${{ matrix.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version-file: ".node-version"
           cache: "npm"
 
       - name: Install dependencies
@@ -34,15 +68,26 @@ jobs:
         id: pages
         uses: actions/configure-pages@v4
 
-      - name: Build web playground
+      - name: Build web playground for ${{ matrix.name }}
+        if: ${{ matrix.name != 'main' }}
+        run: node web/build.mjs
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}/${{ matrix.name }}
+          DIST_PATH: "./dist/${{ matrix.name }}"
+
+      - name: Build web playground for main
+        if: ${{ matrix.name == 'main' }}
         run: node web/build.mjs
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          DIST_PATH: "./dist"
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        id: upload-artifact
+        uses: actions/upload-artifact@v4
         with:
-          path: "./web"
+          name: ${{ matrix.name }}
+          path: "./dist"
 
   deploy:
     environment:
@@ -51,6 +96,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./dist"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
