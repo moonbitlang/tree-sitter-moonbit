@@ -36,12 +36,12 @@ module.exports = grammar({
     $.comment,
     $.docstring,
     /\s/,
-    $.automatic_newline,
+    $._automatic_newline,
   ],
 
   externals: $ => [
-    $.automatic_newline,
-    $.automatic_semicolon,
+    $._automatic_newline,
+    $._automatic_semicolon,
     $.multiline_string_separator,
     $.multiline_interpolation_separator,
     $.float_literal,
@@ -52,7 +52,7 @@ module.exports = grammar({
   word: $ => $.lowercase_identifier,
 
   rules: {
-    structure: $ => list($.semicolon, $.structure_item),
+    structure: $ => list($._semicolon, $.structure_item),
 
     structure_item: $ => choice(
       $.type_definition,
@@ -110,7 +110,7 @@ module.exports = grammar({
         $.type,
         seq(
           '{',
-          list($.semicolon, $.enum_constructor),
+          list($._semicolon, $.enum_constructor),
           '}',
         ),
       )),
@@ -141,7 +141,7 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       '{',
-      list($.semicolon, $.struct_field_declaration),
+      list($._semicolon, $.struct_field_declaration),
       '}',
       optional($.derive_directive),
     ),
@@ -161,7 +161,7 @@ module.exports = grammar({
       $.identifier,
       optional($.type_parameters),
       '{',
-      list($.semicolon, $.enum_constructor),
+      list($._semicolon, $.enum_constructor),
       '}',
       optional($.derive_directive),
     ),
@@ -251,7 +251,7 @@ module.exports = grammar({
       $.identifier,
       optional($.super_trait_declaration),
       '{',
-      list($.semicolon, $.trait_method_declaration),
+      list($._semicolon, $.trait_method_declaration),
       '}',
     ),
 
@@ -591,13 +591,13 @@ module.exports = grammar({
 
     block_expression: $ => seq(
       '{',
-      list($.semicolon, $.statement_expression),
+      list($._semicolon, $.statement_expression),
       '}',
     ),
 
     nonempty_block_expression: $ => seq(
       '{',
-      list1($.semicolon, $.statement_expression),
+      list1($._semicolon, $.statement_expression),
       '}',
     ),
 
@@ -615,7 +615,7 @@ module.exports = grammar({
       'fn',
       optional('!'),
       '{',
-      list($.semicolon, $.matrix_case_clause),
+      list($._semicolon, $.matrix_case_clause),
       '}',
     ),
 
@@ -777,7 +777,7 @@ module.exports = grammar({
       'match',
       $.compound_expression,
       '{',
-      list($.semicolon, $.case_clause),
+      list($._semicolon, $.case_clause),
       '}',
     ),
 
@@ -804,7 +804,7 @@ module.exports = grammar({
         seq('catch', '!'),
       )),
       '{',
-      list($.semicolon, $.case_clause),
+      list($._semicolon, $.case_clause),
       '}',
       optional($.try_else_clause),
     ),
@@ -812,7 +812,7 @@ module.exports = grammar({
     try_else_clause: $ => seq(
       'else',
       '{',
-      list($.semicolon, $.case_clause),
+      list($._semicolon, $.case_clause),
       '}',
     ),
 
@@ -892,7 +892,7 @@ module.exports = grammar({
     guard_let_else_expression: $ => seq(
       'else',
       '{',
-      list($.semicolon, $.case_clause),
+      list($._semicolon, $.case_clause),
       '}',
     ),
 
@@ -929,7 +929,7 @@ module.exports = grammar({
       $.lowercase_identifier,
       optional('!'),
       '{',
-      list($.semicolon, $.matrix_case_clause),
+      list($._semicolon, $.matrix_case_clause),
       '}',
     ),
 
@@ -948,7 +948,7 @@ module.exports = grammar({
       'loop',
       strictList1(',', $.expression),
       '{',
-      list($.semicolon, $.matrix_case_clause),
+      list($._semicolon, $.matrix_case_clause),
       '}',
     ),
 
@@ -965,9 +965,9 @@ module.exports = grammar({
       $.for_keyword,
       strictList(',', $.for_binder),
       optional(seq(
-        $.semicolon,
+        $._semicolon,
         optional($.compound_expression),
-        $.semicolon,
+        $._semicolon,
         strictList(',', $.for_binder),
       )),
       $.block_expression,
@@ -1197,7 +1197,7 @@ module.exports = grammar({
       $.lowercase_identifier,
     ),
 
-    semicolon: $ => choice($.automatic_semicolon, ';'),
+    _semicolon: $ => choice($._automatic_semicolon, ';'),
 
     dot: _ => '.',
 
