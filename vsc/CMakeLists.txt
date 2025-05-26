@@ -21,7 +21,7 @@ add_custom_target(
 
 add_executable(grep
   target/native/release/build/grep/grep.c
-  "../src/tree-sitter#lib#src#lib.c"
+  .mooncakes/tonyfettes/tree_sitter/src/tree-sitter.c
   .mooncakes/tonyfettes/c/src/c.c
   .mooncakes/tonyfettes/tree_sitter_moonbit/parser.c
   .mooncakes/tonyfettes/tree_sitter_moonbit/scanner.c)

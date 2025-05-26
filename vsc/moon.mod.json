@@ -2,10 +2,9 @@
   "name": "tonyfettes/tree_sitter/vscode",
   "version": "0.1.0",
   "deps": {
-    "tonyfettes/tree_sitter": {
-      "path": ".."
-    },
-    "tonyfettes/uv": "0.5.0"
+    "tonyfettes/uv": "0.5.0",
+    "tonyfettes/tree_sitter": "0.4.2",
+    "tonyfettes/tree_sitter_moonbit": "0.1.19"
   },
   "readme": "README.md",
   "repository": "",
