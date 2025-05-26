@@ -255,7 +255,6 @@ impl Show for T with output(self : T, logger : &Logger) -> Unit {
         (qualified_type_identifier
           (identifier
             (uppercase_identifier))))
-      (for_keyword)
       (type
         (apply_type
           (qualified_type_identifier

@@ -198,7 +198,6 @@ fn main {
         (statement_expression
           (expression
             (for_in_expression
-              (for_keyword)
               (lowercase_identifier)
               (lowercase_identifier)
               (expression
@@ -211,7 +210,6 @@ fn main {
         (statement_expression
           (expression
             (for_in_expression
-              (for_keyword)
               (lowercase_identifier)
               (lowercase_identifier)
               (expression
@@ -437,7 +435,6 @@ fn main {
         (statement_expression
           (expression
             (for_expression
-              (for_keyword)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -944,7 +941,6 @@ with f() -> Unit {
         (qualified_type_identifier
           (identifier
             (uppercase_identifier))))
-      (for_keyword)
       (type
         (apply_type
           (qualified_type_identifier

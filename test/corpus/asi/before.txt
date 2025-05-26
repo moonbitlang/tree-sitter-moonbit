@@ -746,7 +746,6 @@ A for B with f() {
         (qualified_type_identifier
           (identifier
             (uppercase_identifier))))
-      (for_keyword)
       (type
         (apply_type
           (qualified_type_identifier
@@ -1021,7 +1020,6 @@ fn main {
         (statement_expression
           (expression
             (for_in_expression
-              (for_keyword)
               (lowercase_identifier)
               (comment)
               (comment)
@@ -1299,7 +1297,6 @@ b: Int) -> Unit {
         (statement_expression
           (expression
             (for_expression
-              (for_keyword)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -1342,7 +1339,6 @@ b: Int) -> Unit {
         (statement_expression
           (expression
             (for_in_expression
-              (for_keyword)
               (lowercase_identifier)
               (lowercase_identifier)
               (expression
@@ -2148,7 +2144,6 @@ fn main {
         (statement_expression
           (expression
             (for_in_expression
-              (for_keyword)
               (comment)
               (lowercase_identifier)
               (lowercase_identifier)

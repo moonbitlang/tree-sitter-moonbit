@@ -12,7 +12,6 @@ impl Show for T? with output(self : T, logger : &Logger) -> Unit {
         (qualified_type_identifier
           (identifier
             (uppercase_identifier))))
-      (for_keyword)
       (type
         (option_type
           (type
@@ -68,7 +67,6 @@ impl Show for (Int) -> Unit with output(self : T, logger : &Logger) -> Unit {
         (qualified_type_identifier
           (identifier
             (uppercase_identifier))))
-      (for_keyword)
       (type
         (function_type
           (type
@@ -129,7 +127,6 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit {
         (qualified_type_identifier
           (identifier
             (uppercase_identifier))))
-      (for_keyword)
       (type
         (tuple_type
           (type
@@ -188,7 +185,6 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit = "%s"
         (qualified_type_identifier
           (identifier
             (uppercase_identifier))))
-      (for_keyword)
       (type
         (tuple_type
           (type

@@ -39,7 +39,7 @@
 
 (let_mut_expression (lowercase_identifier) @variable)
 
-(for_in_expression (for_keyword) (lowercase_identifier) @variable "in")
+(for_in_expression "for" (lowercase_identifier) @variable "in")
 
 (for_binder (lowercase_identifier) @variable)
 
@@ -191,7 +191,7 @@
 
 [ "fn" "test" "impl" "fnalias" ] @keyword.function
 "return" @keyword.return
-[ "while" "loop" (for_keyword) "break" "continue" "in" ] @keyword.repeat
+[ "while" "loop" "for" "break" "continue" "in" ] @keyword.repeat
 
 [
   "if"
