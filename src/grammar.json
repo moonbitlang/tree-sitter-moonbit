@@ -2381,32 +2381,6 @@
         },
         {
           "type": "SYMBOL",
-          "name": "pipeline_expression"
-        }
-      ]
-    },
-    "pipeline_expression": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "pipeline_expression"
-            },
-            {
-              "type": "STRING",
-              "value": "|>"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "compound_expression"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
           "name": "compound_expression"
         }
       ]

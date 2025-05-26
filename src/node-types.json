@@ -1030,6 +1030,10 @@
       "required": true,
       "types": [
         {
+          "type": "compound_expression",
+          "named": true
+        },
+        {
           "type": "for_expression",
           "named": true
         },
@@ -1047,10 +1051,6 @@
         },
         {
           "type": "match_expression",
-          "named": true
-        },
-        {
-          "type": "pipeline_expression",
           "named": true
         },
         {
@@ -2312,25 +2312,6 @@
       "types": [
         {
           "type": "expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "pipeline_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "compound_expression",
-          "named": true
-        },
-        {
-          "type": "pipeline_expression",
           "named": true
         }
       ]
