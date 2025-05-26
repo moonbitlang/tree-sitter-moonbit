@@ -16,7 +16,6 @@ fn init {
         (statement_expression
           (expression
             (for_expression
-              (for_keyword)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -72,7 +71,6 @@ fn init {
         (statement_expression
           (expression
             (for_expression
-              (for_keyword)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -115,7 +113,6 @@ fn init {
         (statement_expression
           (expression
             (for_expression
-              (for_keyword)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -227,7 +224,6 @@ fn init {
         (statement_expression
           (expression
             (for_in_expression
-              (for_keyword)
               (lowercase_identifier)
               (expression
                 (pipeline_expression
@@ -265,7 +261,6 @@ fn init {
         (statement_expression
           (expression
             (for_expression
-              (for_keyword)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -387,7 +382,6 @@ fn init {
         (statement_expression
           (expression
             (for_in_expression
-              (for_keyword)
               (lowercase_identifier)
               (expression
                 (pipeline_expression
@@ -434,7 +428,6 @@ fn main {
         (statement_expression
           (expression
             (for_in_expression
-              (for_keyword)
               (lowercase_identifier)
               (expression
                 (pipeline_expression
@@ -456,7 +449,6 @@ fn main {
         (statement_expression
           (expression
             (for_in_expression
-              (for_keyword)
               (lowercase_identifier)
               (expression
                 (pipeline_expression
@@ -496,7 +488,6 @@ fn init {
         (statement_expression
           (expression
             (for_expression
-              (for_keyword)
               (for_binder
                 (lowercase_identifier)
                 (expression
@@ -556,7 +547,6 @@ fn main {
               (loop_label
                 (label
                   (lowercase_identifier)))
-              (for_keyword)
               (lowercase_identifier)
               (expression
                 (pipeline_expression

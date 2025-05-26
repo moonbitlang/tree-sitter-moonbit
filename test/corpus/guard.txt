@@ -316,7 +316,6 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
                                     (statement_expression
                                       (expression
                                         (for_in_expression
-                                          (for_keyword)
                                           (lowercase_identifier)
                                           (expression
                                             (pipeline_expression
