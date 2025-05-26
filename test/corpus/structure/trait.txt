@@ -419,15 +419,14 @@ fn repr(self:MyInt) -> String {
         (comment)
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (dot_apply_expression
-                    (simple_expression
-                      (qualified_identifier
-                        (lowercase_identifier)))
-                    (dot_identifier
-                      (dot_lowercase_identifier)))))))))))
+            (compound_expression
+              (simple_expression
+                (dot_apply_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (dot_identifier
+                    (dot_lowercase_identifier))))))))))
   (structure_item
     (type_definition
       (identifier
@@ -460,18 +459,17 @@ fn repr(self:MyInt) -> String {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (dot_apply_expression
-                    (simple_expression
-                      (access_expression
-                        (simple_expression
-                          (qualified_identifier
-                            (lowercase_identifier)))
-                        (accessor)))
-                    (dot_identifier
-                      (dot_lowercase_identifier))))))))))))
+            (compound_expression
+              (simple_expression
+                (dot_apply_expression
+                  (simple_expression
+                    (access_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier)))
+                      (accessor)))
+                  (dot_identifier
+                    (dot_lowercase_identifier)))))))))))
 
 ================================================================================
 annotation for default implementation

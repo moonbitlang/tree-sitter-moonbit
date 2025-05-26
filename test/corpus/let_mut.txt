@@ -17,12 +17,11 @@ fn init {
           (let_mut_expression
             (lowercase_identifier)
             (expression
-              (pipeline_expression
-                (compound_expression
-                  (simple_expression
-                    (atomic_expression
-                      (literal
-                        (integer_literal)))))))))
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))
         (statement_expression
           (assign_expression
             (left_value
@@ -30,15 +29,14 @@ fn init {
                 (lowercase_identifier)))
             (assign_operator)
             (expression
-              (pipeline_expression
-                (compound_expression
-                  (binary_expression
-                    (compound_expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier))))
-                    (compound_expression
-                      (simple_expression
-                        (atomic_expression
-                          (literal
-                            (integer_literal)))))))))))))))
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))

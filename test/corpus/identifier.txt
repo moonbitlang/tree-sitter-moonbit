@@ -15,17 +15,15 @@ fn main {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (constructor_expression
-                    (package_identifier)
-                    (dot_uppercase_identifier)))))))
+            (compound_expression
+              (simple_expression
+                (constructor_expression
+                  (package_identifier)
+                  (dot_uppercase_identifier))))))
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (constructor_expression
-                    (package_identifier)
-                    (dot_uppercase_identifier)))))))))))
+            (compound_expression
+              (simple_expression
+                (constructor_expression
+                  (package_identifier)
+                  (dot_uppercase_identifier))))))))))
