@@ -4,7 +4,7 @@
   "deps": {
     "tonyfettes/uv": "0.5.0",
     "tonyfettes/tree_sitter": "0.4.2",
-    "tonyfettes/tree_sitter_moonbit": "0.1.19"
+    "tonyfettes/tree_sitter_moonbit": "0.1.20"
   },
   "readme": "README.md",
   "repository": "",
