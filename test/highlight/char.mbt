@@ -1,3 +1,4 @@
+///|
 fn main {
   let a = 'a'
   //      ^^^ character

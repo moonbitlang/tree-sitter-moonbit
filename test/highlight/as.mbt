@@ -1,3 +1,4 @@
+///|
 test {
   let buf = @buffer.new()
   (buf as &Logger).write_string("a")

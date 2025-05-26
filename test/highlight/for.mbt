@@ -1,11 +1,11 @@
 ///|
-pub fn print_array[T : Show](array : Array[T]) -> Unit {
+pub fn[T : Show] print_array(array : Array[T]) -> Unit {
   let buffer = StringBuilder::new()
   buffer.write_char('[')
   for i, value in array {
   // <- keyword.repeat
     //^ variable
-    //   ^^^^^ variable  
+    //   ^^^^^ variable
     buffer.write_object(value)
     if i < array.length() - 1 {
       buffer.write_string(", ")
