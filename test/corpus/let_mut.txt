@@ -28,8 +28,7 @@ fn init {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression

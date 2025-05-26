@@ -52,7 +52,6 @@ enum T {
           (constructor_parameter
             (label
               (lowercase_identifier))
-            (colon)
             (type
               (apply_type
                 (qualified_type_identifier

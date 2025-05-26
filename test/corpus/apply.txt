@@ -122,8 +122,7 @@ fn init {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (dot_dot_identifier
-                      (dot_dot))
+                    (dot_dot_identifier)
                     (argument
                       (expression
                         (pipeline_expression
@@ -147,8 +146,7 @@ fn init {
                                 (atomic_expression
                                   (literal
                                     (integer_literal)))))))))
-                    (dot_dot_identifier
-                      (dot_dot))
+                    (dot_dot_identifier)
                     (argument
                       (expression
                         (pipeline_expression
@@ -275,8 +273,7 @@ fn init {
                       (argument
                         (optional_argument
                           (optional_label
-                            (lowercase_identifier)
-                            (question_operator))
+                            (lowercase_identifier))
                           (expression
                             (pipeline_expression
                               (compound_expression
@@ -308,7 +305,6 @@ fn init {
                               (simple_expression
                                 (apply_expression
                                   (lowercase_identifier)
-                                  (question_operator)
                                   (arguments
                                     (argument
                                       (expression
@@ -442,8 +438,7 @@ fn main {
                     (argument
                       (optional_argument
                         (optional_label
-                          (lowercase_identifier)
-                          (question_operator))
+                          (lowercase_identifier))
                         (expression
                           (pipeline_expression
                             (compound_expression
@@ -476,7 +471,6 @@ fn main {
                             (simple_expression
                               (apply_expression
                                 (lowercase_identifier)
-                                (question_operator)
                                 (arguments
                                   (argument
                                     (expression
@@ -544,8 +538,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (dot_dot_identifier
-                      (dot_dot))
+                    (dot_dot_identifier)
                     (argument
                       (expression
                         (pipeline_expression
@@ -573,8 +566,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (dot_dot_identifier
-                      (dot_dot))
+                    (dot_dot_identifier)
                     (argument
                       (expression
                         (pipeline_expression
@@ -596,8 +588,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (dot_dot_identifier
-                      (dot_dot))
+                    (dot_dot_identifier)
                     (argument
                       (expression
                         (pipeline_expression
@@ -625,8 +616,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (dot_dot_identifier
-                      (dot_dot))
+                    (dot_dot_identifier)
                     (argument
                       (expression
                         (pipeline_expression
@@ -638,8 +628,7 @@ fn main {
                     (argument
                       (optional_argument
                         (optional_label
-                          (lowercase_identifier)
-                          (question_operator))
+                          (lowercase_identifier))
                         (expression
                           (pipeline_expression
                             (compound_expression
@@ -655,8 +644,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (dot_dot_identifier
-                      (dot_dot))
+                    (dot_dot_identifier)
                     (argument
                       (expression
                         (pipeline_expression
@@ -672,7 +660,6 @@ fn main {
                             (simple_expression
                               (apply_expression
                                 (lowercase_identifier)
-                                (question_operator)
                                 (arguments
                                   (argument
                                     (expression
@@ -693,8 +680,7 @@ fn main {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (dot_dot_identifier
-                          (dot_dot))
+                        (dot_dot_identifier)
                         (argument
                           (expression
                             (pipeline_expression
@@ -711,8 +697,7 @@ fn main {
                                             (dot_lowercase_identifier)))))
                                     (dot_identifier
                                       (dot_lowercase_identifier))))))))))
-                    (dot_dot_identifier
-                      (dot_dot))
+                    (dot_dot_identifier)
                     (argument
                       (expression
                         (pipeline_expression

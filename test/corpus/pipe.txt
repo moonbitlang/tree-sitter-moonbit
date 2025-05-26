@@ -27,7 +27,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (integer_literal)))))
-                    (pipe_operator)
                     (compound_expression
                       (simple_expression
                         (atomic_expression
@@ -63,7 +62,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (integer_literal)))))
-                    (pipe_operator)
                     (compound_expression
                       (simple_expression
                         (atomic_expression
@@ -102,7 +100,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (integer_literal)))))
-                    (pipe_operator)
                     (compound_expression
                       (simple_expression
                         (atomic_expression
@@ -141,7 +138,6 @@ fn init {
                         (atomic_expression
                           (literal
                             (integer_literal)))))
-                    (pipe_operator)
                     (compound_expression
                       (simple_expression
                         (atomic_expression
@@ -178,7 +174,6 @@ fn init {
                           (literal
                             (integer_literal)))))
                     (comment)
-                    (pipe_operator)
                     (compound_expression
                       (simple_expression
                         (atomic_expression
@@ -221,7 +216,6 @@ fn init {
                     (comment)
                     (comment)
                     (comment)
-                    (pipe_operator)
                     (compound_expression
                       (simple_expression
                         (atomic_expression
@@ -264,7 +258,6 @@ fn init {
                     (comment)
                     (comment)
                     (comment)
-                    (pipe_operator)
                     (compound_expression
                       (simple_expression
                         (atomic_expression

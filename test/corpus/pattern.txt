@@ -68,8 +68,7 @@ fn main {
                         (uppercase_identifier))
                       (constructor_pattern_argument
                         (pattern
-                          (simple_pattern
-                            (dot_dot)))))))
+                          (simple_pattern))))))
                 (statement_expression
                   (expression
                     (pipeline_expression
@@ -87,8 +86,7 @@ fn main {
                           (lowercase_identifier)))
                       (constructor_pattern_argument
                         (pattern
-                          (simple_pattern
-                            (dot_dot)))))))
+                          (simple_pattern))))))
                 (statement_expression
                   (expression
                     (pipeline_expression
@@ -262,7 +260,6 @@ fn init {
                     (simple_pattern
                       (literal
                         (integer_literal)))
-                    (dot_dot_eq)
                     (simple_pattern
                       (literal
                         (integer_literal)))))
@@ -292,7 +289,6 @@ fn init {
                     (simple_pattern
                       (literal
                         (integer_literal)))
-                    (dot_dot_lt)
                     (simple_pattern
                       (literal
                         (integer_literal)))))
@@ -320,7 +316,6 @@ fn init {
                 (pattern
                   (range_pattern
                     (simple_pattern)
-                    (dot_dot_lt)
                     (simple_pattern
                       (literal
                         (integer_literal)))))
@@ -348,7 +343,6 @@ fn init {
                 (pattern
                   (range_pattern
                     (simple_pattern)
-                    (dot_dot_lt)
                     (simple_pattern)))
                 (statement_expression
                   (expression
@@ -384,7 +378,6 @@ fn init {
                             (simple_pattern
                               (literal
                                 (integer_literal)))))))
-                    (dot_dot_lt)
                     (simple_pattern
                       (pattern
                         (or_pattern
@@ -420,14 +413,12 @@ fn init {
                     (simple_pattern
                       (literal
                         (integer_literal)))
-                    (dot_dot_eq)
                     (simple_pattern
                       (pattern
                         (range_pattern
                           (simple_pattern
                             (literal
                               (integer_literal)))
-                          (dot_dot_lt)
                           (simple_pattern
                             (literal
                               (integer_literal))))))))
@@ -460,11 +451,9 @@ fn init {
                           (simple_pattern
                             (literal
                               (integer_literal)))
-                          (dot_dot_eq)
                           (simple_pattern
                             (literal
                               (integer_literal))))))
-                    (dot_dot_lt)
                     (simple_pattern
                       (literal
                         (integer_literal)))))
@@ -495,7 +484,6 @@ fn init {
                       (literal
                         (char_literal
                           (escape_sequence))))
-                    (dot_dot_eq)
                     (simple_pattern
                       (literal
                         (char_literal
@@ -582,7 +570,6 @@ fn main {
                             (string_literal
                               (string_fragment
                                 (unescaped_string_fragment)))))
-                        (colon)
                         (pattern
                           (simple_pattern
                             (literal
@@ -617,12 +604,10 @@ fn main {
                             (string_literal
                               (string_fragment
                                 (unescaped_string_fragment)))))
-                        (colon)
                         (pattern
                           (simple_pattern
                             (literal
-                              (integer_literal)))))
-                      (dot_dot))))
+                              (integer_literal))))))))
                 (statement_expression
                   (expression
                     (pipeline_expression
@@ -651,7 +636,6 @@ fn main {
                         (map_element_key
                           (literal
                             (integer_literal)))
-                        (colon)
                         (pattern
                           (simple_pattern
                             (literal
@@ -662,7 +646,6 @@ fn main {
                             (string_literal
                               (string_fragment
                                 (unescaped_string_fragment)))))
-                        (colon)
                         (pattern
                           (simple_pattern
                             (literal
@@ -697,7 +680,6 @@ fn main {
                             (string_literal
                               (string_fragment
                                 (unescaped_string_fragment)))))
-                        (colon)
                         (pattern
                           (simple_pattern
                             (literal
@@ -708,7 +690,6 @@ fn main {
                             (string_literal
                               (string_fragment
                                 (unescaped_string_fragment)))))
-                        (colon)
                         (pattern
                           (simple_pattern
                             (literal
@@ -719,7 +700,6 @@ fn main {
                             (string_literal
                               (string_fragment
                                 (unescaped_string_fragment)))))
-                        (colon)
                         (pattern
                           (simple_pattern
                             (literal
@@ -819,8 +799,7 @@ fn main {
                             (lowercase_identifier))))
                       (array_sub_pattern
                         (pattern
-                          (simple_pattern
-                            (dot_dot)))))))
+                          (simple_pattern))))))
                 (statement_expression
                   (expression
                     (pipeline_expression
@@ -839,8 +818,7 @@ fn main {
                         (pattern
                           (as_pattern
                             (pattern
-                              (simple_pattern
-                                (dot_dot)))
+                              (simple_pattern))
                             (lowercase_identifier)))))))
                 (statement_expression
                   (expression
@@ -857,7 +835,6 @@ fn main {
                           (simple_pattern
                             (lowercase_identifier))))
                       (array_sub_pattern
-                        (dot_dot)
                         (qualified_identifier
                           (lowercase_identifier))))))
                 (statement_expression
@@ -872,8 +849,7 @@ fn main {
                     (array_pattern
                       (array_sub_pattern
                         (pattern
-                          (simple_pattern
-                            (dot_dot))))
+                          (simple_pattern)))
                       (array_sub_pattern
                         (pattern
                           (simple_pattern
@@ -892,8 +868,7 @@ fn main {
                         (pattern
                           (as_pattern
                             (pattern
-                              (simple_pattern
-                                (dot_dot)))
+                              (simple_pattern))
                             (lowercase_identifier))))
                       (array_sub_pattern
                         (pattern
@@ -910,7 +885,6 @@ fn main {
                   (simple_pattern
                     (array_pattern
                       (array_sub_pattern
-                        (dot_dot)
                         (qualified_identifier
                           (lowercase_identifier)))
                       (array_sub_pattern
@@ -933,8 +907,7 @@ fn main {
                             (lowercase_identifier))))
                       (array_sub_pattern
                         (pattern
-                          (simple_pattern
-                            (dot_dot))))
+                          (simple_pattern)))
                       (array_sub_pattern
                         (pattern
                           (simple_pattern
@@ -957,8 +930,7 @@ fn main {
                         (pattern
                           (as_pattern
                             (pattern
-                              (simple_pattern
-                                (dot_dot)))
+                              (simple_pattern))
                             (lowercase_identifier))))
                       (array_sub_pattern
                         (pattern
@@ -979,7 +951,6 @@ fn main {
                           (simple_pattern
                             (lowercase_identifier))))
                       (array_sub_pattern
-                        (dot_dot)
                         (qualified_identifier
                           (lowercase_identifier)))
                       (array_sub_pattern
@@ -997,11 +968,9 @@ fn main {
                   (simple_pattern
                     (array_pattern
                       (array_sub_pattern
-                        (dot_dot)
                         (constructor_expression
                           (uppercase_identifier)))
                       (array_sub_pattern
-                        (dot_dot)
                         (constructor_expression
                           (package_identifier)
                           (dot_uppercase_identifier))))))
@@ -1016,14 +985,12 @@ fn main {
                   (simple_pattern
                     (array_pattern
                       (array_sub_pattern
-                        (dot_dot)
                         (string_literal
                           (string_fragment
                             (unescaped_string_fragment))))
                       (array_sub_pattern
                         (pattern
-                          (simple_pattern
-                            (dot_dot)))))))
+                          (simple_pattern))))))
                 (statement_expression
                   (expression
                     (pipeline_expression
@@ -1035,14 +1002,12 @@ fn main {
                   (simple_pattern
                     (array_pattern
                       (array_sub_pattern
-                        (dot_dot)
                         (bytes_literal
                           (string_fragment
                             (unescaped_string_fragment))))
                       (array_sub_pattern
                         (pattern
-                          (simple_pattern
-                            (dot_dot)))))))
+                          (simple_pattern))))))
                 (statement_expression
                   (expression
                     (pipeline_expression

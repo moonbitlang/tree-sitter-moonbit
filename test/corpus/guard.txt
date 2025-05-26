@@ -216,7 +216,6 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
-                  (is_keyword)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
@@ -238,7 +237,6 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
-                  (is_keyword)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
@@ -255,14 +253,12 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
           (qualified_type_identifier
             (identifier
               (uppercase_identifier))))
-        (colon_colon)
         (lowercase_identifier))
       (parameters
         (parameter
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -299,7 +295,6 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
                           (qualified_type_identifier
                             (identifier
                               (uppercase_identifier))))
-                        (colon_colon)
                         (lowercase_identifier)))
                     (arguments
                       (argument
@@ -342,7 +337,6 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
                                                                     (simple_expression
                                                                       (qualified_identifier
                                                                         (lowercase_identifier))))))))))
-                                                      (is_keyword)
                                                       (simple_pattern
                                                         (constructor_pattern
                                                           (constructor_expression

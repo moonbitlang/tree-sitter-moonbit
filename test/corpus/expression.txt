@@ -30,7 +30,6 @@ fn init() { 1 * 5 |> f(5) |> g  }
                               (atomic_expression
                                 (literal
                                   (integer_literal)))))))
-                      (pipe_operator)
                       (compound_expression
                         (simple_expression
                           (apply_expression
@@ -46,7 +45,6 @@ fn init() { 1 * 5 |> f(5) |> g  }
                                         (atomic_expression
                                           (literal
                                             (integer_literal))))))))))))))
-                  (pipe_operator)
                   (compound_expression
                     (simple_expression
                       (qualified_identifier
@@ -114,8 +112,7 @@ fn init {
                     (left_value
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (assign_operator
-                      (equal))
+                    (assign_operator)
                     (expression
                       (pipeline_expression
                         (compound_expression
@@ -188,7 +185,6 @@ fn init() { let a = A::{ ..id, name: "John Doe" } }
                         (qualified_type_identifier
                           (identifier
                             (uppercase_identifier))))
-                      (colon_colon)
                       (expression
                         (pipeline_expression
                           (compound_expression
@@ -198,7 +194,6 @@ fn init() { let a = A::{ ..id, name: "John Doe" } }
                       (struct_field_expression
                         (labeled_expression
                           (lowercase_identifier)
-                          (colon)
                           (expression
                             (pipeline_expression
                               (compound_expression
@@ -240,7 +235,6 @@ fn main {
                             (string_literal
                               (string_fragment
                                 (unescaped_string_fragment)))))
-                        (colon)
                         (expression
                           (pipeline_expression
                             (compound_expression
@@ -254,7 +248,6 @@ fn main {
                             (string_literal
                               (string_fragment
                                 (unescaped_string_fragment)))))
-                        (colon)
                         (expression
                           (pipeline_expression
                             (compound_expression
@@ -266,7 +259,6 @@ fn main {
                         (map_element_key
                           (literal
                             (integer_literal)))
-                        (colon)
                         (expression
                           (pipeline_expression
                             (compound_expression
@@ -361,8 +353,7 @@ fn main {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (plus_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -375,8 +366,7 @@ fn main {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (plus_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -421,8 +411,20 @@ fn main {
                             (simple_expression
                               (atomic_expression
                                 (literal
-                                  (integer_literal)))))))
-                      (colon))))))))
+                                  (integer_literal))))))))))))))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (array_access_expression
+                      (simple_expression
+                        (qualified_identifier
+                          (lowercase_identifier))))))))))
         (statement_expression
           (let_expression
             (pattern
@@ -436,21 +438,6 @@ fn main {
                       (simple_expression
                         (qualified_identifier
                           (lowercase_identifier)))
-                      (colon))))))))
-        (statement_expression
-          (let_expression
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
-            (expression
-              (pipeline_expression
-                (compound_expression
-                  (simple_expression
-                    (array_access_expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier)))
-                      (colon)
                       (expression
                         (pipeline_expression
                           (compound_expression
@@ -478,7 +465,6 @@ fn main {
                               (atomic_expression
                                 (literal
                                   (integer_literal)))))))
-                      (colon)
                       (expression
                         (pipeline_expression
                           (compound_expression
@@ -831,7 +817,6 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (is_keyword)
                     (simple_pattern
                       (constructor_pattern
                         (constructor_expression
@@ -845,7 +830,6 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (is_keyword)
                     (simple_pattern
                       (constructor_pattern
                         (constructor_expression
@@ -864,13 +848,11 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (is_keyword)
                     (range_pattern
                       (simple_pattern
                         (literal
                           (char_literal
                             (escape_sequence))))
-                      (dot_dot_eq)
                       (simple_pattern
                         (literal
                           (char_literal
@@ -884,13 +866,11 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (is_keyword)
                     (range_pattern
                       (simple_pattern
                         (literal
                           (char_literal
                             (escape_sequence))))
-                      (dot_dot_eq)
                       (simple_pattern
                         (literal
                           (char_literal
@@ -909,7 +889,6 @@ fn main {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
-                  (is_keyword)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
@@ -922,7 +901,6 @@ fn main {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
-                  (is_keyword)
                   (simple_pattern
                     (constructor_pattern
                       (constructor_expression
@@ -940,13 +918,11 @@ fn main {
                   (simple_expression
                     (qualified_identifier
                       (lowercase_identifier)))
-                  (is_keyword)
                   (range_pattern
                     (simple_pattern
                       (literal
                         (char_literal
                           (escape_sequence))))
-                    (dot_dot_eq)
                     (simple_pattern
                       (literal
                         (char_literal
@@ -970,7 +946,6 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (is_keyword)
                     (simple_pattern
                       (pattern
                         (or_pattern
@@ -980,7 +955,6 @@ fn main {
                                 (literal
                                   (char_literal
                                     (escape_sequence))))
-                              (dot_dot_eq)
                               (simple_pattern
                                 (literal
                                   (char_literal
@@ -991,7 +965,6 @@ fn main {
                                 (literal
                                   (char_literal
                                     (escape_sequence))))
-                              (dot_dot_eq)
                               (simple_pattern
                                 (literal
                                   (char_literal

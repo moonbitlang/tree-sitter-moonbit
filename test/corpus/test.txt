@@ -71,7 +71,6 @@ test "a" (it : @test.T) {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier

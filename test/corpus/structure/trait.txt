@@ -198,7 +198,6 @@ trait A {
           (label
             (lowercase_identifier))
           (type_annotation
-            (colon)
             (type
               (apply_type
                 (qualified_type_identifier
@@ -208,7 +207,6 @@ trait A {
           (label
             (lowercase_identifier))
           (type_annotation
-            (colon)
             (type
               (apply_type
                 (qualified_type_identifier
@@ -249,7 +247,6 @@ pub(all) trait A {
           (label
             (lowercase_identifier))
           (type_annotation
-            (colon)
             (type
               (apply_type
                 (qualified_type_identifier
@@ -259,7 +256,6 @@ pub(all) trait A {
           (label
             (lowercase_identifier))
           (type_annotation
-            (colon)
             (type
               (apply_type
                 (qualified_type_identifier
@@ -290,7 +286,6 @@ trait B: @a.T + @c.D {
       (identifier
         (uppercase_identifier))
       (super_trait_declaration
-        (colon)
         (qualified_type_identifier
           (identifier
             (uppercase_identifier)))
@@ -317,7 +312,6 @@ trait B: @a.T + @c.D {
       (identifier
         (uppercase_identifier))
       (super_trait_declaration
-        (colon)
         (qualified_type_identifier
           (package_identifier)
           (dot_identifier
@@ -410,7 +404,6 @@ fn repr(self:MyInt) -> String {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -453,7 +446,6 @@ fn repr(self:MyInt) -> String {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -477,8 +469,7 @@ fn repr(self:MyInt) -> String {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (accessor
-                          (dot))))
+                        (accessor)))
                     (dot_identifier
                       (dot_lowercase_identifier))))))))))))
 

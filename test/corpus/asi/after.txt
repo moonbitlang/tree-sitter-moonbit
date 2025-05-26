@@ -36,12 +36,10 @@ fn main {
                                 (accessor
                                   (dot_identifier
                                     (dot_lowercase_identifier)))))
-                            (accessor
-                              (dot))))
+                            (accessor)))
                         (dot_identifier
                           (dot_lowercase_identifier))))
-                    (dot_dot_identifier
-                      (dot_dot))))))))
+                    (dot_dot_identifier)))))))
         (statement_expression
           (expression
             (pipeline_expression
@@ -82,7 +80,6 @@ fn main {
                           (qualified_type_identifier
                             (identifier
                               (uppercase_identifier))))
-                        (colon_colon)
                         (lowercase_identifier)))
                     (arguments)))))))
         (statement_expression
@@ -95,7 +92,6 @@ fn main {
                       (qualified_type_identifier
                         (identifier
                           (uppercase_identifier))))
-                    (colon_colon)
                     (struct_field_expression
                       (labeled_expression_pun
                         (lowercase_identifier)))))))))))))
@@ -254,7 +250,6 @@ fn main {
                       (qualified_identifier
                         (lowercase_identifier))))
                   (comment)
-                  (pipe_operator)
                   (compound_expression
                     (simple_expression
                       (qualified_identifier
@@ -273,20 +268,16 @@ fn main {
                             (literal
                               (multiline_string_literal
                                 (multiline_string_fragment
-                                  (multiline_string_separator)
                                   (multiline_string_content))
                                 (comment)
                                 (multiline_string_fragment
-                                  (multiline_string_separator)
                                   (multiline_string_content)))))))
-                      (pipe_operator)
                       (compound_expression
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier))))))
                   (comment)
                   (comment)
-                  (pipe_operator)
                   (compound_expression
                     (simple_expression
                       (apply_expression
@@ -423,8 +414,7 @@ fn main {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -500,8 +490,7 @@ fn main {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (plus_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -513,8 +502,7 @@ fn main {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (minus_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -526,8 +514,7 @@ fn main {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (asterisk_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -539,8 +526,7 @@ fn main {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (slash_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -552,8 +538,7 @@ fn main {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (percent_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -703,7 +688,6 @@ fn main {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -737,7 +721,6 @@ fn main {
                             (atomic_expression
                               (literal
                                 (integer_literal)))))))
-                    (colon)
                     (expression
                       (pipeline_expression
                         (compound_expression
@@ -844,7 +827,6 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (is_keyword)
                     (simple_pattern
                       (constructor_pattern
                         (constructor_expression
@@ -877,8 +859,7 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (dot_dot_identifier
-                      (dot_dot))))))))))))
+                    (dot_dot_identifier)))))))))))
 
 ================================================================================
 can occur after semi (DERIVE)
@@ -901,7 +882,6 @@ fn main {
         (uppercase_identifier))
       (comment)
       (derive_directive
-        (derive_keyword)
         (derive_item
           (type_name
             (qualified_type_identifier
@@ -918,7 +898,6 @@ fn main {
               (uppercase_identifier))
             (comment)
             (derive_directive
-              (derive_keyword)
               (derive_item
                 (type_name
                   (qualified_type_identifier
@@ -980,7 +959,6 @@ fn main {
                 (simple_expression
                   (apply_expression
                     (lowercase_identifier)
-                    (question_operator)
                     (arguments
                       (argument
                         (expression
@@ -1031,7 +1009,6 @@ fn main {
                     (simple_pattern
                       (literal
                         (integer_literal)))
-                    (dot_dot_lt)
                     (simple_pattern)))
                 (statement_expression
                   (expression
@@ -1045,7 +1022,6 @@ fn main {
                     (simple_pattern
                       (literal
                         (integer_literal)))
-                    (dot_dot_eq)
                     (simple_pattern)))
                 (statement_expression
                   (expression

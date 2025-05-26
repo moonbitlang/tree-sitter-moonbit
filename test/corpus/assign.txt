@@ -28,8 +28,7 @@ fn init {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (plus_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -68,8 +67,7 @@ fn init {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (minus_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -108,8 +106,7 @@ fn init {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (asterisk_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -148,8 +145,7 @@ fn init {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (slash_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -177,8 +173,7 @@ fn init {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (percent_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
