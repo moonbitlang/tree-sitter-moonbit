@@ -6,10 +6,7 @@ test "grep" {
       "method": "search",
       "params": {
         "query": "$exp:a + $exp:b",
-        "content": #|fn main {
-        #|  1 + 2
-        #|}
-        ,
+        "content": "fn main {\n  1 + 2\n}",
       },
     },
     {
@@ -54,7 +51,7 @@ test "grep" {
     let stdout = @buffer.new()
     let process = @async.spawn!(
       "moon",
-      ["run", @async.path!(["src", "grep"])],
+      ["run", @async.path!(["src", "grep"]), "--target", "native"],
       stdin=Bytes(request),
       stdout=Buffer(stdout),
     )
