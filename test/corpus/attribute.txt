@@ -41,14 +41,13 @@ fn fib(n : Int) -> Int {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (unary_expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+            (compound_expression
+              (simple_expression
+                (unary_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))
 
 ================================================================================
 coverage skip
@@ -88,11 +87,10 @@ fn fib(n : Int) -> Int {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (unary_expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (integer_literal))))))))))))))
+            (compound_expression
+              (simple_expression
+                (unary_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))))))

@@ -351,11 +351,6 @@ module.exports = grammar({
       $.for_in_expression,
       $.try_expression,
       $.try_question_expression,
-      $.pipeline_expression,
-    ),
-
-    pipeline_expression: $ => choice(
-      seq($.pipeline_expression, '|>', $.compound_expression),
       $.compound_expression,
     ),
 

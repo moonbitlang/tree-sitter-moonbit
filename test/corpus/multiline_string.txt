@@ -15,16 +15,15 @@ fn init {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (atomic_expression
-                    (literal
-                      (multiline_string_literal
-                        (multiline_string_fragment
-                          (multiline_string_content))
-                        (multiline_string_fragment
-                          (multiline_string_content))))))))))))))
+            (compound_expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (multiline_string_literal
+                      (multiline_string_fragment
+                        (multiline_string_content))
+                      (multiline_string_fragment
+                        (multiline_string_content)))))))))))))
 
 ================================================================================
 multiline string (left aligned)
@@ -43,16 +42,15 @@ fn init {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (atomic_expression
-                    (literal
-                      (multiline_string_literal
-                        (multiline_string_fragment
-                          (multiline_string_content))
-                        (multiline_string_fragment
-                          (multiline_string_content))))))))))))))
+            (compound_expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (multiline_string_literal
+                      (multiline_string_fragment
+                        (multiline_string_content))
+                      (multiline_string_fragment
+                        (multiline_string_content)))))))))))))
 
 ================================================================================
 multiline string (with pipe)
@@ -74,38 +72,36 @@ fn init {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (binary_expression
-                  (compound_expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (multiline_string_literal
-                            (multiline_string_fragment
-                              (multiline_string_content))
-                            (multiline_string_fragment
-                              (multiline_string_content)))))))
-                  (compound_expression
-                    (simple_expression
-                      (qualified_identifier
-                        (lowercase_identifier)))))))))
+            (compound_expression
+              (binary_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (multiline_string_literal
+                          (multiline_string_fragment
+                            (multiline_string_content))
+                          (multiline_string_fragment
+                            (multiline_string_content)))))))
+                (compound_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier))))))))
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (binary_expression
-                  (compound_expression
-                    (simple_expression
-                      (atomic_expression
-                        (literal
-                          (multiline_string_literal
-                            (multiline_string_fragment
-                              (multiline_string_content)))))))
-                  (compound_expression
-                    (simple_expression
-                      (qualified_identifier
-                        (lowercase_identifier)))))))))))))
+            (compound_expression
+              (binary_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (multiline_string_literal
+                          (multiline_string_fragment
+                            (multiline_string_content)))))))
+                (compound_expression
+                  (simple_expression
+                    (qualified_identifier
+                      (lowercase_identifier))))))))))))
 
 ================================================================================
 multiline string (mixed indentation)
@@ -133,34 +129,33 @@ fn init {
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (pipeline_expression
-                (compound_expression
-                  (binary_expression
-                    (compound_expression
-                      (binary_expression
-                        (compound_expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (multiline_string_literal
-                                  (multiline_string_fragment
-                                    (multiline_string_content))
-                                  (multiline_string_fragment
-                                    (multiline_string_content))
-                                  (multiline_string_fragment
-                                    (multiline_string_content))
-                                  (multiline_string_fragment
-                                    (multiline_string_content))
-                                  (multiline_string_fragment
-                                    (multiline_string_content)))))))
-                        (compound_expression
-                          (simple_expression
-                            (qualified_identifier
-                              (lowercase_identifier))))))
-                    (compound_expression
-                      (simple_expression
-                        (qualified_identifier
-                          (lowercase_identifier))))))))))))))
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (binary_expression
+                      (compound_expression
+                        (simple_expression
+                          (atomic_expression
+                            (literal
+                              (multiline_string_literal
+                                (multiline_string_fragment
+                                  (multiline_string_content))
+                                (multiline_string_fragment
+                                  (multiline_string_content))
+                                (multiline_string_fragment
+                                  (multiline_string_content))
+                                (multiline_string_fragment
+                                  (multiline_string_content))
+                                (multiline_string_fragment
+                                  (multiline_string_content)))))))
+                      (compound_expression
+                        (simple_expression
+                          (qualified_identifier
+                            (lowercase_identifier))))))
+                  (compound_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier)))))))))))))
 
 ================================================================================
 multiline interpolation
@@ -181,29 +176,32 @@ fn main {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (atomic_expression
-                    (literal
-                      (multiline_string_literal
-                        (multiline_interpolation_fragment
-                          (multiline_interpolation_content))
-                        (multiline_interpolation_fragment
-                          (multiline_interpolation_content)
-                          (multiline_interpolation_content
-                            (interpolator
-                              (expression
-                                (pipeline_expression
+            (compound_expression
+              (simple_expression
+                (atomic_expression
+                  (literal
+                    (multiline_string_literal
+                      (multiline_interpolation_fragment
+                        (multiline_interpolation_content))
+                      (multiline_interpolation_fragment
+                        (multiline_interpolation_content)
+                        (multiline_interpolation_content
+                          (interpolator
+                            (expression
+                              (compound_expression
+                                (simple_expression
+                                  (qualified_identifier
+                                    (lowercase_identifier))))))))
+                      (multiline_interpolation_fragment
+                        (multiline_interpolation_content
+                          (interpolator
+                            (expression
+                              (compound_expression
+                                (binary_expression
                                   (compound_expression
                                     (simple_expression
                                       (qualified_identifier
-                                        (lowercase_identifier)))))))))
-                        (multiline_interpolation_fragment
-                          (multiline_interpolation_content
-                            (interpolator
-                              (expression
-                                (pipeline_expression
+                                        (lowercase_identifier))))
                                   (compound_expression
                                     (binary_expression
                                       (compound_expression
@@ -211,31 +209,23 @@ fn main {
                                           (qualified_identifier
                                             (lowercase_identifier))))
                                       (compound_expression
-                                        (binary_expression
-                                          (compound_expression
-                                            (simple_expression
-                                              (qualified_identifier
-                                                (lowercase_identifier))))
-                                          (compound_expression
-                                            (simple_expression
-                                              (qualified_identifier
-                                                (lowercase_identifier)))))))))))))
-                        (multiline_interpolation_fragment
-                          (multiline_interpolation_content
-                            (interpolator
-                              (expression
-                                (pipeline_expression
-                                  (compound_expression
-                                    (simple_expression
-                                      (apply_expression
                                         (simple_expression
                                           (qualified_identifier
-                                            (lowercase_identifier)))
-                                        (arguments
-                                          (argument
-                                            (expression
-                                              (pipeline_expression
-                                                (compound_expression
-                                                  (simple_expression
-                                                    (qualified_identifier
-                                                      (lowercase_identifier))))))))))))))))))))))))))))
+                                            (lowercase_identifier))))))))))))
+                      (multiline_interpolation_fragment
+                        (multiline_interpolation_content
+                          (interpolator
+                            (expression
+                              (compound_expression
+                                (simple_expression
+                                  (apply_expression
+                                    (simple_expression
+                                      (qualified_identifier
+                                        (lowercase_identifier)))
+                                    (arguments
+                                      (argument
+                                        (expression
+                                          (compound_expression
+                                            (simple_expression
+                                              (qualified_identifier
+                                                (lowercase_identifier)))))))))))))))))))))))))

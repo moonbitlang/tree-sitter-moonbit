@@ -16,28 +16,26 @@ fn init {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (anonymous_lambda_expression
-                    (parameters
-                      (parameter
-                        (positional_parameter
-                          (lowercase_identifier)
-                          (type_annotation
-                            (type
-                              (apply_type
-                                (qualified_type_identifier
-                                  (identifier
-                                    (uppercase_identifier)))))))))
-                    (block_expression
-                      (statement_expression
-                        (expression
-                          (pipeline_expression
-                            (compound_expression
-                              (simple_expression
-                                (qualified_identifier
-                                  (lowercase_identifier))))))))))))))))))
+            (compound_expression
+              (simple_expression
+                (anonymous_lambda_expression
+                  (parameters
+                    (parameter
+                      (positional_parameter
+                        (lowercase_identifier)
+                        (type_annotation
+                          (type
+                            (apply_type
+                              (qualified_type_identifier
+                                (identifier
+                                  (uppercase_identifier)))))))))
+                  (block_expression
+                    (statement_expression
+                      (expression
+                        (compound_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier))))))))))))))))
 
 ================================================================================
 one-line
@@ -55,28 +53,26 @@ fn init {
       (block_expression
         (statement_expression
           (expression
-            (pipeline_expression
-              (compound_expression
-                (simple_expression
-                  (anonymous_lambda_expression
-                    (parameters
-                      (parameter
-                        (positional_parameter
-                          (lowercase_identifier)
-                          (type_annotation
-                            (type
-                              (apply_type
-                                (qualified_type_identifier
-                                  (identifier
-                                    (uppercase_identifier)))))))))
-                    (block_expression
-                      (statement_expression
-                        (expression
-                          (pipeline_expression
-                            (compound_expression
-                              (simple_expression
-                                (qualified_identifier
-                                  (lowercase_identifier))))))))))))))))))
+            (compound_expression
+              (simple_expression
+                (anonymous_lambda_expression
+                  (parameters
+                    (parameter
+                      (positional_parameter
+                        (lowercase_identifier)
+                        (type_annotation
+                          (type
+                            (apply_type
+                              (qualified_type_identifier
+                                (identifier
+                                  (uppercase_identifier)))))))))
+                  (block_expression
+                    (statement_expression
+                      (expression
+                        (compound_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier))))))))))))))))
 
 ================================================================================
 lambda_curry
@@ -98,51 +94,48 @@ fn init {
               (simple_pattern
                 (lowercase_identifier)))
             (expression
-              (pipeline_expression
-                (compound_expression
-                  (simple_expression
-                    (anonymous_lambda_expression
-                      (parameters
-                        (parameter
-                          (positional_parameter
-                            (lowercase_identifier)
-                            (type_annotation
-                              (type
-                                (apply_type
-                                  (qualified_type_identifier
-                                    (identifier
-                                      (uppercase_identifier)))))))))
-                      (block_expression
-                        (statement_expression
-                          (expression
-                            (pipeline_expression
-                              (compound_expression
-                                (simple_expression
-                                  (anonymous_lambda_expression
-                                    (parameters
-                                      (parameter
-                                        (positional_parameter
-                                          (lowercase_identifier)
-                                          (type_annotation
-                                            (type
-                                              (apply_type
-                                                (qualified_type_identifier
-                                                  (identifier
-                                                    (uppercase_identifier)))))))))
-                                    (block_expression
-                                      (statement_expression
-                                        (expression
-                                          (pipeline_expression
-                                            (compound_expression
-                                              (binary_expression
-                                                (compound_expression
-                                                  (simple_expression
-                                                    (qualified_identifier
-                                                      (lowercase_identifier))))
-                                                (compound_expression
-                                                  (simple_expression
-                                                    (qualified_identifier
-                                                      (lowercase_identifier))))))))))))))))))))))))))))
+              (compound_expression
+                (simple_expression
+                  (anonymous_lambda_expression
+                    (parameters
+                      (parameter
+                        (positional_parameter
+                          (lowercase_identifier)
+                          (type_annotation
+                            (type
+                              (apply_type
+                                (qualified_type_identifier
+                                  (identifier
+                                    (uppercase_identifier)))))))))
+                    (block_expression
+                      (statement_expression
+                        (expression
+                          (compound_expression
+                            (simple_expression
+                              (anonymous_lambda_expression
+                                (parameters
+                                  (parameter
+                                    (positional_parameter
+                                      (lowercase_identifier)
+                                      (type_annotation
+                                        (type
+                                          (apply_type
+                                            (qualified_type_identifier
+                                              (identifier
+                                                (uppercase_identifier)))))))))
+                                (block_expression
+                                  (statement_expression
+                                    (expression
+                                      (compound_expression
+                                        (binary_expression
+                                          (compound_expression
+                                            (simple_expression
+                                              (qualified_identifier
+                                                (lowercase_identifier))))
+                                          (compound_expression
+                                            (simple_expression
+                                              (qualified_identifier
+                                                (lowercase_identifier)))))))))))))))))))))))))
 
 ================================================================================
 matrix functions
@@ -174,12 +167,11 @@ fn init {
                 (simple_pattern))
               (statement_expression
                 (expression
-                  (pipeline_expression
-                    (compound_expression
-                      (simple_expression
-                        (atomic_expression
-                          (literal
-                            (boolean_literal)))))))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (boolean_literal))))))))
             (matrix_case_clause
               (pattern
                 (simple_pattern))
@@ -189,12 +181,11 @@ fn init {
                     (boolean_literal))))
               (statement_expression
                 (expression
-                  (pipeline_expression
-                    (compound_expression
-                      (simple_expression
-                        (atomic_expression
-                          (literal
-                            (boolean_literal)))))))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (boolean_literal))))))))
             (matrix_case_clause
               (pattern
                 (simple_pattern))
@@ -202,12 +193,11 @@ fn init {
                 (simple_pattern))
               (statement_expression
                 (expression
-                  (pipeline_expression
-                    (compound_expression
-                      (simple_expression
-                        (atomic_expression
-                          (literal
-                            (boolean_literal)))))))))))))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (boolean_literal))))))))))))))
 
 ================================================================================
 matrix functions complex
@@ -228,25 +218,23 @@ fn init {
             (pattern
               (simple_pattern))
             (expression
-              (pipeline_expression
-                (compound_expression
-                  (simple_expression
-                    (anonymous_matrix_lambda_expression
-                      (matrix_case_clause
-                        (pattern
-                          (simple_pattern
-                            (lowercase_identifier)))
-                        (statement_expression
-                          (expression
-                            (pipeline_expression
+              (compound_expression
+                (simple_expression
+                  (anonymous_matrix_lambda_expression
+                    (matrix_case_clause
+                      (pattern
+                        (simple_pattern
+                          (lowercase_identifier)))
+                      (statement_expression
+                        (expression
+                          (compound_expression
+                            (binary_expression
                               (compound_expression
-                                (binary_expression
-                                  (compound_expression
-                                    (simple_expression
-                                      (qualified_identifier
-                                        (lowercase_identifier))))
-                                  (compound_expression
-                                    (simple_expression
-                                      (atomic_expression
-                                        (literal
-                                          (integer_literal))))))))))))))))))))))
+                                (simple_expression
+                                  (qualified_identifier
+                                    (lowercase_identifier))))
+                              (compound_expression
+                                (simple_expression
+                                  (atomic_expression
+                                    (literal
+                                      (integer_literal))))))))))))))))))))
