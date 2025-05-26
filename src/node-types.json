@@ -1255,10 +1255,6 @@
           "named": true
         },
         {
-          "type": "for_keyword",
-          "named": true
-        },
-        {
           "type": "loop_label",
           "named": true
         }
@@ -1283,10 +1279,6 @@
         },
         {
           "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_keyword",
           "named": true
         },
         {
@@ -1628,10 +1620,6 @@
         },
         {
           "type": "external_source",
-          "named": true
-        },
-        {
-          "type": "for_keyword",
           "named": true
         },
         {
@@ -4165,8 +4153,8 @@
     "named": false
   },
   {
-    "type": "for_keyword",
-    "named": true
+    "type": "for",
+    "named": false
   },
   {
     "type": "guard",

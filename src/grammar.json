@@ -2274,8 +2274,8 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "for_keyword"
+                  "type": "STRING",
+                  "value": "for"
                 },
                 {
                   "type": "SYMBOL",
@@ -5913,8 +5913,8 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "for_keyword"
+          "type": "STRING",
+          "value": "for"
         },
         {
           "type": "CHOICE",
@@ -6049,8 +6049,8 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "for_keyword"
+          "type": "STRING",
+          "value": "for"
         },
         {
           "type": "CHOICE",
@@ -7964,8 +7964,8 @@
       "name": "float_literal"
     },
     {
-      "type": "SYMBOL",
-      "name": "for_keyword"
+      "type": "STRING",
+      "value": "for"
     },
     {
       "type": "SYMBOL",
