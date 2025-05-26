@@ -3899,11 +3899,6 @@
     "named": false
   },
   {
-    "type": "docstring",
-    "named": true,
-    "extra": true
-  },
-  {
     "type": "dot_lowercase_identifier",
     "named": true
   },

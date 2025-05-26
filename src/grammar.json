@@ -7655,10 +7655,6 @@
       "type": "PATTERN",
       "value": "\\/\\/.*"
     },
-    "docstring": {
-      "type": "PATTERN",
-      "value": "\\/\\/\\/.*"
-    },
     "attribute_properties": {
       "type": "SEQ",
       "members": [
@@ -7824,10 +7820,6 @@
     {
       "type": "SYMBOL",
       "name": "comment"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "docstring"
     },
     {
       "type": "PATTERN",
