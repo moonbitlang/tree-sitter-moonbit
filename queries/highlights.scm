@@ -248,7 +248,7 @@
 ;; Comments
 
 (comment) @comment @spell
-(docstring) @comment.documentation @spell
+; (docstring) @comment.documentation @spell
 
 ;; Errors
 
