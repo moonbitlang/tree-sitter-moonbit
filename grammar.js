@@ -352,6 +352,7 @@ module.exports = grammar({
       $.for_expression,
       $.for_in_expression,
       $.try_expression,
+      $.try_question_expression,
       $.pipeline_expression,
     ),
 
@@ -799,14 +800,26 @@ module.exports = grammar({
     try_expression: $ => seq(
       'try',
       $.expression,
-      optional(choice(
-        'catch',
-        seq('catch', '!'),
-      )),
+      $.try_catch_clause,
+      optional($.try_else_clause),
+    ),
+
+    try_question_expression: $ => seq(
+      'try',
+      '?',
+      $.expression,
+    ),
+
+    try_catch_clause: $ => seq(
+      optional(
+        seq(
+          'catch',
+          optional('!'),
+        ),
+      ),
       '{',
       list($._semicolon, $.case_clause),
       '}',
-      optional($.try_else_clause),
     ),
 
     try_else_clause: $ => seq(
