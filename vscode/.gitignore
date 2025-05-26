@@ -9,3 +9,4 @@ target/
 .mooncakes/
 /wasi-sdk/
 /build/
+.cache/
