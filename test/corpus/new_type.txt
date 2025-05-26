@@ -77,7 +77,6 @@ let d_mile: Length[Mile] = Length(16)
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -93,7 +92,6 @@ let d_mile: Length[Mile] = Length(16)
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -130,7 +128,6 @@ let d_mile: Length[Mile] = Length(16)
                           (qualified_type_identifier
                             (identifier
                               (uppercase_identifier))))
-                        (colon_colon)
                         (uppercase_identifier)))
                     (arguments
                       (argument
@@ -144,21 +141,18 @@ let d_mile: Length[Mile] = Length(16)
                                       (simple_expression
                                         (qualified_identifier
                                           (lowercase_identifier)))
-                                      (accessor
-                                        (dot)))))
+                                      (accessor))))
                                 (compound_expression
                                   (simple_expression
                                     (access_expression
                                       (simple_expression
                                         (qualified_identifier
                                           (lowercase_identifier)))
-                                      (accessor
-                                        (dot))))))))))))))))))))
+                                      (accessor)))))))))))))))))))
   (structure_item
     (value_definition
       (lowercase_identifier)
       (type_annotation
-        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -191,7 +185,6 @@ let d_mile: Length[Mile] = Length(16)
     (value_definition
       (lowercase_identifier)
       (type_annotation
-        (colon)
         (type
           (apply_type
             (qualified_type_identifier

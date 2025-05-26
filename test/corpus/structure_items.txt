@@ -102,7 +102,6 @@ type! X {
       (identifier
         (uppercase_identifier))
       (derive_directive
-        (derive_keyword)
         (derive_item
           (type_name
             (qualified_type_identifier
@@ -131,7 +130,6 @@ type! X {
                   (identifier
                     (uppercase_identifier))))))))
       (derive_directive
-        (derive_keyword)
         (derive_item
           (type_name
             (qualified_type_identifier
@@ -168,7 +166,6 @@ struct Color {
       (struct_field_declaration
         (mutability)
         (lowercase_identifier)
-        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -184,7 +181,6 @@ struct Color {
             (uppercase_identifier))))
       (struct_field_declaration
         (lowercase_identifier)
-        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -198,7 +194,6 @@ struct Color {
                       (uppercase_identifier)))))))))
       (struct_field_declaration
         (lowercase_identifier)
-        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -216,7 +211,6 @@ struct Color {
         (uppercase_identifier))
       (struct_field_declaration
         (lowercase_identifier)
-        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -224,7 +218,6 @@ struct Color {
                 (uppercase_identifier))))))
       (struct_field_declaration
         (lowercase_identifier)
-        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -232,7 +225,6 @@ struct Color {
                 (uppercase_identifier))))))
       (struct_field_declaration
         (lowercase_identifier)
-        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -314,7 +306,6 @@ pub let y: Int = 42
       (visibility)
       (lowercase_identifier)
       (type_annotation
-        (colon)
         (type
           (apply_type
             (qualified_type_identifier
@@ -352,7 +343,6 @@ fn &Trait::method(self: Self) -> Int { 42 }
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -387,7 +377,6 @@ fn &Trait::method(self: Self) -> Int { 42 }
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -410,7 +399,6 @@ fn &Trait::method(self: Self) -> Int { 42 }
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -436,14 +424,12 @@ fn &Trait::method(self: Self) -> Int { 42 }
           (qualified_type_identifier
             (identifier
               (uppercase_identifier))))
-        (colon_colon)
         (lowercase_identifier))
       (parameters
         (parameter
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -521,7 +507,6 @@ fn init {
             (label
               (lowercase_identifier))
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -532,7 +517,6 @@ fn init {
             (label
               (lowercase_identifier))
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -732,7 +716,6 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
         (type_identifier
           (identifier
             (uppercase_identifier))
-          (colon)
           (constraints
             (constraint
               (qualified_type_identifier
@@ -760,7 +743,6 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -804,7 +786,6 @@ extern "c" fn ffi(a: Int) = "return 0"
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -841,7 +822,6 @@ extern "c" fn ffi(a: Int) = "return 0"
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -856,7 +836,6 @@ extern "c" fn ffi(a: Int) = "return 0"
       (external_source
         (multiline_string_literal
           (multiline_string_fragment
-            (multiline_string_separator)
             (multiline_string_content))))))
   (structure_item
     (function_definition
@@ -872,7 +851,6 @@ extern "c" fn ffi(a: Int) = "return 0"
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -881,7 +859,6 @@ extern "c" fn ffi(a: Int) = "return 0"
       (external_source
         (multiline_string_literal
           (multiline_string_fragment
-            (multiline_string_separator)
             (multiline_string_content))))))
   (structure_item
     (function_definition
@@ -896,7 +873,6 @@ extern "c" fn ffi(a: Int) = "return 0"
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -954,14 +930,12 @@ pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
           (qualified_type_identifier
             (identifier
               (uppercase_identifier))))
-        (colon_colon)
         (lowercase_identifier))
       (parameters
         (parameter
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -987,7 +961,6 @@ pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
               (uppercase_identifier))
             (struct_field_declaration
               (lowercase_identifier)
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -1002,7 +975,6 @@ pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
                             (dot_uppercase_identifier)))))))))
             (struct_field_declaration
               (lowercase_identifier)
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -1022,7 +994,6 @@ pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
                                   (uppercase_identifier))))))))))))
             (struct_field_declaration
               (lowercase_identifier)
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -1036,7 +1007,6 @@ pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
                 (positional_parameter
                   (lowercase_identifier)
                   (type_annotation
-                    (colon)
                     (type
                       (apply_type
                         (qualified_type_identifier

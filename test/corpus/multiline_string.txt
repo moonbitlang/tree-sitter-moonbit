@@ -22,10 +22,8 @@ fn init {
                     (literal
                       (multiline_string_literal
                         (multiline_string_fragment
-                          (multiline_string_separator)
                           (multiline_string_content))
                         (multiline_string_fragment
-                          (multiline_string_separator)
                           (multiline_string_content))))))))))))))
 
 ================================================================================
@@ -52,10 +50,8 @@ fn init {
                     (literal
                       (multiline_string_literal
                         (multiline_string_fragment
-                          (multiline_string_separator)
                           (multiline_string_content))
                         (multiline_string_fragment
-                          (multiline_string_separator)
                           (multiline_string_content))))))))))))))
 
 ================================================================================
@@ -87,12 +83,9 @@ fn init {
                         (literal
                           (multiline_string_literal
                             (multiline_string_fragment
-                              (multiline_string_separator)
                               (multiline_string_content))
                             (multiline_string_fragment
-                              (multiline_string_separator)
                               (multiline_string_content)))))))
-                  (pipe_operator)
                   (compound_expression
                     (simple_expression
                       (qualified_identifier
@@ -108,9 +101,7 @@ fn init {
                         (literal
                           (multiline_string_literal
                             (multiline_string_fragment
-                              (multiline_string_separator)
                               (multiline_string_content)))))))
-                  (pipe_operator)
                   (compound_expression
                     (simple_expression
                       (qualified_identifier
@@ -153,26 +144,19 @@ fn init {
                               (literal
                                 (multiline_string_literal
                                   (multiline_string_fragment
-                                    (multiline_string_separator)
                                     (multiline_string_content))
                                   (multiline_string_fragment
-                                    (multiline_string_separator)
                                     (multiline_string_content))
                                   (multiline_string_fragment
-                                    (multiline_string_separator)
                                     (multiline_string_content))
                                   (multiline_string_fragment
-                                    (multiline_string_separator)
                                     (multiline_string_content))
                                   (multiline_string_fragment
-                                    (multiline_string_separator)
                                     (multiline_string_content)))))))
-                        (pipe_operator)
                         (compound_expression
                           (simple_expression
                             (qualified_identifier
                               (lowercase_identifier))))))
-                    (pipe_operator)
                     (compound_expression
                       (simple_expression
                         (qualified_identifier
@@ -204,10 +188,8 @@ fn main {
                     (literal
                       (multiline_string_literal
                         (multiline_interpolation_fragment
-                          (multiline_interpolation_separator)
                           (multiline_interpolation_content))
                         (multiline_interpolation_fragment
-                          (multiline_interpolation_separator)
                           (multiline_interpolation_content)
                           (multiline_interpolation_content
                             (interpolator
@@ -218,7 +200,6 @@ fn main {
                                       (qualified_identifier
                                         (lowercase_identifier)))))))))
                         (multiline_interpolation_fragment
-                          (multiline_interpolation_separator)
                           (multiline_interpolation_content
                             (interpolator
                               (expression
@@ -240,7 +221,6 @@ fn main {
                                               (qualified_identifier
                                                 (lowercase_identifier)))))))))))))
                         (multiline_interpolation_fragment
-                          (multiline_interpolation_separator)
                           (multiline_interpolation_content
                             (interpolator
                               (expression

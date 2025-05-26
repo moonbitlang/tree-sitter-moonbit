@@ -18,7 +18,6 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
         (type_identifier
           (identifier
             (uppercase_identifier))
-          (colon)
           (constraints
             (constraint
               (qualified_type_identifier
@@ -31,7 +30,6 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (function_type
                   (type
@@ -91,7 +89,6 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (function_type
                   (return_type

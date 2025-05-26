@@ -418,7 +418,6 @@ fn main {
                                         (atomic_expression
                                           (literal
                                             (boolean_literal))))))))))))
-                      (pipe_operator)
                       (compound_expression
                         (simple_expression
                           (apply_expression

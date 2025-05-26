@@ -163,11 +163,11 @@
 [
 	"+" "-" "*" "/" "%"
   "<<" ">>" "|" "&" "^"
-  "=" (equal) (plus_equal) (minus_equal) (asterisk_equal) (slash_equal) (percent_equal)
+  "=" "+=" "-=" "*=" "/=" "%="
   "<" ">" ">=" "<=" "==" "!="
   "&&" "||"
   "=>" "->"
-  "!" "!!" (question_operator)
+  "!" "!!" "?"
 ] @operator
 
 ;; Keywords
@@ -184,10 +184,10 @@
 
 [
   "guard" "let" "const"
-  "with" "as" (is_keyword)
+  "with" "as" "is"
 ] @keyword
 
-(derive_keyword) @keyword
+"derive" @keyword
 
 [ "fn" "test" "impl" "fnalias" ] @keyword.function
 "return" @keyword.return
@@ -210,17 +210,17 @@
   ","
 ] @punctuation.delimiter
 
-(colon) @punctuation.delimiter
-(colon_colon) @punctuation.delimiter
-(dot) @punctuation.delimiter
-(dot_dot) @punctuation.delimiter
+":" @punctuation.delimiter
+"::" @punctuation.delimiter
+"." @punctuation.delimiter
+".." @punctuation.delimiter
 
-(array_sub_pattern (dot_dot)) @operator
-(dot_dot_apply_expression (dot_dot_identifier (dot_dot) @punctuation.delimiter))
+(array_sub_pattern "..") @operator
+(dot_dot_apply_expression (dot_dot_identifier ".." @punctuation.delimiter))
 
 [
- (dot_dot_lt)
- (dot_dot_eq)
+ "..<"
+ "..="
 ] @operator
 
 [

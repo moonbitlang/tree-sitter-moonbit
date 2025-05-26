@@ -43,7 +43,6 @@ fn f() -> Result[Unit, String] {
                   (simple_expression
                     (apply_expression
                       (lowercase_identifier)
-                      (question_operator)
                       (arguments
                         (argument
                           (expression

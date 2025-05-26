@@ -27,7 +27,6 @@ fn fib(n : Int) -> Int {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -75,7 +74,6 @@ fn fib(n : Int) -> Int {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier

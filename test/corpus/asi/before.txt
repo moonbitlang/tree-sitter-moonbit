@@ -25,15 +25,12 @@ fn main {
                     (literal
                       (multiline_string_literal
                         (multiline_string_fragment
-                          (multiline_string_separator)
                           (multiline_string_content))
                         (comment)
                         (multiline_interpolation_fragment
-                          (multiline_interpolation_separator)
                           (multiline_interpolation_content))
                         (comment)
                         (multiline_string_fragment
-                          (multiline_string_separator)
                           (multiline_string_content))))))))))))))
 
 ================================================================================
@@ -205,7 +202,6 @@ Clone] f() -> Unit {
         (type_identifier
           (identifier
             (uppercase_identifier))
-          (colon)
           (constraints
             (constraint
               (qualified_type_identifier
@@ -514,7 +510,6 @@ fn main {
                       (qualified_type_identifier
                         (identifier
                           (uppercase_identifier))))
-                    (colon_colon)
                     (struct_field_expression
                       (labeled_expression_pun
                         (lowercase_identifier)))))))))))))
@@ -968,11 +963,9 @@ fn main {
                             (literal
                               (multiline_string_literal
                                 (multiline_string_fragment
-                                  (multiline_string_separator)
                                   (multiline_string_content))
                                 (comment)
                                 (multiline_interpolation_fragment
-                                  (multiline_interpolation_separator)
                                   (multiline_interpolation_content))))))))))))))))))
 
 ================================================================================
@@ -1101,8 +1094,7 @@ fn main {
             (left_value
               (qualified_identifier
                 (lowercase_identifier)))
-            (assign_operator
-              (plus_equal))
+            (assign_operator)
             (expression
               (pipeline_expression
                 (compound_expression
@@ -1378,7 +1370,6 @@ b: Int) -> Unit {
                       (qualified_type_identifier
                         (identifier
                           (uppercase_identifier))))
-                    (colon_colon)
                     (struct_field_expression
                       (labeled_expression_pun
                         (lowercase_identifier)))
@@ -1394,7 +1385,6 @@ b: Int) -> Unit {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -1404,7 +1394,6 @@ b: Int) -> Unit {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -1441,7 +1430,6 @@ Int) -> Unit {
         (type_identifier
           (identifier
             (uppercase_identifier))
-          (colon)
           (constraints
             (constraint
               (qualified_type_identifier
@@ -1454,7 +1442,6 @@ Int) -> Unit {
           (positional_parameter
             (lowercase_identifier)
             (type_annotation
-              (colon)
               (type
                 (apply_type
                   (qualified_type_identifier
@@ -1477,11 +1464,9 @@ Int) -> Unit {
                       (qualified_type_identifier
                         (identifier
                           (uppercase_identifier))))
-                    (colon_colon)
                     (struct_field_expression
                       (labeled_expression
                         (lowercase_identifier)
-                        (colon)
                         (comment)
                         (expression
                           (pipeline_expression
@@ -1505,7 +1490,6 @@ Int) -> Unit {
                             (atomic_expression
                               (literal
                                 (integer_literal)))))))
-                    (colon)
                     (expression
                       (pipeline_expression
                         (compound_expression
@@ -1738,7 +1722,6 @@ fn main {
                     (simple_expression
                       (qualified_identifier
                         (lowercase_identifier)))
-                    (is_keyword)
                     (simple_pattern
                       (literal
                         (boolean_literal)))))))))
@@ -1752,7 +1735,6 @@ fn main {
                       (simple_expression
                         (qualified_identifier
                           (lowercase_identifier)))
-                      (is_keyword)
                       (simple_pattern
                         (constructor_pattern
                           (constructor_expression
@@ -1767,7 +1749,6 @@ fn main {
                       (simple_expression
                         (qualified_identifier
                           (lowercase_identifier)))
-                      (is_keyword)
                       (simple_pattern
                         (constructor_pattern
                           (constructor_expression
@@ -1844,7 +1825,6 @@ fn main {
                       (qualified_type_identifier
                         (identifier
                           (uppercase_identifier))))
-                    (colon_colon)
                     (comment)
                     (comment)
                     (expression
@@ -1952,7 +1932,6 @@ fn main {
             (identifier
               (uppercase_identifier)))))
       (derive_directive
-        (derive_keyword)
         (derive_item
           (type_name
             (qualified_type_identifier
@@ -1968,7 +1947,6 @@ fn main {
             (identifier
               (uppercase_identifier))
             (derive_directive
-              (derive_keyword)
               (derive_item
                 (type_name
                   (qualified_type_identifier
@@ -2010,7 +1988,6 @@ f() -> Unit {
                       (qualified_type_identifier
                         (identifier
                           (uppercase_identifier))))
-                    (colon_colon)
                     (struct_field_expression
                       (labeled_expression_pun
                         (lowercase_identifier)))))))))
@@ -2025,7 +2002,6 @@ f() -> Unit {
                         (package_identifier)
                         (dot_identifier
                           (dot_uppercase_identifier))))
-                    (colon_colon)
                     (uppercase_identifier)))))))
         (statement_expression
           (expression
@@ -2040,7 +2016,6 @@ f() -> Unit {
                             (package_identifier)
                             (dot_identifier
                               (dot_uppercase_identifier))))
-                        (colon_colon)
                         (lowercase_identifier)))
                     (arguments))))))))))
   (structure_item
@@ -2050,7 +2025,6 @@ f() -> Unit {
           (qualified_type_identifier
             (identifier
               (uppercase_identifier))))
-        (colon_colon)
         (lowercase_identifier))
       (parameters)
       (return_type
