@@ -1,7 +1,8 @@
 name: Build
 
 on:
-  merge_group:
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
