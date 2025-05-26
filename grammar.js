@@ -45,7 +45,7 @@ module.exports = grammar({
     $.multiline_string_separator,
     $.multiline_interpolation_separator,
     $.float_literal,
-    $.for_keyword,
+    'for',
     $.error_sentinel,
   ],
 
@@ -330,7 +330,7 @@ module.exports = grammar({
       optional($.type_parameters),
       $.type_name,
       optional(seq(
-        $.for_keyword,
+        'for',
         $.type,
       )),
       'with',
@@ -975,7 +975,7 @@ module.exports = grammar({
 
     for_expression: $ => seq(
       optional($.loop_label),
-      $.for_keyword,
+      'for',
       strictList(',', $.for_binder),
       optional(seq(
         $._semicolon,
@@ -989,7 +989,7 @@ module.exports = grammar({
 
     for_in_expression: $ => seq(
       optional($.loop_label),
-      $.for_keyword,
+      'for',
       strictList(',', $.lowercase_identifier),
       'in',
       $.expression,
