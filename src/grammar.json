@@ -2381,6 +2381,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "try_question_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "pipeline_expression"
         }
       ]
@@ -4995,25 +4999,62 @@
           "name": "expression"
         },
         {
+          "type": "SYMBOL",
+          "name": "try_catch_clause"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SYMBOL",
+              "name": "try_else_clause"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "try_question_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "try"
+        },
+        {
+          "type": "STRING",
+          "value": "?"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        }
+      ]
+    },
+    "try_catch_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
               "members": [
                 {
                   "type": "STRING",
                   "value": "catch"
                 },
                 {
-                  "type": "SEQ",
+                  "type": "CHOICE",
                   "members": [
                     {
                       "type": "STRING",
-                      "value": "catch"
+                      "value": "!"
                     },
                     {
-                      "type": "STRING",
-                      "value": "!"
+                      "type": "BLANK"
                     }
                   ]
                 }
@@ -5076,18 +5117,6 @@
         {
           "type": "STRING",
           "value": "}"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "try_else_clause"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
     },

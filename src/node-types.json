@@ -1167,6 +1167,10 @@
           "named": true
         },
         {
+          "type": "try_question_expression",
+          "named": true
+        },
+        {
           "type": "while_expression",
           "named": true
         }
@@ -2608,6 +2612,11 @@
     }
   },
   {
+    "type": "question_operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "raise_expression",
     "named": true,
     "fields": {},
@@ -3446,6 +3455,21 @@
     }
   },
   {
+    "type": "try_catch_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "case_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "try_else_clause",
     "named": true,
     "fields": {},
@@ -3469,15 +3493,30 @@
       "required": true,
       "types": [
         {
-          "type": "case_clause",
-          "named": true
-        },
-        {
           "type": "expression",
           "named": true
         },
         {
+          "type": "try_catch_clause",
+          "named": true
+        },
+        {
           "type": "try_else_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "try_question_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
           "named": true
         }
       ]
@@ -3996,6 +4035,10 @@
     "named": false
   },
   {
+    "type": "?",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -4212,10 +4255,6 @@
   {
     "type": "pub",
     "named": false
-  },
-  {
-    "type": "question_operator",
-    "named": true
   },
   {
     "type": "raise",
