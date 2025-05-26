@@ -34,7 +34,6 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    $.docstring,
     /\s/,
     $._automatic_newline,
   ],
@@ -1240,8 +1239,6 @@ module.exports = grammar({
     constraint: $ => $.qualified_type_identifier,
 
     comment: _ => /\/\/.*/,
-
-    docstring: _ => /\/\/\/.*/,
 
     attribute_properties: $ => seq(
       '(',
