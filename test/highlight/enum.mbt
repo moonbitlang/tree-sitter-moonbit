@@ -1,3 +1,4 @@
+///|
 pub(all) enum Weekday {
   Monday
   // <- constructor
@@ -8,6 +9,7 @@ pub(all) enum Weekday {
   Sunday
 } derive(Show)
 
+///|
 fn main {
   println(Monday)
   //      ^^^^^^ constructor
