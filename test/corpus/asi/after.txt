@@ -620,7 +620,8 @@ fn main {
                         (simple_expression
                           (qualified_identifier
                             (lowercase_identifier)))
-                        (arguments)))))))))))))
+                        (arguments))))))
+              (try_catch_clause))))))))
 
 ================================================================================
 can occur after semi (COMMA)
