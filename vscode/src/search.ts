@@ -29,6 +29,7 @@ export class Service {
   private readonly extensionUri: vscode.Uri;
   private readonly textDecoder = new TextDecoder();
   private wasm: Wasm.Wasm | undefined = undefined;
+  private workers: Wasm.WasmProcess[] = [];
   public readonly onInsert: vscode.EventEmitter<Result>;
   public readonly onRemove: vscode.EventEmitter<{ id: string; uri: vscode.Uri }>;
   public readonly onClear: vscode.EventEmitter<void>;
@@ -122,6 +123,7 @@ export class Service {
         this.onInsert.fire(result);
       }
     });
+    this.workers.push(child);
     const status = await child.run();
     if (status !== 0) {
       throw new Error(`Child process exited with status ${status}`);
@@ -172,6 +174,9 @@ export class Service {
     );
   }
   public async search(uri: vscode.Uri, options: Options): Promise<void> {
+    for (const worker of this.workers) {
+      await worker.terminate();
+    }
     this.clear();
     const stat = await vscode.workspace.fs.stat(uri);
     switch (stat.type) {
