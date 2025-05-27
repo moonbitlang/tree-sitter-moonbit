@@ -11,7 +11,6 @@ target_include_directories(moonbit PUBLIC "${MOON_HOME}/include")
 
 add_custom_target(
   ${target_name}.c
-  DEPENDS src/grep/grep.mbt src/grep/moon.pkg.json
   COMMAND
     moon build --target native --directory ${CMAKE_CURRENT_SOURCE_DIR}/src/grep
     --target-dir ${CMAKE_CURRENT_BINARY_DIR}/target
