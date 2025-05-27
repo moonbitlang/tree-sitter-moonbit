@@ -35,12 +35,13 @@ module.exports = grammar({
   extras: $ => [
     $.comment,
     /\s/,
-    $._automatic_newline,
+    $._scanner_reset,
   ],
 
   externals: $ => [
-    $._automatic_newline,
+    $._scanner_reset,
     $._automatic_semicolon,
+    ';',
     '#|',
     '$|',
     $.float_literal,
@@ -962,18 +963,25 @@ module.exports = grammar({
       $.expression,
     ),
 
-    for_expression: $ => seq(
-      optional($.loop_label),
-      'for',
-      strictList(',', $.for_binder),
-      optional(seq(
+    for_expression: $ => choice(
+      seq(
+        optional($.loop_label),
+        'for',
+        strictList(',', $.for_binder),
         $._semicolon,
         optional($.compound_expression),
         $._semicolon,
         strictList(',', $.for_binder),
-      )),
-      $.block_expression,
-      optional($.else_clause),
+        $.block_expression,
+        optional($.else_clause),
+      ),
+      seq(
+        optional($.loop_label),
+        'for',
+        strictList(',', $.for_binder),
+        $.block_expression,
+        optional($.else_clause),
+      ),
     ),
 
     for_in_expression: $ => seq(
