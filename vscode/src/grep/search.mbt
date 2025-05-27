@@ -287,7 +287,7 @@ fn Compiler::node(
 ///|
 struct Match {
   range : @tree_sitter.Range
-  captures : Map[@string.View, Array[Text]]
+  captures : Map[@string.View, Text]
 }
 
 ///|
@@ -334,18 +334,9 @@ pub impl @json.FromJson for Match with from_json(
       "captures": Object(captures_json),
       ..
     } => {
-      let captures : Map[@string.View, Array[Text]] = {}
-      for name, capture_json in captures_json {
-        match capture_json {
-          Array(texts_json) => {
-            let texts = []
-            for text_json in texts_json {
-              texts.push(@json.from_json!(text_json))
-            }
-            captures[name] = texts
-          }
-          _ => raise @json.JsonDecodeError((path, "Invalid capture"))
-        }
+      let captures : Map[@string.View, Text] = {}
+      for name, text_json in captures_json {
+        captures[name] = @json.from_json!(text_json)
       }
       Match::{
         range: @tree_sitter.Range::new(
@@ -367,18 +358,18 @@ fn search(query~ : @string.View, content~ : @string.View) -> Iter[Match]! {
   let root_node = compiler.parser.parse_string!(content).root_node()
   let query = compiler.compile!(query)
   Iter::new(fn(yield_) {
-    for matched in query.matches(root_node) {
+    matches~: for matched in query.matches(root_node) {
       let nodes = []
-      let captures : Map[@string.View, Array[Text]] = {}
+      let captures : Map[@string.View, Text] = {}
       for capture in matched.captures() {
         let name = capture.name()
         let node = capture.node()
         nodes.push(node)
         if not(name.has_prefix("_")) {
-          let text = Text::{ range: node.range(), text: node.text() }
           match captures.get(name) {
-            Some(texts) => texts.push(text)
-            _ => captures[name] = [text]
+            Some(text) => if text.text != node.text() { continue matches~ }
+            _ =>
+              captures[name] = Text::{ range: node.range(), text: node.text() }
           }
         }
       }

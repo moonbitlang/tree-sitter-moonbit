@@ -11,6 +11,14 @@ test "grep" {
     },
     {
       "jsonrpc": "2.0",
+      "method": "search",
+      "params": {
+        "query": "$exp:a + $exp:a",
+        "content": "fn main {\n  1 + 2\n}",
+      },
+    },
+    {
+      "jsonrpc": "2.0",
       "method": "replace",
       "params": {
         "captures": {
@@ -72,29 +80,25 @@ test "grep" {
             "end": { "row": 1, "column": 7, "byte": 17 },
           },
           "captures": {
-            "a": [
-              {
-                "range": {
-                  "start": { "row": 1, "column": 2, "byte": 12 },
-                  "end": { "row": 1, "column": 3, "byte": 13 },
-                },
-                "text": "1",
+            "a": {
+              "range": {
+                "start": { "row": 1, "column": 2, "byte": 12 },
+                "end": { "row": 1, "column": 3, "byte": 13 },
               },
-            ],
-            "b": [
-              {
-                "range": {
-                  "start": { "row": 1, "column": 6, "byte": 16 },
-                  "end": { "row": 1, "column": 7, "byte": 17 },
-                },
-                "text": "2",
+              "text": "1",
+            },
+            "b": {
+              "range": {
+                "start": { "row": 1, "column": 6, "byte": 16 },
+                "end": { "row": 1, "column": 7, "byte": 17 },
               },
-            ],
+              "text": "2",
+            },
           },
         },
         "id": 0,
       },
-      { "jsonrpc": "2.0", "result": "2 + 1", "id": 1 },
+      { "jsonrpc": "2.0", "result": "2 + 1", "id": 2 },
     ])
   })
 }
