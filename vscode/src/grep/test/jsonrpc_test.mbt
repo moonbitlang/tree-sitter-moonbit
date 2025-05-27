@@ -3,6 +3,7 @@ test "grep" {
   let requests : Array[Map[String, Json]] = [
     {
       "jsonrpc": "2.0",
+      "id": 0,
       "method": "search",
       "params": {
         "query": "$exp:a + $exp:b",
@@ -11,6 +12,7 @@ test "grep" {
     },
     {
       "jsonrpc": "2.0",
+      "id": 1,
       "method": "search",
       "params": {
         "query": "$exp:a + $exp:a",
@@ -19,6 +21,16 @@ test "grep" {
     },
     {
       "jsonrpc": "2.0",
+      "id": 2,
+      "method": "search",
+      "params": {
+        "query": "fn main {\n  $exp:a\n  $...\n}",
+        "content": "fn main {\n  1 + 2\n}",
+      },
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 3,
       "method": "replace",
       "params": {
         "captures": {
@@ -45,14 +57,8 @@ test "grep" {
       },
     },
   ]
-  let id_ref = Ref::new(0)
   let request = requests
-    .map(fn(request) {
-      let id = id_ref.val
-      id_ref.val = id + 1
-      request["id"] = id.to_json()
-      request.to_json().stringify()
-    })
+    .map(fn(request) { request.to_json().stringify() })
     .join("\n")
     |> @encoding.encode(encoding=UTF8)
   @async.start!(fn() {
@@ -98,7 +104,26 @@ test "grep" {
         },
         "id": 0,
       },
-      { "jsonrpc": "2.0", "result": "2 + 1", "id": 2 },
+      {
+        "jsonrpc": "2.0",
+        "result": {
+          "range": {
+            "start": { "row": 0, "column": 3, "byte": 3 },
+            "end": { "row": 2, "column": 1, "byte": 19 },
+          },
+          "captures": {
+            "a": {
+              "range": {
+                "start": { "row": 1, "column": 2, "byte": 12 },
+                "end": { "row": 1, "column": 7, "byte": 17 },
+              },
+              "text": "1 + 2",
+            },
+          },
+        },
+        "id": 2,
+      },
+      { "jsonrpc": "2.0", "result": "2 + 1", "id": 3 },
     ])
   })
 }

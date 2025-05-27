@@ -273,6 +273,8 @@ fn Compiler::node(
         self.nodes!(children, path~, buffer~)
       }
     }
+  } else if node.type_() == "$..." {
+    buffer.write_string("(_)*")
   } else {
     buffer.write_string(node.type_().to_json().stringify())
     self.nodes!(children, path~, buffer~)
