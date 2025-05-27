@@ -2126,3 +2126,58 @@ fn main {
                                 (string_literal
                                   (string_fragment
                                     (unescaped_string_fragment)))))))))))))))))))
+
+================================================================================
+cannot occur before semi (SEMI)
+================================================================================
+fn main {
+  for i = 0;
+    i < 10
+    i = i + 1 {
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (expression
+            (for_expression
+              (for_binder
+                (lowercase_identifier)
+                (expression
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))))
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (qualified_identifier
+                        (lowercase_identifier))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))))
+              (for_binder
+                (lowercase_identifier)
+                (expression
+                  (compound_expression
+                    (binary_expression
+                      (compound_expression
+                        (simple_expression
+                          (qualified_identifier
+                            (lowercase_identifier))))
+                      (compound_expression
+                        (simple_expression
+                          (atomic_expression
+                            (literal
+                              (integer_literal)))))))))
+              (block_expression))))))))
