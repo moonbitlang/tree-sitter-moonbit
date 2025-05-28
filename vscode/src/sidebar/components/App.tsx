@@ -22,7 +22,6 @@ const App: React.FC = () => {
   // Handle messages from extension
   useEffect(() => {
     const handleMessage = (event: MessageEvent<Response>) => {
-      console.log("Received message from extension:", event.data);
       const message = event.data;
       switch (message.type) {
         case "insert": {
