@@ -248,11 +248,15 @@ fn Compiler::node(
   if node.is_named() {
     // If the node has no children, we assume it is a terminal node and we
     // check for string equality.
-    if children.length() == 0 {
+    let type_ = node.type_().to_string()
+    if type_ is [.., .. "_identifier"] &&
+      children is [child] &&
+      child.type_() is [.. "quotation_",  ..,  .. "_identifier_expander"] {
+      buffer.write_char('(')
+    } else if children.length() == 0 {
       buffer.write_char('(')
     }
-    let type_ = node.type_().to_string()
-    if type_.has_prefix("quotation") && type_.has_suffix("expander") {
+    if type_ is [.. "quotation_",  ..,  .. "_expander"] {
       let mut name = None
       for child in children {
         if child.type_() == "quotation_variable" {
@@ -265,7 +269,22 @@ fn Compiler::node(
       buffer.write_string("(_) @\{name}")
     } else {
       buffer.write_string(type_)
-      if children.length() == 0 {
+      if type_ is [.., .. "_identifier"] &&
+        children is [child] &&
+        child.type_() is [.. "quotation_",  ..,  .. "_identifier_expander"] {
+        let mut name = None
+        for grandchild in child.children() {
+          if grandchild.type_() == "quotation_variable" {
+            name = Some(grandchild.text().to_string())
+            break
+          }
+        }
+        if name is Some(name) {
+          buffer.write_string(") @\{name}")
+        } else {
+          buffer.write_char(')')
+        }
+      } else if children.length() == 0 {
         let id = "_terminal_\{self.id()}"
         buffer.write_string(
           ") @\{id} (#eq? @\{id} \{node.text().to_json().stringify()})",
