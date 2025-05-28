@@ -155,8 +155,9 @@
 
 ((if_expression
   "if"
+  (_) @conditional.inner
   .
-  (_) @conditional.inner)
+  (block_expression))
  @conditional.outer)
 
 ((if_expression
