@@ -3,6 +3,11 @@ name: Build
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - grammar.js
+      - src/**
+      - bindings/**
+      - binding.gyp
 
 jobs:
   build:
