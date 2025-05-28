@@ -112,7 +112,6 @@ fn Compiler::compile(
           node.start_byte() >= start_byte && node.end_byte() <= end_byte
         })
         .collect()
-      buffer.write_char('(')
       self.nodes(ancestor_children, path=[], buffer~)
       buffer.write_char(')')
     }
