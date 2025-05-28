@@ -84,7 +84,7 @@ fn Compiler::compile(
     }
     let nodes = []
     for capture in cursor.captures(tree.root_node()) {
-      if capture.name() != name {
+      if capture.name().view() != name {
         continue
       }
       nodes.push(capture.node())
@@ -132,7 +132,7 @@ priv struct Compiler {
   language : @tree_sitter.Language
   parser : @tree_sitter.Parser
   mut id : Int
-  contexts : Map[String, Context]
+  contexts : Map[@string.View, Context]
 }
 
 ///|
@@ -144,7 +144,7 @@ fn compiler() -> Compiler! {
     return compiler
   }
   let language = @tree_sitter_moonbit.language()
-  let contexts : Map[String, Context] = {
+  let contexts : Map[@string.View, Context] = {
     "exp": Context::new!(
       #|fn main {
       #|  $
@@ -152,19 +152,17 @@ fn compiler() -> Compiler! {
       ,
       selector=
         #|(structure
-        #| (structure_item
-        #|  (function_definition
-        #|   (block_expression
-        #|    "{"
-        #|    (statement_expression
-        #|     (_) @exp)
-        #|    "}"))))
+        #| (function_definition
+        #|  (block_expression
+        #|   "{"
+        #|   (_) @exp
+        #|   "}")))
       ,
     ),
     "top": Context::new!(
       "$",
       selector=
-        #|(structure_item) @top
+        #|(_) @top
       ,
     ),
     "pat": Context::new!(
