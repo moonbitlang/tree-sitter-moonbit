@@ -49,7 +49,7 @@ module.exports = grammar({
     $.error_sentinel,
   ],
 
-  word: $ => $._lowercase_identifier,
+  word: $ => $.lowercase_identifier,
 
   supertypes: $ => [
     $._expression,
@@ -153,7 +153,7 @@ module.exports = grammar({
     struct_field_declaration: $ => seq(
       optional($.visibility),
       optional($.mutability),
-      $.lowercase_identifier,
+      $._lowercase_identifier,
       ':',
       $.type,
     ),
@@ -183,7 +183,7 @@ module.exports = grammar({
     ),
 
     enum_constructor: $ => seq(
-      $.uppercase_identifier,
+      $._uppercase_identifier,
       optional($.enum_constructor_payload),
     ),
 
@@ -196,7 +196,7 @@ module.exports = grammar({
       optional($.attributes),
       optional($.visibility),
       'let',
-      $.lowercase_identifier,
+      $._lowercase_identifier,
       optional($.type_annotation),
       '=',
       $._expression,
@@ -206,7 +206,7 @@ module.exports = grammar({
       optional($.attributes),
       optional($.pub),
       'const',
-      $.uppercase_identifier,
+      $._uppercase_identifier,
       optional($.type_annotation),
       '=',
       $._expression,
@@ -304,17 +304,17 @@ module.exports = grammar({
     ),
 
     function_alias_target: $ => choice(
-      $.lowercase_identifier,
-      seq($.lowercase_identifier, 'as', $.lowercase_identifier),
+      $._lowercase_identifier,
+      seq($._lowercase_identifier, 'as', $._lowercase_identifier),
     ),
 
     function_alias_targets: $ => choice(
-      seq($.lowercase_identifier, '=', $.qualified_identifier),
+      seq($._lowercase_identifier, '=', $.qualified_identifier),
       $.function_alias_target,
       seq($.package_identifier, $.dot_lowercase_identifier),
-      seq($.package_identifier, $.dot_lowercase_identifier, 'as', $.lowercase_identifier),
-      seq($.type_name, '::', $.lowercase_identifier),
-      seq($.type_name, '::', $.lowercase_identifier, 'as', $.lowercase_identifier),
+      seq($.package_identifier, $.dot_lowercase_identifier, 'as', $._lowercase_identifier),
+      seq($.type_name, '::', $._lowercase_identifier),
+      seq($.type_name, '::', $._lowercase_identifier, 'as', $._lowercase_identifier),
       seq('(', list1(',', $.function_alias_target), ')'),
       seq($.package_identifier, '.(', list(',', $.function_alias_target), ')'),
       seq($.type_name, '::', '(', list(',', $.function_alias_target), ')'),
@@ -584,9 +584,9 @@ module.exports = grammar({
       $.labeled_expression_pun,
     ),
 
-    labeled_expression: $ => seq($.lowercase_identifier, ':', $._expression),
+    labeled_expression: $ => seq($._lowercase_identifier, ':', $._expression),
 
-    labeled_expression_pun: $ => $.lowercase_identifier,
+    labeled_expression_pun: $ => $._lowercase_identifier,
 
     block_expression: $ => seq(
       '{',
@@ -631,13 +631,13 @@ module.exports = grammar({
     ),
 
     constructor_expression: $ => choice(
-      $.uppercase_identifier,
+      $._uppercase_identifier,
       seq($.package_identifier, $.dot_uppercase_identifier),
-      seq($.type_name, '::', $.uppercase_identifier),
+      seq($.type_name, '::', $._uppercase_identifier),
     ),
 
     labelled_argument: $ => seq(
-      $.lowercase_identifier, '=', $._expression,
+      $._lowercase_identifier, '=', $._expression,
     ),
 
     forwarded_labelled_argument: $ => $.label,
@@ -672,7 +672,7 @@ module.exports = grammar({
 
     apply_expression: $ => prec(PREC.apply, choice(
       seq(
-        $.lowercase_identifier,
+        $._lowercase_identifier,
         '?',
         $.arguments,
       ),
@@ -719,7 +719,7 @@ module.exports = grammar({
     method_expression: $ => seq(
       $.type_name,
       '::',
-      $.lowercase_identifier,
+      $._lowercase_identifier,
     ),
 
     unit_expression: _ => seq('(', ')'),
@@ -874,7 +874,7 @@ module.exports = grammar({
     let_mut_expression: $ => seq(
       'let',
       'mut',
-      $.lowercase_identifier,
+      $._lowercase_identifier,
       optional($.type_annotation),
       '=',
       $._expression,
@@ -927,7 +927,7 @@ module.exports = grammar({
     named_lambda_expression: $ => seq(
       optional('async'),
       'fn',
-      $.lowercase_identifier,
+      $._lowercase_identifier,
       optional('!'),
       $.parameters,
       optional($.return_type),
@@ -937,7 +937,7 @@ module.exports = grammar({
     named_matrix_expression: $ => seq(
       optional('async'),
       'fn',
-      $.lowercase_identifier,
+      $._lowercase_identifier,
       optional('!'),
       '{',
       list($._semicolon, $.matrix_case_clause),
@@ -964,7 +964,7 @@ module.exports = grammar({
     ),
 
     for_binder: $ => seq(
-      $.lowercase_identifier,
+      $._lowercase_identifier,
       '=',
       $._expression,
     ),
@@ -993,7 +993,7 @@ module.exports = grammar({
     for_in_expression: $ => seq(
       optional($.loop_label),
       'for',
-      strictList(',', $.lowercase_identifier),
+      strictList(',', $._lowercase_identifier),
       'in',
       $._expression,
       $.block_expression,
@@ -1022,7 +1022,7 @@ module.exports = grammar({
     as_pattern: $ => prec(PREC.as_pattern, seq(
       $.pattern,
       'as',
-      $.lowercase_identifier,
+      $._lowercase_identifier,
     )),
 
     or_pattern: $ => prec.right(PREC.or_pattern, seq($.pattern, '|', $.pattern)),
@@ -1034,7 +1034,7 @@ module.exports = grammar({
       $.literal,
       seq('-', $.integer_literal),
       seq('-', $.float_literal),
-      $.lowercase_identifier,
+      $._lowercase_identifier,
       $.constructor_pattern,
       $.tuple_pattern,
       $.constraint_pattern,
@@ -1046,7 +1046,7 @@ module.exports = grammar({
     ),
 
     constructor_pattern_argument: $ => choice(
-      seq($.lowercase_identifier, '=', $.pattern),
+      seq($._lowercase_identifier, '=', $.pattern),
       $.label,
       $.pattern,
     ),
@@ -1092,9 +1092,9 @@ module.exports = grammar({
       $.labeled_pattern_pun,
     ),
 
-    labeled_pattern: $ => seq($.lowercase_identifier, ':', $.pattern),
+    labeled_pattern: $ => seq($._lowercase_identifier, ':', $.pattern),
 
-    labeled_pattern_pun: $ => $.lowercase_identifier,
+    labeled_pattern_pun: $ => $._lowercase_identifier,
 
     map_pattern: $ => seq(
       '{',
@@ -1162,12 +1162,12 @@ module.exports = grammar({
 
     return_type: $ => seq('->', choice($.type, $.type_with_error)),
 
-    label: $ => seq($.lowercase_identifier, '~'),
+    label: $ => seq($._lowercase_identifier, '~'),
 
-    optional_label: $ => seq($.lowercase_identifier, '?'),
+    optional_label: $ => seq($._lowercase_identifier, '?'),
 
     positional_parameter: $ => seq(
-      $.lowercase_identifier,
+      $._lowercase_identifier,
       optional($.type_annotation),
     ),
 
@@ -1206,23 +1206,23 @@ module.exports = grammar({
     pub: _ => 'pub',
 
     // Identifiers
-    _uppercase_identifier: _ => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/v,
+    uppercase_identifier: _ => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/v,
 
-    uppercase_identifier: $ => choice(
+    _uppercase_identifier: $ => choice(
       $.quotation_uppercase_identifier_expander,
-      $._uppercase_identifier,
+      $.uppercase_identifier,
     ),
 
-    _lowercase_identifier: _ => /[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
+    lowercase_identifier: _ => /[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
 
-    lowercase_identifier: $ => choice(
+    _lowercase_identifier: $ => choice(
       $.quotation_lowercase_identifier_expander,
-      $._lowercase_identifier,
+      $.lowercase_identifier,
     ),
 
     identifier: $ => choice(
-      $.uppercase_identifier,
-      $.lowercase_identifier,
+      $._uppercase_identifier,
+      $._lowercase_identifier,
     ),
 
     _semicolon: $ => choice($._automatic_semicolon, ';'),
@@ -1241,7 +1241,7 @@ module.exports = grammar({
     package_identifier: _ => /@[_\p{XID_Start}\/][_\p{XID_Continue}\/]*/v,
 
     qualified_identifier: $ => choice(
-      $.lowercase_identifier,
+      $._lowercase_identifier,
       seq($.package_identifier, $.dot_lowercase_identifier),
     ),
 
@@ -1256,8 +1256,8 @@ module.exports = grammar({
     ),
 
     function_identifier: $ => choice(
-      $.lowercase_identifier,
-      seq($.type_name, '::', $.lowercase_identifier),
+      $._lowercase_identifier,
+      seq($.type_name, '::', $._lowercase_identifier),
     ),
 
     type_identifier: $ => choice(
@@ -1278,15 +1278,15 @@ module.exports = grammar({
     ),
 
     attribute_property: $ => choice(
-      seq($.lowercase_identifier, '=', $.attribute_expression),
+      seq($._lowercase_identifier, '=', $.attribute_expression),
       $.attribute_expression,
     ),
 
     attribute_expression: $ => choice(
-      $.lowercase_identifier,
-      seq($.lowercase_identifier, $.dot_lowercase_identifier),
-      seq($.lowercase_identifier, $.attribute_properties),
-      seq($.lowercase_identifier, $.dot_lowercase_identifier, $.attribute_properties),
+      $._lowercase_identifier,
+      seq($._lowercase_identifier, $.dot_lowercase_identifier),
+      seq($._lowercase_identifier, $.attribute_properties),
+      seq($._lowercase_identifier, $.dot_lowercase_identifier, $.attribute_properties),
       $.string_literal,
     ),
 
