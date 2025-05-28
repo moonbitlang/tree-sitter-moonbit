@@ -29,13 +29,18 @@ export interface Context {
   ignoreRoots: vscode.Uri[];
 }
 
+interface Worker {
+  process: Wasm.WasmProcess;
+  tasks: Map<number, vscode.Disposable>;
+}
+
 export class Service {
   private results: Map<string, Result>;
   private readonly extensionUri: vscode.Uri;
   private readonly textDecoder = new TextDecoder();
   private wasm: Wasm.Wasm | undefined = undefined;
-  private workerId = 0;
-  private workers: Map<number, Wasm.WasmProcess> = new Map();
+  private taskId = 0;
+  private workers: Worker[] = [];
   public readonly onInsert: vscode.EventEmitter<Result>;
   public readonly onRemove: vscode.EventEmitter<{ id: string; uri: vscode.Uri }>;
   public readonly onClear: vscode.EventEmitter<void>;
@@ -54,8 +59,51 @@ export class Service {
     this.wasm = wasm;
     return wasm;
   }
-  public async searchText(uri: vscode.Uri, options: Options, content: string): Promise<void> {
+  private async terminateBusyWorkers(): Promise<void> {
+    const freeWorkers: Worker[] = [];
+    const terminationPromises: Promise<number>[] = [];
+    for (const worker of this.workers) {
+      if (worker.tasks.size === 0) {
+        freeWorkers.push(worker);
+      } else {
+        for (const disposable of worker.tasks.values()) {
+          disposable.dispose();
+        }
+        worker.tasks.clear();
+        terminationPromises.push(worker.process.terminate());
+      }
+    }
+    await Promise.all(terminationPromises);
+  }
+  private async createWorker(): Promise<Worker> {
     const wasm = await this.getWasm();
+    const grepUri = vscode.Uri.joinPath(this.extensionUri, "grep.wasm");
+    const grepBytes = await vscode.workspace.fs.readFile(grepUri);
+    const grepWasm = await WebAssembly.compile(grepBytes);
+    const grepProcess = await wasm.createProcess("moon-grep", grepWasm, {
+      stdio: {
+        in: { kind: "pipeIn" },
+        out: { kind: "pipeOut" },
+        err: { kind: "pipeOut" },
+      },
+    });
+    const worker: Worker = {
+      process: grepProcess,
+      tasks: new Map(),
+    };
+    this.workers.push(worker);
+    worker.process.run();
+    return worker;
+  }
+  private async getWorker(): Promise<Worker> {
+    for (const worker of this.workers) {
+      if (worker.tasks.size === 0) {
+        return worker;
+      }
+    }
+    return this.createWorker();
+  }
+  public async searchText(uri: vscode.Uri, options: Options, content: string): Promise<void> {
     const contentLines = content.split("\n");
     const request = {
       id: crypto.randomUUID(),
@@ -65,26 +113,17 @@ export class Service {
         content: content,
       },
     };
-    const grepUri = vscode.Uri.joinPath(this.extensionUri, "grep.wasm");
-    const grepBytes = await vscode.workspace.fs.readFile(grepUri);
-    const grepWasm = await WebAssembly.compile(grepBytes);
-    const workerId = this.workerId++;
-    const child = await wasm.createProcess("moon-grep", grepWasm, {
-      stdio: {
-        in: { kind: "pipeIn" },
-        out: { kind: "pipeOut" },
-        err: { kind: "pipeOut" },
-      },
-    });
-    if (!child.stdin) {
+    const worker = await this.getWorker();
+    if (!worker.process.stdin) {
       throw new Error("Child process stdin is not available");
     }
-    await child.stdin.write(JSON.stringify(request) + "\n");
-    if (!child.stdout) {
+    await worker.process.stdin.write(JSON.stringify(request) + "\n");
+    if (!worker.process.stdout) {
       throw new Error("Child process stdout is not available");
     }
     let buffer = "";
-    child.stdout.onData(async (data) => {
+    const taskId = this.taskId++;
+    const disposable = worker.process.stdout.onData(async (data) => {
       buffer += this.textDecoder.decode(data);
       const stdoutLines = buffer.split("\n");
       if (stdoutLines.length < 2) {
@@ -100,7 +139,6 @@ export class Service {
           console.error("Failed to parse JSON:", line);
           continue;
         }
-        console.log("Parsed JSON:", json);
         if (!("id" in json)) {
           continue;
         }
@@ -112,7 +150,13 @@ export class Service {
           continue;
         }
         if (!json.result) {
-          child.terminate();
+          if (worker.tasks.has(taskId)) {
+            const disposable = worker.tasks.get(taskId);
+            if (disposable) {
+              disposable.dispose();
+            }
+            worker.tasks.delete(taskId);
+          }
           break;
         }
         const startLine = json.result.range.start.row;
@@ -132,15 +176,7 @@ export class Service {
         this.onInsert.fire(result);
       }
     });
-    this.workers.set(workerId, child);
-    console.log(`Worker ${workerId} started for ${uri.fsPath}`);
-    const status = await child.run();
-    if (status !== 0) {
-      console.error(`Worker ${workerId} exited with status ${status}`);
-    } else {
-      console.log(`Worker ${workerId} completed for ${uri.fsPath}`);
-    }
-    this.workers.delete(workerId);
+    worker.tasks.set(taskId, disposable);
   }
   private async searchFile(uri: vscode.Uri, options: Options, context: Context): Promise<void> {
     if (options.includePattern && !uri.fsPath.match(options.includePattern)) {
@@ -204,10 +240,7 @@ export class Service {
     );
   }
   public async search(uri: vscode.Uri, options: Options): Promise<void> {
-    for (const [workerId, worker] of this.workers.entries()) {
-      await worker.terminate();
-      this.workers.delete(workerId);
-    }
+    this.terminateBusyWorkers();
     this.clear();
     const stat = await vscode.workspace.fs.stat(uri);
     switch (stat.type) {
@@ -227,7 +260,6 @@ export class Service {
   }
   public async replace(resultId: string, replace: string): Promise<void> {
     try {
-      const wasm = await this.getWasm();
       const result = this.results.get(resultId);
       if (!result) {
         vscode.window.showErrorMessage(`Result not found: ${resultId}`);
@@ -241,25 +273,17 @@ export class Service {
           replace,
         },
       };
-      const grepUri = vscode.Uri.joinPath(this.extensionUri, "grep.wasm");
-      const grepBytes = await vscode.workspace.fs.readFile(grepUri);
-      const grepWasm = await WebAssembly.compile(grepBytes);
-      const child = await wasm.createProcess("moon-grep", grepWasm, {
-        stdio: {
-          in: { kind: "pipeIn" },
-          out: { kind: "pipeOut" },
-          err: { kind: "pipeOut" },
-        },
-      });
-      if (!child.stdin) {
+      const worker = await this.getWorker();
+      if (!worker.process.stdin) {
         throw new Error("Child process stdin is not available");
       }
-      await child.stdin.write(JSON.stringify(request) + "\n");
-      if (!child.stdout) {
+      await worker.process.stdin.write(JSON.stringify(request) + "\n");
+      if (!worker.process.stdout) {
         throw new Error("Child process stdout is not available");
       }
       let buffer = "";
-      child.stdout.onData(async (data) => {
+      let taskId = this.taskId++;
+      const disposable = worker.process.stdout.onData(async (data) => {
         buffer += this.textDecoder.decode(data);
         const stdoutLines = buffer.split("\n");
         if (stdoutLines.length < 2) {
@@ -292,12 +316,16 @@ export class Service {
           this.results.delete(resultId);
           await vscode.workspace.applyEdit(editBuilder);
           this.onRemove.fire({ id: resultId, uri: result.uri });
+          if (worker.tasks.has(taskId)) {
+            const disposable = worker.tasks.get(taskId);
+            if (disposable) {
+              disposable.dispose();
+            }
+            worker.tasks.delete(taskId);
+          }
         }
       });
-      const status = await child.run();
-      if (status !== 0) {
-        throw new Error(`Child process exited with status ${status}`);
-      }
+      worker.tasks.set(taskId, disposable);
     } catch (error: any) {
       console.error("Error during replace:", error);
       vscode.window.showErrorMessage(`Replace failed: ${error.message || "Unknown error"}`);
