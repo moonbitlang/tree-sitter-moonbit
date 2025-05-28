@@ -8,23 +8,32 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_mut_expression
-        (lowercase_identifier)
-        (atomic_expression
-          (literal
-            (integer_literal))))
-      (assign_expression
-        (left_value
-          (qualified_identifier
-            (lowercase_identifier)))
-        (assign_operator)
-        (atomic_expression
-          (literal
-            (integer_literal)))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_mut_expression
+            (lowercase_identifier)
+            (expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))
+        (statement_expression
+          (assign_expression
+            (left_value
+              (qualified_identifier
+                (lowercase_identifier)))
+            (assign_operator)
+            (expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))))))
 
 ================================================================================
 add
@@ -36,23 +45,32 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_mut_expression
-        (lowercase_identifier)
-        (atomic_expression
-          (literal
-            (integer_literal))))
-      (assign_expression
-        (left_value
-          (qualified_identifier
-            (lowercase_identifier)))
-        (assign_operator)
-        (atomic_expression
-          (literal
-            (integer_literal)))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_mut_expression
+            (lowercase_identifier)
+            (expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))
+        (statement_expression
+          (assign_expression
+            (left_value
+              (qualified_identifier
+                (lowercase_identifier)))
+            (assign_operator)
+            (expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))))))
 
 ================================================================================
 mul
@@ -64,23 +82,32 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_mut_expression
-        (lowercase_identifier)
-        (atomic_expression
-          (literal
-            (integer_literal))))
-      (assign_expression
-        (left_value
-          (qualified_identifier
-            (lowercase_identifier)))
-        (assign_operator)
-        (atomic_expression
-          (literal
-            (integer_literal)))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_mut_expression
+            (lowercase_identifier)
+            (expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))
+        (statement_expression
+          (assign_expression
+            (left_value
+              (qualified_identifier
+                (lowercase_identifier)))
+            (assign_operator)
+            (expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))))))
 
 ================================================================================
 div
@@ -92,23 +119,32 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_mut_expression
-        (lowercase_identifier)
-        (atomic_expression
-          (literal
-            (integer_literal))))
-      (assign_expression
-        (left_value
-          (qualified_identifier
-            (lowercase_identifier)))
-        (assign_operator)
-        (atomic_expression
-          (literal
-            (integer_literal)))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_mut_expression
+            (lowercase_identifier)
+            (expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))
+        (statement_expression
+          (assign_expression
+            (left_value
+              (qualified_identifier
+                (lowercase_identifier)))
+            (assign_operator)
+            (expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))))))
 
 ================================================================================
 mod
@@ -119,15 +155,20 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (assign_expression
-        (left_value
-          (qualified_identifier
-            (lowercase_identifier)))
-        (assign_operator)
-        (atomic_expression
-          (literal
-            (integer_literal)))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (assign_expression
+            (left_value
+              (qualified_identifier
+                (lowercase_identifier)))
+            (assign_operator)
+            (expression
+              (compound_expression
+                (simple_expression
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))))))))))

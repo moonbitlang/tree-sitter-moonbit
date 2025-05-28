@@ -16,8 +16,9 @@ fn main {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (comment))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (comment)))))

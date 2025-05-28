@@ -8,21 +8,29 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
-        (binary_expression
-          (atomic_expression
-            (literal
-              (integer_literal)))
-          (atomic_expression
-            (literal
-              (integer_literal))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
 
 ================================================================================
 pipe (left aligned)
@@ -34,21 +42,29 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
-        (binary_expression
-          (atomic_expression
-            (literal
-              (integer_literal)))
-          (atomic_expression
-            (literal
-              (integer_literal))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
 
 ================================================================================
 pipe (multiple empty line)
@@ -63,21 +79,29 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
-        (binary_expression
-          (atomic_expression
-            (literal
-              (integer_literal)))
-          (atomic_expression
-            (literal
-              (integer_literal))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
 
 ================================================================================
 pipe (multiple empty line with spaces)
@@ -92,21 +116,29 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
-        (binary_expression
-          (atomic_expression
-            (literal
-              (integer_literal)))
-          (atomic_expression
-            (literal
-              (integer_literal))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
 
 ================================================================================
 pipe (comment)
@@ -118,22 +150,30 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
-        (binary_expression
-          (atomic_expression
-            (literal
-              (integer_literal)))
-          (comment)
-          (atomic_expression
-            (literal
-              (integer_literal))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (comment)
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
 
 ================================================================================
 pipe (multi line with single line comment)
@@ -149,24 +189,32 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
-        (binary_expression
-          (atomic_expression
-            (literal
-              (integer_literal)))
-          (comment)
-          (comment)
-          (comment)
-          (atomic_expression
-            (literal
-              (integer_literal))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (comment)
+                  (comment)
+                  (comment)
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))
 
 ================================================================================
 pipe (multi line with single line comment, not left aligned)
@@ -182,21 +230,29 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
-        (binary_expression
-          (atomic_expression
-            (literal
-              (integer_literal)))
-          (comment)
-          (comment)
-          (comment)
-          (atomic_expression
-            (literal
-              (integer_literal))))))))
+  (structure_item
+    (function_definition
+      (function_identifier
+        (lowercase_identifier))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (compound_expression
+                (binary_expression
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal)))))
+                  (comment)
+                  (comment)
+                  (comment)
+                  (compound_expression
+                    (simple_expression
+                      (atomic_expression
+                        (literal
+                          (integer_literal))))))))))))))

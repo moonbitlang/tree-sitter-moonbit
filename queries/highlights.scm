@@ -129,9 +129,8 @@
 
 ; Function calls
 
-(apply_expression (lowercase_identifier) @function.call)
-(apply_expression (qualified_identifier (lowercase_identifier) @function.call))
-(apply_expression (qualified_identifier (dot_lowercase_identifier) @function.call))
+(apply_expression (simple_expression (qualified_identifier (lowercase_identifier) @function.call)))
+(apply_expression (simple_expression (qualified_identifier (dot_lowercase_identifier) @function.call)))
 
 ; Method calls
 
