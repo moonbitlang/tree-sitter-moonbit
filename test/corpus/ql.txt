@@ -12,7 +12,8 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (quotation_expression_expander
-        (quotation_variable)))))
+        (quotation_variable
+          (lowercase_identifier))))))
 
 ================================================================================
 pat
@@ -31,14 +32,17 @@ fn main {
     (block_expression
       (match_expression
         (quotation_expression_expander
-          (quotation_variable))
+          (quotation_variable
+            (lowercase_identifier)))
         (case_clause
           (pattern
             (simple_pattern
               (quotation_pattern_expander
-                (quotation_variable))))
+                (quotation_variable
+                  (lowercase_identifier)))))
           (quotation_expression_expander
-            (quotation_variable)))))))
+            (quotation_variable
+              (lowercase_identifier))))))))
 
 ================================================================================
 ty
@@ -50,14 +54,15 @@ fn $id:name() -> $ty:retty {
 (structure
   (function_definition
     (function_identifier
-      (lowercase_identifier
-        (quotation_lowercase_identifier_expander
-          (quotation_variable))))
+      (quotation_lowercase_identifier_expander
+        (quotation_variable
+          (lowercase_identifier))))
     (parameters)
     (return_type
       (type
         (quotation_type_expander
-          (quotation_variable))))
+          (quotation_variable
+            (lowercase_identifier)))))
     (block_expression)))
 
 ================================================================================
@@ -68,15 +73,17 @@ let $id:id : $ty:ty = $exp:exp
 
 (structure
   (value_definition
-    (lowercase_identifier
-      (quotation_lowercase_identifier_expander
-        (quotation_variable)))
+    (quotation_lowercase_identifier_expander
+      (quotation_variable
+        (lowercase_identifier)))
     (type_annotation
       (type
         (quotation_type_expander
-          (quotation_variable))))
+          (quotation_variable
+            (lowercase_identifier)))))
     (quotation_expression_expander
-      (quotation_variable))))
+      (quotation_variable
+        (lowercase_identifier)))))
 
 ================================================================================
 Id
@@ -93,13 +100,14 @@ fn main {
     (block_expression
       (apply_expression
         (constructor_expression
-          (uppercase_identifier
-            (quotation_uppercase_identifier_expander
-              (quotation_variable))))
+          (quotation_uppercase_identifier_expander
+            (quotation_variable
+              (lowercase_identifier))))
         (arguments
           (argument
             (quotation_expression_expander
-              (quotation_variable))))))))
+              (quotation_variable
+                (lowercase_identifier)))))))))
 
 ================================================================================
 lit
@@ -123,9 +131,11 @@ fn main {
             (map_element_key
               (literal
                 (quotation_literal_expander
-                  (quotation_variable))))
+                  (quotation_variable
+                    (lowercase_identifier)))))
             (quotation_expression_expander
-              (quotation_variable))))))))
+              (quotation_variable
+                (lowercase_identifier)))))))))
 
 ================================================================================
 str
@@ -151,12 +161,14 @@ extern $str:extern fn f(a : Int) = $str:ffi
               (literal
                 (string_literal
                   (quotation_string_expander
-                    (quotation_variable))))))))))
+                    (quotation_variable
+                      (lowercase_identifier)))))))))))
   (function_definition
     (external_linkage
       (string_literal
         (quotation_string_expander
-          (quotation_variable))))
+          (quotation_variable
+            (lowercase_identifier)))))
     (function_identifier
       (lowercase_identifier))
     (parameters
@@ -172,4 +184,5 @@ extern $str:extern fn f(a : Int) = $str:ffi
     (external_source
       (string_literal
         (quotation_string_expander
-          (quotation_variable))))))
+          (quotation_variable
+            (lowercase_identifier)))))))
