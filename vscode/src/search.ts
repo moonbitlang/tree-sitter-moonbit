@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import * as vscodeUri from "vscode-uri";
 import * as Wasm from "@vscode/wasm-wasi/v1";
 import ignore, { Ignore } from "ignore";
 
