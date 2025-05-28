@@ -161,13 +161,15 @@
  @conditional.outer)
 
 ((if_expression
-  (block_expression ((_) @conditional.inner))
+  ((block_expression) @conditional.inner)
+  (#offset! @conditional.inner 0 1 0 -1)
   . (_)?)
  @conditional.outer)
 
 ((if_expression
-  (else_clause (block_expression
-                ((_) @conditional.inner))))
+  (else_clause
+    ((block_expression) @conditional.inner))
+  (#offset! @conditional.inner 0 1 0 -1))
  @conditional.outer)
 
 ((match_expression
