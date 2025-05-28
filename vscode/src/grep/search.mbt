@@ -162,7 +162,8 @@ fn compiler() -> Compiler! {
     "top": Context::new!(
       "$",
       selector=
-        #|(_) @top
+        #|(structure
+        #| (_) @top)
       ,
     ),
     "pat": Context::new!(
@@ -286,7 +287,7 @@ fn Compiler::node(
 ///|
 struct Match {
   range : @tree_sitter.Range
-  captures : Map[@string.View, Text]
+  captures : Map[String, Array[Text]]
 }
 
 ///|
@@ -330,13 +331,13 @@ pub impl @json.FromJson for Match with from_json(
         },
         ..
       },
-      "captures": Object(captures_json),
+      "captures": captures_json,
       ..
     } => {
-      let captures : Map[@string.View, Text] = {}
-      for name, text_json in captures_json {
-        captures[name] = @json.from_json!(text_json)
-      }
+      let captures : Map[String, Array[Text]] = @json.from_json!(
+        captures_json,
+        path=path.add_key("captures"),
+      )
       Match::{
         range: @tree_sitter.Range::new(
           @tree_sitter.Point::new(start_row.to_int(), start_column.to_int()),
@@ -352,6 +353,29 @@ pub impl @json.FromJson for Match with from_json(
 }
 
 ///|
+fn node_equal(this : @tree_sitter.Node, that : @tree_sitter.Node) -> Bool {
+  if this.is_named() != that.is_named() {
+    return false
+  }
+  if this.type_() != that.type_() {
+    return false
+  }
+  let this_children = this.children().collect()
+  let that_children = that.children().collect()
+  if this_children.length() != that_children.length() {
+    return false
+  }
+  for i = 0; i < this_children.length(); i = i + 1 {
+    let this_child = this_children[i]
+    let that_child = that_children[i]
+    if not(node_equal(this_child, that_child)) {
+      return false
+    }
+  }
+  return true
+}
+
+///|
 fn search(query~ : @string.View, content~ : @string.View) -> Iter[Match]! {
   let compiler = compiler!()
   let root_node = compiler.parser.parse_string!(content).root_node()
@@ -359,19 +383,56 @@ fn search(query~ : @string.View, content~ : @string.View) -> Iter[Match]! {
   Iter::new(fn(yield_) {
     matches~: for matched in query.matches(root_node) {
       let nodes = []
-      let captures : Map[@string.View, Text] = {}
+      let captures : Map[String, Array[@tree_sitter.Node]] = {}
       for capture in matched.captures() {
         let name = capture.name()
         let node = capture.node()
         nodes.push(node)
-        if not(name.has_prefix("_")) {
-          match captures.get(name) {
-            Some(text) => if text.text != node.text() { continue matches~ }
-            _ =>
-              captures[name] = Text::{ range: node.range(), text: node.text() }
-          }
+        match captures.get(name) {
+          Some([repr, ..]) =>
+            if not(node_equal(repr, node)) {
+              continue matches~
+            }
+          Some([] as nodes) => nodes.push(node)
+          _ => captures[name] = [node]
         }
       }
+      for predicate in matched.predicates() {
+        match predicate {
+          [String("eq?"), Capture(this), Capture(that)] =>
+            match (captures.get(this), captures.get(that)) {
+              (Some([this_node, ..]), Some([that_node, ..])) =>
+                if not(node_equal(this_node, that_node)) {
+                  continue matches~
+                }
+              (Some([]), Some([])) | (None, None) => ()
+              _ => continue matches~
+            }
+          [String("eq?"), String(string), Capture(name)]
+          | [String("eq?"), Capture(name), String(string)] =>
+            match captures.get(name) {
+              Some([node, ..]) => if node.text() != string { continue matches~ }
+              Some([]) | None => continue matches~
+            }
+          [String("eq?"), String(this), String(that)] =>
+            if this != that {
+              continue matches~
+            }
+          _ => ()
+        }
+      }
+      let captures = captures
+        .iter()
+        .filter_map(fn {
+          (['_', ..], _) => None
+          (name, nodes) => {
+            let text_nodes = nodes.map(fn(node) {
+              Text::{ range: node.range(), text: node.text() }
+            })
+            Some((name, text_nodes))
+          }
+        })
+        |> Map::from_iter()
       nodes.sort_by(fn(a, b) { a.start_byte() - b.start_byte() })
       let start_point = nodes[0].start_point()
       let start_byte = nodes[0].start_byte()

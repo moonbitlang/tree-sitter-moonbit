@@ -21,6 +21,7 @@ fn main {
           for result in search(query~, content~) {
             jsonrpc_result(id~, result)
           }
+          jsonrpc_result(id~, Json::null())
         }
         {
           "id": id,
@@ -40,8 +41,13 @@ fn main {
             error => jsonrpc_error(id~, error.to_string())
           }
         }
-        { "id": id, .. } => jsonrpc_error(id~, "Invalid request: \{json.to_json().stringify()}")
-        _ => jsonrpc_error(id=Json::null(), "Invalid request: \{json.to_json().stringify()}")
+        { "id": id, .. } =>
+          jsonrpc_error(id~, "Invalid request: \{json.to_json().stringify()}")
+        _ =>
+          jsonrpc_error(
+            id=Json::null(),
+            "Invalid request: \{json.to_json().stringify()}",
+          )
       }
       buffer.reset()
     }
