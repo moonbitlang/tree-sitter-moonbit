@@ -503,6 +503,10 @@
           "named": true
         },
         {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "struct_expression",
           "named": true
         },
@@ -777,6 +781,10 @@
         {
           "type": "pattern",
           "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
         }
       ]
     }
@@ -864,6 +872,10 @@
           "named": true
         },
         {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         }
@@ -899,6 +911,10 @@
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -1154,6 +1170,10 @@
           "named": true
         },
         {
+          "type": "quotation_uppercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "type_annotation",
           "named": true
         },
@@ -1249,6 +1269,10 @@
           "named": true
         },
         {
+          "type": "quotation_uppercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "type_name",
           "named": true
         },
@@ -1315,6 +1339,10 @@
         },
         {
           "type": "pattern",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -1628,6 +1656,10 @@
           "named": true
         },
         {
+          "type": "quotation_uppercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "uppercase_identifier",
           "named": true
         }
@@ -1776,6 +1808,10 @@
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -1931,6 +1967,10 @@
         {
           "type": "lowercase_identifier",
           "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
         }
       ]
     }
@@ -1999,6 +2039,10 @@
         {
           "type": "lowercase_identifier",
           "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
         }
       ]
     }
@@ -2029,6 +2073,10 @@
         },
         {
           "type": "qualified_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         },
         {
@@ -2095,6 +2143,10 @@
       "types": [
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         },
         {
@@ -2373,6 +2425,14 @@
       "types": [
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
+          "type": "quotation_uppercase_identifier_expander",
           "named": true
         },
         {
@@ -2673,6 +2733,10 @@
         {
           "type": "lowercase_identifier",
           "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
         }
       ]
     }
@@ -2692,6 +2756,10 @@
         {
           "type": "lowercase_identifier",
           "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
         }
       ]
     }
@@ -2706,6 +2774,10 @@
       "types": [
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -2726,6 +2798,10 @@
         {
           "type": "pattern",
           "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
         }
       ]
     }
@@ -2740,6 +2816,10 @@
       "types": [
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -2759,6 +2839,10 @@
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -2843,6 +2927,10 @@
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         },
         {
@@ -2932,21 +3020,6 @@
       "types": [
         {
           "type": "label",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "lowercase_identifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -3190,6 +3263,10 @@
           "named": true
         },
         {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "type_name",
           "named": true
         }
@@ -3286,6 +3363,10 @@
           "named": true
         },
         {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "return_type",
           "named": true
         }
@@ -3306,6 +3387,10 @@
         },
         {
           "type": "matrix_case_clause",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -3370,6 +3455,10 @@
       "types": [
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -3529,6 +3618,10 @@
           "named": true
         },
         {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "type_annotation",
           "named": true
         }
@@ -3563,6 +3656,10 @@
         },
         {
           "type": "package_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         }
       ]
@@ -3699,7 +3796,21 @@
   {
     "type": "quotation_variable",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "raise_expression",
@@ -3905,6 +4016,10 @@
           "named": true
         },
         {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "quotation_pattern_expander",
           "named": true
         },
@@ -4056,6 +4171,10 @@
         },
         {
           "type": "mutability",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         },
         {
@@ -4822,21 +4941,6 @@
     "fields": {}
   },
   {
-    "type": "uppercase_identifier",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "quotation_uppercase_identifier_expander",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "value_definition",
     "named": true,
     "fields": {},
@@ -4854,6 +4958,10 @@
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
           "named": true
         },
         {
@@ -5331,6 +5439,10 @@
     "named": false
   },
   {
+    "type": "lowercase_identifier",
+    "named": true
+  },
+  {
     "type": "match",
     "named": false
   },
@@ -5416,6 +5528,10 @@
   },
   {
     "type": "unfinished",
+    "named": true
+  },
+  {
+    "type": "uppercase_identifier",
     "named": true
   },
   {
