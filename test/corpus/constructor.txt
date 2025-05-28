@@ -8,33 +8,20 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (expression
-            (compound_expression
-              (simple_expression
-                (constructor_expression
-                  (uppercase_identifier))))))
-        (statement_expression
-          (expression
-            (compound_expression
-              (simple_expression
-                (apply_expression
-                  (simple_expression
-                    (constructor_expression
-                      (uppercase_identifier)))
-                  (arguments
-                    (argument
-                      (expression
-                        (compound_expression
-                          (simple_expression
-                            (atomic_expression
-                              (literal
-                                (integer_literal)))))))))))))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (constructor_expression
+        (uppercase_identifier))
+      (apply_expression
+        (constructor_expression
+          (uppercase_identifier))
+        (arguments
+          (argument
+            (atomic_expression
+              (literal
+                (integer_literal)))))))))
 
 ================================================================================
 qualified
@@ -46,31 +33,22 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (expression
-            (compound_expression
-              (simple_expression
-                (constructor_expression
-                  (type_name
-                    (qualified_type_identifier
-                      (identifier
-                        (lowercase_identifier))))
-                  (uppercase_identifier))))))
-        (statement_expression
-          (expression
-            (compound_expression
-              (simple_expression
-                (constructor_expression
-                  (type_name
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier))))
-                  (uppercase_identifier))))))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (constructor_expression
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (lowercase_identifier))))
+        (uppercase_identifier))
+      (constructor_expression
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (uppercase_identifier)))))
 
 ================================================================================
 package-qualified
@@ -82,30 +60,21 @@ fn init {
 --------------------------------------------------------------------------------
 
 (structure
-  (structure_item
-    (function_definition
-      (function_identifier
-        (lowercase_identifier))
-      (block_expression
-        (statement_expression
-          (expression
-            (compound_expression
-              (simple_expression
-                (constructor_expression
-                  (type_name
-                    (qualified_type_identifier
-                      (package_identifier)
-                      (dot_identifier
-                        (dot_lowercase_identifier))))
-                  (uppercase_identifier))))))
-        (statement_expression
-          (expression
-            (compound_expression
-              (simple_expression
-                (constructor_expression
-                  (type_name
-                    (qualified_type_identifier
-                      (package_identifier)
-                      (dot_identifier
-                        (dot_uppercase_identifier))))
-                  (uppercase_identifier))))))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (constructor_expression
+        (type_name
+          (qualified_type_identifier
+            (package_identifier)
+            (dot_identifier
+              (dot_lowercase_identifier))))
+        (uppercase_identifier))
+      (constructor_expression
+        (type_name
+          (qualified_type_identifier
+            (package_identifier)
+            (dot_identifier
+              (dot_uppercase_identifier))))
+        (uppercase_identifier)))))
