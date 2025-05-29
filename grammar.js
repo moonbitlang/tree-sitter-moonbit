@@ -393,7 +393,6 @@ module.exports = grammar({
       $.array_expression,
       $.map_expression,
       '_',
-      $.quotation_expression_expander,
     ),
 
     atomic_expression: $ => choice(
@@ -427,7 +426,6 @@ module.exports = grammar({
       $.string_literal,
       $.bytes_literal,
       $.multiline_string_literal,
-      $.quotation_literal_expander,
     ),
 
     boolean_literal: _ => choice('true', 'false'),
@@ -468,7 +466,6 @@ module.exports = grammar({
         repeat($.string_fragment),
         '"',
       ),
-      $.quotation_string_expander,
     ),
 
     bytes_literal: $ => seq(
@@ -1042,7 +1039,6 @@ module.exports = grammar({
       $.struct_pattern,
       $.map_pattern,
       $.empty_struct_or_map_pattern,
-      $.quotation_pattern_expander,
     ),
 
     constructor_pattern_argument: $ => choice(
@@ -1125,7 +1121,6 @@ module.exports = grammar({
       $.option_type,
       $.trait_object_type,
       $.any,
-      $.quotation_type_expander,
     ),
 
     tuple_type: $ => seq('(', list(',', $.type), ')'),
@@ -1208,17 +1203,11 @@ module.exports = grammar({
     // Identifiers
     uppercase_identifier: _ => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/v,
 
-    _uppercase_identifier: $ => choice(
-      $.quotation_uppercase_identifier_expander,
-      $.uppercase_identifier,
-    ),
+    _uppercase_identifier: $ => $.uppercase_identifier,
 
     lowercase_identifier: _ => /[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
 
-    _lowercase_identifier: $ => choice(
-      $.quotation_lowercase_identifier_expander,
-      $.lowercase_identifier,
-    ),
+    _lowercase_identifier: $ => $.lowercase_identifier,
 
     identifier: $ => choice(
       $._uppercase_identifier,
@@ -1293,36 +1282,6 @@ module.exports = grammar({
     attribute: $ => seq('#', $.attribute_expression),
 
     attributes: $ => repeat1($.attribute),
-
-    quotation_variable: $ => $._lowercase_identifier,
-
-    quotation_expression_expander: $ => seq(
-      '$', 'exp', ':', $.quotation_variable,
-    ),
-
-    quotation_pattern_expander: $ => seq(
-      '$', 'pat', ':', $.quotation_variable,
-    ),
-
-    quotation_lowercase_identifier_expander: $ => seq(
-      '$', 'id', ':', $.quotation_variable,
-    ),
-
-    quotation_uppercase_identifier_expander: $ => seq(
-      '$', 'Id', ':', $.quotation_variable,
-    ),
-
-    quotation_type_expander: $ => seq(
-      '$', 'ty', ':', $.quotation_variable,
-    ),
-
-    quotation_literal_expander: $ => seq(
-      '$', 'lit', ':', $.quotation_variable,
-    ),
-
-    quotation_string_expander: $ => seq(
-      '$', 'str', ':', $.quotation_variable,
-    ),
   },
 });
 

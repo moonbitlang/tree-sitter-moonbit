@@ -9,7 +9,17 @@
       "injection-regex": "^(mbt|moonbit)$",
       "highlights": "queries/highlights.scm",
       "tags": "queries/tags.scm",
-      "class-name": "TreeSitterMoonbit"
+      "class-name": "TreeSitterMoonbit",
+      "path": "."
+    },
+    {
+      "name": "mbtq",
+      "camelcase": "Mbtq",
+      "scope": "source.mbtq",
+      "path": "mbtq",
+      "external-files": ["src/scanner.c"],
+      "injection-regex": "^mbtq$",
+      "class-name": "TreeSitterMbtq"
     }
   ],
   "metadata": {
