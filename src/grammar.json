@@ -2618,10 +2618,6 @@
         {
           "type": "STRING",
           "value": "_"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_expression_expander"
         }
       ]
     },
@@ -2729,10 +2725,6 @@
         {
           "type": "SYMBOL",
           "name": "multiline_string_literal"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_literal_expander"
         }
       ]
     },
@@ -2853,10 +2845,6 @@
               "value": "\""
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_string_expander"
         }
       ]
     },
@@ -6728,10 +6716,6 @@
         {
           "type": "SYMBOL",
           "name": "empty_struct_or_map_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_pattern_expander"
         }
       ]
     },
@@ -7343,10 +7327,6 @@
         {
           "type": "SYMBOL",
           "name": "any"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_type_expander"
         }
       ]
     },
@@ -7961,17 +7941,8 @@
       "flags": "v"
     },
     "_uppercase_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "quotation_uppercase_identifier_expander"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "uppercase_identifier"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "uppercase_identifier"
     },
     "lowercase_identifier": {
       "type": "PATTERN",
@@ -7979,17 +7950,8 @@
       "flags": "v"
     },
     "_lowercase_identifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "quotation_lowercase_identifier_expander"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "lowercase_identifier"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "lowercase_identifier"
     },
     "identifier": {
       "type": "CHOICE",
@@ -8399,157 +8361,6 @@
         "type": "SYMBOL",
         "name": "attribute"
       }
-    },
-    "quotation_variable": {
-      "type": "SYMBOL",
-      "name": "_lowercase_identifier"
-    },
-    "quotation_expression_expander": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
-        },
-        {
-          "type": "STRING",
-          "value": "exp"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_variable"
-        }
-      ]
-    },
-    "quotation_pattern_expander": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
-        },
-        {
-          "type": "STRING",
-          "value": "pat"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_variable"
-        }
-      ]
-    },
-    "quotation_lowercase_identifier_expander": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
-        },
-        {
-          "type": "STRING",
-          "value": "id"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_variable"
-        }
-      ]
-    },
-    "quotation_uppercase_identifier_expander": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
-        },
-        {
-          "type": "STRING",
-          "value": "Id"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_variable"
-        }
-      ]
-    },
-    "quotation_type_expander": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
-        },
-        {
-          "type": "STRING",
-          "value": "ty"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_variable"
-        }
-      ]
-    },
-    "quotation_literal_expander": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
-        },
-        {
-          "type": "STRING",
-          "value": "lit"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_variable"
-        }
-      ]
-    },
-    "quotation_string_expander": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "$"
-        },
-        {
-          "type": "STRING",
-          "value": "str"
-        },
-        {
-          "type": "STRING",
-          "value": ":"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "quotation_variable"
-        }
-      ]
     }
   },
   "extras": [
