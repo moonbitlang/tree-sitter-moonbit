@@ -8,6 +8,10 @@ on:
       - src/**
       - bindings/**
       - binding.gyp
+      - mbtq/grammar.js
+      - mbtq/src/**
+      - mbtq/bindings/**
+      - mbtq/binding.gyp
 
 jobs:
   build:
@@ -24,7 +28,9 @@ jobs:
           tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter grammar
-        run: tree-sitter generate
+        run: |
+          tree-sitter generate
+          (cd mbtq && tree-sitter generate)
 
       - name: Commit
         run: |
