@@ -27,6 +27,11 @@ jobs:
           node-version-file: ".node-version"
           cache: "npm"
 
+      - name: Setup tree-sitter CLI
+        uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: v0.25.4
+
       - name: Install dependencies
         working-directory: web
         run: npm ci
