@@ -7,6 +7,7 @@
     sizes="32x32" />
   <link rel="icon" type="image/png" href="https://tree-sitter.github.io/tree-sitter/assets/images/favicon-16x16.png"
     sizes="16x16" />
+  <script src="index.js"></script>
 </head>
 
 <body>
@@ -45,8 +46,9 @@
         <a href="https://tree-sitter.github.io/tree-sitter/7-playground.html#about">(?)</a>
       </div>
 
-      <select id="language-select" style="display: none;">
+      <select id="language-select">
         <option value="moonbit">MoonBit</option>
+        <option value="mbtq">MBTQ</option>
       </select>
 
       <div class="header-item">
@@ -89,7 +91,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.19.0/clusterize.min.js"></script>
 
-  <script>LANGUAGE_BASE_URL = "";</script>
   <script type="module" src="playground.js"></script>
   <script type="module">
     import * as TreeSitter from 'web-tree-sitter';

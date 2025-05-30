@@ -28,6 +28,7 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
+        working-directory: web
         run: npm ci
 
       - name: Setup Pages
@@ -35,7 +36,8 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Build web playground
-        run: node web/build.mjs
+        working-directory: web
+        run: npm run build
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
