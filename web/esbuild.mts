@@ -48,9 +48,10 @@ function treeSitter(
 }
 
 const context = await ESBuild.context({
-  entryPoints: ["index.tsx"],
+  entryPoints: ["index.tsx", "playground.ts"],
   bundle: true,
-  outfile: "index.js",
+  format: "esm",
+  outdir: ".",
   plugins: [
     downloadAssets([
       {

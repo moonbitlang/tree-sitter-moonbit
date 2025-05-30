@@ -192,7 +192,10 @@ window.initializePlayground = async (opts) => {
   async function handleLanguageChange() {
     const newLanguageName = languageSelect.value ?? "moonbit";
     if (!languagesByName[newLanguageName]) {
-      const url = `/tree-sitter-${newLanguageName}.wasm`;
+      const url = new URL(
+        `tree-sitter-${newLanguageName}.wasm`,
+        import.meta.url
+      );
       languageSelect.disabled = true;
       try {
         languagesByName[newLanguageName] = await Language.load(url);
