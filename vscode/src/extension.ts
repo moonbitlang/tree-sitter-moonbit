@@ -22,7 +22,7 @@ export async function activate(context: vscode.ExtensionContext) {
     }),
     vscode.commands.registerCommand("moon-grep.clear", () => {
       sidebarWebviewProvider.postMessage({ type: "clear" });
-      searchService.clear();
+      searchService.reset();
     }),
     vscode.commands.registerCommand("moon-grep.collapseAll", () => {
       sidebarWebviewProvider.postMessage({ type: "collapseAll" });

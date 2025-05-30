@@ -48,7 +48,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "clear": {
-          this.service.clear();
+          this.service.reset();
           break;
         }
         case "refresh": {

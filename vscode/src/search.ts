@@ -28,27 +28,36 @@ export interface Context {
   ignoreRoots: vscode.Uri[];
 }
 
+interface Task {
+  id: number;
+  disposable?: vscode.Disposable;
+}
+
 interface Worker {
+  id: number;
   process: Wasm.WasmProcess;
-  tasks: Map<number, vscode.Disposable>;
+  task?: Task;
+  cancelTask(): void;
 }
 
 export class Service {
-  private results: Map<string, Result>;
+  private results: Map<string, Result> = new Map();
   private readonly extensionUri: vscode.Uri;
   private readonly textDecoder = new TextDecoder();
   private wasm: Wasm.Wasm | undefined = undefined;
+  private grepWasm: WebAssembly.Module | undefined = undefined;
   private taskId = 0;
-  private workers: Worker[] = [];
-  public readonly onInsert: vscode.EventEmitter<Result>;
-  public readonly onRemove: vscode.EventEmitter<{ id: string; uri: vscode.Uri }>;
-  public readonly onClear: vscode.EventEmitter<void>;
+  private workerId = 0;
+  private workerLimit = 4;
+  private workers: Map<number, Worker | undefined> = new Map();
+  private readonly onAvail: vscode.EventEmitter<void> = new vscode.EventEmitter();
+  private availDisposables: vscode.Disposable[] = [];
+  public readonly onInsert: vscode.EventEmitter<Result> = new vscode.EventEmitter();
+  public readonly onRemove: vscode.EventEmitter<{ id: string; uri: vscode.Uri }> =
+    new vscode.EventEmitter();
+  public readonly onClear: vscode.EventEmitter<void> = new vscode.EventEmitter();
   constructor(extensionUri: vscode.Uri) {
     this.extensionUri = extensionUri;
-    this.results = new Map();
-    this.onInsert = new vscode.EventEmitter();
-    this.onRemove = new vscode.EventEmitter();
-    this.onClear = new vscode.EventEmitter();
   }
   private async getWasm(): Promise<Wasm.Wasm> {
     if (this.wasm) {
@@ -58,27 +67,40 @@ export class Service {
     this.wasm = wasm;
     return wasm;
   }
-  private async terminateBusyWorkers(): Promise<void> {
-    const freeWorkers: Worker[] = [];
-    const terminationPromises: Promise<number>[] = [];
-    for (const worker of this.workers) {
-      if (worker.tasks.size === 0) {
-        freeWorkers.push(worker);
-      } else {
-        for (const disposable of worker.tasks.values()) {
-          disposable.dispose();
-        }
-        worker.tasks.clear();
-        terminationPromises.push(worker.process.terminate());
-      }
+  private async getGrepWasm(): Promise<WebAssembly.Module> {
+    if (this.grepWasm) {
+      return this.grepWasm;
     }
-    await Promise.all(terminationPromises);
-  }
-  private async createWorker(): Promise<Worker> {
-    const wasm = await this.getWasm();
     const grepUri = vscode.Uri.joinPath(this.extensionUri, "grep.wasm");
     const grepBytes = await vscode.workspace.fs.readFile(grepUri);
     const grepWasm = await WebAssembly.compile(grepBytes);
+    this.grepWasm = grepWasm;
+    return grepWasm;
+  }
+  private async terminateBusyWorkers(): Promise<void> {
+    const freeWorkers: Map<number, Worker> = new Map();
+    const terminationPromises: Promise<number>[] = [];
+    for (const [workerId, worker] of this.workers) {
+      if (worker === undefined) {
+        // Worker is being created, skipping
+        continue;
+      }
+      if (!worker.task) {
+        freeWorkers.set(workerId, worker);
+      } else {
+        terminationPromises.push(worker.process.terminate());
+        worker.cancelTask();
+      }
+    }
+    await Promise.all(terminationPromises);
+    this.workers = freeWorkers;
+    this.onAvail.fire();
+  }
+  private async createWorker(): Promise<Worker> {
+    const workerId = this.workerId++;
+    this.workers.set(workerId, undefined);
+    const wasm = await this.getWasm();
+    const grepWasm = await this.getGrepWasm();
     const grepProcess = await wasm.createProcess("moon-grep", grepWasm, {
       stdio: {
         in: { kind: "pipeIn" },
@@ -87,20 +109,72 @@ export class Service {
       },
     });
     const worker: Worker = {
+      id: workerId,
       process: grepProcess,
-      tasks: new Map(),
+      cancelTask: () => {
+        if (worker.task) {
+          worker.task.disposable?.dispose();
+          worker.task = undefined;
+        }
+        this.onAvail.fire();
+      },
     };
-    this.workers.push(worker);
-    worker.process.run();
+    this.workers.set(workerId, worker);
+    worker.process.run().then(() => {
+      worker.cancelTask();
+    });
     return worker;
   }
+  private async waitAvail(): Promise<void> {
+    await new Promise<void>((resolve) => {
+      let disposable: vscode.Disposable | undefined;
+      disposable = this.onAvail.event(() => {
+        if (disposable) {
+          disposable.dispose();
+        }
+        resolve();
+      });
+      this.availDisposables.push(disposable);
+    });
+  }
+  private async deleteWorker(workerId: number): Promise<void> {
+    const worker = this.workers.get(workerId);
+    if (!worker) {
+      return;
+    }
+    this.workers.delete(workerId);
+    this.onAvail.fire();
+    await worker.process.terminate();
+  }
   private async getWorker(): Promise<Worker> {
-    for (const worker of this.workers) {
-      if (worker.tasks.size === 0) {
+    while (true) {
+      for (const [workerId, worker] of this.workers) {
+        if (worker === undefined) {
+          // Worker is being created, skipping
+          continue;
+        }
+        if (!worker.task) {
+          if (worker.process.stdin && worker.process.stdout) {
+            worker.task = {
+              id: this.taskId++,
+            };
+            return worker;
+          } else {
+            this.deleteWorker(workerId);
+            console.warn(`Worker ${workerId} has no stdin or stdout, deleting`);
+          }
+        }
+      }
+      if (this.workers.size < this.workerLimit) {
+        const worker = await this.createWorker();
+        worker.task = {
+          id: this.taskId++,
+        };
         return worker;
+      } else {
+        await this.waitAvail();
       }
     }
-    return this.createWorker();
   }
   public async searchText(uri: vscode.Uri, options: Options, content: string): Promise<void> {
     const contentLines = content.split("\n");
@@ -114,15 +188,23 @@ export class Service {
     };
     const worker = await this.getWorker();
     if (!worker.process.stdin) {
-      throw new Error("Child process stdin is not available");
+      throw new Error(`Worker ${worker.id} stdin is not available`);
     }
-    await worker.process.stdin.write(JSON.stringify(request) + "\n");
     if (!worker.process.stdout) {
-      throw new Error("Child process stdout is not available");
+      throw new Error(`Worker ${worker.id} stdout is not available`);
+    }
+    if (!worker.task) {
+      // Worker task has been cancelled
+      return;
     }
     let buffer = "";
-    const taskId = this.taskId++;
-    const disposable = worker.process.stdout.onData(async (data) => {
+    let disposable: vscode.Disposable | undefined;
+    disposable = worker.process.stdout.onData(async (data) => {
+      if (!worker.task) {
+        // Worker task has been cancelled
+        disposable?.dispose();
+        return;
+      }
       buffer += this.textDecoder.decode(data);
       const stdoutLines = buffer.split("\n");
       if (stdoutLines.length < 2) {
@@ -142,20 +224,16 @@ export class Service {
           continue;
         }
         if (json.id !== request.id) {
-          continue;
+          throw new Error(
+            `(Worker ${worker.id}) (Task ${worker.task.id}): Ignoring response for request ID ${JSON.stringify(json)}`
+          );
         }
         if (!("result" in json)) {
           console.error('Missing "result" in JSON:', json);
           continue;
         }
         if (!json.result) {
-          if (worker.tasks.has(taskId)) {
-            const disposable = worker.tasks.get(taskId);
-            if (disposable) {
-              disposable.dispose();
-            }
-            worker.tasks.delete(taskId);
-          }
+          worker.cancelTask();
           break;
         }
         const startLine = json.result.range.start.row;
@@ -175,42 +253,50 @@ export class Service {
         this.onInsert.fire(result);
       }
     });
-    worker.tasks.set(taskId, disposable);
+    worker.task.disposable = disposable;
+    await worker.process.stdin.write(JSON.stringify(request) + "\n");
   }
   private async searchFile(uri: vscode.Uri, options: Options, context: Context): Promise<void> {
-    if (options.includePattern && !uri.fsPath.match(options.includePattern)) {
+    if (await this.shouldIgnore(uri, options, context)) {
       return;
     }
-    if (options.excludePattern && uri.fsPath.match(options.excludePattern)) {
-      return;
-    }
-    if (options.includeIgnored === true && context.ignore.ignores(uri.fsPath)) {
+    if (!uri.fsPath.endsWith(".mbt")) {
       return;
     }
     const bytes = await vscode.workspace.fs.readFile(uri);
     const text = this.textDecoder.decode(bytes);
     await this.searchText(uri, options, text);
   }
-  private async searchDirectory(
+  private async shouldIgnore(
     uri: vscode.Uri,
     options: Options,
     context: Context
-  ): Promise<void> {
+  ): Promise<boolean> {
     if (options.includePattern && !uri.fsPath.match(options.includePattern)) {
-      return;
+      return true;
     }
     if (options.excludePattern && uri.fsPath.match(options.excludePattern)) {
-      return;
+      return true;
     }
     if (!options.includeIgnored) {
       for (const ignoredRoot of context.ignoreRoots) {
         if (uri.fsPath.startsWith(ignoredRoot.fsPath)) {
           const relativePath = uri.fsPath.slice(ignoredRoot.fsPath.length);
           if (context.ignore.ignores(relativePath)) {
-            return;
+            return true;
           }
         }
       }
+    }
+    return false;
+  }
+  private async searchDirectory(
+    uri: vscode.Uri,
+    options: Options,
+    context: Context
+  ): Promise<void> {
+    if (await this.shouldIgnore(uri, options, context)) {
+      return;
     }
     const gitignoreUri = vscode.Uri.joinPath(uri, ".gitignore");
     try {
@@ -239,8 +325,7 @@ export class Service {
     );
   }
   public async search(uri: vscode.Uri, options: Options): Promise<void> {
-    this.terminateBusyWorkers();
-    this.clear();
+    this.reset();
     const stat = await vscode.workspace.fs.stat(uri);
     switch (stat.type) {
       case vscode.FileType.Directory:
@@ -276,13 +361,20 @@ export class Service {
       if (!worker.process.stdin) {
         throw new Error("Child process stdin is not available");
       }
-      await worker.process.stdin.write(JSON.stringify(request) + "\n");
       if (!worker.process.stdout) {
         throw new Error("Child process stdout is not available");
       }
+      if (!worker.task) {
+        // Worker task has been cancelled
+        return;
+      }
       let buffer = "";
-      let taskId = this.taskId++;
       const disposable = worker.process.stdout.onData(async (data) => {
+        if (!worker.task) {
+          // Worker task has been cancelled
+          disposable?.dispose();
+          return;
+        }
         buffer += this.textDecoder.decode(data);
         const stdoutLines = buffer.split("\n");
         if (stdoutLines.length < 2) {
@@ -315,16 +407,11 @@ export class Service {
           this.results.delete(resultId);
           await vscode.workspace.applyEdit(editBuilder);
           this.onRemove.fire({ id: resultId, uri: result.uri });
-          if (worker.tasks.has(taskId)) {
-            const disposable = worker.tasks.get(taskId);
-            if (disposable) {
-              disposable.dispose();
-            }
-            worker.tasks.delete(taskId);
-          }
+          worker.cancelTask();
         }
       });
-      worker.tasks.set(taskId, disposable);
+      worker.task.disposable = disposable;
+      await worker.process.stdin.write(JSON.stringify(request) + "\n");
     } catch (error: any) {
       console.error("Error during replace:", error);
       vscode.window.showErrorMessage(`Replace failed: ${error.message || "Unknown error"}`);
@@ -339,7 +426,10 @@ export class Service {
     this.results.delete(resultId);
     this.onRemove.fire({ id: resultId, uri: result.uri });
   }
-  public clear() {
+  public reset() {
+    this.terminateBusyWorkers();
+    this.availDisposables.forEach((disposable) => disposable.dispose());
+    this.availDisposables = [];
     this.results.clear();
     this.onClear.fire();
   }
