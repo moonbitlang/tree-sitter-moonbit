@@ -21,21 +21,6 @@ function downloadAssets(
   };
 }
 
-function copyAssets(
-  assets: { path: string; outfile: string }[]
-): ESBuild.Plugin {
-  return {
-    name: "copy-assets",
-    setup(build) {
-      build.onStart(async () => {
-        for (const { path, outfile } of assets) {
-          await fsp.copyFile(path, outfile);
-        }
-      });
-    },
-  };
-}
-
 function treeSitter(
   grammars: { name: string; path: string; outfile: string }[]
 ): ESBuild.Plugin {
@@ -67,12 +52,6 @@ const context = await ESBuild.context({
       {
         url: "https://github.com/tree-sitter/tree-sitter/releases/download/v0.25.3/web-tree-sitter.wasm",
         outfile: "tree-sitter.wasm",
-      },
-    ]),
-    copyAssets([
-      {
-        path: "../tree-sitter-moonbit.wasm",
-        outfile: "tree-sitter-moonbit.wasm",
       },
     ]),
     treeSitter([
