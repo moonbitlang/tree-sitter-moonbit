@@ -29,10 +29,18 @@ function treeSitter(
     setup(build) {
       build.onStart(async () => {
         for (const { name, path, outfile } of grammars) {
-          cp.spawnSync("tree-sitter", ["build", "--wasm"], {
+          const process = cp.spawnSync("tree-sitter", ["build", "--wasm"], {
             cwd: path,
           });
-          fsp.copyFile(`${path}/tree-sitter-${name}.wasm`, outfile);
+          if (process.error) {
+            throw process.error;
+          }
+          if (process.status !== 0) {
+            throw new Error(
+              `tree-sitter build failed for ${name}: ${process.stderr.toString()}`
+            );
+          }
+          await fsp.copyFile(`${path}/tree-sitter-${name}.wasm`, outfile);
         }
       });
     },
