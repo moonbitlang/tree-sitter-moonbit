@@ -21,6 +21,7 @@
     "src",
     "bindings",
     "test",
-    "web"
+    "web",
+    "vscode",
   ]
 }
