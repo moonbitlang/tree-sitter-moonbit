@@ -1,6 +1,7 @@
 import ESBuild from "esbuild";
 import process from "node:process";
 import fsp from "node:fs/promises";
+import cp from "node:child_process";
 
 function downloadAssets(
   assets: { url: string; outfile: string }[]
@@ -35,6 +36,24 @@ function copyAssets(
   };
 }
 
+function treeSitter(
+  grammars: { name: string; path: string; outfile: string }[]
+): ESBuild.Plugin {
+  return {
+    name: `tree-sitter`,
+    setup(build) {
+      build.onStart(async () => {
+        for (const { name, path, outfile } of grammars) {
+          cp.spawnSync("tree-sitter", ["build", "--wasm"], {
+            cwd: path,
+          });
+          fsp.copyFile(`${path}/tree-sitter-${name}.wasm`, outfile);
+        }
+      });
+    },
+  };
+}
+
 const context = await ESBuild.context({
   entryPoints: ["index.tsx"],
   bundle: true,
@@ -54,6 +73,18 @@ const context = await ESBuild.context({
       {
         path: "../tree-sitter-moonbit.wasm",
         outfile: "tree-sitter-moonbit.wasm",
+      },
+    ]),
+    treeSitter([
+      {
+        name: "moonbit",
+        path: "..",
+        outfile: "tree-sitter-moonbit.wasm",
+      },
+      {
+        name: "mbtq",
+        path: "../mbtq",
+        outfile: "tree-sitter-mbtq.wasm",
       },
     ]),
   ],
