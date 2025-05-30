@@ -33,7 +33,6 @@ const ThemeToggle: React.FC = () => {
 
   return (
     <button
-      id="theme-toggle"
       className="theme-toggle"
       aria-label="Toggle theme"
       onClick={handleThemeChange}
