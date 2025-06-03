@@ -12,6 +12,8 @@ const base = require('../grammar.js');
 module.exports = grammar(base, {
   name: 'mbtq',
 
+  extras: ($) => [$._comment, /\s/, $._scanner_reset],
+
   rules: {
     _simple_expression: $ => choice(
       base.grammar.rules._simple_expression,
@@ -77,5 +79,7 @@ module.exports = grammar(base, {
       $.quotation_uppercase_identifier_expander,
       $.uppercase_identifier,
     ),
+
+    _comment: (_) => /\/\/.*/,
   },
 });
