@@ -8576,12 +8576,16 @@
           "name": "quotation_variable"
         }
       ]
+    },
+    "_comment": {
+      "type": "PATTERN",
+      "value": "\\/\\/.*"
     }
   },
   "extras": [
     {
       "type": "SYMBOL",
-      "name": "comment"
+      "name": "_comment"
     },
     {
       "type": "PATTERN",
