@@ -77,25 +77,6 @@ export class Service {
     this.grepWasm = grepWasm;
     return grepWasm;
   }
-  private async terminateBusyWorkers(): Promise<void> {
-    const freeWorkers: Map<number, Worker> = new Map();
-    const terminationPromises: Promise<number>[] = [];
-    for (const [workerId, worker] of this.workers) {
-      if (worker === undefined) {
-        // Worker is being created, skipping
-        continue;
-      }
-      if (!worker.task) {
-        freeWorkers.set(workerId, worker);
-      } else {
-        terminationPromises.push(worker.process.terminate());
-        worker.cancelTask();
-      }
-    }
-    await Promise.all(terminationPromises);
-    this.workers = freeWorkers;
-    this.onAvail.fire();
-  }
   private async createWorker(): Promise<Worker> {
     const workerId = this.workerId++;
     this.workers.set(workerId, undefined);
@@ -137,32 +118,21 @@ export class Service {
       this.availDisposables.push(disposable);
     });
   }
-  private async deleteWorker(workerId: number): Promise<void> {
-    const worker = this.workers.get(workerId);
-    if (!worker) {
-      return;
-    }
-    this.workers.delete(workerId);
-    this.onAvail.fire();
-    await worker.process.terminate();
-  }
   private async getWorker(): Promise<Worker> {
     while (true) {
-      for (const [workerId, worker] of this.workers) {
+      for (const [, worker] of this.workers) {
         if (worker === undefined) {
           // Worker is being created, skipping
           continue;
         }
-        if (!worker.task) {
-          if (worker.process.stdin && worker.process.stdout) {
-            worker.task = {
-              id: this.taskId++,
-            };
-            return worker;
-          } else {
-            this.deleteWorker(workerId);
-            console.warn(`Worker ${workerId} has no stdin or stdout, deleting`);
-          }
+        if (worker.task) {
+          continue;
+        }
+        if (worker.process.stdin && worker.process.stdout) {
+          worker.task = {
+            id: this.taskId++,
+          };
+          return worker;
         }
       }
       if (this.workers.size < this.workerLimit) {
@@ -186,75 +156,78 @@ export class Service {
         content: content,
       },
     };
-    const worker = await this.getWorker();
-    if (!worker.process.stdin) {
-      throw new Error(`Worker ${worker.id} stdin is not available`);
-    }
-    if (!worker.process.stdout) {
-      throw new Error(`Worker ${worker.id} stdout is not available`);
-    }
-    if (!worker.task) {
-      // Worker task has been cancelled
-      return;
-    }
-    let buffer = "";
-    let disposable: vscode.Disposable | undefined;
-    disposable = worker.process.stdout.onData(async (data) => {
+    await new Promise<void>(async (resolve) => {
+      const worker = await this.getWorker();
+      if (!worker.process.stdin) {
+        throw new Error(`Worker ${worker.id} stdin is not available`);
+      }
+      if (!worker.process.stdout) {
+        throw new Error(`Worker ${worker.id} stdout is not available`);
+      }
       if (!worker.task) {
         // Worker task has been cancelled
-        disposable?.dispose();
         return;
       }
-      buffer += this.textDecoder.decode(data);
-      const stdoutLines = buffer.split("\n");
-      if (stdoutLines.length < 2) {
-        return;
-      }
-      const lastIndex = stdoutLines.length - 1;
-      buffer = stdoutLines[lastIndex];
-      for (const line of stdoutLines.slice(0, lastIndex)) {
-        let json: any;
-        try {
-          json = JSON.parse(line);
-        } catch (e) {
-          console.error("Failed to parse JSON:", line);
-          continue;
+      let buffer = "";
+      let disposable: vscode.Disposable | undefined;
+      disposable = worker.process.stdout.onData(async (data) => {
+        if (!worker.task) {
+          // Worker task has been cancelled
+          disposable?.dispose();
+          return;
         }
-        if (!("id" in json)) {
-          continue;
+        buffer += this.textDecoder.decode(data);
+        const stdoutLines = buffer.split("\n");
+        if (stdoutLines.length < 2) {
+          return;
         }
-        if (json.id !== request.id) {
-          throw new Error(
-            `(Worker ${worker.id}) (Task ${worker.task.id}): Ignoring response for request ID ${JSON.stringify(json)}`
-          );
+        const lastIndex = stdoutLines.length - 1;
+        buffer = stdoutLines[lastIndex];
+        for (const line of stdoutLines.slice(0, lastIndex)) {
+          let json: any;
+          try {
+            json = JSON.parse(line);
+          } catch (e) {
+            console.error("Failed to parse JSON:", line);
+            continue;
+          }
+          if (!("id" in json)) {
+            continue;
+          }
+          if (json.id !== request.id) {
+            throw new Error(
+              `(Worker ${worker.id}) (Task ${worker.task.id}): Ignoring response for request ID ${JSON.stringify(json)}`
+            );
+          }
+          if (!("result" in json)) {
+            console.error('Missing "result" in JSON:', json);
+            continue;
+          }
+          if (!json.result) {
+            worker.cancelTask();
+            resolve();
+            break;
+          }
+          const startLine = json.result.range.start.row;
+          const endLine = json.result.range.end.row;
+          const start = new vscode.Position(startLine, json.result.range.start.column);
+          const end = new vscode.Position(endLine, json.result.range.end.column);
+          const range = new vscode.Range(start, end);
+          const id = crypto.randomUUID();
+          const result = {
+            id,
+            uri: uri,
+            range: range,
+            context: contentLines.slice(startLine, endLine + 1),
+            captures: json.result.captures,
+          };
+          this.results.set(id, result);
+          this.onInsert.fire(result);
         }
-        if (!("result" in json)) {
-          console.error('Missing "result" in JSON:', json);
-          continue;
-        }
-        if (!json.result) {
-          worker.cancelTask();
-          break;
-        }
-        const startLine = json.result.range.start.row;
-        const endLine = json.result.range.end.row;
-        const start = new vscode.Position(startLine, json.result.range.start.column);
-        const end = new vscode.Position(endLine, json.result.range.end.column);
-        const range = new vscode.Range(start, end);
-        const id = crypto.randomUUID();
-        const result = {
-          id,
-          uri: uri,
-          range: range,
-          context: contentLines.slice(startLine, endLine + 1),
-          captures: json.result.captures,
-        };
-        this.results.set(id, result);
-        this.onInsert.fire(result);
-      }
+      });
+      worker.task.disposable = disposable;
+      await worker.process.stdin.write(JSON.stringify(request) + "\n");
     });
-    worker.task.disposable = disposable;
-    await worker.process.stdin.write(JSON.stringify(request) + "\n");
   }
   private async searchFile(uri: vscode.Uri, options: Options, context: Context): Promise<void> {
     if (await this.shouldIgnore(uri, options, context)) {
@@ -426,8 +399,23 @@ export class Service {
     this.results.delete(resultId);
     this.onRemove.fire({ id: resultId, uri: result.uri });
   }
-  public reset() {
-    this.terminateBusyWorkers();
+  public async reset() {
+    const freeWorkers: Map<number, Worker> = new Map();
+    const terminationPromises: Promise<number>[] = [];
+    for (const [workerId, worker] of this.workers) {
+      if (worker === undefined) {
+        // Worker is being created, skipping
+        continue;
+      }
+      if (!worker.task) {
+        freeWorkers.set(workerId, worker);
+      } else {
+        terminationPromises.push(worker.process.terminate());
+        worker.cancelTask();
+      }
+    }
+    await Promise.all(terminationPromises);
+    this.workers = freeWorkers;
     this.availDisposables.forEach((disposable) => disposable.dispose());
     this.availDisposables = [];
     this.results.clear();
