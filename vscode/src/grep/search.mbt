@@ -33,9 +33,12 @@ fn Context::new!(
 ///|
 type! ParseError {
   MissingInterpolator
-  ParseError(Array[@tree_sitter.ParseError])
+  LanguageError(@tree_sitter.LanguageError)
+  ParseError(@tree_sitter.ParseError)
+  SyntaxError(@tree_sitter.Node)
   QueryError(@tree_sitter.QueryError)
-} derive(Show)
+  Errors(Array[ParseError])
+} derive(Show, ToJson)
 
 ///|
 fn lowest_common_ancestor(
@@ -64,19 +67,22 @@ fn lowest_common_ancestor(
 fn Compiler::compile(
   self : Compiler,
   query : @string.View
-) -> @tree_sitter.Query! {
-  self.parser.set_language!(self.language)
+) -> @tree_sitter.Query!ParseError {
+  try self.parser.set_language!(self.language) catch {
+    e => raise LanguageError(e)
+  }
   let buffer = StringBuilder::new()
   let errors = []
   for name, context in self.contexts {
     let tree = try
       self.parser.parse_string!("\{context.prefix}\{query}\{context.suffix}") catch {
       e => {
-        errors.push(e)
+        errors.push(ParseError(e))
         continue
       }
     }
     if tree.root_node().has_error() {
+      errors.push(SyntaxError(tree.root_node()))
       continue
     }
     let cursor = try @tree_sitter.Query::new!(self.language, context.select) catch {
@@ -117,10 +123,10 @@ fn Compiler::compile(
     }
     buffer.write_char('\n')
   }
-  if errors.length() > 0 {
-    raise ParseError(errors)
-  }
   let query = buffer.to_string()
+  if query == "" && errors.length() > 0 {
+    raise Errors(errors)
+  }
   let query = try @tree_sitter.Query::new!(self.language, query) catch {
     e => raise QueryError(e)
   }
@@ -139,7 +145,7 @@ priv struct Compiler {
 let global_compiler : Ref[Compiler?] = Ref::new(None)
 
 ///|
-fn compiler() -> Compiler! {
+fn compiler() -> Compiler!ParseError {
   if global_compiler.val is Some(compiler) {
     return compiler
   }
@@ -208,7 +214,9 @@ fn compiler() -> Compiler! {
     ),
   }
   let parser = @tree_sitter.Parser::new()
-  parser.set_language!(language)
+  try parser.set_language!(language) catch {
+    e => raise LanguageError(e)
+  }
   let compiler = Compiler::{ language, parser, id: 0, contexts }
   global_compiler.val = Some(compiler)
   return compiler
@@ -227,7 +235,7 @@ fn Compiler::nodes(
   nodes : Array[@tree_sitter.Node],
   path~ : Array[Int],
   buffer~ : StringBuilder
-) -> Unit! {
+) -> Unit!ParseError {
   for i, node in nodes {
     self.node(node, path=[..path, i], buffer~)
     if i < nodes.length() - 1 {
@@ -242,7 +250,7 @@ fn Compiler::node(
   node : @tree_sitter.Node,
   path~ : Array[Int],
   buffer~ : StringBuilder
-) -> Unit! {
+) -> Unit!ParseError {
   let children = node.children().collect()
   buffer.write_char('(')
   if node.is_named() {
@@ -251,12 +259,12 @@ fn Compiler::node(
     let type_ = node.type_().to_string()
     if type_ is [.., .. "_identifier"] &&
       children is [child] &&
-      child.type_() is [.. "quotation_",  ..,  .. "_identifier_expander"] {
+      child.type_() is [.. "quotation_", .., .. "_identifier_expander"] {
       buffer.write_char('(')
     } else if children.length() == 0 {
       buffer.write_char('(')
     }
-    if type_ is [.. "quotation_",  ..,  .. "_expander"] {
+    if type_ is [.. "quotation_", .., .. "_expander"] {
       let mut name = None
       for child in children {
         if child.type_() == "quotation_variable" {
@@ -271,7 +279,7 @@ fn Compiler::node(
       buffer.write_string(type_)
       if type_ is [.., .. "_identifier"] &&
         children is [child] &&
-        child.type_() is [.. "quotation_",  ..,  .. "_identifier_expander"] {
+        child.type_() is [.. "quotation_", .., .. "_identifier_expander"] {
         let mut name = None
         for grandchild in child.children() {
           if grandchild.type_() == "quotation_variable" {
@@ -395,9 +403,14 @@ fn node_equal(this : @tree_sitter.Node, that : @tree_sitter.Node) -> Bool {
 }
 
 ///|
-fn search(query~ : @string.View, content~ : @string.View) -> Iter[Match]! {
+fn search(
+  query~ : @string.View,
+  content~ : @string.View
+) -> Iter[Match]!ParseError {
   let compiler = compiler!()
-  let root_node = compiler.parser.parse_string!(content).root_node()
+  let root_node = try compiler.parser.parse_string!(content).root_node() catch {
+    e => raise ParseError(e)
+  }
   let query = compiler.compile!(query)
   Iter::new(fn(yield_) {
     matches~: for matched in query.matches(root_node) {
