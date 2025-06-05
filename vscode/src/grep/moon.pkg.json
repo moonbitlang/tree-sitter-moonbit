@@ -14,5 +14,10 @@
     }
   },
   "supported-targets": ["native"],
-  "test-import": ["tonyfettes/uv/async"]
+  "test-import": [
+    "tonyfettes/uv/async"
+  ],
+  "wbtest-import": [
+    "tonyfettes/uv/async"
+  ]
 }

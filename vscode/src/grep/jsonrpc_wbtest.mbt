@@ -86,19 +86,21 @@ test "grep" {
   let request = requests
     .map(fn(request) { request.to_json().stringify() })
     .join("\n")
-    |> @encoding.encode(encoding=UTF8)
   let null = Json::null()
   @async.start!(fn() {
-    let stdout = @buffer.new()
+    let stdin = @async.Pipe::new()
+    let stdout = @async.Pipe::new()
     let process = @async.spawn!(
       "moon",
-      ["run", @async.path!(["src", "grep"]), "--target", "native"],
-      stdin=Bytes(request),
-      stdout=Buffer(stdout),
+      ["run", @async.path(["src", "grep"]), "--target", "native"],
+      stdin=Pipe(stdin),
+      stdout=Pipe(stdout),
     )
+    stdin.write_text(request, encoding=UTF8)
+    stdin.close()
     @json.inspect!(process.status(), content=0)
     let response = []
-    for line in @encoding.decode!(stdout.contents(), encoding=UTF8).split("\n") {
+    for line in stdout.read_text(encoding=UTF8).split("\n") {
       if line.is_empty() {
         continue
       }
