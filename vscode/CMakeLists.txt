@@ -22,6 +22,7 @@ add_executable(grep
   target/native/release/build/grep/grep.c
   .mooncakes/tonyfettes/tree_sitter/src/tree-sitter.c
   .mooncakes/tonyfettes/c/src/c.c
+  .mooncakes/illusory0x0/native/src/stub.c
   .mooncakes/tonyfettes/tree_sitter_moonbit/parser.c
   .mooncakes/tonyfettes/tree_sitter_moonbit/scanner.c)
 target_link_libraries(grep PRIVATE moonbit)

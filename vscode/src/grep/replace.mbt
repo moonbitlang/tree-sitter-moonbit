@@ -8,7 +8,7 @@ priv enum Replace {
 type! ReplaceError {
   VariableNotFound(String)
   MismatchedType(expect~ : String, actual~ : String)
-} derive(Show)
+} derive(Show, ToJson)
 
 ///|
 fn Replace::parse_identifier(

@@ -17,12 +17,15 @@ fn main {
           "method": "search",
           "params": { "content": String(content), "query": String(query), .. },
           ..
-        } => {
-          for result in search(query~, content~) {
-            jsonrpc_result(id~, result)
+        } =>
+          try {
+            for result in search(query~, content~) {
+              jsonrpc_result(id~, result)
+            }
+            jsonrpc_result(id~, Json::null())
+          } catch {
+            error => jsonrpc_error(id~, error.to_json())
           }
-          jsonrpc_result(id~, Json::null())
-        }
         {
           "id": id,
           "method": "replace",
@@ -38,7 +41,7 @@ fn main {
             captures[name.view()] = @json.from_json!(capture_json)
           }
           try jsonrpc_result(id~, replace(captures, replace_string)) catch {
-            error => jsonrpc_error(id~, error.to_string())
+            error => jsonrpc_error(id~, error.to_json())
           }
         }
         { "id": id, .. } =>
@@ -55,7 +58,7 @@ fn main {
     loop getchar() {
       '\n' => {
         try on_submit!() catch {
-          error => jsonrpc_error(id=Json::null(), error.to_string())
+          error => jsonrpc_error(id=Json::null(), error.to_string().to_json())
         }
         continue getchar()
       }
@@ -66,6 +69,6 @@ fn main {
       _..<0 => on_submit!()
     }
   } catch {
-    error => jsonrpc_error(id=Json::null(), error.to_string())
+    error => jsonrpc_error(id=Json::null(), error.to_string().to_json())
   }
 }

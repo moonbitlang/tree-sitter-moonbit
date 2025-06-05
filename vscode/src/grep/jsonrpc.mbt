@@ -9,10 +9,10 @@ fn[Result : ToJson] jsonrpc_result(id~ : Json, result : Result) -> Unit {
 }
 
 ///|
-fn jsonrpc_error(id~ : Json, error : String) -> Unit {
+fn jsonrpc_error(id~ : Json, error : Json) -> Unit {
   let response : Json = {
     "jsonrpc": "2.0",
-    "error": { "code": -32603, "message": error.to_json() },
+    "error": { "code": -32603, "message": error },
     "id": id,
   }
   println(response.stringify())
