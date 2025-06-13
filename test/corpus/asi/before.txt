@@ -1426,8 +1426,11 @@ T = TT
 (structure
   (trait_alias_definition
     (trait_alias_targets
-      (identifier
-        (uppercase_identifier))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (type
         (apply_type
           (qualified_type_identifier

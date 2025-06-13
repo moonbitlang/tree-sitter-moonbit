@@ -1001,8 +1001,11 @@ typealias X[t] = Y[T]
 (structure
   (type_alias_definition
     (type_alias_targets
-      (identifier
-        (uppercase_identifier))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (type
         (apply_type
           (qualified_type_identifier
@@ -1011,8 +1014,11 @@ typealias X[t] = Y[T]
   (type_alias_definition
     (visibility)
     (type_alias_targets
-      (identifier
-        (uppercase_identifier))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (type
         (apply_type
           (qualified_type_identifier
@@ -1022,8 +1028,11 @@ typealias X[t] = Y[T]
     (visibility
       (pub_attribute))
     (type_alias_targets
-      (identifier
-        (uppercase_identifier))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (type
         (apply_type
           (qualified_type_identifier
@@ -1031,12 +1040,17 @@ typealias X[t] = Y[T]
               (uppercase_identifier)))))))
   (type_alias_definition
     (type_alias_targets
-      (identifier
-        (uppercase_identifier))
-      (type_parameters
-        (type_identifier
-          (identifier
-            (lowercase_identifier))))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))
+          (type_arguments
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (lowercase_identifier))))))))
       (type
         (apply_type
           (qualified_type_identifier
