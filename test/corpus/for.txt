@@ -376,18 +376,6 @@ fn main {
     ;i < 10
     ;i = i + 1 {
   }
-  for // a
-    i = 0
-    // b
-    i < 10
-    // c
-    i = i + 1 {
-  }
-  for i = 0 // a
-    i < 10 // b
-    i = i + 1 // c
-  {
-  }
 }
 --------------------------------------------------------------------------------
 
@@ -479,7 +467,33 @@ fn main {
             (atomic_expression
               (literal
                 (integer_literal)))))
-        (block_expression))
+        (block_expression)))))
+
+================================================================================
+for asi with comments
+:language(moonbit)
+================================================================================
+fn main {
+  for // a
+    i = 0
+    // b
+    i < 10
+    // c
+    i = i + 1 {
+  }
+  for i = 0 // a
+    i < 10 // b
+    i = i + 1 // c
+  {
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
       (for_expression
         (comment)
         (for_binder
