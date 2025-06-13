@@ -126,7 +126,104 @@ type! X {
               (uppercase_identifier))))))))
 
 ================================================================================
-Struct definitions
+suberror definitions
+================================================================================
+suberror X
+suberror X Int
+priv suberror X
+pub (readonly) suberror X
+suberror X {
+  A(Int)
+  B(Double)
+}
+suberror Y derive(Show)
+suberror X {
+  A(Int)
+  B(Double)
+} derive(Show)
+--------------------------------------------------------------------------------
+
+(structure
+  (error_type_definition
+    (identifier
+      (uppercase_identifier)))
+  (error_type_definition
+    (identifier
+      (uppercase_identifier))
+    (type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))))
+  (error_type_definition
+    (visibility)
+    (identifier
+      (uppercase_identifier)))
+  (error_type_definition
+    (visibility
+      (pub_attribute))
+    (identifier
+      (uppercase_identifier)))
+  (error_type_definition
+    (identifier
+      (uppercase_identifier))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))))
+  (error_type_definition
+    (identifier
+      (uppercase_identifier))
+    (derive_directive
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (error_type_definition
+    (identifier
+      (uppercase_identifier))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
+    (derive_directive
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
+
+================================================================================
+struct definitions
 ================================================================================
 pub struct Ref[T] { mut content: T }
 
@@ -293,7 +390,7 @@ pub let y: Int = 42
         (integer_literal)))))
 
 ================================================================================
-Function definitions
+function definitions
 ================================================================================
 fn[T] id (x: T) -> T { x }
 fn empty () { }
@@ -348,12 +445,10 @@ fn &Trait::method(self: Self) -> Int { 42 }
                   (identifier
                     (uppercase_identifier)))))))))
     (return_type
-      (type_with_error
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
     (block_expression))
   (function_definition
     (function_identifier
@@ -369,17 +464,15 @@ fn &Trait::method(self: Self) -> Int { 42 }
                   (identifier
                     (uppercase_identifier)))))))))
     (return_type
-      (type_with_error
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (block_expression))
   (function_definition
     (function_identifier

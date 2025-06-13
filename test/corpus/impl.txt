@@ -13,11 +13,10 @@ impl Show for T? with output(self : T, logger : &Logger) -> Unit {
           (uppercase_identifier))))
     (type
       (option_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (function_identifier
       (lowercase_identifier))
     (parameters
@@ -36,11 +35,9 @@ impl Show for T? with output(self : T, logger : &Logger) -> Unit {
           (type_annotation
             (type
               (trait_object_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))))))
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))))
     (return_type
       (type
         (apply_type
@@ -93,11 +90,9 @@ impl Show for (Int) -> Unit with output(self : T, logger : &Logger) -> Unit {
           (type_annotation
             (type
               (trait_object_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))))))
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))))
     (return_type
       (type
         (apply_type
@@ -149,11 +144,9 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit {
           (type_annotation
             (type
               (trait_object_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))))))
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))))
     (return_type
       (type
         (apply_type
@@ -204,11 +197,9 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit = "%s"
           (type_annotation
             (type
               (trait_object_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))))))
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))))
     (return_type
       (type
         (apply_type

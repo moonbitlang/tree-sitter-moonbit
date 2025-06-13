@@ -64,17 +64,15 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
                         (identifier
                           (uppercase_identifier))))))))))))
     (return_type
-      (type_with_error
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (external_source
       (string_literal
         (string_fragment

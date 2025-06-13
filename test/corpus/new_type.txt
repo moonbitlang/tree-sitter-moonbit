@@ -9,12 +9,11 @@ type New(Int)
     (identifier
       (uppercase_identifier))
     (type
-      (tuple_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))))
+      (type
+        (apply_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
 
 ================================================================================
 phantom type
