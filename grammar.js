@@ -18,11 +18,6 @@ const PREC = {
   or_pattern: 6,
   as_pattern: 5,
 };
-const TYPE_PREC = {
-  option: 19,
-  error: 18,
-  arrow: 17,
-};
 const multiplicative_operators = ["*", "/", "%"];
 const additive_operators = ["+", "-"];
 const shift_operators = ["<<", ">>"];
@@ -352,7 +347,7 @@ module.exports = grammar({
         $.for_in_expression,
         $.try_expression,
         $.try_question_expression,
-        $._compound_expression
+        $._compound_expression,
       ),
 
     _compound_expression: ($) =>
@@ -720,8 +715,8 @@ module.exports = grammar({
 
     try_expression: ($) =>
       seq(
-        "try",
-        $._expression,
+        optional("try"),
+        $._compound_expression,
         $.try_catch_clause,
         optional($.try_else_clause)
       ),
@@ -730,7 +725,7 @@ module.exports = grammar({
 
     try_catch_clause: ($) =>
       seq(
-        optional(seq("catch", optional("!"))),
+        seq("catch", optional("!")),
         "{",
         list($._semicolon, $.case_clause),
         "}"
