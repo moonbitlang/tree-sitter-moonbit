@@ -105,16 +105,15 @@ module.exports = grammar({
         optional($.derive_directive)
       ),
 
-    type_alias_target: ($) => seq($.identifier, optional($.type_parameters)),
+    type_alias_target: ($) =>
+      choice($.identifier, seq($.identifier, "as", $.identifier)),
 
     type_alias_targets: ($) =>
       choice(
-        seq($.identifier, optional($.type_parameters), "=", $.type),
-        seq(
-          $.package_identifier,
-          $.dot_identifier,
-          optional($.type_parameters)
-        ),
+        seq($.type, "as", $.identifier, optional($.type_parameters)),
+        seq($.type, "=", $.type),
+        seq($.package_identifier, $.dot_identifier),
+        seq($.dot_identifier),
         seq($.package_identifier, ".(", list(",", $.type_alias_target), ")")
       ),
 
@@ -264,23 +263,16 @@ module.exports = grammar({
 
     trait_method_default_annotation: (_) => seq("=", "_"),
 
-    trait_alias_target: ($) => seq($.identifier, optional($.type_parameters)),
+    trait_alias_target: ($) =>
+      choice($.identifier, seq($.identifier, "as", $.identifier)),
 
     trait_alias_targets: ($) =>
       choice(
-        seq($.identifier, optional($.type_parameters), "=", $.type),
-        seq(
-          $.package_identifier,
-          $.dot_identifier,
-          optional($.type_parameters)
-        ),
-        seq(
-          $.package_identifier,
-          ".(",
-          list(",", $.trait_alias_target),
-          optional(","),
-          ")"
-        )
+        seq($.type, "as", $.identifier, optional($.type_parameters)),
+        seq($.type, "=", $.type),
+        seq($.package_identifier, $.dot_identifier),
+        seq($.dot_identifier),
+        seq($.package_identifier, ".(", list(",", $.trait_alias_target), ")")
       ),
 
     trait_alias_definition: ($) =>
