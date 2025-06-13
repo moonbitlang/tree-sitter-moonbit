@@ -434,7 +434,7 @@ let printable = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
             (unescaped_string_fragment)))))))
 
 ================================================================================
-Labelled argument and optional argument
+labelled argument and optional argument
 ================================================================================
 fn greeting(name~: String, location~: Option[String] = None) -> Unit {
   match location {
@@ -444,7 +444,7 @@ fn greeting(name~: String, location~: Option[String] = None) -> Unit {
 }
 
 fn init {
-  greeting(name="A")// Hi, A!
+  greeting(name="A")
   greeting(name="B", location=Some("X"))
 }
 --------------------------------------------------------------------------------
@@ -556,7 +556,6 @@ fn init {
                   (string_literal
                     (string_fragment
                       (unescaped_string_fragment)))))))))
-      (comment)
       (apply_expression
         (qualified_identifier
           (lowercase_identifier))

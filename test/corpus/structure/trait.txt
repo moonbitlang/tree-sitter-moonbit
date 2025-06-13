@@ -329,15 +329,14 @@ trait B: @a.T + @c.D {
                 (uppercase_identifier)))))))))
 
 ================================================================================
-Default implementations for methods in trait
+default implementations for methods in trait
 ================================================================================
 trait MyShow {
   repr(Self) -> String
-  str (Self) -> String // it has a default implementation
+  str (Self) -> String = _
 }
 
 impl MyShow with str(self : Self) -> String {
-  // default implementation of str
   self.repr()
 }
 
@@ -380,8 +379,8 @@ fn repr(self:MyInt) -> String {
           (apply_type
             (qualified_type_identifier
               (identifier
-                (uppercase_identifier)))))))
-    (comment))
+                (uppercase_identifier))))))
+      (trait_method_default_annotation)))
   (impl_definition
     (type_name
       (qualified_type_identifier
@@ -406,7 +405,6 @@ fn repr(self:MyInt) -> String {
             (identifier
               (uppercase_identifier))))))
     (block_expression
-      (comment)
       (dot_apply_expression
         (qualified_identifier
           (lowercase_identifier))
