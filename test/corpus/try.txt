@@ -34,60 +34,6 @@ fn main {
             (unit_expression)))))))
 
 ================================================================================
-try with no catch
-================================================================================
-fn main {
-  try {
-    println("hello")
-  } {
-    _ => ()
-  }
-  try println("Hello") {
-    _ => ()
-  }
-}
---------------------------------------------------------------------------------
-
-(structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (try_expression
-        (nonempty_block_expression
-          (apply_expression
-            (qualified_identifier
-              (lowercase_identifier))
-            (arguments
-              (argument
-                (atomic_expression
-                  (literal
-                    (string_literal
-                      (string_fragment
-                        (unescaped_string_fragment)))))))))
-        (try_catch_clause
-          (case_clause
-            (pattern
-              (simple_pattern))
-            (unit_expression))))
-      (try_expression
-        (apply_expression
-          (qualified_identifier
-            (lowercase_identifier))
-          (arguments
-            (argument
-              (atomic_expression
-                (literal
-                  (string_literal
-                    (string_fragment
-                      (unescaped_string_fragment))))))))
-        (try_catch_clause
-          (case_clause
-            (pattern
-              (simple_pattern))
-            (unit_expression)))))))
-
-================================================================================
 try with catch all
 ================================================================================
 fn main {
@@ -259,3 +205,33 @@ fn main {
             (qualified_identifier
               (lowercase_identifier))
             (arguments)))))))
+
+================================================================================
+try expression with no try
+================================================================================
+fn main {
+  f(true) catch {
+    _ => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (try_expression
+        (apply_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (arguments
+            (argument
+              (atomic_expression
+                (literal
+                  (boolean_literal))))))
+        (try_catch_clause
+          (case_clause
+            (pattern
+              (simple_pattern))
+            (unit_expression)))))))
