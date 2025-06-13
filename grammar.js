@@ -69,7 +69,7 @@ module.exports = grammar({
         $.impl_definition,
         $.type_alias_definition,
         $.trait_alias_definition,
-        $.function_alias_definition,
+        $.function_alias_definition
       ),
 
     visibility: ($) => choice("priv", seq("pub", optional($.pub_attribute))),
@@ -89,7 +89,7 @@ module.exports = grammar({
         $.identifier,
         optional($.type_parameters),
         optional($.type),
-        optional($.derive_directive),
+        optional($.derive_directive)
       ),
 
     error_type_definition: ($) =>
@@ -97,13 +97,12 @@ module.exports = grammar({
         optional($.attributes),
         optional($.visibility),
         optional("extern"),
-        "type",
-        "!",
+        choice(seq("type", "!"), "suberror"),
         $.identifier,
         optional(
-          choice($.type, seq("{", list($._semicolon, $.enum_constructor), "}")),
+          choice($.type, seq("{", list($._semicolon, $.enum_constructor), "}"))
         ),
-        optional($.derive_directive),
+        optional($.derive_directive)
       ),
 
     type_alias_target: ($) => seq($.identifier, optional($.type_parameters)),
@@ -114,9 +113,9 @@ module.exports = grammar({
         seq(
           $.package_identifier,
           $.dot_identifier,
-          optional($.type_parameters),
+          optional($.type_parameters)
         ),
-        seq($.package_identifier, ".(", list(",", $.type_alias_target), ")"),
+        seq($.package_identifier, ".(", list(",", $.type_alias_target), ")")
       ),
 
     type_alias_definition: ($) =>
@@ -124,7 +123,7 @@ module.exports = grammar({
         optional($.attributes),
         optional($.visibility),
         "typealias",
-        $.type_alias_targets,
+        $.type_alias_targets
       ),
 
     struct_definition: ($) =>
@@ -137,7 +136,7 @@ module.exports = grammar({
         "{",
         list($._semicolon, $.struct_field_declaration),
         "}",
-        optional($.derive_directive),
+        optional($.derive_directive)
       ),
 
     struct_field_declaration: ($) =>
@@ -146,7 +145,7 @@ module.exports = grammar({
         optional($.mutability),
         $._lowercase_identifier,
         ":",
-        $.type,
+        $.type
       ),
 
     enum_definition: ($) =>
@@ -159,13 +158,13 @@ module.exports = grammar({
         "{",
         list($._semicolon, $.enum_constructor),
         "}",
-        optional($.derive_directive),
+        optional($.derive_directive)
       ),
 
     enum_constructor_payload: ($) =>
       choice(
         seq("(", list1(",", $.constructor_parameter), ")"),
-        seq("=", $.integer_literal),
+        seq("=", $.integer_literal)
       ),
 
     enum_constructor: ($) =>
@@ -174,7 +173,7 @@ module.exports = grammar({
     constructor_parameter: ($) =>
       choice(
         seq(optional("mut"), $.type),
-        seq(optional("mut"), $.label, ":", $.type),
+        seq(optional("mut"), $.label, ":", $.type)
       ),
 
     value_definition: ($) =>
@@ -185,7 +184,7 @@ module.exports = grammar({
         $._lowercase_identifier,
         optional($.type_annotation),
         "=",
-        $._expression,
+        $._expression
       ),
 
     const_definition: ($) =>
@@ -196,7 +195,7 @@ module.exports = grammar({
         $._uppercase_identifier,
         optional($.type_annotation),
         "=",
-        $._expression,
+        $._expression
       ),
 
     external_linkage: ($) => seq("extern", $.string_literal),
@@ -205,7 +204,7 @@ module.exports = grammar({
       choice(
         $.string_literal,
         seq($.string_literal, $.string_literal),
-        $.multiline_string_literal,
+        $.multiline_string_literal
       ),
 
     function_definition: ($) =>
@@ -219,8 +218,8 @@ module.exports = grammar({
         $.function_identifier,
         optional("!"),
         optional($.parameters),
-        optional($.return_type),
-        choice($.block_expression, seq("=", $.external_source)),
+        optional(choice(seq("->", $.return_type), $.error_annotation)),
+        choice($.block_expression, seq("=", $.external_source))
       ),
 
     test_definition: ($) =>
@@ -229,7 +228,7 @@ module.exports = grammar({
         "test",
         optional($.string_literal),
         optional($.parameters),
-        $.block_expression,
+        $.block_expression
       ),
 
     trait_definition: ($) =>
@@ -241,7 +240,7 @@ module.exports = grammar({
         optional($.super_trait_declaration),
         "{",
         list($._semicolon, $.trait_method_declaration),
-        "}",
+        "}"
       ),
 
     super_trait_declaration: ($) =>
@@ -259,8 +258,8 @@ module.exports = grammar({
         "(",
         list(",", $.trait_method_parameter),
         ")",
-        optional($.return_type),
-        optional($.trait_method_default_annotation),
+        optional(seq("->", $.return_type)),
+        optional($.trait_method_default_annotation)
       ),
 
     trait_method_default_annotation: (_) => seq("=", "_"),
@@ -273,15 +272,15 @@ module.exports = grammar({
         seq(
           $.package_identifier,
           $.dot_identifier,
-          optional($.type_parameters),
+          optional($.type_parameters)
         ),
         seq(
           $.package_identifier,
           ".(",
           list(",", $.trait_alias_target),
           optional(","),
-          ")",
-        ),
+          ")"
+        )
       ),
 
     trait_alias_definition: ($) =>
@@ -289,13 +288,13 @@ module.exports = grammar({
         optional($.attributes),
         optional($.visibility),
         "traitalias",
-        $.trait_alias_targets,
+        $.trait_alias_targets
       ),
 
     function_alias_target: ($) =>
       choice(
         $._lowercase_identifier,
-        seq($._lowercase_identifier, "as", $._lowercase_identifier),
+        seq($._lowercase_identifier, "as", $._lowercase_identifier)
       ),
 
     function_alias_targets: ($) =>
@@ -307,7 +306,7 @@ module.exports = grammar({
           $.package_identifier,
           $.dot_lowercase_identifier,
           "as",
-          $._lowercase_identifier,
+          $._lowercase_identifier
         ),
         seq($.type_name, "::", $._lowercase_identifier),
         seq(
@@ -315,16 +314,16 @@ module.exports = grammar({
           "::",
           $._lowercase_identifier,
           "as",
-          $._lowercase_identifier,
+          $._lowercase_identifier
         ),
         seq("(", list1(",", $.function_alias_target), ")"),
         seq(
           $.package_identifier,
           ".(",
           list(",", $.function_alias_target),
-          ")",
+          ")"
         ),
-        seq($.type_name, "::", "(", list(",", $.function_alias_target), ")"),
+        seq($.type_name, "::", "(", list(",", $.function_alias_target), ")")
       ),
 
     function_alias_definition: ($) =>
@@ -332,7 +331,7 @@ module.exports = grammar({
         optional($.attributes),
         optional($.visibility),
         "fnalias",
-        $.function_alias_targets,
+        $.function_alias_targets
       ),
 
     impl_definition: ($) =>
@@ -347,8 +346,8 @@ module.exports = grammar({
         $.function_identifier,
         optional("!"),
         $.parameters,
-        optional($.return_type),
-        choice($.block_expression, seq("=", $.external_source)),
+        optional(seq("->", $.return_type)),
+        choice($.block_expression, seq("=", $.external_source))
       ),
 
     _expression: ($) =>
@@ -361,7 +360,7 @@ module.exports = grammar({
         $.for_in_expression,
         $.try_expression,
         $.try_question_expression,
-        $._compound_expression,
+        $._compound_expression
       ),
 
     _compound_expression: ($) =>
@@ -369,7 +368,7 @@ module.exports = grammar({
         $.range_expression,
         $._postfix_expression,
         $._simple_expression,
-        $.binary_expression,
+        $.binary_expression
       ),
 
     _postfix_expression: ($) => choice($.as_expression, $.is_expression),
@@ -395,7 +394,7 @@ module.exports = grammar({
         $.constraint_expression,
         $.array_expression,
         $.map_expression,
-        "_",
+        "_"
       ),
 
     atomic_expression: ($) => choice($.string_interpolation, $.literal),
@@ -406,7 +405,7 @@ module.exports = grammar({
         repeat($.string_fragment),
         $.interpolator,
         repeat(choice($.string_fragment, $.interpolator)),
-        '"',
+        '"'
       ),
 
     interpolator: ($) => seq("\\{", $._expression, "}"),
@@ -420,7 +419,7 @@ module.exports = grammar({
         $.char_literal,
         $.string_literal,
         $.bytes_literal,
-        $.multiline_string_literal,
+        $.multiline_string_literal
       ),
 
     boolean_literal: (_) => choice("true", "false"),
@@ -431,8 +430,8 @@ module.exports = grammar({
           /[0-9][0-9_]*(UL|U|L|N)?/,
           /0[xX][0-9a-fA-F_]+(UL|U|L|N)?/,
           /0[oO][0-7_]+(UL|U|L|N)?/,
-          /0[bB][01_]+(UL|U|L|N)?/,
-        ),
+          /0[bB][01_]+(UL|U|L|N)?/
+        )
       ),
 
     // integerPart = /[0-9][_0-9]*/,
@@ -456,7 +455,7 @@ module.exports = grammar({
     unescaped_string_fragment: (_) =>
       choice(
         token.immediate(prec(1, /\\[^ntbr'"\\{]/)),
-        token.immediate(prec(1, /[^"\\]+/)),
+        token.immediate(prec(1, /[^"\\]+/))
       ),
 
     escape_sequence: (_) =>
@@ -470,7 +469,7 @@ module.exports = grammar({
         token.immediate(/\\x\{[0-9a-fA-F]+\}/),
         // unicode
         token.immediate(/\\u[0-9a-fA-F]{4}/),
-        token.immediate(/\\u\{[0-9a-fA-F]+\}/),
+        token.immediate(/\\u\{[0-9a-fA-F]+\}/)
       ),
 
     multiline_string_content: (_) => /[^\n]*/,
@@ -481,7 +480,7 @@ module.exports = grammar({
       choice(
         token.immediate(prec(1, /\\[^{]/)),
         token.immediate(prec(1, /[^\n\\]+/)),
-        $.interpolator,
+        $.interpolator
       ),
 
     multiline_interpolation_fragment: ($) =>
@@ -492,9 +491,9 @@ module.exports = grammar({
         repeat1(
           choice(
             $.multiline_string_fragment,
-            $.multiline_interpolation_fragment,
-          ),
-        ),
+            $.multiline_interpolation_fragment
+          )
+        )
       ),
 
     unary_expression: ($) =>
@@ -521,9 +520,9 @@ module.exports = grammar({
         ...table.map(([precedence, operator]) =>
           prec.left(
             precedence,
-            seq($._compound_expression, operator, $._compound_expression),
-          ),
-        ),
+            seq($._compound_expression, operator, $._compound_expression)
+          )
+        )
       );
     },
 
@@ -535,16 +534,16 @@ module.exports = grammar({
             seq(
               $.labeled_expression_pun,
               ",",
-              list(",", $.struct_field_expression),
+              list(",", $.struct_field_expression)
             ),
             seq($.labeled_expression, optional(",")),
             seq(
               $.labeled_expression,
               ",",
-              list1(",", $.struct_field_expression),
-            ),
+              list1(",", $.struct_field_expression)
+            )
           ),
-          "}",
+          "}"
         ),
         seq($.type_name, "::", "{", list(",", $.struct_field_expression), "}"),
         seq(optional(seq($.type_name, "::")), "{", "..", $._expression, "}"),
@@ -555,8 +554,8 @@ module.exports = grammar({
           $._expression,
           ",",
           list(",", $.struct_field_expression),
-          "}",
-        ),
+          "}"
+        )
       ),
 
     struct_field_expression: ($) =>
@@ -578,8 +577,8 @@ module.exports = grammar({
         "fn",
         optional("!"),
         $.parameters,
-        optional($.return_type),
-        $.block_expression,
+        optional(seq("->", $.return_type)),
+        $.block_expression
       ),
 
     anonymous_matrix_lambda_expression: ($) =>
@@ -589,7 +588,7 @@ module.exports = grammar({
         optional("!"),
         "{",
         list($._semicolon, $.matrix_case_clause),
-        "}",
+        "}"
       ),
 
     pattern_guard: ($) => seq("if", $._expression),
@@ -599,14 +598,14 @@ module.exports = grammar({
         list1(",", $.pattern),
         optional($.pattern_guard),
         "=>",
-        $._statement_expression,
+        $._statement_expression
       ),
 
     constructor_expression: ($) =>
       choice(
         $._uppercase_identifier,
         seq($.package_identifier, $.dot_uppercase_identifier),
-        seq($.type_name, "::", $._uppercase_identifier),
+        seq($.type_name, "::", $._uppercase_identifier)
       ),
 
     labelled_argument: ($) => seq($._lowercase_identifier, "=", $._expression),
@@ -623,7 +622,7 @@ module.exports = grammar({
         $.labelled_argument,
         $.forwarded_labelled_argument,
         $.optional_argument,
-        $.forwarded_optional_argument,
+        $.forwarded_optional_argument
       ),
 
     apply_operator: ($) => choice("!", "!!", "?"),
@@ -635,8 +634,8 @@ module.exports = grammar({
         PREC.apply,
         choice(
           seq($._lowercase_identifier, "?", $.arguments),
-          seq($._simple_expression, optional($.apply_operator), $.arguments),
-        ),
+          seq($._simple_expression, optional($.apply_operator), $.arguments)
+        )
       ),
 
     array_access_expression: ($) =>
@@ -647,10 +646,10 @@ module.exports = grammar({
           "[",
           choice(
             $._expression,
-            seq(optional($._expression), ":", optional($._expression)),
+            seq(optional($._expression), ":", optional($._expression))
           ),
-          "]",
-        ),
+          "]"
+        )
       ),
 
     dot_apply_expression: ($) =>
@@ -661,8 +660,8 @@ module.exports = grammar({
           $.dot_identifier,
           "(",
           list(",", $.argument),
-          ")",
-        ),
+          ")"
+        )
       ),
 
     dot_dot_apply_expression: ($) =>
@@ -673,8 +672,8 @@ module.exports = grammar({
           $.dot_dot_identifier,
           "(",
           list(",", $.argument),
-          ")",
-        ),
+          ")"
+        )
       ),
 
     access_expression: ($) =>
@@ -706,7 +705,7 @@ module.exports = grammar({
       seq(
         $._simple_expression,
         "is",
-        choice($.range_pattern, $.simple_pattern),
+        choice($.range_pattern, $.simple_pattern)
       ),
 
     match_expression: ($) =>
@@ -715,7 +714,7 @@ module.exports = grammar({
         $._compound_expression,
         "{",
         list($._semicolon, $.case_clause),
-        "}",
+        "}"
       ),
 
     case_clause: ($) =>
@@ -732,7 +731,7 @@ module.exports = grammar({
         "try",
         $._expression,
         $.try_catch_clause,
-        optional($.try_else_clause),
+        optional($.try_else_clause)
       ),
 
     try_question_expression: ($) => seq("try", "?", $._expression),
@@ -742,7 +741,7 @@ module.exports = grammar({
         optional(seq("catch", optional("!"))),
         "{",
         list($._semicolon, $.case_clause),
-        "}",
+        "}"
       ),
 
     try_else_clause: ($) =>
@@ -753,7 +752,7 @@ module.exports = grammar({
         "if",
         $._compound_expression,
         $.block_expression,
-        optional($.else_clause),
+        optional($.else_clause)
       ),
 
     else_clause: ($) =>
@@ -776,7 +775,7 @@ module.exports = grammar({
         $.return_expression,
         $.raise_expression,
         $._expression,
-        $.unfinished,
+        $.unfinished
       ),
 
     unfinished: (_) => "...",
@@ -791,7 +790,7 @@ module.exports = grammar({
         $._lowercase_identifier,
         optional($.type_annotation),
         "=",
-        $._expression,
+        $._expression
       ),
 
     guard_expression: ($) =>
@@ -806,7 +805,7 @@ module.exports = grammar({
         $.pattern,
         "=",
         $._simple_expression,
-        optional($.guard_let_else_expression),
+        optional($.guard_let_else_expression)
       ),
 
     guard_let_else_expression: ($) =>
@@ -821,7 +820,7 @@ module.exports = grammar({
       choice(
         $.qualified_identifier,
         $.access_expression,
-        $.array_access_expression,
+        $.array_access_expression
       ),
 
     named_lambda_expression: ($) =>
@@ -831,8 +830,8 @@ module.exports = grammar({
         $._lowercase_identifier,
         optional("!"),
         $.parameters,
-        optional($.return_type),
-        $.block_expression,
+        optional(seq("->", $.return_type)),
+        $.block_expression
       ),
 
     named_matrix_expression: ($) =>
@@ -843,7 +842,7 @@ module.exports = grammar({
         optional("!"),
         "{",
         list($._semicolon, $.matrix_case_clause),
-        "}",
+        "}"
       ),
 
     loop_label: ($) => seq($.label, ":"),
@@ -854,7 +853,7 @@ module.exports = grammar({
         "while",
         $._compound_expression,
         $.block_expression,
-        optional($.else_clause),
+        optional($.else_clause)
       ),
 
     loop_expression: ($) =>
@@ -864,7 +863,7 @@ module.exports = grammar({
         strictList1(",", $._expression),
         "{",
         list($._semicolon, $.matrix_case_clause),
-        "}",
+        "}"
       ),
 
     for_binder: ($) => seq($._lowercase_identifier, "=", $._expression),
@@ -880,15 +879,15 @@ module.exports = grammar({
           $._semicolon,
           strictList(",", $.for_binder),
           $.block_expression,
-          optional($.else_clause),
+          optional($.else_clause)
         ),
         seq(
           optional($.loop_label),
           "for",
           strictList(",", $.for_binder),
           $.block_expression,
-          optional($.else_clause),
-        ),
+          optional($.else_clause)
+        )
       ),
 
     for_in_expression: ($) =>
@@ -899,7 +898,7 @@ module.exports = grammar({
         "in",
         $._expression,
         $.block_expression,
-        optional($.else_clause),
+        optional($.else_clause)
       ),
 
     range_expression: ($) =>
@@ -935,7 +934,7 @@ module.exports = grammar({
         $.array_pattern,
         $.struct_pattern,
         $.map_pattern,
-        $.empty_struct_or_map_pattern,
+        $.empty_struct_or_map_pattern
       ),
 
     constructor_pattern_argument: ($) =>
@@ -946,8 +945,8 @@ module.exports = grammar({
         PREC.apply,
         seq(
           $.constructor_expression,
-          optional(seq("(", list(",", $.constructor_pattern_argument), ")")),
-        ),
+          optional(seq("(", list(",", $.constructor_pattern_argument), ")"))
+        )
       ),
 
     tuple_pattern: ($) => seq("(", $.pattern, ",", list1(",", $.pattern), ")"),
@@ -962,7 +961,7 @@ module.exports = grammar({
         seq("..", $.constructor_expression),
         seq("..", $.string_literal),
         seq("..", $.bytes_literal),
-        $.pattern,
+        $.pattern
       ),
 
     struct_pattern: ($) =>
@@ -986,30 +985,45 @@ module.exports = grammar({
     range_pattern: ($) =>
       seq($.simple_pattern, choice("..<", "..="), $.simple_pattern),
 
-    type: ($) =>
-      choice(
-        $.tuple_type,
-        $.function_type,
-        $.apply_type,
-        $.option_type,
-        $.trait_object_type,
-        $.any,
-      ),
+    type: ($) => choice($._simple_type, $.function_type),
 
-    tuple_type: ($) => seq("(", list(",", $.type), ")"),
+    tuple_type: ($) => seq("(", $.type, ",", list1(",", $.type), ")"),
 
     function_type: ($) =>
-      prec.right(
-        TYPE_PREC.arrow,
-        seq(optional("async"), "(", list(",", $.type), ")", $.return_type),
+      choice(
+        seq(
+          optional("async"),
+          "(",
+          $.type,
+          ",",
+          list1(",", $.type),
+          ")",
+          seq("->", $.return_type)
+        ),
+        seq(optional("async"), "(", $.type, ")", "->", $.return_type),
+        seq(optional("async"), "(", ")", "->", $.return_type)
       ),
+
+    any_type: (_) => "_",
+
+    _simple_type: ($) =>
+      choice(
+        $.option_type,
+        $.apply_type,
+        $.tuple_type,
+        $.trait_object_type,
+        $.any_type,
+        $._just_type
+      ),
+
+    _just_type: ($) => seq("(", $.type, ")"),
 
     apply_type: ($) =>
       seq($.qualified_type_identifier, optional($.type_arguments)),
 
-    option_type: ($) => prec(TYPE_PREC.option, seq($.type, "?")),
+    option_type: ($) => seq($._simple_type, "?"),
 
-    trait_object_type: ($) => seq("&", $.type),
+    trait_object_type: ($) => seq("&", $.qualified_type_identifier),
 
     type_arguments: ($) => seq("[", list1(",", $.type), "]"),
 
@@ -1017,10 +1031,17 @@ module.exports = grammar({
 
     type_annotation: ($) => seq(":", $.type),
 
-    type_with_error: ($) =>
-      prec(TYPE_PREC.error, seq($.type, "!", optional($.type))),
+    error_annotation: ($) =>
+      choice("raise", seq("raise", $.type), seq("raise", "?")),
 
-    return_type: ($) => seq("->", choice($.type, $.type_with_error)),
+    return_type: ($) =>
+      choice(
+        $.type,
+        seq($._simple_type, "!"),
+        seq($._simple_type, "!", $.type),
+        seq($._simple_type, "?", $.type),
+        seq($._simple_type, $.error_annotation)
+      ),
 
     label: ($) => seq($._lowercase_identifier, "~"),
 
@@ -1042,7 +1063,7 @@ module.exports = grammar({
         $.positional_parameter,
         $.labelled_parameter,
         $.optional_parameter,
-        $.optional_parameter_with_default,
+        $.optional_parameter_with_default
       ),
 
     parameters: ($) => seq("(", list(",", $.parameter), ")"),
@@ -1082,7 +1103,7 @@ module.exports = grammar({
     qualified_identifier: ($) =>
       choice(
         $._lowercase_identifier,
-        seq($.package_identifier, $.dot_lowercase_identifier),
+        seq($.package_identifier, $.dot_lowercase_identifier)
       ),
 
     qualified_type_identifier: ($) =>
@@ -1091,13 +1112,13 @@ module.exports = grammar({
     type_name: ($) =>
       choice(
         $.qualified_type_identifier,
-        seq("&", $.qualified_type_identifier),
+        seq("&", $.qualified_type_identifier)
       ),
 
     function_identifier: ($) =>
       choice(
         $._lowercase_identifier,
-        seq($.type_name, "::", $._lowercase_identifier),
+        seq($.type_name, "::", $._lowercase_identifier)
       ),
 
     type_identifier: ($) =>
@@ -1114,7 +1135,7 @@ module.exports = grammar({
     attribute_property: ($) =>
       choice(
         seq($._lowercase_identifier, "=", $.attribute_expression),
-        $.attribute_expression,
+        $.attribute_expression
       ),
 
     attribute_expression: ($) =>
@@ -1125,9 +1146,9 @@ module.exports = grammar({
         seq(
           $._lowercase_identifier,
           $.dot_lowercase_identifier,
-          $.attribute_properties,
+          $.attribute_properties
         ),
-        $.string_literal,
+        $.string_literal
       ),
 
     attribute: ($) => seq("#", $.attribute_expression),
@@ -1152,11 +1173,7 @@ function list(separator, rule) {
  * @returns {SeqRule}
  */
 function list1(separator, rule) {
-  return seq(
-    rule,
-    repeat(seq(separator, choice(rule, "$..."))),
-    optional(separator),
-  );
+  return seq(rule, repeat(seq(separator, rule)), optional(separator));
 }
 
 /**
@@ -1196,7 +1213,7 @@ function plusList(rule) {
 function plusList1(rule) {
   return seq(
     rule,
-    repeat(seq("+", rule)),
+    repeat(seq("+", rule))
     // no trailing separator
   );
 }
