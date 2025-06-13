@@ -6,10 +6,10 @@ struct Context {
 }
 
 ///|
-fn Context::new!(
+fn Context::new(
   context : @string.View,
   selector~ : @string.View
-) -> Context!ParseError {
+) -> Context raise ParseError {
   let prefix = StringBuilder::new()
   loop context {
     ['$', .. context] =>
@@ -31,7 +31,7 @@ fn Context::new!(
 }
 
 ///|
-type! ParseError {
+suberror ParseError {
   MissingInterpolator
   LanguageError(@tree_sitter.LanguageError)
   ParseError(@tree_sitter.ParseError)
@@ -67,15 +67,16 @@ fn lowest_common_ancestor(
 fn Compiler::compile(
   self : Compiler,
   query : @string.View
-) -> @tree_sitter.Query!ParseError {
-  try self.parser.set_language!(self.language) catch {
+) -> @tree_sitter.Query raise ParseError {
+  self.parser.set_language(self.language) catch {
     e => raise LanguageError(e)
   }
   let buffer = StringBuilder::new()
   let errors = []
   for name, context in self.contexts {
-    let tree = try
-      self.parser.parse_string!("\{context.prefix}\{query}\{context.suffix}") catch {
+    let tree = self.parser.parse_string(
+      "\{context.prefix}\{query}\{context.suffix}",
+    ) catch {
       e => {
         errors.push(ParseError(e))
         continue
@@ -85,7 +86,7 @@ fn Compiler::compile(
       errors.push(SyntaxError(tree.root_node()))
       continue
     }
-    let cursor = try @tree_sitter.Query::new!(self.language, context.select) catch {
+    let cursor = @tree_sitter.Query::new(self.language, context.select) catch {
       e => raise QueryError(e)
     }
     let nodes = []
@@ -127,7 +128,7 @@ fn Compiler::compile(
   if query == "" && errors.length() > 0 {
     raise Errors(errors)
   }
-  let query = try @tree_sitter.Query::new!(self.language, query) catch {
+  let query = @tree_sitter.Query::new(self.language, query) catch {
     e => raise QueryError(e)
   }
   query
@@ -145,13 +146,13 @@ priv struct Compiler {
 let global_compiler : Ref[Compiler?] = Ref::new(None)
 
 ///|
-fn compiler() -> Compiler!ParseError {
+fn compiler() -> Compiler raise ParseError {
   if global_compiler.val is Some(compiler) {
     return compiler
   }
   let language = @tree_sitter_moonbit.language()
   let contexts : Map[@string.View, Context] = {
-    "exp": Context::new!(
+    "exp": Context::new(
       #|fn main {
       #|  $
       #|}
@@ -165,14 +166,14 @@ fn compiler() -> Compiler!ParseError {
         #|   "}")))
       ,
     ),
-    "top": Context::new!(
+    "top": Context::new(
       "$",
       selector=
         #|(structure
         #| (_) @top)
       ,
     ),
-    "pat": Context::new!(
+    "pat": Context::new(
       #|fn main {
       #|  match x {
       #|    $ => y
@@ -183,14 +184,14 @@ fn compiler() -> Compiler!ParseError {
         #|(pattern)
       ,
     ),
-    "ty": Context::new!(
+    "ty": Context::new(
       #|let x : $ = 42
       ,
       selector=
         #|(type)
       ,
     ),
-    "case": Context::new!(
+    "case": Context::new(
       #|fn main {
       #|  match x {
       #|    $
@@ -201,7 +202,7 @@ fn compiler() -> Compiler!ParseError {
         #|(case_clause) @case
       ,
     ),
-    "matrix": Context::new!(
+    "matrix": Context::new(
       #|fn main {
       #|  loop a, b {
       #|    $
@@ -214,7 +215,7 @@ fn compiler() -> Compiler!ParseError {
     ),
   }
   let parser = @tree_sitter.Parser::new()
-  try parser.set_language!(language) catch {
+  parser.set_language(language) catch {
     e => raise LanguageError(e)
   }
   let compiler = Compiler::{ language, parser, id: 0, contexts }
@@ -235,7 +236,7 @@ fn Compiler::nodes(
   nodes : Array[@tree_sitter.Node],
   path~ : Array[Int],
   buffer~ : StringBuilder
-) -> Unit!ParseError {
+) -> Unit raise ParseError {
   for i, node in nodes {
     self.node(node, path=[..path, i], buffer~)
     if i < nodes.length() - 1 {
@@ -250,7 +251,7 @@ fn Compiler::node(
   node : @tree_sitter.Node,
   path~ : Array[Int],
   buffer~ : StringBuilder
-) -> Unit!ParseError {
+) -> Unit raise ParseError {
   let children = node.children().collect()
   buffer.write_char('(')
   if node.is_named() {
@@ -298,14 +299,14 @@ fn Compiler::node(
           ") @\{id} (#eq? @\{id} \{node.text().to_json().stringify()})",
         )
       } else {
-        self.nodes!(children, path~, buffer~)
+        self.nodes(children, path~, buffer~)
       }
     }
   } else if node.type_() == "$..." {
     buffer.write_string("(_)*")
   } else {
     buffer.write_string(node.type_().to_json().stringify())
-    self.nodes!(children, path~, buffer~)
+    self.nodes(children, path~, buffer~)
   }
   let path = ["_", ..path.map(fn(i) { i.to_string() })].join(".")
   buffer.write_string(") @\{path}")
@@ -340,7 +341,7 @@ pub impl ToJson for Match with to_json(self : Match) -> Json {
 pub impl @json.FromJson for Match with from_json(
   self : Json,
   path : @json.JsonPath
-) -> Match!@json.JsonDecodeError {
+) -> Match raise @json.JsonDecodeError {
   match self {
     {
       "range": {
@@ -361,7 +362,7 @@ pub impl @json.FromJson for Match with from_json(
       "captures": captures_json,
       ..
     } => {
-      let captures : Map[String, Array[Text]] = @json.from_json!(
+      let captures : Map[String, Array[Text]] = @json.from_json(
         captures_json,
         path=path.add_key("captures"),
       )
@@ -406,12 +407,12 @@ fn node_equal(this : @tree_sitter.Node, that : @tree_sitter.Node) -> Bool {
 fn search(
   query~ : @string.View,
   content~ : @string.View
-) -> Iter[Match]!ParseError {
-  let compiler = compiler!()
-  let root_node = try compiler.parser.parse_string!(content).root_node() catch {
+) -> Iter[Match] raise ParseError {
+  let compiler = compiler()
+  let root_node = compiler.parser.parse_string(content).root_node() catch {
     e => raise ParseError(e)
   }
-  let query = compiler.compile!(query)
+  let query = compiler.compile(query)
   Iter::new(fn(yield_) {
     matches~: for matched in query.matches(root_node) {
       let nodes = []

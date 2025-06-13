@@ -87,10 +87,10 @@ test "grep" {
     .map(fn(request) { request.to_json().stringify() })
     .join("\n")
   let null = Json::null()
-  @async.start!(fn() {
+  @async.start(fn() {
     let stdin = @async.Pipe::new()
     let stdout = @async.Pipe::new()
-    let process = @async.spawn!(
+    let process = @async.spawn(
       "moon",
       ["run", @async.path(["src", "grep"]), "--target", "native"],
       stdin=Pipe(stdin),
@@ -98,15 +98,15 @@ test "grep" {
     )
     stdin.write_text(request, encoding=UTF8)
     stdin.close()
-    @json.inspect!(process.status(), content=0)
+    @json.inspect(process.status(), content=0)
     let response = []
     for line in stdout.read_text(encoding=UTF8).split("\n") {
       if line.is_empty() {
         continue
       }
-      response.push(@json.parse!(line.to_string()))
+      response.push(@json.parse(line.to_string()))
     }
-    @json.inspect!(response, content=[
+    @json.inspect(response, content=[
       {
         "jsonrpc": "2.0",
         "result": {
