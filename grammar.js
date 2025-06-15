@@ -821,7 +821,7 @@ module.exports = grammar({
         $._lowercase_identifier,
         optional("!"),
         $.parameters,
-        optional(seq("->", $.return_type)),
+        optional(choice(seq("->", $.return_type), $.error_annotation)),
         $.block_expression
       ),
 
@@ -923,7 +923,7 @@ module.exports = grammar({
         $.struct_pattern,
         $.map_pattern,
         $.empty_struct_or_map_pattern,
-        $.any_pattern,
+        $.any_pattern
       ),
 
     parenthesized_pattern: ($) => seq("(", $._pattern, ")"),
