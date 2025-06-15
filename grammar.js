@@ -17,7 +17,7 @@ module.exports = grammar({
     ";",
     "#|",
     "$|",
-    $.float_literal,
+    $._double_literal,
     "for",
     $.error_sentinel,
   ],
@@ -421,6 +421,7 @@ module.exports = grammar({
     literal: ($) =>
       choice(
         $.boolean_literal,
+        $.double_literal,
         $.float_literal,
         $.integer_literal,
         $.byte_literal,
@@ -446,6 +447,10 @@ module.exports = grammar({
     // decimalPart = /[_0-9]+/,
     // exponentPart = /[eE][0-9][_0-9]*/,
     // float_literal: _ => /[0-9][_0-9]*\.[_0-9]*([eE][0-9][_0-9]*)?/,
+
+    float_literal: ($) => seq($._double_literal, token.immediate("F")),
+
+    double_literal: ($) => $._double_literal,
 
     byte_literal: ($) =>
       seq("b'", choice($.escape_sequence, token.immediate(/[^']/)), "'"),
@@ -697,7 +702,7 @@ module.exports = grammar({
     map_expression: ($) => seq("{", list(",", $.map_element_expression), "}"),
 
     map_element_key: ($) =>
-      choice($.literal, seq("-", choice($.integer_literal, $.float_literal))),
+      choice($.literal, seq("-", choice($.integer_literal, $._double_literal))),
 
     map_element_expression: ($) => seq($.map_element_key, ":", $._expression),
 
@@ -929,7 +934,11 @@ module.exports = grammar({
     parenthesized_pattern: ($) => seq("(", $._pattern, ")"),
 
     atomic_pattern: ($) =>
-      choice($.literal, seq("-", $.integer_literal), seq("-", $.float_literal)),
+      choice(
+        $.literal,
+        seq("-", $.integer_literal),
+        seq("-", $._double_literal)
+      ),
 
     any_pattern: (_) => "_",
 
