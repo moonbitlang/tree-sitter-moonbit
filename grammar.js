@@ -28,6 +28,7 @@ module.exports = grammar({
     $._expression,
     $._statement_expression,
     $._structure_item,
+    $._type,
   ],
 
   precedences: ($) => [
@@ -99,7 +100,7 @@ module.exports = grammar({
         "type",
         $.identifier,
         optional($.type_parameters),
-        optional($.type),
+        optional($._type),
         optional($.derive_directive)
       ),
 
@@ -111,7 +112,7 @@ module.exports = grammar({
         choice(seq("type", "!"), "suberror"),
         $.identifier,
         optional(
-          choice($.type, seq("{", list($._semicolon, $.enum_constructor), "}"))
+          choice($._type, seq("{", list($._semicolon, $.enum_constructor), "}"))
         ),
         optional($.derive_directive)
       ),
@@ -121,8 +122,8 @@ module.exports = grammar({
 
     type_alias_targets: ($) =>
       choice(
-        seq($.type, "as", $.identifier, optional($.type_parameters)),
-        seq($.type, "=", $.type),
+        seq($._type, "as", $.identifier, optional($.type_parameters)),
+        seq($._type, "=", $._type),
         seq($.package_identifier, $.dot_identifier),
         seq($.dot_identifier),
         seq($.package_identifier, ".(", list(",", $.type_alias_target), ")")
@@ -155,7 +156,7 @@ module.exports = grammar({
         optional($.mutability),
         $._lowercase_identifier,
         ":",
-        $.type
+        $._type
       ),
 
     enum_definition: ($) =>
@@ -182,8 +183,8 @@ module.exports = grammar({
 
     constructor_parameter: ($) =>
       choice(
-        seq(optional("mut"), $.type),
-        seq(optional("mut"), $.label, ":", $.type)
+        seq(optional("mut"), $._type),
+        seq(optional("mut"), $.label, ":", $._type)
       ),
 
     value_definition: ($) =>
@@ -257,7 +258,7 @@ module.exports = grammar({
       seq(":", plusList($.qualified_type_identifier)),
 
     trait_method_parameter: ($) =>
-      choice($.type, seq($.label, $.type_annotation)),
+      choice($._type, seq($.label, $.type_annotation)),
 
     trait_method_declaration: ($) =>
       seq(
@@ -279,8 +280,8 @@ module.exports = grammar({
 
     trait_alias_targets: ($) =>
       choice(
-        seq($.type, "as", $.identifier, optional($.type_parameters)),
-        seq($.type, "=", $.type),
+        seq($._type, "as", $.identifier, optional($.type_parameters)),
+        seq($._type, "=", $._type),
         seq($.package_identifier, $.dot_identifier),
         seq($.dot_identifier),
         seq($.package_identifier, ".(", list(",", $.trait_alias_target), ")")
@@ -344,7 +345,7 @@ module.exports = grammar({
         "impl",
         optional($.type_parameters),
         $.type_name,
-        optional(seq("for", $.type)),
+        optional(seq("for", $._type)),
         "with",
         $.function_identifier,
         optional("!"),
@@ -392,6 +393,7 @@ module.exports = grammar({
         $.method_expression,
         $.unit_expression,
         $.tuple_expression,
+        $.parenthesized_expression,
         $.constraint_expression,
         $.array_expression,
         $.map_expression,
@@ -675,9 +677,18 @@ module.exports = grammar({
 
     unit_expression: (_) => seq("(", ")"),
 
-    tuple_expression: ($) => seq("(", list1(",", $._expression), ")"),
+    tuple_expression: ($) =>
+      seq(
+        "(",
+        $._expression,
+        repeat1(seq(",", $._expression)),
+        optional(","),
+        ")"
+      ),
 
-    constraint_expression: ($) => seq("(", $._expression, ":", $.type, ")"),
+    parenthesized_expression: ($) => seq("(", $._expression, ")"),
+
+    constraint_expression: ($) => seq("(", $._expression, ":", $._type, ")"),
 
     array_expression: ($) =>
       seq("[", list(",", seq(optional(".."), $._expression)), "]"),
@@ -929,7 +940,7 @@ module.exports = grammar({
 
     tuple_pattern: ($) => seq("(", $.pattern, ",", list1(",", $.pattern), ")"),
 
-    constraint_pattern: ($) => seq("(", $.pattern, ":", $.type, ")"),
+    constraint_pattern: ($) => seq("(", $.pattern, ":", $._type, ")"),
 
     array_pattern: ($) => seq("[", list(",", $.array_sub_pattern), "]"),
 
@@ -963,50 +974,55 @@ module.exports = grammar({
     range_pattern: ($) =>
       seq($.simple_pattern, choice("..<", "..="), $.simple_pattern),
 
-    type: ($) => choice($._simple_type, $.function_type),
+    _type: ($) => choice($._simple_type, $.function_type),
 
-    tuple_type: ($) => seq("(", list(",", $.type), ")"),
+    tuple_type: ($) =>
+      seq("(", $._type, repeat1(seq(",", $._type)), optional(","), ")"),
 
     function_type: ($) =>
       seq(
         optional("async"),
         "(",
-        list(",", $.type),
+        list(",", $._type),
         ")",
         seq("->", $.return_type)
       ),
 
     _simple_type: ($) =>
       choice(
+        $.qualified_type_identifier,
         $.option_type,
         $.apply_type,
         $.tuple_type,
         $.trait_object_type,
+        $.parenthesized_type,
         "_"
       ),
 
+    parenthesized_type: ($) => seq("(", $._type, ")"),
+
     apply_type: ($) =>
-      seq($.qualified_type_identifier, optional($.type_arguments)),
+      seq($.qualified_type_identifier, $.type_arguments),
 
     option_type: ($) => seq($._simple_type, "?"),
 
     trait_object_type: ($) => seq("&", $.qualified_type_identifier),
 
-    type_arguments: ($) => seq("[", list1(",", $.type), "]"),
+    type_arguments: ($) => seq("[", list1(",", $._type), "]"),
 
     type_parameters: ($) => seq("[", list1(",", $.type_identifier), "]"),
 
-    type_annotation: ($) => seq(":", $.type),
+    type_annotation: ($) => seq(":", $._type),
 
     error_annotation: ($) =>
-      choice("raise", seq("raise", $.type), seq("raise", "?")),
+      choice("raise", seq("raise", $._type), seq("raise", "?")),
 
     return_type: ($) =>
       choice(
-        $.type,
+        $._type,
         seq($._simple_type, "!"),
-        seq($._simple_type, "!", $.type),
-        seq($._simple_type, "?", $.type),
+        seq($._simple_type, "!", $._type),
+        seq($._simple_type, "?", $._type),
         seq($._simple_type, $.error_annotation)
       ),
 

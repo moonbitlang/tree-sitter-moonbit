@@ -26,7 +26,7 @@ module.exports = grammar(base, {
     ),
 
     type: $ => choice(
-      base.grammar.rules.type,
+      base.grammar.rules._type,
       $.quotation_type_expander,
     ),
 
