@@ -160,7 +160,9 @@ fn init {
                 (integer_literal))))
           (argument
             (apply_expression
-              (lowercase_identifier)
+              (qualified_identifier
+                (lowercase_identifier))
+              (apply_operator)
               (arguments
                 (argument
                   (atomic_expression
@@ -255,7 +257,9 @@ fn main {
               (integer_literal))))
         (argument
           (apply_expression
-            (lowercase_identifier)
+            (qualified_identifier
+              (lowercase_identifier))
+            (apply_operator)
             (arguments
               (argument
                 (atomic_expression
@@ -361,7 +365,9 @@ fn main {
               (integer_literal))))
         (argument
           (apply_expression
-            (lowercase_identifier)
+            (qualified_identifier
+              (lowercase_identifier))
+            (apply_operator)
             (arguments
               (argument
                 (atomic_expression

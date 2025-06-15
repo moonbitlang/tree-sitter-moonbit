@@ -115,31 +115,7 @@ type T6 () -> ((Int) -> Int?!)!Error?
     (type
       (function_type
         (return_type
-          (type
-            (function_type
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier)))))
-              (return_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier))))))))
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))))
-  (type_definition
-    (identifier
-      (uppercase_identifier))
-    (type
-      (function_type
-        (return_type
-          (option_type
+          (tuple_type
             (type
               (function_type
                 (type
@@ -154,6 +130,32 @@ type T6 () -> ((Int) -> Int?!)!Error?
                         (identifier
                           (uppercase_identifier)))))))))
           (type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (type
+      (function_type
+        (return_type
+          (option_type
+            (tuple_type
+              (type
+                (function_type
+                  (type
+                    (apply_type
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier)))))
+                  (return_type
+                    (type
+                      (apply_type
+                        (qualified_type_identifier
+                          (identifier
+                            (uppercase_identifier))))))))))
+          (type
             (option_type
               (apply_type
                 (qualified_type_identifier
@@ -165,19 +167,20 @@ type T6 () -> ((Int) -> Int?!)!Error?
     (type
       (function_type
         (return_type
-          (type
-            (function_type
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier)))))
-              (return_type
-                (option_type
+          (tuple_type
+            (type
+              (function_type
+                (type
                   (apply_type
                     (qualified_type_identifier
                       (identifier
-                        (uppercase_identifier))))))))
+                        (uppercase_identifier)))))
+                (return_type
+                  (option_type
+                    (apply_type
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier)))))))))
           (type
             (option_type
               (apply_type
@@ -290,32 +293,7 @@ fn f() raise? {}
     (type
       (function_type
         (return_type
-          (type
-            (function_type
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier)))))
-              (return_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier))))))))
-          (error_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))))
-  (type_definition
-    (identifier
-      (uppercase_identifier))
-    (type
-      (function_type
-        (return_type
-          (option_type
+          (tuple_type
             (type
               (function_type
                 (type
@@ -329,6 +307,33 @@ fn f() raise? {}
                       (qualified_type_identifier
                         (identifier
                           (uppercase_identifier)))))))))
+          (error_annotation
+            (type
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (type
+      (function_type
+        (return_type
+          (option_type
+            (tuple_type
+              (type
+                (function_type
+                  (type
+                    (apply_type
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier)))))
+                  (return_type
+                    (type
+                      (apply_type
+                        (qualified_type_identifier
+                          (identifier
+                            (uppercase_identifier))))))))))
           (error_annotation
             (type
               (apply_type
@@ -443,19 +448,20 @@ fn f() raise? {}
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (function_type
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))
-          (return_type
+      (tuple_type
+        (type
+          (function_type
             (type
               (apply_type
                 (qualified_type_identifier
                   (identifier
-                    (uppercase_identifier))))))))
+                    (uppercase_identifier)))))
+            (return_type
+              (type
+                (apply_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
       (error_annotation
         (type
           (apply_type

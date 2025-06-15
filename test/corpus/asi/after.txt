@@ -721,7 +721,9 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (apply_expression
-        (lowercase_identifier)
+        (qualified_identifier
+          (lowercase_identifier))
+        (apply_operator)
         (arguments
           (argument
             (atomic_expression

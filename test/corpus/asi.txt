@@ -36,7 +36,9 @@ fn f() -> Result[Unit, String] {
           (simple_pattern
             (lowercase_identifier)))
         (apply_expression
-          (lowercase_identifier)
+          (qualified_identifier
+            (lowercase_identifier))
+          (apply_operator)
           (arguments
             (argument
               (atomic_expression

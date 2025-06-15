@@ -446,19 +446,20 @@ typealias (A) -> ((B) -> C) raise? as E[A, B, C]
                 (identifier
                   (uppercase_identifier)))))
           (return_type
-            (type
-              (function_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))
-                (return_type
+            (tuple_type
+              (type
+                (function_type
                   (type
                     (apply_type
                       (qualified_type_identifier
                         (identifier
-                          (uppercase_identifier))))))))
+                          (uppercase_identifier)))))
+                  (return_type
+                    (type
+                      (apply_type
+                        (qualified_type_identifier
+                          (identifier
+                            (uppercase_identifier)))))))))
             (error_annotation
               (type
                 (apply_type
@@ -487,19 +488,20 @@ typealias (A) -> ((B) -> C) raise? as E[A, B, C]
                 (identifier
                   (uppercase_identifier)))))
           (return_type
-            (type
-              (function_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))
-                (return_type
+            (tuple_type
+              (type
+                (function_type
                   (type
                     (apply_type
                       (qualified_type_identifier
                         (identifier
-                          (uppercase_identifier))))))))
+                          (uppercase_identifier)))))
+                  (return_type
+                    (type
+                      (apply_type
+                        (qualified_type_identifier
+                          (identifier
+                            (uppercase_identifier)))))))))
             (error_annotation))))
       (identifier
         (uppercase_identifier))
