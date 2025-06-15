@@ -702,7 +702,10 @@ module.exports = grammar({
     map_expression: ($) => seq("{", list(",", $.map_element_expression), "}"),
 
     map_element_key: ($) =>
-      choice($.literal, seq("-", choice($.integer_literal, $._double_literal))),
+      choice(
+        $.literal,
+        seq("-", choice($.integer_literal, $.double_literal, $.float_literal))
+      ),
 
     map_element_expression: ($) => seq($.map_element_key, ":", $._expression),
 
@@ -937,7 +940,8 @@ module.exports = grammar({
       choice(
         $.literal,
         seq("-", $.integer_literal),
-        seq("-", $._double_literal)
+        seq("-", $.double_literal),
+        seq("-", $.float_literal)
       ),
 
     any_pattern: (_) => "_",
