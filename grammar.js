@@ -29,6 +29,7 @@ module.exports = grammar({
     $._statement_expression,
     $._structure_item,
     $._type,
+    $._pattern,
   ],
 
   precedences: ($) => [
@@ -601,7 +602,7 @@ module.exports = grammar({
 
     matrix_case_clause: ($) =>
       seq(
-        list1(",", $.pattern),
+        list1(",", $._pattern),
         optional($.pattern_guard),
         "=>",
         $._statement_expression
@@ -706,14 +707,14 @@ module.exports = grammar({
       seq(
         $._simple_expression,
         "is",
-        choice($.range_pattern, $.simple_pattern)
+        choice($.range_pattern, $._simple_pattern)
       ),
 
     match_expression: ($) =>
       seq("match", $._expression, "{", list($._semicolon, $.case_clause), "}"),
 
     case_clause: ($) =>
-      seq($.pattern, optional($.pattern_guard), "=>", $._statement_expression),
+      seq($._pattern, optional($.pattern_guard), "=>", $._statement_expression),
 
     break_expression: ($) =>
       seq("break", optional($.label), strictList(",", $._expression)),
@@ -771,7 +772,7 @@ module.exports = grammar({
     unfinished: (_) => "...",
 
     let_expression: ($) =>
-      seq("let", $.pattern, optional($.type_annotation), "=", $._expression),
+      seq("let", $._pattern, optional($.type_annotation), "=", $._expression),
 
     let_mut_expression: ($) =>
       seq(
@@ -792,7 +793,7 @@ module.exports = grammar({
       seq(
         "guard",
         "let",
-        $.pattern,
+        $._pattern,
         "=",
         $._simple_expression,
         optional($.guard_let_else_expression)
@@ -902,21 +903,18 @@ module.exports = grammar({
 
     // Patterns
 
-    pattern: ($) =>
-      choice($.simple_pattern, $.range_pattern, $.as_pattern, $.or_pattern),
+    _pattern: ($) =>
+      choice($._simple_pattern, $.range_pattern, $.as_pattern, $.or_pattern),
 
-    as_pattern: ($) => seq($.pattern, "as", $._lowercase_identifier),
+    as_pattern: ($) => seq($._pattern, "as", $._lowercase_identifier),
 
-    or_pattern: ($) => prec.right(seq($.pattern, "|", $.pattern)),
+    or_pattern: ($) => prec.right(seq($._pattern, "|", $._pattern)),
 
-    simple_pattern: ($) =>
+    _simple_pattern: ($) =>
       choice(
-        "_",
         "..",
-        seq("(", $.pattern, ")"),
-        $.literal,
-        seq("-", $.integer_literal),
-        seq("-", $.float_literal),
+        $.parenthesized_pattern,
+        $.atomic_pattern,
         $._lowercase_identifier,
         $.constructor_pattern,
         $.tuple_pattern,
@@ -924,11 +922,23 @@ module.exports = grammar({
         $.array_pattern,
         $.struct_pattern,
         $.map_pattern,
-        $.empty_struct_or_map_pattern
+        $.empty_struct_or_map_pattern,
+        $.any_pattern,
       ),
 
+    parenthesized_pattern: ($) => seq("(", $._pattern, ")"),
+
+    atomic_pattern: ($) =>
+      choice($.literal, seq("-", $.integer_literal), seq("-", $.float_literal)),
+
+    any_pattern: (_) => "_",
+
     constructor_pattern_argument: ($) =>
-      choice(seq($._lowercase_identifier, "=", $.pattern), $.label, $.pattern),
+      choice(
+        seq($._lowercase_identifier, "=", $._pattern),
+        $.label,
+        $._pattern
+      ),
 
     constructor_pattern: ($) =>
       prec.right(
@@ -938,9 +948,10 @@ module.exports = grammar({
         )
       ),
 
-    tuple_pattern: ($) => seq("(", $.pattern, ",", list1(",", $.pattern), ")"),
+    tuple_pattern: ($) =>
+      seq("(", $._pattern, ",", list1(",", $._pattern), ")"),
 
-    constraint_pattern: ($) => seq("(", $.pattern, ":", $._type, ")"),
+    constraint_pattern: ($) => seq("(", $._pattern, ":", $._type, ")"),
 
     array_pattern: ($) => seq("[", list(",", $.array_sub_pattern), "]"),
 
@@ -950,7 +961,7 @@ module.exports = grammar({
         seq("..", $.constructor_expression),
         seq("..", $.string_literal),
         seq("..", $.bytes_literal),
-        $.pattern
+        $._pattern
       ),
 
     struct_pattern: ($) =>
@@ -959,7 +970,7 @@ module.exports = grammar({
     struct_field_pattern: ($) =>
       choice($.labeled_pattern, $.labeled_pattern_pun),
 
-    labeled_pattern: ($) => seq($._lowercase_identifier, ":", $.pattern),
+    labeled_pattern: ($) => seq($._lowercase_identifier, ":", $._pattern),
 
     labeled_pattern_pun: ($) => $._lowercase_identifier,
 
@@ -967,12 +978,12 @@ module.exports = grammar({
       seq("{", list1(",", $.map_element_pattern), optional(".."), "}"),
 
     map_element_pattern: ($) =>
-      seq($.map_element_key, optional("?"), ":", $.pattern),
+      seq($.map_element_key, optional("?"), ":", $._pattern),
 
     empty_struct_or_map_pattern: (_) => seq("{", "}"),
 
     range_pattern: ($) =>
-      seq($.simple_pattern, choice("..<", "..="), $.simple_pattern),
+      seq($._simple_pattern, choice("..<", "..="), $._simple_pattern),
 
     _type: ($) => choice($._simple_type, $.function_type),
 
@@ -1001,8 +1012,7 @@ module.exports = grammar({
 
     parenthesized_type: ($) => seq("(", $._type, ")"),
 
-    apply_type: ($) =>
-      seq($.qualified_type_identifier, $.type_arguments),
+    apply_type: ($) => seq($.qualified_type_identifier, $.type_arguments),
 
     option_type: ($) => seq($._simple_type, "?"),
 
