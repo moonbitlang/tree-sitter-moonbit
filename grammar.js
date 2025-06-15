@@ -1,23 +1,6 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-const PREC = {
-  apply: 19,
-  access: 18,
-  unary: 17,
-  multiplicative: 16,
-  additive: 15,
-  shift: 14,
-  comparative: 13,
-  bitwise_and: 12,
-  bitwise_xor: 11,
-  bitwise_or: 10,
-  and: 9,
-  or: 8,
-  pipe: 7,
-  or_pattern: 6,
-  as_pattern: 5,
-};
 const multiplicative_operators = ["*", "/", "%"];
 const additive_operators = ["+", "-"];
 const shift_operators = ["<<", ">>"];
@@ -45,6 +28,39 @@ module.exports = grammar({
     $._expression,
     $._statement_expression,
     $._structure_item,
+  ],
+
+  precedences: ($) => [
+    [
+      $.apply_expression,
+      $.access_expression,
+      $.unary_expression,
+      "multiplicative",
+      "additive",
+      "shift",
+      "comparative",
+      "bitwise_and",
+      "bitwise_xor",
+      "bitwise_or",
+      $.is_expression,
+      "and",
+      "or",
+      "pipe",
+    ],
+    [$.range_pattern, $.is_expression],
+    [$.dot_apply_expression, $.accessor, $.range_expression],
+    [$.dot_dot_apply_expression, $.unary_expression],
+    [$.array_access_expression, $.unary_expression],
+    [$.unary_expression, $.range_expression],
+    [$.unary_expression, $.as_expression],
+    [$.or_pattern, $.as_pattern],
+  ],
+
+  conflicts: ($) => [
+    [$.optional_label, $.qualified_identifier],
+    [$.positional_parameter, $.qualified_identifier],
+    [$.unit_expression, $.parameters],
+    [$.qualified_identifier, $.arrow_function_expression],
   ],
 
   rules: {
@@ -337,7 +353,7 @@ module.exports = grammar({
         choice($.block_expression, seq("=", $.external_source))
       ),
 
-    _expression: ($) =>
+    _complex_expression: ($) =>
       choice(
         $.if_expression,
         $.while_expression,
@@ -347,18 +363,16 @@ module.exports = grammar({
         $.for_in_expression,
         $.try_expression,
         $.try_question_expression,
-        $._compound_expression,
+        $.arrow_function_expression
       ),
 
-    _compound_expression: ($) =>
+    arrow_function_expression: ($) =>
       choice(
-        $.range_expression,
-        $._postfix_expression,
-        $._simple_expression,
-        $.binary_expression
+        seq($.parameters, "=>", $._expression),
+        seq($._lowercase_identifier, "=>", $._expression)
       ),
 
-    _postfix_expression: ($) => choice($.as_expression, $.is_expression),
+    _expression: ($) => choice($._complex_expression, $._simple_expression),
 
     _simple_expression: ($) =>
       choice(
@@ -381,6 +395,10 @@ module.exports = grammar({
         $.constraint_expression,
         $.array_expression,
         $.map_expression,
+        $.as_expression,
+        $.is_expression,
+        $.range_expression,
+        $.binary_expression,
         "_"
       ),
 
@@ -483,31 +501,30 @@ module.exports = grammar({
         )
       ),
 
-    unary_expression: ($) =>
-      prec(PREC.unary, seq(choice("-", "+"), $._simple_expression)),
+    unary_expression: ($) => seq(choice("-", "+"), $._simple_expression),
 
     binary_expression: ($) => {
       /**
-       * @type {[number, RuleOrLiteral][]}
+       * @type {[string, RuleOrLiteral][]}
        */
       const table = [
-        [PREC.multiplicative, choice(...multiplicative_operators)],
-        [PREC.additive, choice(...additive_operators)],
-        [PREC.shift, choice(...shift_operators)],
-        [PREC.comparative, choice(...comparative_operators)],
-        [PREC.bitwise_and, "&"],
-        [PREC.bitwise_xor, "^"],
-        [PREC.bitwise_or, "|"],
-        [PREC.and, "&&"],
-        [PREC.or, "||"],
-        [PREC.pipe, "|>"],
+        ["multiplicative", choice(...multiplicative_operators)],
+        ["additive", choice(...additive_operators)],
+        ["shift", choice(...shift_operators)],
+        ["comparative", choice(...comparative_operators)],
+        ["bitwise_and", "&"],
+        ["bitwise_xor", "^"],
+        ["bitwise_or", "|"],
+        ["and", "&&"],
+        ["or", "||"],
+        ["pipe", "|>"],
       ];
 
       return choice(
         ...table.map(([precedence, operator]) =>
           prec.left(
             precedence,
-            seq($._compound_expression, operator, $._compound_expression)
+            seq($._simple_expression, operator, $._simple_expression)
           )
         )
       );
@@ -617,54 +634,40 @@ module.exports = grammar({
     arguments: ($) => seq("(", list(",", $.argument), ")"),
 
     apply_expression: ($) =>
-      prec(
-        PREC.apply,
-        choice(
-          seq($._lowercase_identifier, "?", $.arguments),
-          seq($._simple_expression, optional($.apply_operator), $.arguments)
-        )
+      prec.right(
+        seq($._simple_expression, optional($.apply_operator), $.arguments)
       ),
 
     array_access_expression: ($) =>
-      prec(
-        PREC.access,
-        seq(
-          $._simple_expression,
-          "[",
-          choice(
-            $._expression,
-            seq(optional($._expression), ":", optional($._expression))
-          ),
-          "]"
-        )
+      seq(
+        $._simple_expression,
+        "[",
+        choice(
+          $._expression,
+          seq(optional($._expression), ":", optional($._expression))
+        ),
+        "]"
       ),
 
     dot_apply_expression: ($) =>
-      prec(
-        PREC.apply,
-        seq(
-          $._simple_expression,
-          $.dot_identifier,
-          "(",
-          list(",", $.argument),
-          ")"
-        )
+      seq(
+        $._simple_expression,
+        $.dot_identifier,
+        "(",
+        list(",", $.argument),
+        ")"
       ),
 
     dot_dot_apply_expression: ($) =>
-      prec(
-        PREC.apply,
-        seq(
-          $._simple_expression,
-          $.dot_dot_identifier,
-          "(",
-          list(",", $.argument),
-          ")"
-        )
+      seq(
+        $._simple_expression,
+        $.dot_dot_identifier,
+        "(",
+        list(",", $.argument),
+        ")"
       ),
 
-    access_expression: ($) =>
-      prec(PREC.access, seq($._simple_expression, $.accessor)),
+    access_expression: ($) => seq($._simple_expression, $.accessor),
 
     accessor: ($) => choice($.dot_identifier, seq(".", /[0-9]+/)),
 
@@ -696,13 +699,7 @@ module.exports = grammar({
       ),
 
     match_expression: ($) =>
-      seq(
-        "match",
-        $._compound_expression,
-        "{",
-        list($._semicolon, $.case_clause),
-        "}"
-      ),
+      seq("match", $._expression, "{", list($._semicolon, $.case_clause), "}"),
 
     case_clause: ($) =>
       seq($.pattern, optional($.pattern_guard), "=>", $._statement_expression),
@@ -716,12 +713,12 @@ module.exports = grammar({
     try_expression: ($) =>
       seq(
         optional("try"),
-        $._compound_expression,
+        $._simple_expression,
         $.try_catch_clause,
         optional($.try_else_clause)
       ),
 
-    try_question_expression: ($) => seq("try", "?", $._expression),
+    try_question_expression: ($) => seq("try", "?", $._simple_expression),
 
     try_catch_clause: ($) =>
       seq(
@@ -735,12 +732,7 @@ module.exports = grammar({
       seq("else", "{", list($._semicolon, $.case_clause), "}"),
 
     if_expression: ($) =>
-      seq(
-        "if",
-        $._compound_expression,
-        $.block_expression,
-        optional($.else_clause)
-      ),
+      seq("if", $._expression, $.block_expression, optional($.else_clause)),
 
     else_clause: ($) =>
       seq("else", choice($.block_expression, $.if_expression)),
@@ -781,7 +773,7 @@ module.exports = grammar({
       ),
 
     guard_expression: ($) =>
-      seq("guard", $._compound_expression, optional($.guard_else_expression)),
+      seq("guard", $._simple_expression, optional($.guard_else_expression)),
 
     guard_else_expression: ($) => seq("else", $.block_expression),
 
@@ -838,7 +830,7 @@ module.exports = grammar({
       seq(
         optional($.loop_label),
         "while",
-        $._compound_expression,
+        $._expression,
         $.block_expression,
         optional($.else_clause)
       ),
@@ -862,7 +854,7 @@ module.exports = grammar({
           "for",
           strictList(",", $.for_binder),
           $._semicolon,
-          optional($._compound_expression),
+          optional($._expression),
           $._semicolon,
           strictList(",", $.for_binder),
           $.block_expression,
@@ -889,7 +881,9 @@ module.exports = grammar({
       ),
 
     range_expression: ($) =>
-      seq($._simple_expression, choice("..<", "..="), $._simple_expression),
+      prec.left(
+        seq($._simple_expression, choice("..<", "..="), $._simple_expression)
+      ),
 
     return_expression: ($) => seq("return", optional($._expression)),
 
@@ -900,11 +894,9 @@ module.exports = grammar({
     pattern: ($) =>
       choice($.simple_pattern, $.range_pattern, $.as_pattern, $.or_pattern),
 
-    as_pattern: ($) =>
-      prec(PREC.as_pattern, seq($.pattern, "as", $._lowercase_identifier)),
+    as_pattern: ($) => seq($.pattern, "as", $._lowercase_identifier),
 
-    or_pattern: ($) =>
-      prec.right(PREC.or_pattern, seq($.pattern, "|", $.pattern)),
+    or_pattern: ($) => prec.right(seq($.pattern, "|", $.pattern)),
 
     simple_pattern: ($) =>
       choice(
@@ -928,8 +920,7 @@ module.exports = grammar({
       choice(seq($._lowercase_identifier, "=", $.pattern), $.label, $.pattern),
 
     constructor_pattern: ($) =>
-      prec(
-        PREC.apply,
+      prec.right(
         seq(
           $.constructor_expression,
           optional(seq("(", list(",", $.constructor_pattern_argument), ")"))
@@ -974,24 +965,16 @@ module.exports = grammar({
 
     type: ($) => choice($._simple_type, $.function_type),
 
-    tuple_type: ($) => seq("(", $.type, ",", list1(",", $.type), ")"),
+    tuple_type: ($) => seq("(", list(",", $.type), ")"),
 
     function_type: ($) =>
-      choice(
-        seq(
-          optional("async"),
-          "(",
-          $.type,
-          ",",
-          list1(",", $.type),
-          ")",
-          seq("->", $.return_type)
-        ),
-        seq(optional("async"), "(", $.type, ")", "->", $.return_type),
-        seq(optional("async"), "(", ")", "->", $.return_type)
+      seq(
+        optional("async"),
+        "(",
+        list(",", $.type),
+        ")",
+        seq("->", $.return_type)
       ),
-
-    any_type: (_) => "_",
 
     _simple_type: ($) =>
       choice(
@@ -999,11 +982,8 @@ module.exports = grammar({
         $.apply_type,
         $.tuple_type,
         $.trait_object_type,
-        $.any_type,
-        $._just_type
+        "_"
       ),
-
-    _just_type: ($) => seq("(", $.type, ")"),
 
     apply_type: ($) =>
       seq($.qualified_type_identifier, optional($.type_arguments)),
