@@ -790,6 +790,12 @@ pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
   fn compile(self : Tensor) -> @expr.Expr {
   }
 
+  fn compile(self : Tensor) -> @expr.Expr raise Error {
+  }
+
+  fn compile(self : Tensor) raise {
+  }
+
   compile(self)
 }
 --------------------------------------------------------------------------------
@@ -875,6 +881,38 @@ pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
             (package_identifier)
             (dot_identifier
               (dot_uppercase_identifier))))
+        (block_expression))
+      (named_lambda_expression
+        (lowercase_identifier)
+        (parameters
+          (parameter
+            (positional_parameter
+              (lowercase_identifier)
+              (type_annotation
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
+        (return_type
+          (qualified_type_identifier
+            (package_identifier)
+            (dot_identifier
+              (dot_uppercase_identifier)))
+          (error_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))
+        (block_expression))
+      (named_lambda_expression
+        (lowercase_identifier)
+        (parameters
+          (parameter
+            (positional_parameter
+              (lowercase_identifier)
+              (type_annotation
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
+        (error_annotation)
         (block_expression))
       (apply_expression
         (qualified_identifier
