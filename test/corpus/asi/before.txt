@@ -105,9 +105,7 @@ Clone] f() -> Unit {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (binary_expression
           (atomic_expression
             (literal
@@ -116,9 +114,7 @@ Clone] f() -> Unit {
             (literal
               (integer_literal)))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (binary_expression
           (atomic_expression
             (literal
@@ -164,9 +160,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (constructor_expression
           (package_identifier)
           (dot_uppercase_identifier))))))
@@ -188,9 +182,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
@@ -220,8 +212,7 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (simple_pattern))
+          (any_pattern)
           (unit_expression))))))
 
 ================================================================================
@@ -573,9 +564,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (guard_let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal)))))))
@@ -629,9 +618,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (anonymous_matrix_lambda_expression))
       (named_lambda_expression
         (lowercase_identifier)
@@ -670,9 +657,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (anonymous_matrix_lambda_expression
           (comment)))
       (named_lambda_expression
@@ -705,8 +690,7 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (simple_pattern))
+          (any_pattern)
           (comment)
           (atomic_expression
             (literal
@@ -790,9 +774,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (comment)
         (atomic_expression
           (literal
@@ -1152,27 +1134,18 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (or_pattern
-              (pattern
-                (simple_pattern
-                  (constructor_pattern
-                    (constructor_expression
-                      (uppercase_identifier))
-                    (constructor_pattern_argument
-                      (pattern
-                        (simple_pattern
-                          (lowercase_identifier)))))))
-              (comment)
-              (pattern
-                (simple_pattern
-                  (constructor_pattern
-                    (constructor_expression
-                      (uppercase_identifier))
-                    (constructor_pattern_argument
-                      (pattern
-                        (simple_pattern
-                          (lowercase_identifier)))))))))
+          (or_pattern
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier)))
+            (comment)
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier))))
           (map_expression))))))
 
 ================================================================================
@@ -1217,30 +1190,20 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (as_pattern
-              (pattern
-                (or_pattern
-                  (pattern
-                    (simple_pattern
-                      (constructor_pattern
-                        (constructor_expression
-                          (uppercase_identifier))
-                        (constructor_pattern_argument
-                          (pattern
-                            (simple_pattern
-                              (lowercase_identifier)))))))
-                  (comment)
-                  (pattern
-                    (simple_pattern
-                      (constructor_pattern
-                        (constructor_expression
-                          (uppercase_identifier))
-                        (constructor_pattern_argument
-                          (pattern
-                            (simple_pattern
-                              (lowercase_identifier)))))))))
-              (lowercase_identifier)))
+          (as_pattern
+            (or_pattern
+              (constructor_pattern
+                (constructor_expression
+                  (uppercase_identifier))
+                (constructor_pattern_argument
+                  (lowercase_identifier)))
+              (comment)
+              (constructor_pattern
+                (constructor_expression
+                  (uppercase_identifier))
+                (constructor_pattern_argument
+                  (lowercase_identifier))))
+            (lowercase_identifier))
           (map_expression))))))
 
 ================================================================================
@@ -1262,7 +1225,7 @@ fn main {
       (is_expression
         (qualified_identifier
           (lowercase_identifier))
-        (simple_pattern
+        (atomic_pattern
           (literal
             (boolean_literal))))
       (guard_expression
@@ -1270,25 +1233,19 @@ fn main {
           (is_expression
             (qualified_identifier
               (lowercase_identifier))
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier))
-                (constructor_pattern_argument
-                  (pattern
-                    (simple_pattern
-                      (lowercase_identifier)))))))
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier))))
           (is_expression
             (qualified_identifier
               (lowercase_identifier))
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier))
-                (constructor_pattern_argument
-                  (pattern
-                    (simple_pattern
-                      (lowercase_identifier))))))))
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier)))))
         (guard_else_expression
           (block_expression
             (atomic_expression

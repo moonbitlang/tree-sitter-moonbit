@@ -29,8 +29,7 @@ fn main {
                         (unescaped_string_fragment)))))))))
         (try_catch_clause
           (case_clause
-            (pattern
-              (simple_pattern))
+            (any_pattern)
             (unit_expression)))))))
 
 ================================================================================
@@ -64,8 +63,7 @@ fn main {
                         (unescaped_string_fragment)))))))))
         (try_catch_clause
           (case_clause
-            (pattern
-              (simple_pattern))
+            (any_pattern)
             (unit_expression)))))))
 
 ================================================================================
@@ -101,13 +99,11 @@ fn main {
                         (unescaped_string_fragment)))))))))
         (try_catch_clause
           (case_clause
-            (pattern
-              (simple_pattern))
+            (any_pattern)
             (unit_expression)))
         (try_else_clause
           (case_clause
-            (pattern
-              (simple_pattern))
+            (any_pattern)
             (binary_expression
               (atomic_expression
                 (literal
@@ -148,24 +144,18 @@ fn main {
                         (unescaped_string_fragment)))))))))
         (try_catch_clause
           (case_clause
-            (pattern
-              (simple_pattern
-                (constructor_pattern
-                  (constructor_expression
-                    (uppercase_identifier))
-                  (constructor_pattern_argument
-                    (pattern
-                      (simple_pattern))))))
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (any_pattern)))
             (unit_expression))
           (case_clause
-            (pattern
-              (simple_pattern
-                (constructor_pattern
-                  (constructor_expression
-                    (uppercase_identifier))
-                  (constructor_pattern_argument
-                    (pattern
-                      (simple_pattern))))))
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (any_pattern)))
             (unit_expression)))))))
 
 ================================================================================
@@ -232,6 +222,5 @@ fn main {
                   (boolean_literal))))))
         (try_catch_clause
           (case_clause
-            (pattern
-              (simple_pattern))
+            (any_pattern)
             (unit_expression)))))))

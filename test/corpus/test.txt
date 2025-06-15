@@ -13,9 +13,7 @@ test "t" {
         (unescaped_string_fragment)))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal)))))))
@@ -32,9 +30,7 @@ test {
   (test_definition
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal)))))))

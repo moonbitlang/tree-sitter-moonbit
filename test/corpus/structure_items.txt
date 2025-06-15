@@ -523,14 +523,11 @@ fn init {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier))
-                (constructor_pattern_argument
-                  (pattern
-                    (simple_pattern))))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier))
+            (constructor_pattern_argument
+              (any_pattern)))
           (apply_expression
             (qualified_identifier
               (lowercase_identifier))
@@ -546,11 +543,9 @@ fn init {
                     (string_fragment
                       (unescaped_string_fragment))))))))
         (case_clause
-          (pattern
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier)))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))
           (apply_expression
             (qualified_identifier
               (lowercase_identifier))

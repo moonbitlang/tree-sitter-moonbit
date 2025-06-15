@@ -66,9 +66,7 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (anonymous_lambda_expression
           (parameters
             (parameter
@@ -115,30 +113,24 @@ fn init {
       (named_matrix_expression
         (lowercase_identifier)
         (matrix_case_clause
-          (pattern
-            (simple_pattern
-              (literal
-                (boolean_literal))))
-          (pattern
-            (simple_pattern))
+          (atomic_pattern
+            (literal
+              (boolean_literal)))
+          (any_pattern)
           (atomic_expression
             (literal
               (boolean_literal))))
         (matrix_case_clause
-          (pattern
-            (simple_pattern))
-          (pattern
-            (simple_pattern
-              (literal
-                (boolean_literal))))
+          (any_pattern)
+          (atomic_pattern
+            (literal
+              (boolean_literal)))
           (atomic_expression
             (literal
               (boolean_literal))))
         (matrix_case_clause
-          (pattern
-            (simple_pattern))
-          (pattern
-            (simple_pattern))
+          (any_pattern)
+          (any_pattern)
           (atomic_expression
             (literal
               (boolean_literal))))))))
@@ -157,13 +149,10 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern))
+        (any_pattern)
         (anonymous_matrix_lambda_expression
           (matrix_case_clause
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
+            (lowercase_identifier)
             (binary_expression
               (qualified_identifier
                 (lowercase_identifier))

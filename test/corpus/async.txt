@@ -163,9 +163,7 @@ fn main {
                               (lowercase_identifier))))
                         (block_expression))))))))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (anonymous_lambda_expression
           (parameters)
           (block_expression))))))

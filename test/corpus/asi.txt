@@ -27,9 +27,7 @@ fn f() -> Result[Unit, String] {
               (uppercase_identifier))))))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (apply_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -74,8 +72,7 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (matrix_case_clause
-          (pattern
-            (simple_pattern))
+          (any_pattern)
           (nonempty_block_expression
             (continue_expression
               (atomic_expression

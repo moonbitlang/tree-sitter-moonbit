@@ -142,9 +142,7 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (byte_literal))))
@@ -159,9 +157,7 @@ fn init {
               (dot_identifier
                 (dot_lowercase_identifier))))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (byte_literal
@@ -232,9 +228,7 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (bytes_literal
@@ -283,65 +277,47 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal)))))))
@@ -363,30 +339,22 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal)))))))
@@ -414,37 +382,27 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (float_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (float_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (float_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (float_literal))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (array_expression
           (atomic_expression
             (literal
