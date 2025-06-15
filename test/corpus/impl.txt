@@ -11,12 +11,10 @@ impl Show for T? with output(self : T, logger : &Logger) -> Unit {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (option_type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+    (option_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (function_identifier
       (lowercase_identifier))
     (parameters
@@ -24,26 +22,21 @@ impl Show for T? with output(self : T, logger : &Logger) -> Unit {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
       (parameter
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (trait_object_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (trait_object_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -59,19 +52,14 @@ impl Show for (Int) -> Unit with output(self : T, logger : &Logger) -> Unit {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (function_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (return_type
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
     (function_identifier
       (lowercase_identifier))
     (parameters
@@ -79,26 +67,21 @@ impl Show for (Int) -> Unit with output(self : T, logger : &Logger) -> Unit {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
       (parameter
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (trait_object_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (trait_object_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -114,18 +97,13 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (tuple_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+    (tuple_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (function_identifier
       (lowercase_identifier))
     (parameters
@@ -133,26 +111,21 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
       (parameter
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (trait_object_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (trait_object_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -167,18 +140,13 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit = "%s"
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (tuple_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+    (tuple_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (function_identifier
       (lowercase_identifier))
     (parameters
@@ -186,26 +154,21 @@ impl Show for (A, B) with output(self : T, logger : &Logger) -> Unit = "%s"
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
       (parameter
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (trait_object_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (trait_object_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (external_source
       (string_literal
         (string_fragment

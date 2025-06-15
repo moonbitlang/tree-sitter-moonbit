@@ -49,7 +49,7 @@ fn main {
       (array_expression
         (qualified_identifier
           (lowercase_identifier)))
-      (tuple_expression
+      (parenthesized_expression
         (qualified_identifier
           (lowercase_identifier))))))
 
@@ -144,11 +144,9 @@ Clone] f() -> Unit {
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -531,11 +529,9 @@ A for B with f() {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
     (function_identifier
       (lowercase_identifier))
     (parameters)
@@ -738,11 +734,9 @@ Unit {
     (parameters)
     (comment)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -937,17 +931,13 @@ b: Int) -> Unit {
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
   (function_definition
     (function_identifier
       (lowercase_identifier))
@@ -1027,26 +1017,20 @@ b: Int) -> Unit {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
       (parameter
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -1084,17 +1068,13 @@ Int) -> Unit {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression
       (struct_expression
         (type_name
@@ -1225,7 +1205,7 @@ fn main {
         (comment)
         (qualified_identifier
           (lowercase_identifier)))
-      (tuple_expression
+      (parenthesized_expression
         (as_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -1387,11 +1367,9 @@ pub(readonly
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression))
   (struct_definition
     (visibility)
@@ -1426,16 +1404,12 @@ T = TT
 (structure
   (trait_alias_definition
     (trait_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
 
 ================================================================================
 can occur before semi (DERIVE)
@@ -1453,11 +1427,9 @@ fn main {
   (type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
     (derive_directive
       (derive_item
         (type_name
@@ -1535,11 +1507,9 @@ f() -> Unit {
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================

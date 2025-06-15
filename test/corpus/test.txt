@@ -58,12 +58,10 @@ test "a" (it : @test.T) {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (package_identifier)
-                  (dot_identifier
-                    (dot_uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (package_identifier)
+              (dot_identifier
+                (dot_uppercase_identifier)))))))
     (block_expression
       (dot_apply_expression
         (qualified_identifier

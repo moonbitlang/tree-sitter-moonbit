@@ -14,22 +14,17 @@ fn f() -> Result[Unit, String] {
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
               (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (block_expression
       (let_expression
         (pattern

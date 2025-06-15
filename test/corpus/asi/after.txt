@@ -123,11 +123,9 @@ fn f()
     (parameters)
     (comment)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -241,28 +239,20 @@ fn main {
 (structure
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (trait_alias_definition
     (trait_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (function_definition
     (external_linkage
       (string_literal
@@ -512,17 +502,13 @@ fn main {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression))
   (function_definition
     (function_identifier
@@ -689,21 +675,17 @@ with f() -> Unit {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
     (comment)
     (function_identifier
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================

@@ -41,7 +41,7 @@ fn init {
               (literal
                 (integer_literal))))))
       (dot_apply_expression
-        (tuple_expression
+        (parenthesized_expression
           (atomic_expression
             (literal
               (integer_literal))))
@@ -69,7 +69,7 @@ fn init {
             (literal
               (integer_literal)))))
       (dot_dot_apply_expression
-        (tuple_expression
+        (parenthesized_expression
           (atomic_expression
             (literal
               (integer_literal))))

@@ -21,29 +21,21 @@ traitalias C = @quickcheck.C
 (structure
   (trait_alias_definition
     (trait_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (trait_alias_definition
     (trait_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier))))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (package_identifier)
+        (dot_identifier
+          (dot_uppercase_identifier))))))
 
 ================================================================================
 batched traitalias
@@ -94,48 +86,39 @@ typealias @a.(
         (dot_uppercase_identifier))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))))
+      (qualified_type_identifier
+        (package_identifier)
+        (dot_identifier
+          (dot_uppercase_identifier)))
       (identifier
         (lowercase_identifier))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_lowercase_identifier)))))
+      (qualified_type_identifier
+        (package_identifier)
+        (dot_identifier
+          (dot_lowercase_identifier)))
       (identifier
         (uppercase_identifier))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_lowercase_identifier)))))
+      (qualified_type_identifier
+        (package_identifier)
+        (dot_identifier
+          (dot_lowercase_identifier)))
       (identifier
         (lowercase_identifier))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_lowercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_lowercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (identifier
+              (uppercase_identifier)))))
       (identifier
         (lowercase_identifier))
       (type_parameters
@@ -144,18 +127,15 @@ typealias @a.(
             (uppercase_identifier))))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_lowercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_lowercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (identifier
+              (uppercase_identifier)))))
       (identifier
         (uppercase_identifier))
       (type_parameters
@@ -164,12 +144,11 @@ typealias @a.(
             (uppercase_identifier))))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (trait_object_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))))
+      (trait_object_type
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_uppercase_identifier))))
       (identifier
         (uppercase_identifier))
       (type_parameters
@@ -178,12 +157,11 @@ typealias @a.(
             (uppercase_identifier))))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (trait_object_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))))
+      (trait_object_type
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_uppercase_identifier))))
       (identifier
         (uppercase_identifier))
       (type_parameters
@@ -240,122 +218,91 @@ typealias (A) -> ((B) -> C) raise? as E[A, B, C]
 (structure
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
+  (type_alias_definition
+    (type_alias_targets
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (package_identifier)
+        (dot_identifier
+          (dot_uppercase_identifier)))))
+  (type_alias_definition
+    (type_alias_targets
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
               (uppercase_identifier)))))
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
               (uppercase_identifier)))))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))))))
-  (type_alias_definition
-    (type_alias_targets
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
               (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))))
-  (type_alias_definition
-    (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))))
-  (type_alias_definition
-    (type_alias_targets
-      (type
-        (apply_type
           (qualified_type_identifier
             (identifier
               (uppercase_identifier)))))
+      (apply_type
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_uppercase_identifier)))
+        (type_arguments
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (type_alias_definition
+    (type_alias_targets
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
       (identifier
         (uppercase_identifier))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))))
+      (qualified_type_identifier
+        (package_identifier)
+        (dot_identifier
+          (dot_uppercase_identifier)))
       (identifier
         (uppercase_identifier))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (identifier
+              (uppercase_identifier)))))
       (identifier
         (uppercase_identifier))
       (type_parameters
@@ -364,69 +311,18 @@ typealias (A) -> ((B) -> C) raise? as E[A, B, C]
             (uppercase_identifier))))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
-      (identifier
-        (uppercase_identifier))
-      (type_parameters
-        (type_identifier
-          (identifier
-            (uppercase_identifier)))
-        (type_identifier
-          (identifier
-            (uppercase_identifier))))))
-  (type_alias_definition
-    (type_alias_targets
-      (type
-        (trait_object_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier)))))
-      (identifier
-        (uppercase_identifier))
-      (type_parameters
-        (type_identifier
-          (identifier
-            (uppercase_identifier)))
-        (type_identifier
-          (identifier
-            (uppercase_identifier))))))
-  (type_alias_definition
-    (type_alias_targets
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
               (uppercase_identifier)))
-          (type_arguments
-            (type
-              (tuple_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier))))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (identifier
         (uppercase_identifier))
       (type_parameters
@@ -438,34 +334,63 @@ typealias (A) -> ((B) -> C) raise? as E[A, B, C]
             (uppercase_identifier))))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (function_type
-          (type
-            (apply_type
+      (trait_object_type
+        (qualified_type_identifier
+          (package_identifier)
+          (dot_identifier
+            (dot_uppercase_identifier))))
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))))
+  (type_alias_definition
+    (type_alias_targets
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
+          (tuple_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (identifier
+        (uppercase_identifier))
+      (type_parameters
+        (type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_identifier
+          (identifier
+            (uppercase_identifier))))))
+  (type_alias_definition
+    (type_alias_targets
+      (function_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (return_type
+          (parenthesized_type
+            (function_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))
-          (return_type
-            (tuple_type
-              (type
-                (function_type
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))
-                  (return_type
-                    (type
-                      (apply_type
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))))))))
-            (error_annotation
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier)))))))))
+                  (uppercase_identifier)))
+              (return_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))
+          (error_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
       (identifier
         (uppercase_identifier))
       (type_parameters
@@ -480,29 +405,21 @@ typealias (A) -> ((B) -> C) raise? as E[A, B, C]
             (uppercase_identifier))))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (function_type
-          (type
-            (apply_type
+      (function_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (return_type
+          (parenthesized_type
+            (function_type
               (qualified_type_identifier
                 (identifier
-                  (uppercase_identifier)))))
-          (return_type
-            (tuple_type
-              (type
-                (function_type
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))
-                  (return_type
-                    (type
-                      (apply_type
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))))))))
-            (error_annotation))))
+                  (uppercase_identifier)))
+              (return_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))
+          (error_annotation)))
       (identifier
         (uppercase_identifier))
       (type_parameters

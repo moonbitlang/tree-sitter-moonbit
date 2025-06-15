@@ -200,29 +200,23 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))
-                (type_arguments
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier))))))))))))
-    (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (type_arguments
                 (qualified_type_identifier
                   (identifier
                     (uppercase_identifier)))))))))
+    (return_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (block_expression
       (apply_expression
         (method_expression

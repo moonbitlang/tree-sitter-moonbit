@@ -53,11 +53,9 @@ type! X {
   (error_type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier))))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier))))
   (error_type_definition
     (visibility)
     (identifier
@@ -74,20 +72,16 @@ type! X {
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (enum_constructor
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
   (error_type_definition
     (identifier
       (uppercase_identifier))
@@ -104,20 +98,16 @@ type! X {
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (enum_constructor
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (derive_directive
       (derive_item
         (type_name
@@ -150,11 +140,9 @@ suberror X {
   (error_type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier))))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier))))
   (error_type_definition
     (visibility)
     (identifier
@@ -171,20 +159,16 @@ suberror X {
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (enum_constructor
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
   (error_type_definition
     (identifier
       (uppercase_identifier))
@@ -201,20 +185,16 @@ suberror X {
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (enum_constructor
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (derive_directive
       (derive_item
         (type_name
@@ -251,11 +231,9 @@ struct Color {
     (struct_field_declaration
       (mutability)
       (lowercase_identifier)
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (struct_definition
     (identifier
       (uppercase_identifier))
@@ -265,54 +243,42 @@ struct Color {
           (uppercase_identifier))))
     (struct_field_declaration
       (lowercase_identifier)
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+              (uppercase_identifier))))))
     (struct_field_declaration
       (lowercase_identifier)
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))))
+              (uppercase_identifier)))))))
   (struct_definition
     (identifier
       (uppercase_identifier))
     (struct_field_declaration
       (lowercase_identifier)
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (struct_field_declaration
       (lowercase_identifier)
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (struct_field_declaration
       (lowercase_identifier)
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
 
 ================================================================================
 Enum definitions
@@ -348,20 +314,16 @@ enum Two[A, B] {
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (enum_constructor
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
 
 ================================================================================
 value definitions
@@ -380,11 +342,9 @@ pub let y: Int = 42
     (visibility)
     (lowercase_identifier)
     (type_annotation
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (atomic_expression
       (literal
         (integer_literal)))))
@@ -412,17 +372,13 @@ fn &Trait::method(self: Self) -> Int { 42 }
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression
       (qualified_identifier
         (lowercase_identifier))))
@@ -439,16 +395,13 @@ fn &Trait::method(self: Self) -> Int { 42 }
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression))
   (function_definition
     (function_identifier
@@ -458,21 +411,16 @@ fn &Trait::method(self: Self) -> Int { 42 }
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression))
   (function_definition
     (function_identifier
@@ -486,17 +434,13 @@ fn &Trait::method(self: Self) -> Int { 42 }
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression
       (atomic_expression
         (literal
@@ -552,35 +496,28 @@ fn init {
           (label
             (lowercase_identifier))
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
       (parameter
         (optional_parameter_with_default
           (label
             (lowercase_identifier))
           (type_annotation
-            (type
-              (apply_type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (type_arguments
                 (qualified_type_identifier
                   (identifier
-                    (uppercase_identifier)))
-                (type_arguments
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))))))
+                    (uppercase_identifier))))))
           (constructor_expression
             (uppercase_identifier)))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression
       (match_expression
         (qualified_identifier
@@ -698,17 +635,14 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (apply_type
+    (apply_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (type_arguments
         (qualified_type_identifier
           (identifier
-            (uppercase_identifier)))
-        (type_arguments
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+            (uppercase_identifier)))))
     (function_identifier
       (lowercase_identifier))
     (parameters
@@ -716,17 +650,13 @@ pub impl[X: Value] Value for Double[X] with to_tensor(self : Double) -> Tensor {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -758,17 +688,13 @@ extern "c" fn ffi(a: Int) = "return 0"
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (external_source
       (string_literal
         (string_fragment
@@ -793,17 +719,13 @@ extern "c" fn ffi(a: Int) = "return 0"
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (external_source
       (multiline_string_literal
         (multiline_string_fragment
@@ -821,11 +743,9 @@ extern "c" fn ffi(a: Int) = "return 0"
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (external_source
       (multiline_string_literal
         (multiline_string_fragment
@@ -842,11 +762,9 @@ extern "c" fn ffi(a: Int) = "return 0"
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (external_source
       (string_literal
         (string_fragment
@@ -899,68 +817,54 @@ pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (type_arguments
                 (qualified_type_identifier
                   (identifier
-                    (uppercase_identifier)))
-                (type_arguments
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier))))))))))))
+                    (uppercase_identifier)))))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (package_identifier)
-            (dot_identifier
-              (dot_uppercase_identifier))))))
+      (qualified_type_identifier
+        (package_identifier)
+        (dot_identifier
+          (dot_uppercase_identifier))))
     (block_expression
       (struct_definition
         (identifier
           (uppercase_identifier))
         (struct_field_declaration
           (lowercase_identifier)
-          (type
-            (apply_type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
               (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))
-              (type_arguments
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (package_identifier)
-                      (dot_identifier
-                        (dot_uppercase_identifier)))))))))
+                (package_identifier)
+                (dot_identifier
+                  (dot_uppercase_identifier))))))
         (struct_field_declaration
           (lowercase_identifier)
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))
-              (type_arguments
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))
-                    (type_arguments
-                      (type
-                        (apply_type
-                          (qualified_type_identifier
-                            (identifier
-                              (uppercase_identifier))))))))))))
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))
+                (type_arguments
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier))))))))
         (struct_field_declaration
           (lowercase_identifier)
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (named_lambda_expression
         (lowercase_identifier)
         (parameters
@@ -968,18 +872,14 @@ pub fn[T] Tensor::compile(self : Tensor[T]) -> @expr.Expr {
             (positional_parameter
               (lowercase_identifier)
               (type_annotation
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))))
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
         (return_type
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (package_identifier)
-                (dot_identifier
-                  (dot_uppercase_identifier))))))
+          (qualified_type_identifier
+            (package_identifier)
+            (dot_identifier
+              (dot_uppercase_identifier))))
         (block_expression))
       (apply_expression
         (qualified_identifier
@@ -1001,64 +901,46 @@ typealias X[t] = Y[T]
 (structure
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (type_alias_definition
     (visibility)
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (type_alias_definition
     (visibility
       (pub_attribute))
     (type_alias_targets
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (type_alias_definition
     (type_alias_targets
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (lowercase_identifier))))))))
-      (type
-        (apply_type
+              (lowercase_identifier)))))
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))))
+              (uppercase_identifier))))))))

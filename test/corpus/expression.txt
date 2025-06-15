@@ -503,7 +503,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (dot_apply_expression
-        (tuple_expression
+        (parenthesized_expression
           (as_expression
             (qualified_identifier
               (lowercase_identifier))
