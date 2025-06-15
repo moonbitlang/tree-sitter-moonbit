@@ -373,6 +373,16 @@ fn main {
     0x1.0953f419900a7p+0, 0x1.0p+0, 0x1.e608cfd9a47acp-1, 0x1.ca4b31f026aap-1, 0x1.b2036576afce6p-1,
     0x1.9c2d163a1aa2dp-1, 0x1.886e6037841edp-1, 0x1.767dcf5534862p-1,
   ]
+  let a = 0.01F
+  let b = 0.0F
+  let c = 0x0.1Fp+0F
+  let d = 0.1e3F
+  let array = [
+    0x1.661ec79f8f3bep+0F, 0x1.571ed4aaf883dp+0F, 0x1.49539f0f010bp+0F, 0x1.3c995b0b80385p+0F,
+    0x1.30d190c8864a5p+0F, 0x1.25e227b0b8eap+0F, 0x1.1bb4a4a1a343fp+0F, 0x1.12358f08ae5bap+0F,
+    0x1.0953f419900a7p+0F, 0x1.0p+0F, 0x1.e608cfd9a47acp-1F, 0x1.ca4b31f026aap-1F, 0x1.b2036576afce6p-1F,
+    0x1.9c2d163a1aa2dp-1F, 0x1.886e6037841edp-1F, 0x1.767dcf5534862p-1F,
+  ]
 }
 --------------------------------------------------------------------------------
 
@@ -381,6 +391,77 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (atomic_expression
+          (literal
+            (double_literal))))
+      (let_expression
+        (lowercase_identifier)
+        (atomic_expression
+          (literal
+            (double_literal))))
+      (let_expression
+        (lowercase_identifier)
+        (atomic_expression
+          (literal
+            (double_literal))))
+      (let_expression
+        (lowercase_identifier)
+        (atomic_expression
+          (literal
+            (double_literal))))
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))
+          (atomic_expression
+            (literal
+              (double_literal)))))
       (let_expression
         (lowercase_identifier)
         (atomic_expression

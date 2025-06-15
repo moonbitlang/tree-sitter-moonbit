@@ -103,7 +103,7 @@ fn main {
         (case_clause
           (atomic_pattern
             (literal
-              (float_literal)))
+              (double_literal)))
           (unit_expression))
         (case_clause
           (atomic_pattern
