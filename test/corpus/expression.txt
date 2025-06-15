@@ -54,28 +54,22 @@ fn init {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier)))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))
           (return_expression))
         (case_clause
-          (pattern
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier)))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))
           (return_expression
             (atomic_expression
               (literal
                 (integer_literal)))))
         (case_clause
-          (pattern
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier)))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))
           (assign_expression
             (left_value
               (qualified_identifier
@@ -88,25 +82,19 @@ fn init {
                 (literal
                   (integer_literal))))))
         (case_clause
-          (pattern
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier)))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))
           (break_expression))
         (case_clause
-          (pattern
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier)))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))
           (continue_expression))
         (case_clause
-          (pattern
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier)))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))
           (while_expression
             (atomic_expression
               (literal
@@ -126,9 +114,7 @@ fn init() { let a = A::{ ..id, name: "John Doe" } }
     (parameters)
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (struct_expression
           (type_name
             (qualified_type_identifier
@@ -160,9 +146,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (map_expression
           (map_element_expression
             (map_element_key
@@ -192,9 +176,7 @@ fn main {
                   (string_fragment
                     (unescaped_string_fragment))))))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (map_expression)))))
 
 ================================================================================
@@ -212,9 +194,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (binary_expression
           (atomic_expression
             (literal
@@ -223,9 +203,7 @@ fn main {
             (literal
               (integer_literal)))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (binary_expression
           (atomic_expression
             (literal
@@ -282,9 +260,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (array_access_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -292,16 +268,12 @@ fn main {
             (literal
               (integer_literal)))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (array_access_expression
           (qualified_identifier
             (lowercase_identifier))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (array_access_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -309,9 +281,7 @@ fn main {
             (literal
               (integer_literal)))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (array_access_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -336,9 +306,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (binary_expression
           (binary_expression
             (binary_expression
@@ -373,9 +341,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (binary_expression
           (binary_expression
             (binary_expression
@@ -430,9 +396,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (binary_expression
           (binary_expression
             (binary_expression
@@ -503,7 +467,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (dot_apply_expression
-        (tuple_expression
+        (parenthesized_expression
           (as_expression
             (qualified_identifier
               (lowercase_identifier))
@@ -547,31 +511,28 @@ fn main {
       (is_expression
         (qualified_identifier
           (lowercase_identifier))
-        (simple_pattern
-          (constructor_pattern
-            (constructor_expression
-              (uppercase_identifier)))))
+        (constructor_pattern
+          (constructor_expression
+            (uppercase_identifier))))
       (is_expression
         (qualified_identifier
           (lowercase_identifier))
-        (simple_pattern
-          (constructor_pattern
-            (constructor_expression
-              (uppercase_identifier))
-            (constructor_pattern_argument
-              (pattern
-                (simple_pattern
-                  (literal
-                    (integer_literal))))))))
+        (constructor_pattern
+          (constructor_expression
+            (uppercase_identifier))
+          (constructor_pattern_argument
+            (atomic_pattern
+              (literal
+                (integer_literal))))))
       (is_expression
         (qualified_identifier
           (lowercase_identifier))
         (range_pattern
-          (simple_pattern
+          (atomic_pattern
             (literal
               (char_literal
                 (escape_sequence))))
-          (simple_pattern
+          (atomic_pattern
             (literal
               (char_literal
                 (escape_sequence))))))
@@ -579,11 +540,11 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (range_pattern
-          (simple_pattern
+          (atomic_pattern
             (literal
               (char_literal
                 (escape_sequence))))
-          (simple_pattern
+          (atomic_pattern
             (literal
               (char_literal
                 (escape_sequence))))))
@@ -594,33 +555,30 @@ fn main {
         (is_expression
           (qualified_identifier
             (lowercase_identifier))
-          (simple_pattern
-            (constructor_pattern
-              (constructor_expression
-                (uppercase_identifier))))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))))
       (guard_expression
         (is_expression
           (qualified_identifier
             (lowercase_identifier))
-          (simple_pattern
-            (constructor_pattern
-              (constructor_expression
-                (uppercase_identifier))
-              (constructor_pattern_argument
-                (pattern
-                  (simple_pattern
-                    (literal
-                      (integer_literal)))))))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier))
+            (constructor_pattern_argument
+              (atomic_pattern
+                (literal
+                  (integer_literal)))))))
       (guard_expression
         (is_expression
           (qualified_identifier
             (lowercase_identifier))
           (range_pattern
-            (simple_pattern
+            (atomic_pattern
               (literal
                 (char_literal
                   (escape_sequence))))
-            (simple_pattern
+            (atomic_pattern
               (literal
                 (char_literal
                   (escape_sequence))))))
@@ -632,29 +590,26 @@ fn main {
       (is_expression
         (qualified_identifier
           (lowercase_identifier))
-        (simple_pattern
-          (pattern
-            (or_pattern
-              (pattern
-                (range_pattern
-                  (simple_pattern
-                    (literal
-                      (char_literal
-                        (escape_sequence))))
-                  (simple_pattern
-                    (literal
-                      (char_literal
-                        (escape_sequence))))))
-              (pattern
-                (range_pattern
-                  (simple_pattern
-                    (literal
-                      (char_literal
-                        (escape_sequence))))
-                  (simple_pattern
-                    (literal
-                      (char_literal
-                        (escape_sequence)))))))))))))
+        (parenthesized_pattern
+          (or_pattern
+            (range_pattern
+              (atomic_pattern
+                (literal
+                  (char_literal
+                    (escape_sequence))))
+              (atomic_pattern
+                (literal
+                  (char_literal
+                    (escape_sequence)))))
+            (range_pattern
+              (atomic_pattern
+                (literal
+                  (char_literal
+                    (escape_sequence))))
+              (atomic_pattern
+                (literal
+                  (char_literal
+                    (escape_sequence)))))))))))
 
 ================================================================================
 unfinished

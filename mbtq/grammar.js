@@ -21,12 +21,12 @@ module.exports = grammar(base, {
     ),
 
     simple_pattern: $ => choice(
-      base.grammar.rules.simple_pattern,
+      base.grammar.rules._simple_pattern,
       $.quotation_pattern_expander,
     ),
 
     type: $ => choice(
-      base.grammar.rules.type,
+      base.grammar.rules._type,
       $.quotation_type_expander,
     ),
 

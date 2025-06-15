@@ -19,11 +19,9 @@ fn init {
             (positional_parameter
               (lowercase_identifier)
               (type_annotation
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))))
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
         (block_expression
           (qualified_identifier
             (lowercase_identifier)))))))
@@ -47,11 +45,9 @@ fn init {
             (positional_parameter
               (lowercase_identifier)
               (type_annotation
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))))
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
         (block_expression
           (qualified_identifier
             (lowercase_identifier)))))))
@@ -70,20 +66,16 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (anonymous_lambda_expression
           (parameters
             (parameter
               (positional_parameter
                 (lowercase_identifier)
                 (type_annotation
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))))))
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))
           (block_expression
             (anonymous_lambda_expression
               (parameters
@@ -91,11 +83,9 @@ fn init {
                   (positional_parameter
                     (lowercase_identifier)
                     (type_annotation
-                      (type
-                        (apply_type
-                          (qualified_type_identifier
-                            (identifier
-                              (uppercase_identifier)))))))))
+                      (qualified_type_identifier
+                        (identifier
+                          (uppercase_identifier)))))))
               (block_expression
                 (binary_expression
                   (qualified_identifier
@@ -123,30 +113,24 @@ fn init {
       (named_matrix_expression
         (lowercase_identifier)
         (matrix_case_clause
-          (pattern
-            (simple_pattern
-              (literal
-                (boolean_literal))))
-          (pattern
-            (simple_pattern))
+          (atomic_pattern
+            (literal
+              (boolean_literal)))
+          (any_pattern)
           (atomic_expression
             (literal
               (boolean_literal))))
         (matrix_case_clause
-          (pattern
-            (simple_pattern))
-          (pattern
-            (simple_pattern
-              (literal
-                (boolean_literal))))
+          (any_pattern)
+          (atomic_pattern
+            (literal
+              (boolean_literal)))
           (atomic_expression
             (literal
               (boolean_literal))))
         (matrix_case_clause
-          (pattern
-            (simple_pattern))
-          (pattern
-            (simple_pattern))
+          (any_pattern)
+          (any_pattern)
           (atomic_expression
             (literal
               (boolean_literal))))))))
@@ -165,13 +149,10 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern))
+        (any_pattern)
         (anonymous_matrix_lambda_expression
           (matrix_case_clause
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
+            (lowercase_identifier)
             (binary_expression
               (qualified_identifier
                 (lowercase_identifier))

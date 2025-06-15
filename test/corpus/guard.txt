@@ -77,11 +77,9 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (guard_let_expression
-        (pattern
-          (simple_pattern
-            (constructor_pattern
-              (constructor_expression
-                (uppercase_identifier)))))
+        (constructor_pattern
+          (constructor_expression
+            (uppercase_identifier)))
         (apply_expression
           (constructor_expression
             (uppercase_identifier))
@@ -107,11 +105,9 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (guard_let_expression
-        (pattern
-          (simple_pattern
-            (constructor_pattern
-              (constructor_expression
-                (uppercase_identifier)))))
+        (constructor_pattern
+          (constructor_expression
+            (uppercase_identifier)))
         (apply_expression
           (constructor_expression
             (uppercase_identifier))
@@ -122,14 +118,11 @@ fn init {
                   (integer_literal))))))
         (guard_let_else_expression
           (case_clause
-            (pattern
-              (simple_pattern
-                (constructor_pattern
-                  (constructor_expression
-                    (uppercase_identifier))
-                  (constructor_pattern_argument
-                    (pattern
-                      (simple_pattern))))))
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (any_pattern)))
             (unit_expression)))))))
 
 ================================================================================
@@ -163,15 +156,13 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
         (is_expression
           (qualified_identifier
             (lowercase_identifier))
-          (simple_pattern
-            (constructor_pattern
-              (constructor_expression
-                (uppercase_identifier))
-              (constructor_pattern_argument
-                (pattern
-                  (simple_pattern
-                    (literal
-                      (integer_literal))))))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier))
+            (constructor_pattern_argument
+              (atomic_pattern
+                (literal
+                  (integer_literal))))))
         (guard_else_expression
           (block_expression
             (return_expression))))
@@ -179,10 +170,9 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
         (is_expression
           (qualified_identifier
             (lowercase_identifier))
-          (simple_pattern
-            (constructor_pattern
-              (constructor_expression
-                (uppercase_identifier))))))))
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))))))
   (function_definition
     (visibility)
     (type_parameters
@@ -200,29 +190,23 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))
-                (type_arguments
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier))))))))))))
-    (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (type_arguments
                 (qualified_type_identifier
                   (identifier
                     (uppercase_identifier)))))))))
+    (return_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (block_expression
       (apply_expression
         (method_expression
@@ -253,10 +237,9 @@ pub fn[A] View::iter(self : View[A]) -> Iter[A] {
                             (argument
                               (qualified_identifier
                                 (lowercase_identifier)))))
-                        (simple_pattern
-                          (constructor_pattern
-                            (constructor_expression
-                              (uppercase_identifier)))))
+                        (constructor_pattern
+                          (constructor_expression
+                            (uppercase_identifier))))
                       (guard_else_expression
                         (block_expression
                           (break_expression

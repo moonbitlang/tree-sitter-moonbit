@@ -8,13 +8,10 @@ type New(Int)
   (type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (tuple_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))))
+    (parenthesized_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
 
 ================================================================================
 phantom type
@@ -41,11 +38,9 @@ let d_mile: Length[Mile] = Length(16)
       (type_identifier
         (identifier
           (lowercase_identifier))))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier))))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier))))
   (type_definition
     (identifier
       (uppercase_identifier))
@@ -71,44 +66,35 @@ let d_mile: Length[Mile] = Length(16)
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (type_arguments
                 (qualified_type_identifier
                   (identifier
-                    (uppercase_identifier)))
-                (type_arguments
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier)))))))))))
+                    (uppercase_identifier))))))))
       (parameter
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))
-                (type_arguments
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier))))))))))))
-    (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (type_arguments
                 (qualified_type_identifier
                   (identifier
                     (uppercase_identifier)))))))))
+    (return_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (block_expression
       (apply_expression
         (constructor_expression
@@ -131,17 +117,14 @@ let d_mile: Length[Mile] = Length(16)
   (value_definition
     (lowercase_identifier)
     (type_annotation
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+              (uppercase_identifier))))))
     (apply_expression
       (constructor_expression
         (uppercase_identifier))
@@ -153,17 +136,14 @@ let d_mile: Length[Mile] = Length(16)
   (value_definition
     (lowercase_identifier)
     (type_annotation
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
-              (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+              (uppercase_identifier))))))
     (apply_expression
       (constructor_expression
         (uppercase_identifier))

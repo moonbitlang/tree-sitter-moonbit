@@ -95,14 +95,12 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (simple_pattern
-              (literal
-                (integer_literal))))
+          (atomic_pattern
+            (literal
+              (integer_literal)))
           (map_expression))
         (case_clause
-          (pattern
-            (simple_pattern))
+          (any_pattern)
           (comment)
           (map_expression))))))
 
@@ -123,11 +121,9 @@ fn f()
     (parameters)
     (comment)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -241,22 +237,20 @@ fn main {
 (structure
   (type_alias_definition
     (type_alias_targets
-      (identifier
-        (uppercase_identifier))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (trait_alias_definition
     (trait_alias_targets
-      (identifier
-        (uppercase_identifier))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (function_definition
     (external_linkage
       (string_literal
@@ -274,9 +268,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
@@ -286,16 +278,13 @@ fn main {
           (literal
             (integer_literal))))
       (guard_let_expression
-        (pattern
-          (or_pattern
-            (pattern
-              (simple_pattern
-                (literal
-                  (integer_literal))))
-            (pattern
-              (simple_pattern
-                (literal
-                  (integer_literal))))))
+        (or_pattern
+          (atomic_pattern
+            (literal
+              (integer_literal)))
+          (atomic_pattern
+            (literal
+              (integer_literal))))
         (atomic_expression
           (literal
             (integer_literal))))
@@ -470,10 +459,8 @@ fn main {
           (literal
             (integer_literal)))
         (matrix_case_clause
-          (pattern
-            (simple_pattern))
-          (pattern
-            (simple_pattern))
+          (any_pattern)
+          (any_pattern)
           (continue_expression
             (atomic_expression
               (literal
@@ -506,17 +493,13 @@ fn main {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression))
   (function_definition
     (function_identifier
@@ -561,16 +544,13 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (or_pattern
-              (pattern
-                (simple_pattern
-                  (literal
-                    (integer_literal))))
-              (pattern
-                (simple_pattern
-                  (literal
-                    (integer_literal))))))
+          (or_pattern
+            (atomic_pattern
+              (literal
+                (integer_literal)))
+            (atomic_pattern
+              (literal
+                (integer_literal))))
           (unit_expression))))))
 
 ================================================================================
@@ -599,13 +579,11 @@ fn main {
       (is_expression
         (qualified_identifier
           (lowercase_identifier))
-        (simple_pattern
-          (constructor_pattern
-            (constructor_expression
-              (uppercase_identifier))
-            (constructor_pattern_argument
-              (pattern
-                (simple_pattern)))))))))
+        (constructor_pattern
+          (constructor_expression
+            (uppercase_identifier))
+          (constructor_pattern_argument
+            (any_pattern)))))))
 
 ================================================================================
 can occur after semi (DOTDOT)
@@ -683,21 +661,17 @@ with f() -> Unit {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
     (comment)
     (function_identifier
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -715,7 +689,9 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (apply_expression
-        (lowercase_identifier)
+        (qualified_identifier
+          (lowercase_identifier))
+        (apply_operator)
         (arguments
           (argument
             (atomic_expression
@@ -748,20 +724,18 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (range_pattern
-              (simple_pattern
-                (literal
-                  (integer_literal)))
-              (simple_pattern)))
+          (range_pattern
+            (atomic_pattern
+              (literal
+                (integer_literal)))
+            (any_pattern))
           (unit_expression))
         (case_clause
-          (pattern
-            (range_pattern
-              (simple_pattern
-                (literal
-                  (integer_literal)))
-              (simple_pattern)))
+          (range_pattern
+            (atomic_pattern
+              (literal
+                (integer_literal)))
+            (any_pattern))
           (unit_expression))))))
 
 ================================================================================

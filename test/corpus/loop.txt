@@ -15,9 +15,7 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (loop_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -25,24 +23,16 @@ fn init {
             (literal
               (integer_literal)))
           (matrix_case_clause
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
+            (lowercase_identifier)
+            (lowercase_identifier)
             (continue_expression
               (qualified_identifier
                 (lowercase_identifier))
               (qualified_identifier
                 (lowercase_identifier))))
           (matrix_case_clause
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
+            (lowercase_identifier)
+            (lowercase_identifier)
             (qualified_identifier
               (lowercase_identifier))))))))
 
@@ -63,9 +53,7 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (loop_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -76,27 +64,17 @@ fn init {
             (literal
               (integer_literal)))
           (matrix_case_clause
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
+            (lowercase_identifier)
+            (lowercase_identifier)
+            (lowercase_identifier)
             (continue_expression
               (qualified_identifier
                 (lowercase_identifier))
               (qualified_identifier
                 (lowercase_identifier))))
           (matrix_case_clause
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
-            (pattern
-              (simple_pattern
-                (lowercase_identifier)))
+            (lowercase_identifier)
+            (lowercase_identifier)
             (qualified_identifier
               (lowercase_identifier))))))))
 
@@ -126,12 +104,8 @@ fn init {
           (literal
             (integer_literal)))
         (matrix_case_clause
-          (pattern
-            (simple_pattern
-              (lowercase_identifier)))
-          (pattern
-            (simple_pattern
-              (lowercase_identifier)))
+          (lowercase_identifier)
+          (lowercase_identifier)
           (continue_expression
             (label
               (lowercase_identifier))
@@ -140,12 +114,8 @@ fn init {
             (qualified_identifier
               (lowercase_identifier))))
         (matrix_case_clause
-          (pattern
-            (simple_pattern
-              (lowercase_identifier)))
-          (pattern
-            (simple_pattern
-              (lowercase_identifier)))
+          (lowercase_identifier)
+          (lowercase_identifier)
           (break_expression
             (label
               (lowercase_identifier))

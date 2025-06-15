@@ -1,0 +1,137 @@
+================================================================================
+arrow function
+================================================================================
+fn init {
+  a.b(() => c)
+  a.b((c) => d)
+  a.b(c => d)
+  a.b(c => d + 1)
+  a.b((c, d) => e)
+  a.b((c : Int, d : Double) => e)
+  a.b((c : Int, d : Double, e : String) => f)
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (dot_apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (dot_identifier
+          (dot_lowercase_identifier))
+        (argument
+          (arrow_function_expression
+            (parameters)
+            (qualified_identifier
+              (lowercase_identifier)))))
+      (dot_apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (dot_identifier
+          (dot_lowercase_identifier))
+        (argument
+          (arrow_function_expression
+            (parameters
+              (parameter
+                (positional_parameter
+                  (lowercase_identifier))))
+            (qualified_identifier
+              (lowercase_identifier)))))
+      (dot_apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (dot_identifier
+          (dot_lowercase_identifier))
+        (argument
+          (arrow_function_expression
+            (lowercase_identifier)
+            (qualified_identifier
+              (lowercase_identifier)))))
+      (dot_apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (dot_identifier
+          (dot_lowercase_identifier))
+        (argument
+          (arrow_function_expression
+            (lowercase_identifier)
+            (binary_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (atomic_expression
+                (literal
+                  (integer_literal)))))))
+      (dot_apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (dot_identifier
+          (dot_lowercase_identifier))
+        (argument
+          (arrow_function_expression
+            (parameters
+              (parameter
+                (positional_parameter
+                  (lowercase_identifier)))
+              (parameter
+                (positional_parameter
+                  (lowercase_identifier))))
+            (qualified_identifier
+              (lowercase_identifier)))))
+      (dot_apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (dot_identifier
+          (dot_lowercase_identifier))
+        (argument
+          (arrow_function_expression
+            (parameters
+              (parameter
+                (positional_parameter
+                  (lowercase_identifier)
+                  (type_annotation
+                    (qualified_type_identifier
+                      (identifier
+                        (uppercase_identifier))))))
+              (parameter
+                (positional_parameter
+                  (lowercase_identifier)
+                  (type_annotation
+                    (qualified_type_identifier
+                      (identifier
+                        (uppercase_identifier)))))))
+            (qualified_identifier
+              (lowercase_identifier)))))
+      (dot_apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (dot_identifier
+          (dot_lowercase_identifier))
+        (argument
+          (arrow_function_expression
+            (parameters
+              (parameter
+                (positional_parameter
+                  (lowercase_identifier)
+                  (type_annotation
+                    (qualified_type_identifier
+                      (identifier
+                        (uppercase_identifier))))))
+              (parameter
+                (positional_parameter
+                  (lowercase_identifier)
+                  (type_annotation
+                    (qualified_type_identifier
+                      (identifier
+                        (uppercase_identifier))))))
+              (parameter
+                (positional_parameter
+                  (lowercase_identifier)
+                  (type_annotation
+                    (qualified_type_identifier
+                      (identifier
+                        (uppercase_identifier)))))))
+            (qualified_identifier
+              (lowercase_identifier))))))))

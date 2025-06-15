@@ -13,9 +13,7 @@ test "t" {
         (unescaped_string_fragment)))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal)))))))
@@ -32,9 +30,7 @@ test {
   (test_definition
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal)))))))
@@ -58,12 +54,10 @@ test "a" (it : @test.T) {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (package_identifier)
-                  (dot_identifier
-                    (dot_uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (package_identifier)
+              (dot_identifier
+                (dot_uppercase_identifier)))))))
     (block_expression
       (dot_apply_expression
         (qualified_identifier

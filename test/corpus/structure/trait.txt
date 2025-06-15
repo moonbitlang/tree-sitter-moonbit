@@ -14,17 +14,13 @@ trait A {
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
 
 ================================================================================
 trait definitions
@@ -43,32 +39,24 @@ trait A {
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
     (trait_method_declaration
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
 
 ================================================================================
 trait definitions with error
@@ -86,23 +74,17 @@ trait A {
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
 
 ================================================================================
 trait definitions with type parameters
@@ -125,23 +107,17 @@ trait A {
           (identifier
             (uppercase_identifier))))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
     (trait_method_declaration
       (function_identifier
         (lowercase_identifier))
@@ -150,23 +126,17 @@ trait A {
           (identifier
             (uppercase_identifier))))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
 
 ================================================================================
 trait definitions with labeled parameters
@@ -184,35 +154,27 @@ trait A {
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (trait_method_parameter
         (label
           (lowercase_identifier))
         (type_annotation
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (trait_method_parameter
         (label
           (lowercase_identifier))
         (type_annotation
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
 
 ================================================================================
 trait definitions with visibility
@@ -232,35 +194,27 @@ pub(all) trait A {
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (trait_method_parameter
         (label
           (lowercase_identifier))
         (type_annotation
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (trait_method_parameter
         (label
           (lowercase_identifier))
         (type_annotation
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
 
 ================================================================================
 trait definitions with super trait
@@ -289,17 +243,13 @@ trait B: @a.T + @c.D {
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))))
   (trait_definition
     (identifier
       (uppercase_identifier))
@@ -316,17 +266,13 @@ trait B: @a.T + @c.D {
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
 
 ================================================================================
 default implementations for methods in trait
@@ -354,32 +300,24 @@ fn repr(self:MyInt) -> String {
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
     (trait_method_declaration
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (trait_method_default_annotation)))
   (impl_definition
     (type_name
@@ -393,17 +331,13 @@ fn repr(self:MyInt) -> String {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression
       (dot_apply_expression
         (qualified_identifier
@@ -413,11 +347,9 @@ fn repr(self:MyInt) -> String {
   (type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier))))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier))))
   (function_definition
     (function_identifier
       (lowercase_identifier))
@@ -426,17 +358,13 @@ fn repr(self:MyInt) -> String {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression
       (dot_apply_expression
         (access_expression
@@ -462,15 +390,11 @@ trait A {
       (function_identifier
         (lowercase_identifier))
       (trait_method_parameter
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (return_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
       (trait_method_default_annotation))))
