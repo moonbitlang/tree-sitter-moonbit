@@ -63,6 +63,8 @@ module.exports = grammar({
     [$.positional_parameter, $.qualified_identifier],
     [$.unit_expression, $.parameters],
     [$.qualified_identifier, $.arrow_function_expression],
+    [$.positional_parameter, $.identifier],
+    [$.optional_label, $.identifier],
   ],
 
   rules: {
@@ -258,8 +260,7 @@ module.exports = grammar({
     super_trait_declaration: ($) =>
       seq(":", plusList($.qualified_type_identifier)),
 
-    trait_method_parameter: ($) =>
-      choice($._type, seq($.label, $.type_annotation)),
+    trait_method_parameter: ($) => choice($._type, $.parameter),
 
     trait_method_declaration: ($) =>
       seq(
