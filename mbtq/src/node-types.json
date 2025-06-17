@@ -4829,7 +4829,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -4837,11 +4837,7 @@
           "named": true
         },
         {
-          "type": "label",
-          "named": true
-        },
-        {
-          "type": "type_annotation",
+          "type": "parameter",
           "named": true
         }
       ]

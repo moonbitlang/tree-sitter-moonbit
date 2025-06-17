@@ -1601,17 +1601,8 @@
           "name": "_type"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "label"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "type_annotation"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "parameter"
         }
       ]
     },
@@ -8359,6 +8350,14 @@
     [
       "qualified_identifier",
       "arrow_function_expression"
+    ],
+    [
+      "positional_parameter",
+      "identifier"
+    ],
+    [
+      "optional_label",
+      "identifier"
     ]
   ],
   "precedences": [
