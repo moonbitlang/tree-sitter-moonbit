@@ -368,10 +368,13 @@ module.exports = grammar({
         $.arrow_function_expression
       ),
 
+    _arrow_function_body: ($) =>
+      choice($._expression, $.raise_expression, $.assign_expression),
+
     arrow_function_expression: ($) =>
       choice(
-        seq($.parameters, "=>", $._expression),
-        seq($._lowercase_identifier, "=>", $._expression)
+        seq($.parameters, "=>", $._arrow_function_body),
+        seq($._lowercase_identifier, "=>", $._arrow_function_body)
       ),
 
     _expression: ($) => choice($._complex_expression, $._simple_expression),
@@ -719,7 +722,7 @@ module.exports = grammar({
       ),
 
     match_expression: ($) =>
-      seq("match", $._expression, "{", list($._semicolon, $.case_clause), "}"),
+      seq("match", $._simple_expression, "{", list($._semicolon, $.case_clause), "}"),
 
     case_clause: ($) =>
       seq($._pattern, optional($.pattern_guard), "=>", $._statement_expression),
@@ -752,7 +755,7 @@ module.exports = grammar({
       seq("else", "{", list($._semicolon, $.case_clause), "}"),
 
     if_expression: ($) =>
-      seq("if", $._expression, $.block_expression, optional($.else_clause)),
+      seq("if", $._simple_expression, $.block_expression, optional($.else_clause)),
 
     else_clause: ($) =>
       seq("else", choice($.block_expression, $.if_expression)),
@@ -850,7 +853,7 @@ module.exports = grammar({
       seq(
         optional($.loop_label),
         "while",
-        $._expression,
+        $._simple_expression,
         $.block_expression,
         optional($.else_clause)
       ),
@@ -907,7 +910,7 @@ module.exports = grammar({
 
     return_expression: ($) => seq("return", optional($._expression)),
 
-    raise_expression: ($) => seq("raise", optional($._expression)),
+    raise_expression: ($) => seq("raise", $._expression),
 
     // Patterns
 
