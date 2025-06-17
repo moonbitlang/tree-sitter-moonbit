@@ -189,3 +189,99 @@ fn init {
             (atomic_expression
               (literal
                 (integer_literal)))))))))
+
+================================================================================
+arrow function (underscore)
+================================================================================
+fn main {
+  _ => ()
+  (_) => ()
+  (_,) => ()
+  (_ : Int) => ()
+  (_ : Int,) => ()
+  (_, _) => ()
+  (_, _,) => ()
+  (_ : Int, _ : Double) => ()
+  (_ : Int, _ : Double,) => ()
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (arrow_function_expression
+        (unit_expression))
+      (arrow_function_expression
+        (parameters
+          (parameter
+            (positional_parameter)))
+        (unit_expression))
+      (arrow_function_expression
+        (parameters
+          (parameter
+            (positional_parameter)))
+        (unit_expression))
+      (arrow_function_expression
+        (parameters
+          (parameter
+            (positional_parameter
+              (type_annotation
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
+        (unit_expression))
+      (arrow_function_expression
+        (parameters
+          (parameter
+            (positional_parameter
+              (type_annotation
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
+        (unit_expression))
+      (arrow_function_expression
+        (parameters
+          (parameter
+            (positional_parameter))
+          (parameter
+            (positional_parameter)))
+        (unit_expression))
+      (arrow_function_expression
+        (parameters
+          (parameter
+            (positional_parameter))
+          (parameter
+            (positional_parameter)))
+        (unit_expression))
+      (arrow_function_expression
+        (parameters
+          (parameter
+            (positional_parameter
+              (type_annotation
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))
+          (parameter
+            (positional_parameter
+              (type_annotation
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
+        (unit_expression))
+      (arrow_function_expression
+        (parameters
+          (parameter
+            (positional_parameter
+              (type_annotation
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))))
+          (parameter
+            (positional_parameter
+              (type_annotation
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
+        (unit_expression)))))
