@@ -65,6 +65,9 @@ module.exports = grammar({
     [$.qualified_identifier, $.arrow_function_expression],
     [$.positional_parameter, $.identifier],
     [$.optional_label, $.identifier],
+    [$._simple_expression, $.positional_parameter],
+    [$._simple_type, $.positional_parameter],
+    [$._simple_expression, $.arrow_function_expression],
   ],
 
   rules: {
@@ -380,7 +383,8 @@ module.exports = grammar({
     arrow_function_expression: ($) =>
       choice(
         seq($.parameters, "=>", $._arrow_function_body),
-        seq($._lowercase_identifier, "=>", $._arrow_function_body)
+        seq($._lowercase_identifier, "=>", $._arrow_function_body),
+        seq("_", "=>", $._arrow_function_body)
       ),
 
     _expression: ($) => choice($._complex_expression, $._simple_expression),
@@ -1091,7 +1095,7 @@ module.exports = grammar({
     optional_label: ($) => seq($._lowercase_identifier, "?"),
 
     positional_parameter: ($) =>
-      seq($._lowercase_identifier, optional($.type_annotation)),
+      seq(choice($._lowercase_identifier, "_"), optional($.type_annotation)),
 
     labelled_parameter: ($) => seq($.label, optional($.type_annotation)),
 
