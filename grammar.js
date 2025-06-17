@@ -385,7 +385,7 @@ module.exports = grammar({
         $.qualified_identifier,
         $.unary_expression,
         $.struct_expression,
-        $.nonempty_block_expression,
+        alias($.nonempty_block_expression, $.block_expression),
         $.anonymous_lambda_expression,
         $.anonymous_matrix_lambda_expression,
         $.constructor_expression,
