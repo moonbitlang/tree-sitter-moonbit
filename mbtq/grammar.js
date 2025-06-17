@@ -20,13 +20,13 @@ module.exports = grammar(base, {
       $.quotation_expression_expander,
     ),
 
-    simple_pattern: $ => choice(
+    _simple_pattern: $ => choice(
       base.grammar.rules._simple_pattern,
       $.quotation_pattern_expander,
     ),
 
-    type: $ => choice(
-      base.grammar.rules._type,
+    _simple_type: $ => choice(
+      base.grammar.rules._simple_type,
       $.quotation_type_expander,
     ),
 
