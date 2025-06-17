@@ -9,6 +9,11 @@ fn init {
   a.b((c, d) => e)
   a.b((c : Int, d : Double) => e)
   a.b((c : Int, d : Double, e : String) => f)
+  a.b(c => raise Error("error"))
+  loop c => raise Error("error") {
+    _ => ()
+  }
+  c => a = b + 1
 }
 --------------------------------------------------------------------------------
 
@@ -134,4 +139,53 @@ fn init {
                       (identifier
                         (uppercase_identifier)))))))
             (qualified_identifier
-              (lowercase_identifier))))))))
+              (lowercase_identifier)))))
+      (dot_apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (dot_identifier
+          (dot_lowercase_identifier))
+        (argument
+          (arrow_function_expression
+            (lowercase_identifier)
+            (raise_expression
+              (apply_expression
+                (constructor_expression
+                  (uppercase_identifier))
+                (arguments
+                  (argument
+                    (atomic_expression
+                      (literal
+                        (string_literal
+                          (string_fragment
+                            (unescaped_string_fragment))))))))))))
+      (loop_expression
+        (arrow_function_expression
+          (lowercase_identifier)
+          (raise_expression
+            (apply_expression
+              (constructor_expression
+                (uppercase_identifier))
+              (arguments
+                (argument
+                  (atomic_expression
+                    (literal
+                      (string_literal
+                        (string_fragment
+                          (unescaped_string_fragment))))))))))
+        (matrix_case_clause
+          (any_pattern)
+          (unit_expression)))
+      (arrow_function_expression
+        (lowercase_identifier)
+        (assign_expression
+          (left_value
+            (qualified_identifier
+              (lowercase_identifier)))
+          (assign_operator)
+          (binary_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (atomic_expression
+              (literal
+                (integer_literal)))))))))
