@@ -369,7 +369,12 @@ module.exports = grammar({
       ),
 
     _arrow_function_body: ($) =>
-      choice($._expression, $.raise_expression, $.assign_expression),
+      choice(
+        $._expression,
+        $.raise_expression,
+        $.assign_expression,
+        $.unfinished
+      ),
 
     arrow_function_expression: ($) =>
       choice(
@@ -722,7 +727,13 @@ module.exports = grammar({
       ),
 
     match_expression: ($) =>
-      seq("match", $._simple_expression, "{", list($._semicolon, $.case_clause), "}"),
+      seq(
+        "match",
+        $._simple_expression,
+        "{",
+        list($._semicolon, $.case_clause),
+        "}"
+      ),
 
     case_clause: ($) =>
       seq($._pattern, optional($.pattern_guard), "=>", $._statement_expression),
@@ -755,7 +766,12 @@ module.exports = grammar({
       seq("else", "{", list($._semicolon, $.case_clause), "}"),
 
     if_expression: ($) =>
-      seq("if", $._simple_expression, $.block_expression, optional($.else_clause)),
+      seq(
+        "if",
+        $._simple_expression,
+        $.block_expression,
+        optional($.else_clause)
+      ),
 
     else_clause: ($) =>
       seq("else", choice($.block_expression, $.if_expression)),
