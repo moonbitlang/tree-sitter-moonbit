@@ -144,3 +144,183 @@ enum A {
           (qualified_type_identifier
             (identifier
               (uppercase_identifier))))))))
+
+================================================================================
+derive arguments
+================================================================================
+struct JsonTest3 {
+  x : Int
+  y : Int
+} derive (
+  FromJson(fields(x(rename="renamedX"))),
+  ToJson(fields(x(rename="renamedX"))),
+  Eq,
+  Show,
+)
+
+enum JsonTest4 {
+  A(x~ : Int)
+  B(x~ : Int, y~ : Int)
+} derive (
+  FromJson(rename_fields="SCREAMING_SNAKE_CASE", repr(ext_tagged)),
+  ToJson(rename_fields="SCREAMING_SNAKE_CASE", repr(ext_tagged)),
+  Eq,
+  Show,
+)
+--------------------------------------------------------------------------------
+
+(structure
+  (struct_definition
+    (identifier
+      (uppercase_identifier))
+    (struct_field_declaration
+      (lowercase_identifier)
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (struct_field_declaration
+      (lowercase_identifier)
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (derive_directive
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (arguments
+          (argument
+            (apply_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (arguments
+                (argument
+                  (apply_expression
+                    (qualified_identifier
+                      (lowercase_identifier))
+                    (arguments
+                      (argument
+                        (labelled_argument
+                          (lowercase_identifier)
+                          (atomic_expression
+                            (literal
+                              (string_literal
+                                (string_fragment
+                                  (unescaped_string_fragment)))))))))))))))
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (arguments
+          (argument
+            (apply_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (arguments
+                (argument
+                  (apply_expression
+                    (qualified_identifier
+                      (lowercase_identifier))
+                    (arguments
+                      (argument
+                        (labelled_argument
+                          (lowercase_identifier)
+                          (atomic_expression
+                            (literal
+                              (string_literal
+                                (string_fragment
+                                  (unescaped_string_fragment)))))))))))))))
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (enum_definition
+    (identifier
+      (uppercase_identifier))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (label
+            (lowercase_identifier))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (label
+            (lowercase_identifier))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (constructor_parameter
+          (label
+            (lowercase_identifier))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (derive_directive
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (arguments
+          (argument
+            (labelled_argument
+              (lowercase_identifier)
+              (atomic_expression
+                (literal
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment)))))))
+          (argument
+            (apply_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (arguments
+                (argument
+                  (qualified_identifier
+                    (lowercase_identifier))))))))
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (arguments
+          (argument
+            (labelled_argument
+              (lowercase_identifier)
+              (atomic_expression
+                (literal
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment)))))))
+          (argument
+            (apply_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (arguments
+                (argument
+                  (qualified_identifier
+                    (lowercase_identifier))))))))
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
