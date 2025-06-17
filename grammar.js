@@ -89,7 +89,7 @@ module.exports = grammar({
 
     pub_attribute: (_) => seq("(", choice("readonly", "all", "open"), ")"),
 
-    derive_item: ($) => $.type_name,
+    derive_item: ($) => seq($.type_name, optional($.arguments)),
 
     derive_directive: ($) => seq("derive", "(", list(",", $.derive_item), ")"),
 
