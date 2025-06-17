@@ -43,7 +43,7 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (nonempty_block_expression
+      (block_expression
         (qualified_identifier
           (lowercase_identifier)))
       (array_expression
@@ -334,7 +334,7 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (nonempty_block_expression
+      (block_expression
         (qualified_identifier
           (lowercase_identifier)))
       (struct_expression

@@ -16,7 +16,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (try_expression
-        (nonempty_block_expression
+        (block_expression
           (apply_expression
             (qualified_identifier
               (lowercase_identifier))
@@ -50,7 +50,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (try_expression
-        (nonempty_block_expression
+        (block_expression
           (apply_expression
             (qualified_identifier
               (lowercase_identifier))
@@ -86,7 +86,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (try_expression
-        (nonempty_block_expression
+        (block_expression
           (apply_expression
             (qualified_identifier
               (lowercase_identifier))
@@ -131,7 +131,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (try_expression
-        (nonempty_block_expression
+        (block_expression
           (apply_expression
             (qualified_identifier
               (lowercase_identifier))

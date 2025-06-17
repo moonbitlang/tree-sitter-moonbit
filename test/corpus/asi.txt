@@ -73,7 +73,7 @@ fn main {
           (lowercase_identifier))
         (matrix_case_clause
           (any_pattern)
-          (nonempty_block_expression
+          (block_expression
             (continue_expression
               (atomic_expression
                 (literal
