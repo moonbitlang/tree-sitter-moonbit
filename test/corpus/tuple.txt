@@ -1,0 +1,48 @@
+================================================================================
+tuple expression
+================================================================================
+fn main {
+  (a)
+  (a,)
+  (a, b)
+  (a, b,)
+  (a, b, c)
+  (a, b, c,)
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (parenthesized_expression
+        (qualified_identifier
+          (lowercase_identifier)))
+      (tuple_expression
+        (qualified_identifier
+          (lowercase_identifier)))
+      (tuple_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (qualified_identifier
+          (lowercase_identifier)))
+      (tuple_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (qualified_identifier
+          (lowercase_identifier)))
+      (tuple_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (qualified_identifier
+          (lowercase_identifier))
+        (qualified_identifier
+          (lowercase_identifier)))
+      (tuple_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (qualified_identifier
+          (lowercase_identifier))
+        (qualified_identifier
+          (lowercase_identifier))))))

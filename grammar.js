@@ -692,12 +692,15 @@ module.exports = grammar({
     unit_expression: (_) => seq("(", ")"),
 
     tuple_expression: ($) =>
-      seq(
-        "(",
-        $._expression,
-        repeat1(seq(",", $._expression)),
-        optional(","),
-        ")"
+      choice(
+        seq(
+          "(",
+          $._expression,
+          repeat1(seq(",", $._expression)),
+          optional(","),
+          ")"
+        ),
+        seq("(", $._expression, ",", ")")
       ),
 
     parenthesized_expression: ($) => seq("(", $._expression, ")"),
