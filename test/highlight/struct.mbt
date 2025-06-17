@@ -1,6 +1,7 @@
 ///|
 fn init {
   struct Struct {
+  // <- keyword.type
     int : Int
     float : Float
   } derive(Show)
