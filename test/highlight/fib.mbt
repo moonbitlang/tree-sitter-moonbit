@@ -18,6 +18,8 @@ fn fib(n : Int) -> Int {
     //   ^ number
     1 => 1
     n => fib(n - 1) + fib(n - 2)
+    // <- variable
+    //   ^^^ function.call
     //         ^ operator
     //              ^ operator
     //                      ^ operator
