@@ -730,10 +730,13 @@ module.exports = grammar({
       seq(
         "match",
         $._simple_expression,
+        optional($.match_using),
         "{",
         list($._semicolon, $.case_clause),
         "}"
       ),
+
+    match_using: ($) => seq("using", "(", $.lowercase_identifier, ")"),
 
     case_clause: ($) =>
       seq($._pattern, optional($.pattern_guard), "=>", $._statement_expression),
