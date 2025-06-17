@@ -766,6 +766,8 @@ module.exports = grammar({
         $.enum_definition,
         $.type_definition,
         $.let_expression,
+        $.letrec_expression,
+        $.and_expression,
         $.let_mut_expression,
         $.guard_expression,
         $.guard_let_expression,
@@ -784,6 +786,18 @@ module.exports = grammar({
 
     let_expression: ($) =>
       seq("let", $._pattern, optional($.type_annotation), "=", $._expression),
+
+    letrec_expression: ($) =>
+      seq(
+        "letrec",
+        $._pattern,
+        optional($.type_annotation),
+        "=",
+        $._expression
+      ),
+
+    and_expression: ($) =>
+      seq("and", $._pattern, optional($.type_annotation), "=", $._expression),
 
     let_mut_expression: ($) =>
       seq(
