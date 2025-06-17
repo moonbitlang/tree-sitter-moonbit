@@ -29,8 +29,7 @@ jobs:
 
       - name: Generate tree-sitter grammar
         run: |
-          tree-sitter generate
-          (cd mbtq && tree-sitter generate)
+          python3 scripts/generate.py
 
       - name: Commit
         run: |

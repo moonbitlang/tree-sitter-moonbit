@@ -43,13 +43,13 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (nonempty_block_expression
+      (block_expression
         (qualified_identifier
           (lowercase_identifier)))
       (array_expression
         (qualified_identifier
           (lowercase_identifier)))
-      (tuple_expression
+      (parenthesized_expression
         (qualified_identifier
           (lowercase_identifier))))))
 
@@ -105,9 +105,7 @@ Clone] f() -> Unit {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (binary_expression
           (atomic_expression
             (literal
@@ -116,9 +114,7 @@ Clone] f() -> Unit {
             (literal
               (integer_literal)))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (binary_expression
           (atomic_expression
             (literal
@@ -144,11 +140,9 @@ Clone] f() -> Unit {
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -166,9 +160,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (constructor_expression
           (package_identifier)
           (dot_uppercase_identifier))))))
@@ -190,9 +182,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal))))
@@ -222,8 +212,7 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (simple_pattern))
+          (any_pattern)
           (unit_expression))))))
 
 ================================================================================
@@ -345,7 +334,7 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (nonempty_block_expression
+      (block_expression
         (qualified_identifier
           (lowercase_identifier)))
       (struct_expression
@@ -531,11 +520,9 @@ A for B with f() {
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
     (function_identifier
       (lowercase_identifier))
     (parameters)
@@ -577,9 +564,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (guard_let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (atomic_expression
           (literal
             (integer_literal)))))))
@@ -633,9 +618,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (anonymous_matrix_lambda_expression))
       (named_lambda_expression
         (lowercase_identifier)
@@ -674,9 +657,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (anonymous_matrix_lambda_expression
           (comment)))
       (named_lambda_expression
@@ -709,8 +690,7 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (simple_pattern))
+          (any_pattern)
           (comment)
           (atomic_expression
             (literal
@@ -736,13 +716,11 @@ Unit {
     (function_identifier
       (lowercase_identifier))
     (parameters)
+    (comment)
     (return_type
-      (comment)
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -796,9 +774,7 @@ fn main {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (comment)
         (atomic_expression
           (literal
@@ -937,17 +913,13 @@ b: Int) -> Unit {
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier)))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
   (function_definition
     (function_identifier
       (lowercase_identifier))
@@ -1027,26 +999,20 @@ b: Int) -> Unit {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
       (parameter
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -1084,17 +1050,13 @@ Int) -> Unit {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression
       (struct_expression
         (type_name
@@ -1172,27 +1134,18 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (or_pattern
-              (pattern
-                (simple_pattern
-                  (constructor_pattern
-                    (constructor_expression
-                      (uppercase_identifier))
-                    (constructor_pattern_argument
-                      (pattern
-                        (simple_pattern
-                          (lowercase_identifier)))))))
-              (comment)
-              (pattern
-                (simple_pattern
-                  (constructor_pattern
-                    (constructor_expression
-                      (uppercase_identifier))
-                    (constructor_pattern_argument
-                      (pattern
-                        (simple_pattern
-                          (lowercase_identifier)))))))))
+          (or_pattern
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier)))
+            (comment)
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier))))
           (map_expression))))))
 
 ================================================================================
@@ -1225,7 +1178,7 @@ fn main {
         (comment)
         (qualified_identifier
           (lowercase_identifier)))
-      (tuple_expression
+      (parenthesized_expression
         (as_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -1237,30 +1190,20 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (as_pattern
-              (pattern
-                (or_pattern
-                  (pattern
-                    (simple_pattern
-                      (constructor_pattern
-                        (constructor_expression
-                          (uppercase_identifier))
-                        (constructor_pattern_argument
-                          (pattern
-                            (simple_pattern
-                              (lowercase_identifier)))))))
-                  (comment)
-                  (pattern
-                    (simple_pattern
-                      (constructor_pattern
-                        (constructor_expression
-                          (uppercase_identifier))
-                        (constructor_pattern_argument
-                          (pattern
-                            (simple_pattern
-                              (lowercase_identifier)))))))))
-              (lowercase_identifier)))
+          (as_pattern
+            (or_pattern
+              (constructor_pattern
+                (constructor_expression
+                  (uppercase_identifier))
+                (constructor_pattern_argument
+                  (lowercase_identifier)))
+              (comment)
+              (constructor_pattern
+                (constructor_expression
+                  (uppercase_identifier))
+                (constructor_pattern_argument
+                  (lowercase_identifier))))
+            (lowercase_identifier))
           (map_expression))))))
 
 ================================================================================
@@ -1282,7 +1225,7 @@ fn main {
       (is_expression
         (qualified_identifier
           (lowercase_identifier))
-        (simple_pattern
+        (atomic_pattern
           (literal
             (boolean_literal))))
       (guard_expression
@@ -1290,25 +1233,19 @@ fn main {
           (is_expression
             (qualified_identifier
               (lowercase_identifier))
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier))
-                (constructor_pattern_argument
-                  (pattern
-                    (simple_pattern
-                      (lowercase_identifier)))))))
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier))))
           (is_expression
             (qualified_identifier
               (lowercase_identifier))
-            (simple_pattern
-              (constructor_pattern
-                (constructor_expression
-                  (uppercase_identifier))
-                (constructor_pattern_argument
-                  (pattern
-                    (simple_pattern
-                      (lowercase_identifier))))))))
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier)))))
         (guard_else_expression
           (block_expression
             (atomic_expression
@@ -1387,11 +1324,9 @@ pub(readonly
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression))
   (struct_definition
     (visibility)
@@ -1426,13 +1361,12 @@ T = TT
 (structure
   (trait_alias_definition
     (trait_alias_targets
-      (identifier
-        (uppercase_identifier))
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
 
 ================================================================================
 can occur before semi (DERIVE)
@@ -1450,11 +1384,9 @@ fn main {
   (type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
     (derive_directive
       (derive_item
         (type_name
@@ -1532,11 +1464,9 @@ f() -> Unit {
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================
@@ -1660,17 +1590,17 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (raise_expression)
-      (apply_expression
-        (constructor_expression
-          (uppercase_identifier))
-        (arguments
-          (argument
-            (atomic_expression
-              (literal
-                (string_literal
-                  (string_fragment
-                    (unescaped_string_fragment)))))))))))
+      (raise_expression
+        (apply_expression
+          (constructor_expression
+            (uppercase_identifier))
+          (arguments
+            (argument
+              (atomic_expression
+                (literal
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment))))))))))))
 
 ================================================================================
 cannot occur before semi (SEMI)

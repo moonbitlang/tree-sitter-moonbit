@@ -28,7 +28,7 @@ jobs:
           tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
-        run: tree-sitter generate
+        run: python3 scripts/generate.py
 
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
@@ -47,7 +47,7 @@ jobs:
           tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
-        run: tree-sitter generate
+        run: python3 scripts/generate.py
 
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
@@ -68,7 +68,7 @@ jobs:
           tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
-        run: tree-sitter generate
+        run: python3 scripts/generate.py
 
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
@@ -89,7 +89,7 @@ jobs:
           tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
-        run: tree-sitter generate
+        run: python3 scripts/generate.py
 
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
@@ -111,13 +111,13 @@ jobs:
           tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
-        run: tree-sitter generate
+        run: python3 scripts/generate.py
 
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.node-version'
-          cache: 'npm'
+          node-version-file: ".node-version"
+          cache: "npm"
 
       - name: Install npm dependencies
         run: npm ci
@@ -137,7 +137,7 @@ jobs:
           tree-sitter-ref: v0.25.4
 
       - name: Generate tree-sitter parser
-        run: tree-sitter generate
+        run: python3 scripts/generate.py
 
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git

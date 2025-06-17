@@ -29,52 +29,34 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
+            (function_type
               (function_type
-                (type
-                  (function_type
-                    (type
-                      (apply_type
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))))
-                    (return_type
-                      (type
-                        (apply_type
-                          (qualified_type_identifier
-                            (identifier
-                              (uppercase_identifier))))))))
-                (type
-                  (function_type
-                    (type
-                      (apply_type
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))))
-                    (return_type
-                      (type
-                        (apply_type
-                          (qualified_type_identifier
-                            (identifier
-                              (uppercase_identifier))))))))
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))
                 (return_type
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier))))))))))))
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))
+              (function_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))
+                (return_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))
+              (return_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))))
     (return_type
-      (type_with_error
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (external_source
       (string_literal
         (string_fragment
@@ -87,20 +69,15 @@ fn run(f : async () -> Unit) -> Unit = "%async.run"
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (function_type
-                (return_type
-                  (type
-                    (apply_type
-                      (qualified_type_identifier
-                        (identifier
-                          (uppercase_identifier))))))))))))
+            (function_type
+              (return_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (external_source
       (string_literal
         (string_fragment
@@ -186,9 +163,7 @@ fn main {
                               (lowercase_identifier))))
                         (block_expression))))))))))
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (anonymous_lambda_expression
           (parameters)
           (block_expression))))))

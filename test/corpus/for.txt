@@ -121,9 +121,7 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (array_expression
           (atomic_expression
             (literal
@@ -213,9 +211,7 @@ fn init {
       (lowercase_identifier))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (array_expression
           (atomic_expression
             (literal

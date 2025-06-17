@@ -8,24 +8,18 @@ type T (Int) -> Int?
   (type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (function_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (return_type
-          (type
-            (option_type
-              (type
-                (apply_type
-                  (qualified_type_identifier
-                    (identifier
-                      (uppercase_identifier))))))))))))
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (option_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
 
 ================================================================================
-Error type
+error type
 ================================================================================
 type T0 (Int) -> Int!
 type T1 (Int) -> Int?!
@@ -40,180 +34,358 @@ type T6 () -> ((Int) -> Int?!)!Error?
   (type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (function_type
-        (type
-          (apply_type
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (option_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (option_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (option_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (return_type
+        (parenthesized_type
+          (function_type
             (qualified_type_identifier
               (identifier
-                (uppercase_identifier)))))
-        (return_type
-          (type_with_error
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))))
+                (uppercase_identifier)))
+            (return_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))))
   (type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (function_type
-        (type
-          (apply_type
+    (function_type
+      (return_type
+        (option_type
+          (parenthesized_type
+            (function_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (return_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
+        (option_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (return_type
+        (parenthesized_type
+          (function_type
             (qualified_type_identifier
               (identifier
-                (uppercase_identifier)))))
-        (return_type
-          (type_with_error
-            (type
+                (uppercase_identifier)))
+            (return_type
               (option_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier))))))))))))
-  (type_definition
-    (identifier
-      (uppercase_identifier))
-    (type
-      (function_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (return_type
-          (type_with_error
-            (type
-              (apply_type
                 (qualified_type_identifier
                   (identifier
-                    (uppercase_identifier)))))
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))))
-  (type_definition
-    (identifier
-      (uppercase_identifier))
-    (type
-      (function_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier)))))
-        (return_type
-          (type_with_error
-            (type
-              (option_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))
-            (type
-              (option_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier))))))))))))
-  (type_definition
-    (identifier
-      (uppercase_identifier))
-    (type
-      (function_type
-        (return_type
-          (type_with_error
-            (type
-              (tuple_type
-                (type
-                  (function_type
-                    (type
-                      (apply_type
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))))
-                    (return_type
-                      (type
-                        (apply_type
-                          (qualified_type_identifier
-                            (identifier
-                              (uppercase_identifier))))))))))
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))))
-  (type_definition
-    (identifier
-      (uppercase_identifier))
-    (type
-      (function_type
-        (return_type
-          (type_with_error
-            (type
-              (option_type
-                (type
-                  (tuple_type
-                    (type
-                      (function_type
-                        (type
-                          (apply_type
-                            (qualified_type_identifier
-                              (identifier
-                                (uppercase_identifier)))))
-                        (return_type
-                          (type
-                            (apply_type
-                              (qualified_type_identifier
-                                (identifier
-                                  (uppercase_identifier))))))))))))
-            (type
-              (option_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier))))))))))))
-  (type_definition
-    (identifier
-      (uppercase_identifier))
-    (type
-      (function_type
-        (return_type
-          (type_with_error
-            (type
-              (tuple_type
-                (type
-                  (function_type
-                    (type
-                      (apply_type
-                        (qualified_type_identifier
-                          (identifier
-                            (uppercase_identifier)))))
-                    (return_type
-                      (type_with_error
-                        (type
-                          (option_type
-                            (type
-                              (apply_type
-                                (qualified_type_identifier
-                                  (identifier
-                                    (uppercase_identifier)))))))))))))
-            (type
-              (option_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))))))))
+                    (uppercase_identifier)))))))
+        (option_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
 
 ================================================================================
-Trait Object type
+error annotation
+================================================================================
+type T0 (Int) -> Int raise
+type T1 (Int) -> Int? raise
+type T2 (Int) -> Int raise Error
+type T3 (Int) -> Int? raise Error
+type T4 () -> ((Int) -> Int) raise Error
+type T5 () -> ((Int) -> Int)? raise Error
+fn f() -> Int raise {}
+fn f() -> Int? raise {}
+fn f() -> Int raise Error {}
+fn f() -> Int? raise Error {}
+fn f() -> Int raise? {}
+fn f() -> Int? raise? {}
+fn f() -> (Int) -> Int raise Error {}
+fn f() -> ((Int) -> Int) raise Error {}
+fn f() raise {}
+fn f() raise Error {}
+fn f() raise? {}
+--------------------------------------------------------------------------------
+
+(structure
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (error_annotation))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (option_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (error_annotation))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (error_annotation
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (return_type
+        (option_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (error_annotation
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (return_type
+        (parenthesized_type
+          (function_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (return_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (error_annotation
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (type_definition
+    (identifier
+      (uppercase_identifier))
+    (function_type
+      (return_type
+        (option_type
+          (parenthesized_type
+            (function_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (return_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))
+        (error_annotation
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (error_annotation))
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (option_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (error_annotation))
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (error_annotation
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (option_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (error_annotation
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (error_annotation))
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (option_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (error_annotation))
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (function_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (return_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))
+          (error_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (parenthesized_type
+        (function_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))
+          (return_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (error_annotation
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (error_annotation)
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (error_annotation
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression))
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (error_annotation)
+    (block_expression)))
+
+================================================================================
+trait object type
 ================================================================================
 type T &Logger
 
@@ -225,23 +397,18 @@ impl Show for T with output(self : T, logger : &Logger) -> Unit {
   (type_definition
     (identifier
       (uppercase_identifier))
-    (type
-      (trait_object_type
-        (type
-          (apply_type
-            (qualified_type_identifier
-              (identifier
-                (uppercase_identifier))))))))
+    (trait_object_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))))
   (impl_definition
     (type_name
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))
-    (type
-      (apply_type
-        (qualified_type_identifier
-          (identifier
-            (uppercase_identifier)))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
     (function_identifier
       (lowercase_identifier))
     (parameters
@@ -249,28 +416,21 @@ impl Show for T with output(self : T, logger : &Logger) -> Unit {
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier))))))))
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
       (parameter
         (positional_parameter
           (lowercase_identifier)
           (type_annotation
-            (type
-              (trait_object_type
-                (type
-                  (apply_type
-                    (qualified_type_identifier
-                      (identifier
-                        (uppercase_identifier)))))))))))
+            (trait_object_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
     (return_type
-      (type
-        (apply_type
-          (qualified_type_identifier
-            (identifier
-              (uppercase_identifier))))))
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
     (block_expression)))
 
 ================================================================================

@@ -19,43 +19,33 @@ enum T {
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (enum_constructor
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (enum_constructor
       (uppercase_identifier)
       (enum_constructor_payload
         (constructor_parameter
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
         (constructor_parameter
           (label
             (lowercase_identifier))
-          (type
-            (apply_type
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
 
 ================================================================================
 extern enum with integer discriminants

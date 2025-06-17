@@ -14,29 +14,24 @@ fn f() -> Result[Unit, String] {
       (lowercase_identifier))
     (parameters)
     (return_type
-      (type
-        (apply_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
           (qualified_type_identifier
             (identifier
               (uppercase_identifier)))
-          (type_arguments
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))
-            (type
-              (apply_type
-                (qualified_type_identifier
-                  (identifier
-                    (uppercase_identifier)))))))))
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
     (block_expression
       (let_expression
-        (pattern
-          (simple_pattern
-            (lowercase_identifier)))
+        (lowercase_identifier)
         (apply_expression
-          (lowercase_identifier)
+          (qualified_identifier
+            (lowercase_identifier))
+          (apply_operator)
           (arguments
             (argument
               (atomic_expression
@@ -77,9 +72,8 @@ fn main {
         (qualified_identifier
           (lowercase_identifier))
         (matrix_case_clause
-          (pattern
-            (simple_pattern))
-          (nonempty_block_expression
+          (any_pattern)
+          (block_expression
             (continue_expression
               (atomic_expression
                 (literal

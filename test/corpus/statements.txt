@@ -46,8 +46,7 @@ fn init {
         (qualified_identifier
           (lowercase_identifier))
         (case_clause
-          (pattern
-            (simple_pattern))
+          (any_pattern)
           (raise_expression
             (apply_expression
               (constructor_expression
