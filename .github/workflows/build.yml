@@ -8,10 +8,10 @@ on:
       - src/**
       - bindings/**
       - binding.gyp
-      - mbtq/grammar.js
-      - mbtq/src/**
-      - mbtq/bindings/**
-      - mbtq/binding.gyp
+      - grammars/**/grammar.js
+      - grammars/**/src/**
+      - grammars/**/bindings/**
+      - grammars/**/binding.gyp
 
 jobs:
   build:

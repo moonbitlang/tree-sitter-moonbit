@@ -13,13 +13,17 @@
       "path": "."
     },
     {
-      "name": "mbtq",
-      "camelcase": "Mbtq",
-      "scope": "source.mbtq",
-      "path": "mbtq",
-      "external-files": ["src/scanner.c"],
-      "injection-regex": "^mbtq$",
-      "class-name": "TreeSitterMbtq"
+      "name": "moonbit_quotation",
+      "camelcase": "MoonbitQuotation",
+      "title": "Quoted MoonBit",
+      "scope": "source.moonbit_quotation",
+      "file-types": [
+        "moonbit_quotation"
+      ],
+      "injection-regex": "^moonbit_quotation$",
+      "class-name": "TreeSitterMoonbitQuotation",
+      "path": "grammars/quotation",
+      "external-files": ["src/scanner.c"]
     }
   ],
   "metadata": {
