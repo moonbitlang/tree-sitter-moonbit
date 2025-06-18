@@ -456,13 +456,15 @@ fn search(
       }
       let captures = captures
         .iter()
-        .filter_map(fn {
-          (['_', ..], _) => None
-          (name, nodes) => {
-            let text_nodes = nodes.map(fn(node) {
-              Text::{ range: node.range(), text: node.text() }
-            })
-            Some((name, text_nodes))
+        .filter_map(fn(name_nodes) {
+          match name_nodes {
+            (['_', ..], _) => None
+            (name, nodes) => {
+              let text_nodes = nodes.map(fn(node) {
+                Text::{ range: node.range(), text: node.text() }
+              })
+              Some((name, text_nodes))
+            }
           }
         })
         |> Map::from_iter()

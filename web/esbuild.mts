@@ -70,9 +70,9 @@ const context = await ESBuild.context({
         outfile: "tree-sitter-moonbit.wasm",
       },
       {
-        name: "mbtq",
-        path: "../mbtq",
-        outfile: "tree-sitter-mbtq.wasm",
+        name: "moonbit_quotation",
+        path: "../moonbit_quotation",
+        outfile: "tree-sitter-moonbit_quotation.wasm",
       },
     ]),
   ],
