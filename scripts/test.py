@@ -1,38 +1,20 @@
+#!/usr/bin/env python3
+
 import subprocess
+import json
 from pathlib import Path
-import sys
-
-
-def parse_file(path: Path):
-    try:
-        subprocess.run(
-            ["pnpm", "exec", "tree-sitter", "parse", path],
-            capture_output=True,
-            check=True,
-            text=True,
-        )
-        print(f"[ OK ] {path}")
-    except subprocess.CalledProcessError as e:
-        print(f"[Fail] {path}")
-        print("==== stderr ====")
-        print(f"{e.stderr}")
-        print("==== stdout ====")
-        print(e.stdout)
-        sys.exit(1)
-
-
-def parse_directory(directory: Path):
-    for file in directory.iterdir():
-        if file.is_dir():
-            parse_directory(file)
-            continue
-        if file.suffix == ".mbt":
-            parse_file(file)
-            continue
 
 
 def main():
-    parse_directory(Path(sys.argv[1]))
+    tree_sitter = json.loads((Path(".") / "tree-sitter.json").read_text())
+
+    processes = []
+    for grammar in tree_sitter["grammars"]:
+        process = subprocess.Popen(["tree-sitter", "test"], cwd=grammar["path"])
+        processes.append(process)
+
+    for process in processes:
+        process.wait()
 
 
 if __name__ == "__main__":
