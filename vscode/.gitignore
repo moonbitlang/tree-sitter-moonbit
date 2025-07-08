@@ -10,3 +10,4 @@ target/
 /wasi-sdk/
 /build/
 .cache/
+pnpm-lock.yaml
