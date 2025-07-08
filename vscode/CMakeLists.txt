@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.19)
 project(tonyfettes/tree_sitter/vscode/grep)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(target_name grep)
 
 include(CMakePrintHelpers)
 set(MOON_HOME "$ENV{MOON_HOME}")
