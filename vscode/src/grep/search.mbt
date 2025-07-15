@@ -110,8 +110,8 @@ fn Compiler::compile(
         guard ancestor.child_with_descendant(node) is Some(parent) else {
           continue
         }
-        start_byte = @math.minimum(start_byte, parent.start_byte())
-        end_byte = @math.maximum(end_byte, parent.end_byte())
+        start_byte = @cmp.minimum(start_byte, parent.start_byte())
+        end_byte = @cmp.maximum(end_byte, parent.end_byte())
       }
       let ancestor_children = ancestor
         .children()
@@ -153,65 +153,70 @@ fn compiler() -> Compiler raise ParseError {
   let language = @tree_sitter_moonbit.language()
   let contexts : Map[@string.View, Context] = {
     "exp": Context::new(
-      #|fn main {
-      #|  $
-      #|}
-      ,
-      selector=
+      (
+        #|fn main {
+        #|  $
+        #|}
+      ),
+      selector=(
         #|(structure
         #| (function_definition
         #|  (block_expression
         #|   "{"
         #|   (_) @exp
         #|   "}")))
-      ,
+      ),
     ),
     "top": Context::new(
       "$",
-      selector=
+      selector=(
         #|(structure
         #| (_) @top)
-      ,
+      ),
     ),
     "pat": Context::new(
-      #|fn main {
-      #|  match x {
-      #|    $ => y
-      #|  }
-      #|}
-      ,
-      selector=
+      (
+        #|fn main {
+        #|  match x {
+        #|    $ => y
+        #|  }
+        #|}
+      ),
+      selector=(
         #|(pattern)
-      ,
+      ),
     ),
     "ty": Context::new(
-      #|let x : $ = 42
-      ,
-      selector=
+      (
+        #|let x : $ = 42
+      ),
+      selector=(
         #|(type)
-      ,
+      ),
     ),
     "case": Context::new(
-      #|fn main {
-      #|  match x {
-      #|    $
-      #|  }
-      #|}
-      ,
-      selector=
+      (
+        #|fn main {
+        #|  match x {
+        #|    $
+        #|  }
+        #|}
+      ),
+      selector=(
         #|(case_clause) @case
-      ,
+      ),
     ),
     "matrix": Context::new(
-      #|fn main {
-      #|  loop a, b {
-      #|    $
-      #|  }
-      #|}
-      ,
-      selector=
+      (
+        #|fn main {
+        #|  loop a, b {
+        #|    $
+        #|  }
+        #|}
+      ),
+      selector=(
         #|(matrix_case_clause) @matrix
-      ,
+      ),
     ),
   }
   let parser = @tree_sitter.Parser::new()
@@ -346,15 +351,15 @@ pub impl @json.FromJson for Match with from_json(
     {
       "range": {
         "start": {
-          "row": Number(start_row),
-          "column": Number(start_column),
-          "byte": Number(start_byte),
+          "row": Number(start_row, ..),
+          "column": Number(start_column, ..),
+          "byte": Number(start_byte, ..),
           ..
         },
         "end": {
-          "row": Number(end_row),
-          "column": Number(end_column),
-          "byte": Number(end_byte),
+          "row": Number(end_row, ..),
+          "column": Number(end_column, ..),
+          "byte": Number(end_byte, ..),
           ..
         },
         ..

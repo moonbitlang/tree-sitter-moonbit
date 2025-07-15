@@ -70,16 +70,18 @@ test "grep" {
       "id": 5,
       "method": "search",
       "params": {
-        "query": #|for $id:i = 0; $id:i < 10; $id:i = $id:i + 1 {
-        #|  $exp:a
-        #|}
-        ,
-        "content": #|fn main {
-        #|  for i = 0; i < 10; i = i + 1 {
-        #|    println("Hello, world")
-        #|  }
-        #|}
-        ,
+        "query": (
+          #|for $id:i = 0; $id:i < 10; $id:i = $id:i + 1 {
+          #|  $exp:a
+          #|}
+        ),
+        "content": (
+          #|fn main {
+          #|  for i = 0; i < 10; i = i + 1 {
+          #|    println("Hello, world")
+          #|  }
+          #|}
+        ),
       },
     },
   ]
