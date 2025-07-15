@@ -122,15 +122,15 @@ impl @json.FromJson for Text with from_json(self : Json, path : @json.JsonPath) 
     {
       "range": {
         "start": {
-          "row": Number(start_row),
-          "column": Number(start_column),
-          "byte": Number(start_byte),
+          "row": Number(start_row, ..),
+          "column": Number(start_column, ..),
+          "byte": Number(start_byte, ..),
           ..
         },
         "end": {
-          "row": Number(end_row),
-          "column": Number(end_column),
-          "byte": Number(end_byte),
+          "row": Number(end_row, ..),
+          "column": Number(end_column, ..),
+          "byte": Number(end_byte, ..),
           ..
         },
         ..
