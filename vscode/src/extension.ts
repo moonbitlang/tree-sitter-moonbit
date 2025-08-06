@@ -36,7 +36,7 @@ export async function activate(context: vscode.ExtensionContext) {
       vscode.window.showInformationMessage("Use the Bookmarks tab to save searches!");
     }),
     vscode.commands.registerCommand("moon-grep.clearHistory", () => {
-      sidebarWebviewProvider.postMessage({ type: "clearHistory" });
+      sidebarWebviewProvider.postMessage({ type: "clearHistory" } as any);
     }),
     vscode.commands.registerCommand("moon-grep.exportResults", () => {
       // TODO: Implement export functionality
@@ -44,11 +44,7 @@ export async function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Listen for search completion to add to history
-  searchService.onClear.event(() => {
-    // When search is cleared, we could add the last search to history
-    // This would require tracking the last search parameters
-  });
+
 }
 
 export function deactivate() {}

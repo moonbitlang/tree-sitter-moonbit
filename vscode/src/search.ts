@@ -137,7 +137,6 @@ export class Service {
     while (true) {
       for (const [, worker] of this.workers) {
         if (worker === undefined) {
-          // Worker is being created, skipping
           continue;
         }
         if (worker.task) {
@@ -163,30 +162,12 @@ export class Service {
   }
   private wrap(p: Promise<any>, searchId?: string) {
     this.pendingTasks++;
-    // console.log("[SEARCH] wrap called", { 
-    //   searchId, 
-    //   pendingTasks: this.pendingTasks, 
-    //   finished: this.finished,
-    //   finishSearchId: this.finishSearchId,
-    //   timestamp: Date.now()
-    // });
     
     p.finally(() => {
       this.pendingTasks--;
-      // console.log("[SEARCH] wrap finally", { 
-      //   searchId, 
-      //   pendingTasks: this.pendingTasks, 
-      //   finished: this.finished,
-      //   finishSearchId: this.finishSearchId,
-      //   timestamp: Date.now()
-      // });
       
       // 防止 pendingTasks 变成负数
       if (this.pendingTasks < 0) {
-        // console.warn("[SEARCH] pendingTasks became negative, resetting to 0", { 
-        //   searchId, 
-        //   pendingTasks: this.pendingTasks 
-        // });
         this.pendingTasks = 0;
       }
       
@@ -194,52 +175,23 @@ export class Service {
         this.finished = true;
         // 只有在 searchId 匹配时才触发事件
         if (searchId === this.finishSearchId) {
-          // console.log("[SEARCH] About to fire onSearchFinished", { searchId, timestamp: Date.now() });
           try {
             this.onSearchFinished.fire(searchId);
-            // console.log("[SEARCH] onSearchFinished.fire completed", { searchId });
           } catch (e) {
-            // console.error("[SEARCH] Error firing onSearchFinished:", e);
             // 即使出错也要确保事件被触发
         this.onSearchFinished.fire(searchId);
           }
-        } else {
-          // console.log("[SEARCH] searchId mismatch, not firing onSearchFinished", { 
-          //   searchId, 
-          //   finishSearchId: this.finishSearchId 
-          // });
         }
-      } else {
-        // console.log("[SEARCH] Not firing onSearchFinished", { 
-        //   pendingTasks: this.pendingTasks, 
-        //   finished: this.finished,
-        //   searchId,
-        //   finishSearchId: this.finishSearchId
-        // });
       }
     });
   }
 
   public async search(uri: vscode.Uri, options: Options & { searchId?: string }): Promise<void> {
-    // console.log("[SEARCH] search called", {
-    //   searchId: options.searchId,
-    //   query: options.query,
-    //   timestamp: Date.now()
-    // });
-    
     // 重置状态，但不触发 onSearchFinished 事件
     await this.reset();
     this.pendingTasks = 0;
     this.finished = false;
     this.finishSearchId = options.searchId;
-    
-    // console.log("[SEARCH] search state initialized", {
-    //   searchId: options.searchId,
-    //   finishSearchId: this.finishSearchId,
-    //   pendingTasks: this.pendingTasks,
-    //   finished: this.finished,
-    //   timestamp: Date.now()
-    // });
     
     // 简化任务计数：只包装主要的搜索任务
     const stat = await vscode.workspace.fs.stat(uri);
@@ -304,13 +256,11 @@ export class Service {
         throw new Error("Child process stdout is not available");
       }
       if (!worker.task) {
-        // Worker task has been cancelled
         return;
       }
       let buffer = "";
       const disposable = worker.process.stdout.onData(async (data) => {
         if (!worker.task) {
-          // Worker task has been cancelled
           disposable?.dispose();
           return;
         }
@@ -370,7 +320,6 @@ export class Service {
     const terminationPromises: Promise<number>[] = [];
     for (const [workerId, worker] of this.workers) {
       if (worker === undefined) {
-        // Worker is being created, skipping
         continue;
       }
       if (!worker.task) {
@@ -407,7 +356,6 @@ export class Service {
         ],
       };
     } catch (e) {
-      // Ignore error
     }
     const files = await vscode.workspace.fs.readDirectory(uri);
     await Promise.all(
@@ -435,19 +383,10 @@ export class Service {
   private async searchText(uri: vscode.Uri, options: Options & { searchId?: string }, content: string): Promise<void> {
     const contentLines = content.split("\n");
     
-    // 检查是否有多层查询
+        // 检查是否有多层查询
     if (options.layers && options.layers.length > 0) {
-      // console.log("[SEARCH] Executing multi-layer search", { 
-      //   mainQuery: options.query, 
-      //   layers: options.layers,
-      //   searchId: options.searchId 
-      // });
       await this.searchTextWithLayers(uri, options, content, contentLines);
     } else {
-      // console.log("[SEARCH] Executing single query search", { 
-      //   query: options.query, 
-      //   searchId: options.searchId 
-      // });
       // 清除之前的结果
       this.onClear.fire();
       await this.searchTextSingle(uri, options, content, contentLines);
@@ -464,7 +403,6 @@ export class Service {
       },
     };
     
-    // console.log("[WASM][SEND] searchId:", options.searchId, "request:", request, "timestamp:", Date.now());
     try {
       await new Promise<void>(async (resolve, reject) => {
         const worker = await this.getWorker();
@@ -477,7 +415,6 @@ export class Service {
           return;
         }
         if (!worker.task) {
-          // Worker task has been cancelled
           resolve();
           return;
         }
@@ -488,7 +425,6 @@ export class Service {
         
         disposable = worker.process.stdout.onData(async (data) => {
           if (!worker.task || hasResolved) {
-            // Worker task has been cancelled or already resolved
             disposable?.dispose();
             return;
           }
@@ -506,9 +442,7 @@ export class Service {
               let json: any;
               try {
                 json = JSON.parse(line);
-                // console.log("[WASM][JSON_OK] searchId:", options.searchId, "json:", json, "timestamp:", Date.now());
               } catch (e) {
-                // console.error("[WASM][JSON_FAIL] searchId:", options.searchId, "line:", line, "error:", e, "timestamp:", Date.now());
                 continue;
               }
               
@@ -516,11 +450,9 @@ export class Service {
                 continue;
               }
               if (json.id !== request.id) {
-                // console.warn(`(Worker ${worker.id}) (Task ${worker.task.id}): Ignoring response for request ID ${JSON.stringify(json)}`);
                 continue;
               }
               if (!("result" in json)) {
-                // console.error('Missing "result" in JSON:', json);
                 continue;
               }
               if (!json.result) {
@@ -546,7 +478,6 @@ export class Service {
                 try {
                   context = contentLines.slice(startLine, endLine + 1);
                 } catch (e) {
-                  // console.warn("[SEARCH] Failed to get context lines:", e);
                   context = [];
                 }
                 
@@ -560,14 +491,11 @@ export class Service {
                 this.results.set(id, result);
                 this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
                 
-                // console.log("[SEARCH][onInsert] searchId:", options.searchId, "resultId:", id, "result:", result, "timestamp:", Date.now());
               } catch (e) {
-                // console.error("[SEARCH] Failed to process result:", e, json);
                 // 继续处理其他结果，不中断整个搜索
               }
             }
           } catch (e) {
-            // console.error("[SEARCH] Error in stdout handler:", e);
             if (!hasResolved) {
               hasResolved = true;
               disposable?.dispose();
@@ -581,23 +509,15 @@ export class Service {
         
         try {
           await worker.process.stdin.write(JSON.stringify(request) + "\n");
-          // console.log("[WASM][SEND_OK] searchId:", options.searchId, "requestId:", request.id, "timestamp:", Date.now());
         } catch (e) {
-          // console.error("[WASM][SEND_FAIL] searchId:", options.searchId, "error:", e, "timestamp:", Date.now());
         }
       });
     } catch (e) {
-      // console.error("[SEARCH] searchTextSingle error:", e);
       // 即使出错也要确保方法完成
     }
   }
 
   private async searchTextWithLayers(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
-    // console.log("[SEARCH] Starting cascading multi-layer search", { 
-    //   mainQuery: options.query, 
-    //   layerCount: options.layers?.length 
-    // });
-
     // 清除之前的结果，避免重复
     this.onClear.fire();
 
@@ -620,15 +540,8 @@ export class Service {
         continue;
       }
 
-      // console.log("[SEARCH] Executing cascading layer", { 
-      //   layerIndex: i + 1, 
-      //   layerQuery: layer.query,
-      //   currentResultsCount: currentResults.length 
-      // });
-
       // 如果当前没有结果，直接返回
       if (currentResults.length === 0) {
-        // console.log("[SEARCH] No results to search in, stopping cascading search");
         break;
       }
 
@@ -637,17 +550,7 @@ export class Service {
       
       // 更新当前结果
       currentResults = layerResults;
-      
-      // console.log("[SEARCH] Cascading layer completed", { 
-      //   layerIndex: i + 1, 
-      //   newResultsCount: currentResults.length 
-      // });
     }
-
-    // 发送最终结果
-    // console.log("[SEARCH] Sending final cascading results", { 
-    //   finalResultsCount: currentResults.length 
-    // });
     
     for (const result of currentResults) {
       this.results.set(result.id, result);
@@ -677,7 +580,6 @@ export class Service {
         throw new Error(`Worker ${worker.id} stdout is not available`);
       }
       if (!worker.task) {
-        // Worker task has been cancelled
           resolve(results);
         return;
       }
@@ -686,7 +588,6 @@ export class Service {
       let disposable: vscode.Disposable | undefined;
       disposable = worker.process.stdout.onData(async (data) => {
         if (!worker.task) {
-          // Worker task has been cancelled
           disposable?.dispose();
             resolve(results);
           return;
@@ -754,13 +655,7 @@ export class Service {
     });
   }
 
-  private async executeSearchQueryInResults(uri: vscode.Uri, query: string, previousResults: Result[], contentLines: string[], searchId?: string, queryType: string = "unknown"): Promise<Result[]> {
-    // console.log("[SEARCH] Executing query in results", { 
-    //   query, 
-    //   previousResultsCount: previousResults.length,
-    //   queryType 
-    // });
-
+    private async executeSearchQueryInResults(uri: vscode.Uri, query: string, previousResults: Result[], contentLines: string[], searchId?: string, queryType: string = "unknown"): Promise<Result[]> {
     // 如果没有前一层结果，返回空数组
     if (previousResults.length === 0) {
       return [];
@@ -774,11 +669,6 @@ export class Service {
 
     // 合并相邻的范围，减少重复搜索
     const mergedRanges = this.mergeOverlappingRanges(searchRanges);
-    
-    // console.log("[SEARCH] Merged ranges for cascading search", { 
-    //   originalRanges: searchRanges.length,
-    //   mergedRanges: mergedRanges.length 
-    // });
 
     // 在每个合并后的范围内执行查询
     const allResults: Result[] = [];
@@ -803,11 +693,6 @@ export class Service {
       
       allResults.push(...adjustedResults);
     }
-
-    // console.log("[SEARCH] Cascading search completed", { 
-    //   queryType,
-    //   totalResults: allResults.length 
-    // });
 
     return allResults;
   }
@@ -897,11 +782,9 @@ export class Service {
   // 轻量级持久化存储 - 只存储查询信息，不存储具体结果
   private async loadPersistedResults() {
     // 不再加载具体结果，只记录日志
-    // console.log("[SEARCH] Persistence: Results are not persisted to avoid memory issues");
   }
 
   private async savePersistedResults() {
     // 不再保存具体结果，只记录日志
-    // console.log("[SEARCH] Persistence: Skipping result persistence to avoid memory issues");
   }
 }
