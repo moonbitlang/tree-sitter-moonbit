@@ -27,12 +27,6 @@ module.exports = grammar(base, {
     _simple_type: ($) =>
       choice(base.grammar.rules._simple_type, $.quotation_type_expander),
 
-    _structure_item: ($) =>
-      choice(
-        base.grammar.rules._structure_item,
-        $.quotation_top_expander
-      ),
-
     literal: ($) =>
       choice(base.grammar.rules.literal, $.quotation_literal_expander),
 
@@ -54,9 +48,6 @@ module.exports = grammar(base, {
       seq("$", "Id", ":", $.quotation_variable),
 
     quotation_type_expander: ($) => seq("$", "ty", ":", $.quotation_variable),
-
-    quotation_top_expander: ($) =>
-      seq("$", "top"),
 
     quotation_literal_expander: ($) =>
       seq("$", "lit", ":", $.quotation_variable),

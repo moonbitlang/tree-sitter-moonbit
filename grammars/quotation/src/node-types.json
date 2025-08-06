@@ -326,10 +326,6 @@
         "named": true
       },
       {
-        "type": "quotation_top_expander",
-        "named": true
-      },
-      {
         "type": "struct_definition",
         "named": true
       },
@@ -4152,11 +4148,6 @@
     }
   },
   {
-    "type": "quotation_top_expander",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "quotation_type_expander",
     "named": true,
     "fields": {},
@@ -6043,10 +6034,6 @@
   },
   {
     "type": "test",
-    "named": false
-  },
-  {
-    "type": "top",
     "named": false
   },
   {
