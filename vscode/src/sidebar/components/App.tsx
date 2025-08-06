@@ -3,11 +3,14 @@ import { useVSCode } from "../hooks/useVSCode";
 import SearchReplaceGroup from "./SearchReplaceGroup";
 import SearchDetails from "./SearchDetails";
 import SearchResults from "./SearchResults";
-import { SearchOptions, Result, Response } from "../types";
+import { SearchOptions, Result, Response, SearchHistoryItem, SearchBookmark } from "../types";
+
+type TabType = "search" | "history" | "bookmarks";
 
 const App: React.FC = () => {
   const vscode = useVSCode();
   const [initialized, setInitialized] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabType>("search");
   const [searchPattern, setSearchPattern] = useState("");
   const [replacePattern, setReplacePattern] = useState("");
   const [searchOptions, setSearchOptions] = useState<SearchOptions>({
@@ -15,9 +18,14 @@ const App: React.FC = () => {
     includePattern: "",
     excludePattern: "",
   });
+  const [searchLayers, setSearchLayers] = useState<Array<{ id: string; query: string; enabled: boolean }>>([]);
   const [results, setResults] = useState<Record<string, Result[]>>({});
   const [stats, setStats] = useState({ matchCount: 0, fileCount: 0 });
   const [collapsedFiles, setCollapsedFiles] = useState<Record<string, boolean>>({});
+  const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[]>([]);
+  const [bookmarks, setBookmarks] = useState<SearchBookmark[]>([]);
+  const [showBookmarkModal, setShowBookmarkModal] = useState(false);
+  const [bookmarkName, setBookmarkName] = useState("");
 
   // Handle messages from extension
   useEffect(() => {
@@ -25,55 +33,48 @@ const App: React.FC = () => {
       const message = event.data;
       switch (message.type) {
         case "insert": {
-          setResults((results) => {
-            const newResults = {};
-            for (const [uri, resultsByUri] of Object.entries(results)) {
-              if (uri === message.result.uri) {
-                newResults[uri] = [...resultsByUri, message.result];
-              } else {
-                newResults[uri] = resultsByUri;
-              }
-            }
+          console.log(`[INSERT] Adding result: ${message.result.id} to ${message.result.uri}`);
+          setResults((prevResults) => {
+            const newResults = { ...prevResults }; // 保留所有现有结果
             if (!newResults[message.result.uri]) {
-              newResults[message.result.uri] = [message.result];
+              newResults[message.result.uri] = [];
+            }
+            // 避免重复添加相同 ID 的结果
+            if (!newResults[message.result.uri].some((r) => r.id === message.result.id)) {
+              newResults[message.result.uri] = [...newResults[message.result.uri], message.result];
+              console.log(`[INSERT] Added result to ${message.result.uri}, now has ${newResults[message.result.uri].length} results`);
+            } else {
+              console.log(`[INSERT] Skipped duplicate result: ${message.result.id}`);
             }
             return newResults;
           });
-          setStats((stats) => ({
-            matchCount: stats.matchCount + 1,
-            fileCount: Object.keys(results).length,
+          // 移除这里的 setStats，让 useEffect 统一处理统计
+          setCollapsedFiles((prev) => ({
+            ...prev,
+            [message.result.uri]: prev[message.result.uri] !== undefined ? prev[message.result.uri] : false,
           }));
-          setCollapsedFiles((collapsedFiles) => {
-            const newCollapsedFiles = { ...collapsedFiles };
-            if (!collapsedFiles[message.result.uri]) {
-              newCollapsedFiles[message.result.uri] = false;
-            }
-            return newCollapsedFiles;
-          });
           break;
         }
         case "remove": {
-          setResults((results) => {
-            const newResults = {};
-            for (const [uri, resultsByUri] of Object.entries(results)) {
-              if (uri === message.result.uri) {
-                const newResultsByUri = resultsByUri.filter(
-                  (result) => result.id !== message.result.id
-                );
-                if (newResultsByUri.length > 0) {
-                  newResults[uri] = newResultsByUri;
-                }
-              } else {
-                newResults[uri] = resultsByUri;
+          setResults((prevResults) => {
+            const newResults = { ...prevResults };
+            if (newResults[message.result.uri]) {
+              newResults[message.result.uri] = newResults[message.result.uri].filter(
+                (r) => r.id !== message.result.id
+              );
+              if (newResults[message.result.uri].length === 0) {
+                delete newResults[message.result.uri];
               }
             }
             return newResults;
           });
+          // 移除结果后，统计会在 useEffect 中自动更新
           break;
         }
         case "clear":
           setResults({});
           setCollapsedFiles({});
+          setStats({ matchCount: 0, fileCount: 0 });
           break;
         case "refresh":
           performSearch(searchPattern);
@@ -84,40 +85,54 @@ const App: React.FC = () => {
         case "expandAll":
           expandAll();
           break;
+        case "historyLoaded":
+        case "historyUpdated":
+          setSearchHistory(message.history || []);
+          break;
+        case "bookmarksLoaded":
+        case "bookmarksUpdated":
+          setBookmarks(message.bookmarks || []);
+          break;
       }
     };
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [searchPattern]); // Added searchPattern as dependency for performSearch
+  }, [results]); // 依赖 results 以响应状态变化
 
   useEffect(() => {
     let matchCount = 0;
-    for (const resultsByUri of Object.values(results)) {
+    const fileCount = Object.keys(results).length;
+    
+    for (const [uri, resultsByUri] of Object.entries(results)) {
       matchCount += resultsByUri.length;
+      console.log(`[STATS] File ${uri}: ${resultsByUri.length} results`);
     }
+    
+    console.log(`[STATS] Total: ${matchCount} results in ${fileCount} files`);
+    
     setStats({
-      fileCount: Object.keys(results).length,
+      fileCount,
       matchCount,
     });
   }, [results]);
 
-  // Save state when inputs or collapsed state changes
   useEffect(() => {
     if (!initialized) return;
     vscode.setState({
       searchPattern,
       replacePattern,
+      activeTab,
       ...searchOptions,
     });
-  }, [searchPattern, replacePattern, searchOptions]);
+  }, [searchPattern, replacePattern, searchOptions, activeTab, initialized]);
 
-  // Restore state when component mounts
   useEffect(() => {
     const state = vscode.getState();
     if (state) {
       setSearchPattern(state.searchPattern || "");
       setReplacePattern(state.replacePattern || "");
+      setActiveTab(state.activeTab || "search");
       setSearchOptions({
         includeIgnored: !!state.includeIgnored,
         includePattern: state.includePattern || "",
@@ -125,18 +140,32 @@ const App: React.FC = () => {
       });
     }
     setInitialized(true);
+    vscode.postMessage({ type: "loadHistory" });
+    vscode.postMessage({ type: "loadBookmarks" });
   }, []);
 
   const performSearch = (searchPattern: string) => {
-    if (!searchPattern.trim()) return;
-
+    if (!searchPattern.trim()) {
+      console.log("[performSearch] Empty search pattern, skipping");
+      return;
+    }
+    
+    // 获取启用的搜索层
+    const enabledLayers = searchLayers.filter(layer => layer.enabled && layer.query.trim());
+    console.log("[performSearch] Executing search", { 
+      query: searchPattern, 
+      layers: enabledLayers,
+      totalLayers: searchLayers.length 
+    });
+    
+    // 发送搜索请求，包含多层查询信息
     vscode.postMessage({
       type: "search",
-      value: {
-        language: "moonbit",
-        query: searchPattern,
-        includePattern: searchOptions.includePattern,
-        excludePattern: searchOptions.excludePattern,
+      value: { 
+        language: "moonbit", 
+        query: searchPattern, 
+        ...searchOptions,
+        layers: enabledLayers.length > 0 ? enabledLayers : undefined
       },
     });
   };
@@ -146,88 +175,122 @@ const App: React.FC = () => {
     setReplacePattern("");
     setResults({});
     setStats({ matchCount: 0, fileCount: 0 });
-    setCollapsedFiles({}); // Clear collapsed state when search is cleared
+    setCollapsedFiles({});
+    vscode.postMessage({ type: "clear" });
+  };
 
+  const collapseAll = () =>
+    setCollapsedFiles((prev) => Object.fromEntries(Object.keys(prev).map((uri) => [uri, true])));
+  const expandAll = () =>
+    setCollapsedFiles((prev) => Object.fromEntries(Object.keys(prev).map((uri) => [uri, false])));
+  const toggleFileCollapse = (fileUri: string) =>
+    setCollapsedFiles((prev) => ({ ...prev, [fileUri]: !prev[fileUri] }));
+  const handleReplaceMatch = (id: string) =>
+    vscode.postMessage({ type: "replaceMatch", value: { id, replace: replacePattern } });
+  const handleDismissMatch = (id: string) =>
+    vscode.postMessage({ type: "dismissMatch", value: { id } });
+  const handleRerunHistorySearch = (item: SearchHistoryItem) => {
+    setSearchPattern(item.query);
+    setSearchOptions(item.options);
+    // 设置搜索层
+    if (item.layers && item.layers.length > 0) {
+      setSearchLayers(item.layers);
+    } else {
+      setSearchLayers([]);
+    }
+    setActiveTab("search");
+    performSearch(item.query);
+  };
+  const handleDeleteHistoryItem = (id: string) =>
+    vscode.postMessage({ type: "deleteHistoryItem", value: { id } });
+  const handleClearHistory = () => vscode.postMessage({ type: "clearHistory" });
+  const handleRunBookmark = (bookmark: SearchBookmark) => {
+    setSearchPattern(bookmark.query);
+    setSearchOptions(bookmark.options);
+    // 设置搜索层
+    if (bookmark.layers && bookmark.layers.length > 0) {
+      setSearchLayers(bookmark.layers);
+    } else {
+      setSearchLayers([]);
+    }
+    setActiveTab("search");
+    performSearch(bookmark.query);
+  };
+  const handleDeleteBookmark = (id: string) =>
+    vscode.postMessage({ type: "deleteBookmark", value: { id } });
+
+  const handleAddBookmark = () => {
+    console.log("[handleAddBookmark] searchPattern:", searchPattern);
+    if (!searchPattern.trim()) {
+      console.error("[handleAddBookmark] No search pattern");
+      vscode.postMessage({ type: "error", value: "No search query available." });
+      return;
+    }
+    setShowBookmarkModal(true);
+  };
+
+  const handleSaveBookmark = () => {
+    if (!bookmarkName.trim()) {
+      console.error("[handleAddBookmark] No bookmark name");
+      vscode.postMessage({ type: "error", value: "Bookmark name cannot be empty." });
+      return;
+    }
+    // 获取启用的搜索层
+    const enabledLayers = searchLayers.filter(layer => layer.enabled && layer.query.trim());
+    
     vscode.postMessage({
-      type: "clear",
+      type: "addBookmark",
+      value: { 
+        name: bookmarkName, 
+        query: searchPattern, 
+        options: searchOptions,
+        layers: enabledLayers.length > 0 ? enabledLayers : undefined
+      },
     });
-  };
-
-  const collapseAll = () => {
-    setCollapsedFiles((collapsedFiles) => {
-      const newCollapsedFiles = {};
-      for (const uri of Object.keys(collapsedFiles)) {
-        newCollapsedFiles[uri] = true; // Collapse all files
-      }
-      return newCollapsedFiles;
+    console.log("[handleAddBookmark] Sent addBookmark:", {
+      name: bookmarkName,
+      query: searchPattern,
+      options: searchOptions,
+      layers: enabledLayers,
     });
+    setShowBookmarkModal(false);
+    setBookmarkName("");
   };
 
-  const expandAll = () => {
-    setCollapsedFiles((collapsedFiles) => {
-      const newCollapsedFiles = {};
-      for (const uri of Object.keys(collapsedFiles)) {
-        newCollapsedFiles[uri] = false; // Expand all files
-      }
-      return newCollapsedFiles;
-    });
-  };
+  const formatDate = (timestamp: number) => new Date(timestamp).toLocaleString();
 
-  // Function to toggle collapse state for a specific file
-  const toggleFileCollapse = (fileUri: string) => {
-    setCollapsedFiles((prev) => ({
-      ...prev,
-      [fileUri]: !prev[fileUri],
-    }));
-  };
-
-  const handleReplaceMatch = (id: string) => {
-    vscode.postMessage({
-      type: "replaceMatch",
-      value: { id, replace: replacePattern },
-    });
-  };
-
-  // Function to dismiss a match
-  const handleDismissMatch = (id: string) => {
-    vscode.postMessage({
-      type: "dismissMatch",
-      value: { id },
-    });
-  };
-
-  return (
-    <div className="container">
+  const renderSearchTab = () => (
+    <>
       <div className="search-container">
         <SearchReplaceGroup
           searchValue={searchPattern}
           replaceValue={replacePattern}
           onSearchChange={(value) => {
+            console.log("[SearchReplaceGroup] Updated searchPattern:", value);
             setSearchPattern(value);
-            performSearch(value);
+            // 移除自动搜索，只在用户按回车时搜索
+            // performSearch(value);
           }}
           onReplaceChange={setReplacePattern}
-          onSearch={() => {
-            performSearch(searchPattern);
-          }}
+          onSearch={() => performSearch(searchPattern)}
+          searchLayers={searchLayers}
+          onSearchLayersChange={setSearchLayers}
         />
-
         <SearchDetails
           includeIgnored={searchOptions.includeIgnored}
           onIncludeIgnoredChange={(value) =>
-            setSearchOptions({ ...searchOptions, includeIgnored: value })
+            setSearchOptions((prev) => ({ ...prev, includeIgnored: value }))
           }
           includePattern={searchOptions.includePattern}
           onIncludePatternChange={(value) =>
-            setSearchOptions({ ...searchOptions, includePattern: value })
+            setSearchOptions((prev) => ({ ...prev, includePattern: value }))
           }
           excludePattern={searchOptions.excludePattern}
           onExcludePatternChange={(value) =>
-            setSearchOptions({ ...searchOptions, excludePattern: value })
+            setSearchOptions((prev) => ({ ...prev, excludePattern: value }))
           }
         />
       </div>
-
       <SearchResults
         results={results}
         stats={stats}
@@ -236,6 +299,229 @@ const App: React.FC = () => {
         onReplaceMatch={handleReplaceMatch}
         onDismissMatch={handleDismissMatch}
       />
+    </>
+  );
+
+  const renderHistoryTab = () => (
+    <div className="history-container">
+      <div className="history-header">
+        <h3>Search History</h3>
+        <button className="icon-button" onClick={handleClearHistory} title="Clear History">
+          <span className="codicon codicon-clear-all"></span>
+        </button>
+      </div>
+      <div className="history-list">
+        {searchHistory.length === 0 ? (
+          <div className="no-history">
+            <p>No search history yet</p>
+          </div>
+        ) : (
+          searchHistory.map((item) => (
+            <div key={item.id} className="history-item">
+              <div className="history-item-header">
+                <div className="history-query">{item.query}</div>
+                <div className="history-actions">
+                  <button
+                    className="icon-button"
+                    onClick={() => handleRerunHistorySearch(item)}
+                    title="Rerun Search"
+                  >
+                    <span className="codicon codicon-search"></span>
+                  </button>
+                  <button
+                    className="icon-button"
+                    onClick={() => handleDeleteHistoryItem(item.id)}
+                    title="Delete"
+                  >
+                    <span className="codicon codicon-trash"></span>
+                  </button>
+                </div>
+              </div>
+              <div className="history-item-details">
+                <div className="history-meta">
+                  <span className="history-timestamp">{formatDate(item.timestamp)}</span>
+                  <span className="history-results">{item.resultCount} results</span>
+                </div>
+                {item.layers && item.layers.length > 0 && (
+                  <div className="history-layers">
+                    <span className="history-layers-label">Layers: </span>
+                    {item.layers.map((layer, index) => (
+                      <span key={index} className="history-layer-item">
+                        {layer.query}
+                        {index < item.layers!.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+
+  const renderBookmarksTab = () => (
+    <div className="bookmarks-container">
+      <div className="bookmarks-header">
+        <h3>Bookmarks</h3>
+        <button
+          className="icon-button"
+          onClick={handleAddBookmark}
+          title="Add Current Search as Bookmark"
+          disabled={!searchPattern.trim()}
+        >
+          <span className="codicon codicon-bookmark"></span>
+        </button>
+      </div>
+      {showBookmarkModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-header">
+              <h4>Add Bookmark</h4>
+              <button 
+                className="icon-button modal-close"
+                onClick={() => setShowBookmarkModal(false)}
+                title="Close"
+              >
+                <span className="codicon codicon-close"></span>
+              </button>
+            </div>
+            <div className="modal-content">
+              <div className="modal-input-group">
+                <label htmlFor="bookmark-name">Bookmark Name</label>
+                <input
+                  id="bookmark-name"
+                  type="text"
+                  value={bookmarkName}
+                  onChange={(e) => setBookmarkName(e.target.value)}
+                  placeholder="Enter a name for this bookmark"
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSaveBookmark();
+                    } else if (e.key === 'Escape') {
+                      setShowBookmarkModal(false);
+                    }
+                  }}
+                />
+              </div>
+              <div className="modal-preview">
+                <label>Preview</label>
+                <div className="preview-content">
+                  <div className="preview-query">{searchPattern}</div>
+                  {searchLayers.filter(layer => layer.enabled && layer.query.trim()).length > 0 && (
+                    <div className="preview-layers">
+                      <span>Layers: </span>
+                      {searchLayers
+                        .filter(layer => layer.enabled && layer.query.trim())
+                        .map((layer, index) => (
+                          <span key={index} className="preview-layer-item">
+                            {layer.query}
+                            {index < searchLayers.filter(l => l.enabled && l.query.trim()).length - 1 && ", "}
+                          </span>
+                        ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="modal-actions">
+              <button 
+                className="modal-button modal-button-secondary"
+                onClick={() => setShowBookmarkModal(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="modal-button modal-button-primary"
+                onClick={handleSaveBookmark}
+                disabled={!bookmarkName.trim()}
+              >
+                Save Bookmark
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="bookmarks-list">
+        {bookmarks.length === 0 ? (
+          <div className="no-bookmarks">
+            <p>No bookmarks yet</p>
+          </div>
+        ) : (
+          bookmarks.map((bookmark) => (
+            <div key={bookmark.id} className="bookmark-item">
+              <div className="bookmark-item-header">
+                <div className="bookmark-name">{bookmark.name}</div>
+                <div className="bookmark-actions">
+                  <button
+                    className="icon-button"
+                    onClick={() => handleRunBookmark(bookmark)}
+                    title="Run Bookmark"
+                  >
+                    <span className="codicon codicon-play"></span>
+                  </button>
+                  <button
+                    className="icon-button"
+                    onClick={() => handleDeleteBookmark(bookmark.id)}
+                    title="Delete"
+                  >
+                    <span className="codicon codicon-trash"></span>
+                  </button>
+                </div>
+              </div>
+              <div className="bookmark-item-details">
+                <div className="bookmark-query">{bookmark.query}</div>
+                <div className="bookmark-meta">
+                  <span className="bookmark-timestamp">{formatDate(bookmark.timestamp)}</span>
+                  {bookmark.layers && bookmark.layers.length > 0 && (
+                    <div className="bookmark-layers">
+                      <span className="bookmark-layers-label">Layers: </span>
+                      {bookmark.layers.map((layer, index) => (
+                        <span key={index} className="bookmark-layer-item">
+                          {layer.query}
+                          {index < bookmark.layers!.length - 1 && ", "}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="container">
+      <div className="tabs-header">
+        <button
+          className={`tab-button ${activeTab === "search" ? "active" : ""}`}
+          onClick={() => setActiveTab("search")}
+        >
+          <span className="codicon codicon-search"></span> Search
+        </button>
+        <button
+          className={`tab-button ${activeTab === "history" ? "active" : ""}`}
+          onClick={() => setActiveTab("history")}
+        >
+          <span className="codicon codicon-history"></span> History
+        </button>
+        <button
+          className={`tab-button ${activeTab === "bookmarks" ? "active" : ""}`}
+          onClick={() => setActiveTab("bookmarks")}
+        >
+          <span className="codicon codicon-bookmark"></span> Bookmarks
+        </button>
+      </div>
+      <div className="tab-content">
+        {activeTab === "search" && renderSearchTab()}
+        {activeTab === "history" && renderHistoryTab()}
+        {activeTab === "bookmarks" && renderBookmarksTab()}
+      </div>
     </div>
   );
 };

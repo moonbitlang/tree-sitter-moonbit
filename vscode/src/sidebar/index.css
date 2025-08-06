@@ -75,6 +75,13 @@ body {
   opacity: 1;
 }
 
+.search-tab-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
 .search-container {
   padding: var(--container-padding);
   flex-shrink: 0;
@@ -240,6 +247,7 @@ input[type="checkbox"] {
   overflow-y: auto;
   border-top: 1px solid var(--vscode-panel-border);
   margin-top: 8px;
+  min-height: 0;
 }
 
 .search-info {
@@ -411,4 +419,594 @@ input[type="checkbox"] {
   cursor: pointer;
   border-radius: 3px;
   transition: background-color 0.1s ease;
+}
+
+/* 标签页样式 */
+.tabs-header {
+  display: flex;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  background-color: var(--vscode-sideBar-background);
+  flex-shrink: 0;
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  color: var(--vscode-foreground);
+  cursor: pointer;
+  font-size: 13px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.1s ease;
+}
+
+.tab-button:hover {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.tab-button.active {
+  border-bottom-color: var(--vscode-focusBorder);
+  background-color: var(--vscode-list-activeSelectionBackground);
+  color: var(--vscode-list-activeSelectionForeground);
+}
+
+.tab-button .codicon {
+  font-size: 14px;
+}
+
+.tab-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 历史记录样式 */
+.history-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.history-header {
+  padding: var(--container-padding);
+  padding-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.history-header h3 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--vscode-foreground);
+  opacity: 0.6;
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--container-padding);
+}
+
+.no-history {
+  text-align: center;
+  color: var(--vscode-descriptionForeground);
+  font-style: italic;
+  padding: 20px;
+}
+
+.history-item {
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: var(--border-radius);
+  margin-bottom: 8px;
+  background-color: var(--vscode-list-background);
+  cursor: pointer;
+}
+
+.history-item:hover {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.history-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+.history-query {
+  flex: 1;
+  font-family: var(--vscode-editor-font-family);
+  font-size: var(--vscode-editor-font-size);
+  color: var(--vscode-editor-foreground);
+  word-break: break-all;
+}
+
+.history-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: 8px;
+}
+
+.history-actions .icon-button {
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+}
+
+.history-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.history-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-timestamp {
+  opacity: 0.8;
+}
+
+.history-results {
+  font-weight: 500;
+}
+
+.history-layers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--vscode-descriptionForeground);
+  opacity: 0.8;
+}
+
+.history-layers-label {
+  font-weight: 500;
+}
+
+.history-layer-item {
+  background-color: var(--vscode-badge-background);
+  color: var(--vscode-badge-foreground);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 9px;
+}
+
+/* 书签样式 */
+.bookmarks-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.bookmarks-header {
+  padding: var(--container-padding);
+  padding-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.bookmarks-header h3 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--vscode-foreground);
+  opacity: 0.6;
+}
+
+.bookmarks-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--container-padding);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.no-bookmarks {
+  text-align: center;
+  color: var(--vscode-descriptionForeground);
+  font-style: italic;
+  padding: 20px;
+}
+
+.bookmark-item {
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: var(--border-radius);
+  margin-bottom: 8px;
+  background-color: var(--vscode-input-background);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.1s ease;
+}
+
+.bookmark-item:hover {
+  background-color: var(--vscode-list-hoverBackground);
+  border-color: var(--vscode-focusBorder);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.bookmark-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--vscode-foreground);
+}
+
+.bookmark-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: 8px;
+}
+
+.bookmark-actions .icon-button {
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  opacity: 0.7;
+  transition: opacity 0.1s ease;
+}
+
+.bookmark-actions .icon-button:hover {
+  opacity: 1;
+  background-color: var(--vscode-toolbar-hoverBackground);
+}
+
+.bookmark-item-details {
+  padding: 8px;
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+  background-color: var(--vscode-input-background);
+}
+
+.bookmark-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.bookmark-query {
+  font-family: var(--vscode-editor-font-family);
+  font-size: var(--vscode-editor-font-size);
+  color: var(--vscode-editor-foreground);
+  margin-bottom: 4px;
+  word-break: break-all;
+  padding: 4px 6px;
+  background-color: var(--vscode-list-background);
+  border-radius: 2px;
+  border: 1px solid var(--vscode-panel-border);
+}
+
+.bookmark-timestamp {
+  opacity: 0.8;
+  font-size: 10px;
+  font-style: italic;
+}
+
+.bookmark-layers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--vscode-descriptionForeground);
+  opacity: 0.9;
+  padding: 2px 0;
+}
+
+.bookmark-layers-label {
+  font-weight: 500;
+}
+
+.bookmark-layer-item {
+  background-color: var(--vscode-badge-background);
+  color: var(--vscode-badge-foreground);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 500;
+  border: 1px solid var(--vscode-panel-border);
+}
+
+/* 多层查询样式 */
+.search-controls {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.toggle-layers-button {
+  margin-left: auto;
+}
+
+.search-layers-container {
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: var(--border-radius);
+  margin-top: 8px;
+  background-color: var(--vscode-list-background);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.search-layers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.search-layers-header h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vscode-foreground);
+}
+
+.add-layer-button {
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+}
+
+.search-layers-list {
+  padding: 8px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.search-layer-item {
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: var(--border-radius);
+  margin-bottom: 8px;
+  background-color: var(--vscode-input-background);
+  overflow: hidden;
+}
+
+.search-layer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.search-layer-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--vscode-foreground);
+}
+
+.search-layer-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.toggle-layer-button,
+.remove-layer-button {
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+}
+
+.search-layer-item .input-box {
+  margin: 8px;
+  border: 1px solid var(--vscode-input-border);
+  width: calc(100% - 16px);
+  box-sizing: border-box;
+}
+
+.no-layers-message {
+  text-align: center;
+  color: var(--vscode-descriptionForeground);
+  font-style: italic;
+  padding: 20px;
+  font-size: 12px;
+}
+
+/* 模态框样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  background-color: var(--vscode-sideBar-background);
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.modal-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vscode-foreground);
+}
+
+.modal-close {
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+}
+
+.modal-content {
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.modal-input-group {
+  margin-bottom: 16px;
+}
+
+.modal-input-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vscode-foreground);
+  margin-bottom: 6px;
+}
+
+.modal-input-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 4px;
+  background-color: var(--vscode-input-background);
+  color: var(--vscode-input-foreground);
+  font-size: 13px;
+  font-family: var(--vscode-font-family);
+  box-sizing: border-box;
+  transition: border-color 0.1s ease;
+}
+
+.modal-input-group input:focus {
+  outline: none;
+  border-color: var(--vscode-focusBorder);
+}
+
+.modal-input-group input::placeholder {
+  color: var(--vscode-input-placeholderForeground);
+}
+
+.modal-preview {
+  margin-bottom: 16px;
+}
+
+.modal-preview label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vscode-foreground);
+  margin-bottom: 6px;
+}
+
+.preview-content {
+  background-color: var(--vscode-list-background);
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.preview-query {
+  font-family: var(--vscode-editor-font-family);
+  font-size: var(--vscode-editor-font-size);
+  color: var(--vscode-editor-foreground);
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+
+.preview-layers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--vscode-descriptionForeground);
+  opacity: 0.8;
+}
+
+.preview-layer-item {
+  background-color: var(--vscode-badge-background);
+  color: var(--vscode-badge-foreground);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 9px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--vscode-panel-border);
+  background-color: var(--vscode-list-hoverBackground);
+}
+
+.modal-button {
+  padding: 6px 12px;
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  min-width: 80px;
+}
+
+.modal-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modal-button-secondary {
+  background-color: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+}
+
+.modal-button-secondary:hover:not(:disabled) {
+  background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
+.modal-button-primary {
+  background-color: var(--vscode-button-prominentBackground);
+  color: var(--vscode-button-prominentForeground);
+  border-color: var(--vscode-button-prominentBackground);
+}
+
+.modal-button-primary:hover:not(:disabled) {
+  background-color: var(--vscode-button-prominentHoverBackground);
 }

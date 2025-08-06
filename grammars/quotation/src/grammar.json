@@ -53,56 +53,65 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "type_definition"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "error_type_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "struct_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "enum_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "value_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "const_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "function_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "test_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "trait_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "impl_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "type_alias_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "trait_alias_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "function_alias_definition"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
-          "name": "error_type_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "struct_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "enum_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "value_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "const_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "test_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "trait_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "impl_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "type_alias_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "trait_alias_definition"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_alias_definition"
+          "name": "quotation_top_expander"
         }
       ]
     },
@@ -8515,6 +8524,19 @@
         {
           "type": "SYMBOL",
           "name": "quotation_variable"
+        }
+      ]
+    },
+    "quotation_top_expander": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "$"
+        },
+        {
+          "type": "STRING",
+          "value": "top"
         }
       ]
     },

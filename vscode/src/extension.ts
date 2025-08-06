@@ -8,6 +8,7 @@ export async function activate(context: vscode.ExtensionContext) {
     context.extensionUri,
     searchService
   );
+
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(
       Sidebar.WebviewViewProvider.viewType,
@@ -29,8 +30,25 @@ export async function activate(context: vscode.ExtensionContext) {
     }),
     vscode.commands.registerCommand("moon-grep.expandAll", () => {
       sidebarWebviewProvider.postMessage({ type: "expandAll" });
+    }),
+    vscode.commands.registerCommand("moon-grep.saveBookmark", () => {
+      // 这个功能现在集成在sidebar中
+      vscode.window.showInformationMessage("Use the Bookmarks tab to save searches!");
+    }),
+    vscode.commands.registerCommand("moon-grep.clearHistory", () => {
+      sidebarWebviewProvider.postMessage({ type: "clearHistory" });
+    }),
+    vscode.commands.registerCommand("moon-grep.exportResults", () => {
+      // TODO: Implement export functionality
+      vscode.window.showInformationMessage("Export feature coming soon!");
     })
   );
+
+  // Listen for search completion to add to history
+  searchService.onClear.event(() => {
+    // When search is cleared, we could add the last search to history
+    // This would require tracking the last search parameters
+  });
 }
 
 export function deactivate() {}
