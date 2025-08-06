@@ -5,7 +5,6 @@ import * as Sidebar from "./sidebar/types";
 // 导入类型
 type SearchHistoryItem = Sidebar.SearchHistoryItem;
 type SearchBookmark = Sidebar.SearchBookmark;
-type SearchLayer = Sidebar.SearchLayer;
 
 // 使用从 types.ts 导入的类型定义
 
@@ -22,7 +21,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   private hasWrittenHistory: boolean = false;
   private currentSearchQuery: string = "";
   private currentSearchOptions: any = {};
-  private currentSearchLayers: SearchLayer[] = [];
+  // Layer functionality removed for bookmark-history branch
   private lastSearchTimestamp: number = 0;
   private eventDisposables: vscode.Disposable[] = [];
 
@@ -139,7 +138,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "addBookmark": {
-          this.addBookmark(message.value.name, message.value.query, message.value.options, message.value.layers);
+          this.addBookmark(message.value.name, message.value.query, message.value.options);
           break;
         }
         case "deleteBookmark": {
@@ -230,16 +229,13 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
         timestamp: Date.now()
       });
       
-      // 获取当前启用的搜索层
-      const enabledLayers = this.currentSearchLayers?.filter(layer => layer.enabled && layer.query.trim()) || [];
-      
-      this.addToHistory(this.currentSearchQuery, count, this.currentSearchOptions, enabledLayers);
+      this.addToHistory(this.currentSearchQuery, count, this.currentSearchOptions);
       this.hasWrittenHistory = true;
       this.resultCountMap.delete(searchId);
       console.log("[SIDEBAR] addToHistory completed from onSearchFinished", { 
         query: this.currentSearchQuery, 
         count,
-        layers: enabledLayers 
+        // Layer functionality removed
       });
     });
     this.eventDisposables.push(onSearchFinishedDisposable);
@@ -287,7 +283,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       excludePattern: options.excludePattern,
       includeIgnored: options.includeIgnored,
     };
-    this.currentSearchLayers = (options as any).layers || [];
+    // Layer functionality removed
     this.hasWrittenHistory = false;
     
     console.log("[SIDEBAR] search state initialized", {
@@ -363,12 +359,11 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     });
   }
 
-  public addToHistory(query: string, resultCount: number, options: any, layers?: any[]) {
+  public addToHistory(query: string, resultCount: number, options: any) {
     console.log("🔥🔥🔥 [SIDEBAR] addToHistory called 🔥🔥🔥", { 
       query, 
       resultCount, 
       options,
-      layers,
       stack: new Error().stack,
       timestamp: Date.now()
     });
@@ -379,7 +374,6 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       timestamp: Date.now(),
       resultCount,
       options,
-      layers: layers,
     };
 
     this.searchHistory.unshift(historyItem);
@@ -411,14 +405,13 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     vscode.workspace.getConfiguration("moon-grep").update("bookmarks", this.bookmarks, vscode.ConfigurationTarget.Global);
   }
 
-  private addBookmark(name: string, query: string, options: any, layers?: any[]) {
+  private addBookmark(name: string, query: string, options: any) {
     const bookmark: SearchBookmark = {
       id: Date.now().toString(),
       name,
       query,
       timestamp: Date.now(),
       options,
-      layers: layers,
     };
 
     this.bookmarks.unshift(bookmark);

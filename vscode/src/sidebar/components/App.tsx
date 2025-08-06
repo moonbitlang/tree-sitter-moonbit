@@ -18,7 +18,7 @@ const App: React.FC = () => {
     includePattern: "",
     excludePattern: "",
   });
-  const [searchLayers, setSearchLayers] = useState<Array<{ id: string; query: string; enabled: boolean }>>([]);
+  // Layer functionality removed for bookmark-history branch
   const [results, setResults] = useState<Record<string, Result[]>>({});
   const [stats, setStats] = useState({ matchCount: 0, fileCount: 0 });
   const [collapsedFiles, setCollapsedFiles] = useState<Record<string, boolean>>({});
@@ -150,22 +150,17 @@ const App: React.FC = () => {
       return;
     }
     
-    // 获取启用的搜索层
-    const enabledLayers = searchLayers.filter(layer => layer.enabled && layer.query.trim());
     console.log("[performSearch] Executing search", { 
-      query: searchPattern, 
-      layers: enabledLayers,
-      totalLayers: searchLayers.length 
+      query: searchPattern
     });
     
-    // 发送搜索请求，包含多层查询信息
+    // 发送搜索请求
     vscode.postMessage({
       type: "search",
       value: { 
         language: "moonbit", 
         query: searchPattern, 
-        ...searchOptions,
-        layers: enabledLayers.length > 0 ? enabledLayers : undefined
+        ...searchOptions
       },
     });
   };
@@ -192,12 +187,6 @@ const App: React.FC = () => {
   const handleRerunHistorySearch = (item: SearchHistoryItem) => {
     setSearchPattern(item.query);
     setSearchOptions(item.options);
-    // 设置搜索层
-    if (item.layers && item.layers.length > 0) {
-      setSearchLayers(item.layers);
-    } else {
-      setSearchLayers([]);
-    }
     setActiveTab("search");
     performSearch(item.query);
   };
@@ -207,12 +196,6 @@ const App: React.FC = () => {
   const handleRunBookmark = (bookmark: SearchBookmark) => {
     setSearchPattern(bookmark.query);
     setSearchOptions(bookmark.options);
-    // 设置搜索层
-    if (bookmark.layers && bookmark.layers.length > 0) {
-      setSearchLayers(bookmark.layers);
-    } else {
-      setSearchLayers([]);
-    }
     setActiveTab("search");
     performSearch(bookmark.query);
   };
@@ -235,23 +218,18 @@ const App: React.FC = () => {
       vscode.postMessage({ type: "error", value: "Bookmark name cannot be empty." });
       return;
     }
-    // 获取启用的搜索层
-    const enabledLayers = searchLayers.filter(layer => layer.enabled && layer.query.trim());
-    
     vscode.postMessage({
       type: "addBookmark",
       value: { 
         name: bookmarkName, 
         query: searchPattern, 
-        options: searchOptions,
-        layers: enabledLayers.length > 0 ? enabledLayers : undefined
+        options: searchOptions
       },
     });
     console.log("[handleAddBookmark] Sent addBookmark:", {
       name: bookmarkName,
       query: searchPattern,
       options: searchOptions,
-      layers: enabledLayers,
     });
     setShowBookmarkModal(false);
     setBookmarkName("");
@@ -273,8 +251,6 @@ const App: React.FC = () => {
           }}
           onReplaceChange={setReplacePattern}
           onSearch={() => performSearch(searchPattern)}
-          searchLayers={searchLayers}
-          onSearchLayersChange={setSearchLayers}
         />
         <SearchDetails
           includeIgnored={searchOptions.includeIgnored}
@@ -342,17 +318,7 @@ const App: React.FC = () => {
                   <span className="history-timestamp">{formatDate(item.timestamp)}</span>
                   <span className="history-results">{item.resultCount} results</span>
                 </div>
-                {item.layers && item.layers.length > 0 && (
-                  <div className="history-layers">
-                    <span className="history-layers-label">Layers: </span>
-                    {item.layers.map((layer, index) => (
-                      <span key={index} className="history-layer-item">
-                        {layer.query}
-                        {index < item.layers!.length - 1 && ", "}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                {/* Layer functionality removed for bookmark-history branch */}
               </div>
             </div>
           ))
@@ -410,19 +376,7 @@ const App: React.FC = () => {
                 <label>Preview</label>
                 <div className="preview-content">
                   <div className="preview-query">{searchPattern}</div>
-                  {searchLayers.filter(layer => layer.enabled && layer.query.trim()).length > 0 && (
-                    <div className="preview-layers">
-                      <span>Layers: </span>
-                      {searchLayers
-                        .filter(layer => layer.enabled && layer.query.trim())
-                        .map((layer, index) => (
-                          <span key={index} className="preview-layer-item">
-                            {layer.query}
-                            {index < searchLayers.filter(l => l.enabled && l.query.trim()).length - 1 && ", "}
-                          </span>
-                        ))}
-                    </div>
-                  )}
+                  {/* Layer functionality removed for bookmark-history branch */}
                 </div>
               </div>
             </div>
@@ -475,17 +429,7 @@ const App: React.FC = () => {
                 <div className="bookmark-query">{bookmark.query}</div>
                 <div className="bookmark-meta">
                   <span className="bookmark-timestamp">{formatDate(bookmark.timestamp)}</span>
-                  {bookmark.layers && bookmark.layers.length > 0 && (
-                    <div className="bookmark-layers">
-                      <span className="bookmark-layers-label">Layers: </span>
-                      {bookmark.layers.map((layer, index) => (
-                        <span key={index} className="bookmark-layer-item">
-                          {layer.query}
-                          {index < bookmark.layers!.length - 1 && ", "}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  {/* Layer functionality removed for bookmark-history branch */}
                 </div>
               </div>
             </div>
