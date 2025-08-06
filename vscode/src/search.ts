@@ -72,6 +72,7 @@ export class Service {
 
   constructor(extensionUri: vscode.Uri) {
     this.extensionUri = extensionUri;
+    this.loadPersistedResults();
   }
   private async getWasm(): Promise<Wasm.Wasm> {
     if (this.wasm) {
@@ -162,30 +163,30 @@ export class Service {
   }
   private wrap(p: Promise<any>, searchId?: string) {
     this.pendingTasks++;
-    console.log("[SEARCH] wrap called", { 
-      searchId, 
-      pendingTasks: this.pendingTasks, 
-      finished: this.finished,
-      finishSearchId: this.finishSearchId,
-      timestamp: Date.now()
-    });
+    // console.log("[SEARCH] wrap called", { 
+    //   searchId, 
+    //   pendingTasks: this.pendingTasks, 
+    //   finished: this.finished,
+    //   finishSearchId: this.finishSearchId,
+    //   timestamp: Date.now()
+    // });
     
     p.finally(() => {
       this.pendingTasks--;
-      console.log("[SEARCH] wrap finally", { 
-        searchId, 
-        pendingTasks: this.pendingTasks, 
-        finished: this.finished,
-        finishSearchId: this.finishSearchId,
-        timestamp: Date.now()
-      });
+      // console.log("[SEARCH] wrap finally", { 
+      //   searchId, 
+      //   pendingTasks: this.pendingTasks, 
+      //   finished: this.finished,
+      //   finishSearchId: this.finishSearchId,
+      //   timestamp: Date.now()
+      // });
       
       // 防止 pendingTasks 变成负数
       if (this.pendingTasks < 0) {
-        console.warn("[SEARCH] pendingTasks became negative, resetting to 0", { 
-          searchId, 
-          pendingTasks: this.pendingTasks 
-        });
+        // console.warn("[SEARCH] pendingTasks became negative, resetting to 0", { 
+        //   searchId, 
+        //   pendingTasks: this.pendingTasks 
+        // });
         this.pendingTasks = 0;
       }
       
@@ -193,38 +194,38 @@ export class Service {
         this.finished = true;
         // 只有在 searchId 匹配时才触发事件
         if (searchId === this.finishSearchId) {
-          console.log("[SEARCH] About to fire onSearchFinished", { searchId, timestamp: Date.now() });
+          // console.log("[SEARCH] About to fire onSearchFinished", { searchId, timestamp: Date.now() });
           try {
             this.onSearchFinished.fire(searchId);
-            console.log("[SEARCH] onSearchFinished.fire completed", { searchId });
+            // console.log("[SEARCH] onSearchFinished.fire completed", { searchId });
           } catch (e) {
-            console.error("[SEARCH] Error firing onSearchFinished:", e);
+            // console.error("[SEARCH] Error firing onSearchFinished:", e);
             // 即使出错也要确保事件被触发
         this.onSearchFinished.fire(searchId);
           }
         } else {
-          console.log("[SEARCH] searchId mismatch, not firing onSearchFinished", { 
-            searchId, 
-            finishSearchId: this.finishSearchId 
-          });
+          // console.log("[SEARCH] searchId mismatch, not firing onSearchFinished", { 
+          //   searchId, 
+          //   finishSearchId: this.finishSearchId 
+          // });
         }
       } else {
-        console.log("[SEARCH] Not firing onSearchFinished", { 
-          pendingTasks: this.pendingTasks, 
-          finished: this.finished,
-          searchId,
-          finishSearchId: this.finishSearchId
-        });
+        // console.log("[SEARCH] Not firing onSearchFinished", { 
+        //   pendingTasks: this.pendingTasks, 
+        //   finished: this.finished,
+        //   searchId,
+        //   finishSearchId: this.finishSearchId
+        // });
       }
     });
   }
 
   public async search(uri: vscode.Uri, options: Options & { searchId?: string }): Promise<void> {
-    console.log("[SEARCH] search called", {
-      searchId: options.searchId,
-      query: options.query,
-      timestamp: Date.now()
-    });
+    // console.log("[SEARCH] search called", {
+    //   searchId: options.searchId,
+    //   query: options.query,
+    //   timestamp: Date.now()
+    // });
     
     // 重置状态，但不触发 onSearchFinished 事件
     await this.reset();
@@ -232,13 +233,13 @@ export class Service {
     this.finished = false;
     this.finishSearchId = options.searchId;
     
-    console.log("[SEARCH] search state initialized", {
-      searchId: options.searchId,
-      finishSearchId: this.finishSearchId,
-      pendingTasks: this.pendingTasks,
-      finished: this.finished,
-      timestamp: Date.now()
-    });
+    // console.log("[SEARCH] search state initialized", {
+    //   searchId: options.searchId,
+    //   finishSearchId: this.finishSearchId,
+    //   pendingTasks: this.pendingTasks,
+    //   finished: this.finished,
+    //   timestamp: Date.now()
+    // });
     
     // 简化任务计数：只包装主要的搜索任务
     const stat = await vscode.workspace.fs.stat(uri);
@@ -436,17 +437,17 @@ export class Service {
     
     // 检查是否有多层查询
     if (options.layers && options.layers.length > 0) {
-      console.log("[SEARCH] Executing multi-layer search", { 
-        mainQuery: options.query, 
-        layers: options.layers,
-        searchId: options.searchId 
-      });
+      // console.log("[SEARCH] Executing multi-layer search", { 
+      //   mainQuery: options.query, 
+      //   layers: options.layers,
+      //   searchId: options.searchId 
+      // });
       await this.searchTextWithLayers(uri, options, content, contentLines);
     } else {
-      console.log("[SEARCH] Executing single query search", { 
-        query: options.query, 
-        searchId: options.searchId 
-      });
+      // console.log("[SEARCH] Executing single query search", { 
+      //   query: options.query, 
+      //   searchId: options.searchId 
+      // });
       // 清除之前的结果
       this.onClear.fire();
       await this.searchTextSingle(uri, options, content, contentLines);
@@ -463,7 +464,7 @@ export class Service {
       },
     };
     
-    console.log("[WASM][SEND] searchId:", options.searchId, "request:", request, "timestamp:", Date.now());
+    // console.log("[WASM][SEND] searchId:", options.searchId, "request:", request, "timestamp:", Date.now());
     try {
       await new Promise<void>(async (resolve, reject) => {
         const worker = await this.getWorker();
@@ -505,9 +506,9 @@ export class Service {
               let json: any;
               try {
                 json = JSON.parse(line);
-                console.log("[WASM][JSON_OK] searchId:", options.searchId, "json:", json, "timestamp:", Date.now());
+                // console.log("[WASM][JSON_OK] searchId:", options.searchId, "json:", json, "timestamp:", Date.now());
               } catch (e) {
-                console.error("[WASM][JSON_FAIL] searchId:", options.searchId, "line:", line, "error:", e, "timestamp:", Date.now());
+                // console.error("[WASM][JSON_FAIL] searchId:", options.searchId, "line:", line, "error:", e, "timestamp:", Date.now());
                 continue;
               }
               
@@ -515,11 +516,11 @@ export class Service {
                 continue;
               }
               if (json.id !== request.id) {
-                console.warn(`(Worker ${worker.id}) (Task ${worker.task.id}): Ignoring response for request ID ${JSON.stringify(json)}`);
+                // console.warn(`(Worker ${worker.id}) (Task ${worker.task.id}): Ignoring response for request ID ${JSON.stringify(json)}`);
                 continue;
               }
               if (!("result" in json)) {
-                console.error('Missing "result" in JSON:', json);
+                // console.error('Missing "result" in JSON:', json);
                 continue;
               }
               if (!json.result) {
@@ -545,7 +546,7 @@ export class Service {
                 try {
                   context = contentLines.slice(startLine, endLine + 1);
                 } catch (e) {
-                  console.warn("[SEARCH] Failed to get context lines:", e);
+                  // console.warn("[SEARCH] Failed to get context lines:", e);
                   context = [];
                 }
                 
@@ -558,14 +559,15 @@ export class Service {
                 };
                 this.results.set(id, result);
                 this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
-                console.log("[SEARCH][onInsert] searchId:", options.searchId, "resultId:", id, "result:", result, "timestamp:", Date.now());
+                
+                // console.log("[SEARCH][onInsert] searchId:", options.searchId, "resultId:", id, "result:", result, "timestamp:", Date.now());
               } catch (e) {
-                console.error("[SEARCH] Failed to process result:", e, json);
+                // console.error("[SEARCH] Failed to process result:", e, json);
                 // 继续处理其他结果，不中断整个搜索
               }
             }
           } catch (e) {
-            console.error("[SEARCH] Error in stdout handler:", e);
+            // console.error("[SEARCH] Error in stdout handler:", e);
             if (!hasResolved) {
               hasResolved = true;
               disposable?.dispose();
@@ -579,70 +581,76 @@ export class Service {
         
         try {
           await worker.process.stdin.write(JSON.stringify(request) + "\n");
-          console.log("[WASM][SEND_OK] searchId:", options.searchId, "requestId:", request.id, "timestamp:", Date.now());
+          // console.log("[WASM][SEND_OK] searchId:", options.searchId, "requestId:", request.id, "timestamp:", Date.now());
         } catch (e) {
-          console.error("[WASM][SEND_FAIL] searchId:", options.searchId, "error:", e, "timestamp:", Date.now());
+          // console.error("[WASM][SEND_FAIL] searchId:", options.searchId, "error:", e, "timestamp:", Date.now());
         }
       });
     } catch (e) {
-      console.error("[SEARCH] searchTextSingle error:", e);
+      // console.error("[SEARCH] searchTextSingle error:", e);
       // 即使出错也要确保方法完成
     }
   }
 
   private async searchTextWithLayers(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
-    console.log("[SEARCH] Starting multi-layer search", { 
-      mainQuery: options.query, 
-      layerCount: options.layers?.length 
-    });
+    // console.log("[SEARCH] Starting cascading multi-layer search", { 
+    //   mainQuery: options.query, 
+    //   layerCount: options.layers?.length 
+    // });
 
     // 清除之前的结果，避免重复
     this.onClear.fire();
 
     // 首先执行主查询
-    const mainResults = await this.executeSearchQuery(uri, options.query, content, contentLines, options.searchId, "main");
+    let currentResults = await this.executeSearchQuery(uri, options.query, content, contentLines, options.searchId, "main");
     
     if (!options.layers || options.layers.length === 0) {
       // 如果没有层，直接发送主查询结果
-      for (const result of mainResults) {
+      for (const result of currentResults) {
+        this.results.set(result.id, result);
         this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
       }
       return;
     }
 
-    // 对每个层执行查询，并过滤结果
-    let filteredResults = mainResults;
-    
+    // 级联查询：每个层都在前一层的结果上进行查询
     for (let i = 0; i < options.layers.length; i++) {
       const layer = options.layers[i];
       if (!layer.enabled || !layer.query.trim()) {
         continue;
       }
 
-      console.log("[SEARCH] Executing layer", { 
-        layerIndex: i + 1, 
-        layerQuery: layer.query,
-        currentResultsCount: filteredResults.length 
-      });
+      // console.log("[SEARCH] Executing cascading layer", { 
+      //   layerIndex: i + 1, 
+      //   layerQuery: layer.query,
+      //   currentResultsCount: currentResults.length 
+      // });
 
-      // 执行层查询
-      const layerResults = await this.executeSearchQuery(uri, layer.query, content, contentLines, options.searchId, `layer-${i + 1}`);
+      // 如果当前没有结果，直接返回
+      if (currentResults.length === 0) {
+        // console.log("[SEARCH] No results to search in, stopping cascading search");
+        break;
+      }
+
+      // 在当前位置的结果范围内执行层查询
+      const layerResults = await this.executeSearchQueryInResults(uri, layer.query, currentResults, contentLines, options.searchId, `layer-${i + 1}`);
       
-      // 过滤结果：只保留同时匹配主查询和当前层查询的结果
-      filteredResults = this.filterOverlappingResults(filteredResults, layerResults);
+      // 更新当前结果
+      currentResults = layerResults;
       
-      console.log("[SEARCH] Layer completed", { 
-        layerIndex: i + 1, 
-        filteredResultsCount: filteredResults.length 
-      });
+      // console.log("[SEARCH] Cascading layer completed", { 
+      //   layerIndex: i + 1, 
+      //   newResultsCount: currentResults.length 
+      // });
     }
 
-    // 发送最终过滤后的结果
-    console.log("[SEARCH] Sending final filtered results", { 
-      finalResultsCount: filteredResults.length 
-    });
+    // 发送最终结果
+    // console.log("[SEARCH] Sending final cascading results", { 
+    //   finalResultsCount: currentResults.length 
+    // });
     
-    for (const result of filteredResults) {
+    for (const result of currentResults) {
+      this.results.set(result.id, result);
       this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
     }
   }
@@ -746,6 +754,92 @@ export class Service {
     });
   }
 
+  private async executeSearchQueryInResults(uri: vscode.Uri, query: string, previousResults: Result[], contentLines: string[], searchId?: string, queryType: string = "unknown"): Promise<Result[]> {
+    // console.log("[SEARCH] Executing query in results", { 
+    //   query, 
+    //   previousResultsCount: previousResults.length,
+    //   queryType 
+    // });
+
+    // 如果没有前一层结果，返回空数组
+    if (previousResults.length === 0) {
+      return [];
+    }
+
+    // 收集所有前一层结果的范围
+    const searchRanges: vscode.Range[] = [];
+    for (const result of previousResults) {
+      searchRanges.push(result.range);
+    }
+
+    // 合并相邻的范围，减少重复搜索
+    const mergedRanges = this.mergeOverlappingRanges(searchRanges);
+    
+    // console.log("[SEARCH] Merged ranges for cascading search", { 
+    //   originalRanges: searchRanges.length,
+    //   mergedRanges: mergedRanges.length 
+    // });
+
+    // 在每个合并后的范围内执行查询
+    const allResults: Result[] = [];
+    
+    for (const range of mergedRanges) {
+      // 提取该范围内的内容
+      const startLine = range.start.line;
+      const endLine = range.end.line;
+      const rangeContent = contentLines.slice(startLine, endLine + 1).join('\n');
+      
+      // 在该范围内执行查询
+      const rangeResults = await this.executeSearchQuery(uri, query, rangeContent, contentLines, searchId, `${queryType}-range-${startLine}-${endLine}`);
+      
+      // 调整结果的行号，使其相对于原始文件
+      const adjustedResults = rangeResults.map(result => ({
+        ...result,
+        range: new vscode.Range(
+          new vscode.Position(result.range.start.line + startLine, result.range.start.character),
+          new vscode.Position(result.range.end.line + startLine, result.range.end.character)
+        )
+      }));
+      
+      allResults.push(...adjustedResults);
+    }
+
+    // console.log("[SEARCH] Cascading search completed", { 
+    //   queryType,
+    //   totalResults: allResults.length 
+    // });
+
+    return allResults;
+  }
+
+  private mergeOverlappingRanges(ranges: vscode.Range[]): vscode.Range[] {
+    if (ranges.length === 0) return [];
+    
+    // 按起始行排序
+    const sortedRanges = [...ranges].sort((a, b) => a.start.line - b.start.line);
+    const merged: vscode.Range[] = [];
+    
+    let current = sortedRanges[0];
+    
+    for (let i = 1; i < sortedRanges.length; i++) {
+      const next = sortedRanges[i];
+      
+      // 如果当前范围与下一个范围重叠或相邻，则合并
+      if (current.end.line >= next.start.line - 1) {
+        current = new vscode.Range(
+          current.start,
+          new vscode.Position(Math.max(current.end.line, next.end.line), next.end.character)
+        );
+      } else {
+        merged.push(current);
+        current = next;
+      }
+    }
+    
+    merged.push(current);
+    return merged;
+  }
+
   private filterOverlappingResults(results1: Result[], results2: Result[]): Result[] {
     // 过滤重叠的结果：只保留在两个结果集中都出现的结果 多层查询的主要逻辑是取交集
     const overlappingResults: Result[] = [];
@@ -798,5 +892,16 @@ export class Service {
       }
     }
     return false;
+  }
+
+  // 轻量级持久化存储 - 只存储查询信息，不存储具体结果
+  private async loadPersistedResults() {
+    // 不再加载具体结果，只记录日志
+    // console.log("[SEARCH] Persistence: Results are not persisted to avoid memory issues");
+  }
+
+  private async savePersistedResults() {
+    // 不再保存具体结果，只记录日志
+    // console.log("[SEARCH] Persistence: Skipping result persistence to avoid memory issues");
   }
 }

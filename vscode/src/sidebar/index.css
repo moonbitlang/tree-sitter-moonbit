@@ -130,6 +130,7 @@ body {
   padding-left: 4px;
   padding-top: 2px;
   align-self: flex-start;
+  justify-content: flex-start;
 }
 
 /* Styling for InputBox when used in SearchDetails */
@@ -388,7 +389,57 @@ input[type="checkbox"] {
 /* SearchReplaceGroup styles */
 .search-replace-group {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 搜索区块 */
+.search-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 搜索行：+按钮 + 搜索框 */
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+/* 搜索层行：-按钮 + 搜索框 */
+.search-layer-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.search-input-wrapper {
+  flex: 1;
+  min-width: 0; /* 允许flex item收缩 */
+}
+
+
+
+/* Replace区块 */
+.replace-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px solid var(--vscode-panel-border);
+  padding-top: 8px;
+}
+
+.replace-controls {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 4px;
+}
+
+.replace-input-container {
+  width: 100%;
 }
 
 .search-input-container {
@@ -771,9 +822,25 @@ input[type="checkbox"] {
 }
 
 .add-layer-button {
-  width: 20px;
-  height: 20px;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--vscode-icon-foreground);
+  cursor: pointer;
+  border-radius: 3px;
+  opacity: 0.8;
   font-size: 14px;
+  transition: background-color 0.1s ease;
+}
+
+.add-layer-button:hover {
+  background-color: var(--vscode-toolbar-hoverBackground);
+  opacity: 1;
 }
 
 .search-layers-list {
@@ -812,9 +879,26 @@ input[type="checkbox"] {
 
 .toggle-layer-button,
 .remove-layer-button {
-  width: 18px;
-  height: 18px;
-  font-size: 12px;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--vscode-icon-foreground);
+  cursor: pointer;
+  border-radius: 3px;
+  opacity: 0.8;
+  font-size: 14px;
+  transition: background-color 0.1s ease;
+}
+
+.remove-layer-button:hover {
+  background-color: var(--vscode-errorForeground);
+  color: var(--vscode-errorBackground);
+  opacity: 1;
 }
 
 .search-layer-item .input-box {

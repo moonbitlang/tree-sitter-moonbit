@@ -34,10 +34,10 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   }
 
   dispose() {
-    console.log("[SIDEBAR] dispose called", {
-      timestamp: Date.now(),
-      eventDisposablesCount: this.eventDisposables.length
-    });
+    // console.log("[SIDEBAR] dispose called", {
+    //   timestamp: Date.now(),
+    //   eventDisposablesCount: this.eventDisposables.length
+    // });
     // 清理所有事件监听器
     this.eventDisposables.forEach(disposable => disposable.dispose());
     this.eventDisposables = [];
@@ -61,11 +61,11 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     _context: vscode.WebviewViewResolveContext,
     _token: vscode.CancellationToken
   ) {
-    console.log("[SIDEBAR] resolveWebviewView called", {
-      timestamp: Date.now(),
-      eventDisposablesCount: this.eventDisposables.length,
-      currentSearchId: this.searchId
-    });
+    // console.log("[SIDEBAR] resolveWebviewView called", {
+    //   timestamp: Date.now(),
+    //   eventDisposablesCount: this.eventDisposables.length,
+    //   currentSearchId: this.searchId
+    // });
     
     // 清理之前的事件监听器
     this.eventDisposables.forEach(disposable => disposable.dispose());
@@ -155,11 +155,11 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     });
 
     const onInsertDisposable = this.service.onInsert.event((result: any) => {
-      console.log("[SIDEBAR] onInsert", { resultId: result.id, resultSearchId: result.searchId, currentSearchId: this.searchId });
+      // console.log("[SIDEBAR] onInsert", { resultId: result.id, resultSearchId: result.searchId, currentSearchId: this.searchId });
       // 只统计本次 searchId 的结果
       if (result.searchId === this.searchId) {
         this.resultCountMap.set(this.searchId, (this.resultCountMap.get(this.searchId) || 0) + 1);
-        console.log("[SIDEBAR] resultCountMap", this.resultCountMap.get(this.searchId));
+        // console.log("[SIDEBAR] resultCountMap", this.resultCountMap.get(this.searchId));
       }
       this.postMessage({
         type: "insert",
@@ -194,41 +194,41 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     this.eventDisposables.push(onRemoveDisposable);
 
     const onSearchFinishedDisposable = this.service.onSearchFinished.event((searchId: any) => {
-      console.log("🚀🚀🚀 [SIDEBAR] onSearchFinished triggered 🚀🚀🚀", { 
-        searchId, 
-        currentSearchId: this.searchId, 
-        count: this.resultCountMap.get(searchId),
-        hasWrittenHistory: this.hasWrittenHistory,
-        currentQuery: this.currentSearchQuery,
-        timestamp: Date.now()
-      });
+      // console.log("🚀🚀🚀 [SIDEBAR] onSearchFinished triggered 🚀🚀🚀", { 
+      //   searchId, 
+      //   currentSearchId: this.searchId, 
+      //   count: this.resultCountMap.get(searchId),
+      //   hasWrittenHistory: this.hasWrittenHistory,
+      //   currentQuery: this.currentSearchQuery,
+      //   timestamp: Date.now()
+      // });
       
       // 确保只处理当前搜索的完成事件
       if (searchId !== this.searchId) {
-        console.log("[SIDEBAR] Ignoring onSearchFinished for different searchId");
+        // console.log("[SIDEBAR] Ignoring onSearchFinished for different searchId");
         return;
       }
       
       // 防止重复记录
       if (this.hasWrittenHistory) {
-        console.log("[SIDEBAR] History already written, ignoring duplicate onSearchFinished");
+        // console.log("[SIDEBAR] History already written, ignoring duplicate onSearchFinished");
         return;
       }
       
       // 确保有查询内容
       if (!this.currentSearchQuery.trim()) {
-        console.log("[SIDEBAR] No query content, skipping history");
+        // console.log("[SIDEBAR] No query content, skipping history");
         this.hasWrittenHistory = true;
         return;
       }
       
       const count = this.resultCountMap.get(searchId) || 0;
-      console.log("[SIDEBAR] About to call addToHistory", { 
-        query: this.currentSearchQuery, 
-        count,
-        searchId,
-        timestamp: Date.now()
-      });
+      // console.log("[SIDEBAR] About to call addToHistory", { 
+      //   query: this.currentSearchQuery, 
+      //   count,
+      //   searchId,
+      //   timestamp: Date.now()
+      // });
       
       // 获取当前启用的搜索层
       const enabledLayers = this.currentSearchLayers?.filter(layer => layer.enabled && layer.query.trim()) || [];
@@ -236,11 +236,11 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       this.addToHistory(this.currentSearchQuery, count, this.currentSearchOptions, enabledLayers);
       this.hasWrittenHistory = true;
       this.resultCountMap.delete(searchId);
-      console.log("[SIDEBAR] addToHistory completed from onSearchFinished", { 
-        query: this.currentSearchQuery, 
-        count,
-        layers: enabledLayers 
-      });
+      // console.log("[SIDEBAR] addToHistory completed from onSearchFinished", { 
+      //   query: this.currentSearchQuery, 
+      //   count,
+      //   layers: enabledLayers 
+      // });
     });
     this.eventDisposables.push(onSearchFinishedDisposable);
     const onClearDisposable = this.service.onClear.event(() => {
@@ -256,30 +256,30 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   }
 
   private async search(options: Search.Options) {
-    console.log('[SIDEBAR] search called', { 
-      query: options.query, 
-      timestamp: Date.now(),
-      currentSearchId: this.searchId,
-      hasWrittenHistory: this.hasWrittenHistory
-    });
+    // console.log('[SIDEBAR] search called', { 
+    //   query: options.query, 
+    //   timestamp: Date.now(),
+    //   currentSearchId: this.searchId,
+    //   hasWrittenHistory: this.hasWrittenHistory
+    // });
     
     // 检查查询是否为空
     if (!options.query || !options.query.trim()) {
-      console.log('[SIDEBAR] Empty query, skipping search');
+      // console.log('[SIDEBAR] Empty query, skipping search');
       return;
     }
     
     const now = Date.now();
     if (now - this.lastSearchTimestamp < 1000) {
       // 1秒内的重复search直接忽略
-      console.log('[SIDEBAR] Ignoring duplicate search within 1000ms');
+      // console.log('[SIDEBAR] Ignoring duplicate search within 1000ms');
       return;
     }
     this.lastSearchTimestamp = now;
     
     // 生成唯一 searchId（用时间戳+随机数）
     this.searchId = `${Date.now()}_${Math.floor(Math.random() * 1000000)}`;
-    console.log("[SIDEBAR] new searchId:", this.searchId);
+    // console.log("[SIDEBAR] new searchId:", this.searchId);
     this.resultCountMap.set(this.searchId, 0);
     this.currentSearchQuery = options.query || "";
     this.currentSearchOptions = {
@@ -290,13 +290,13 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     this.currentSearchLayers = (options as any).layers || [];
     this.hasWrittenHistory = false;
     
-    console.log("[SIDEBAR] search state initialized", {
-      searchId: this.searchId,
-      query: this.currentSearchQuery,
-      hasWrittenHistory: this.hasWrittenHistory,
-      currentHistoryLength: this.searchHistory.length,
-      timestamp: Date.now()
-    });
+    // console.log("[SIDEBAR] search state initialized", {
+    //   searchId: this.searchId,
+    //   query: this.currentSearchQuery,
+    //   hasWrittenHistory: this.hasWrittenHistory,
+    //   currentHistoryLength: this.searchHistory.length,
+    //   timestamp: Date.now()
+    // });
     try {
       const workspaceFolders = vscode.workspace.workspaceFolders;
       if (!workspaceFolders) {
@@ -328,21 +328,22 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   // 历史记录相关方法
   private loadHistory() {
     const historyData = vscode.workspace.getConfiguration("moon-grep").get("searchHistory", []);
-    console.log("[SIDEBAR] loadHistory", {
-      loadedHistoryLength: historyData.length,
-      timestamp: Date.now()
-    });
+    // console.log("[SIDEBAR] loadHistory", {
+    //   loadedHistoryLength: historyData.length,
+    //   timestamp: Date.now()
+    // });
     this.searchHistory = historyData;
   }
 
   private saveHistory() {
-    console.log("[SIDEBAR] saveHistory called", {
-      historyLength: this.searchHistory.length,
-      latestItem: this.searchHistory[0],
-      timestamp: Date.now()
-    });
-    vscode.workspace.getConfiguration("moon-grep").update("searchHistory", this.searchHistory, vscode.ConfigurationTarget.Global);
-    console.log("[SIDEBAR] saveHistory completed");
+    // console.log("[SIDEBAR] saveHistory called", {
+    //   historyLength: this.searchHistory.length,
+    //   latestItem: this.searchHistory[0],
+    //   timestamp: Date.now()
+    // });
+    // 使用项目级配置而不是全局配置
+    vscode.workspace.getConfiguration("moon-grep").update("searchHistory", this.searchHistory, vscode.ConfigurationTarget.Workspace);
+    // console.log("[SIDEBAR] saveHistory completed");
   }
 
   private clearHistory() {
@@ -364,14 +365,14 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   }
 
   public addToHistory(query: string, resultCount: number, options: any, layers?: any[]) {
-    console.log("🔥🔥🔥 [SIDEBAR] addToHistory called 🔥🔥🔥", { 
-      query, 
-      resultCount, 
-      options,
-      layers,
-      stack: new Error().stack,
-      timestamp: Date.now()
-    });
+    // console.log("🔥🔥🔥 [SIDEBAR] addToHistory called 🔥🔥🔥", { 
+    //   query, 
+    //   resultCount, 
+    //   options,
+    //   layers,
+    //   stack: new Error().stack,
+    //   timestamp: Date.now()
+    // });
     
     const historyItem: SearchHistoryItem = {
       id: Date.now().toString(),
@@ -395,10 +396,10 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       history: this.searchHistory,
     });
     
-    console.log("[SIDEBAR] addToHistory completed", { 
-      historyLength: this.searchHistory.length,
-      latestItem: this.searchHistory[0]
-    });
+    // console.log("[SIDEBAR] addToHistory completed", { 
+    //   historyLength: this.searchHistory.length,
+    //   latestItem: this.searchHistory[0]
+    // });
   }
 
   // 书签相关方法
@@ -408,7 +409,8 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   }
 
   private saveBookmarks() {
-    vscode.workspace.getConfiguration("moon-grep").update("bookmarks", this.bookmarks, vscode.ConfigurationTarget.Global);
+    // 使用项目级配置而不是全局配置
+    vscode.workspace.getConfiguration("moon-grep").update("bookmarks", this.bookmarks, vscode.ConfigurationTarget.Workspace);
   }
 
   private addBookmark(name: string, query: string, options: any, layers?: any[]) {

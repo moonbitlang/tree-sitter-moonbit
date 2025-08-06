@@ -192,14 +192,31 @@ const App: React.FC = () => {
   const handleRerunHistorySearch = (item: SearchHistoryItem) => {
     setSearchPattern(item.query);
     setSearchOptions(item.options);
-    // 设置搜索层
-    if (item.layers && item.layers.length > 0) {
-      setSearchLayers(item.layers);
-    } else {
-      setSearchLayers([]);
-    }
     setActiveTab("search");
-    performSearch(item.query);
+    
+    // 直接使用历史记录中的层信息进行搜索，避免状态更新延迟
+    const layers = item.layers && item.layers.length > 0 ? item.layers : [];
+    const enabledLayers = layers.filter(layer => layer.enabled && layer.query.trim());
+    
+    console.log("[handleRerunHistorySearch] Executing search with layers", { 
+      query: item.query, 
+      layers: enabledLayers,
+      totalLayers: layers.length 
+    });
+    
+    // 发送搜索请求，包含多层查询信息
+    vscode.postMessage({
+      type: "search",
+      value: { 
+        language: "moonbit", 
+        query: item.query, 
+        ...item.options,
+        layers: enabledLayers.length > 0 ? enabledLayers : undefined
+      },
+    });
+    
+    // 同时更新本地状态
+    setSearchLayers(layers);
   };
   const handleDeleteHistoryItem = (id: string) =>
     vscode.postMessage({ type: "deleteHistoryItem", value: { id } });
@@ -207,14 +224,31 @@ const App: React.FC = () => {
   const handleRunBookmark = (bookmark: SearchBookmark) => {
     setSearchPattern(bookmark.query);
     setSearchOptions(bookmark.options);
-    // 设置搜索层
-    if (bookmark.layers && bookmark.layers.length > 0) {
-      setSearchLayers(bookmark.layers);
-    } else {
-      setSearchLayers([]);
-    }
     setActiveTab("search");
-    performSearch(bookmark.query);
+    
+    // 直接使用书签中的层信息进行搜索，避免状态更新延迟
+    const layers = bookmark.layers && bookmark.layers.length > 0 ? bookmark.layers : [];
+    const enabledLayers = layers.filter(layer => layer.enabled && layer.query.trim());
+    
+    console.log("[handleRunBookmark] Executing search with layers", { 
+      query: bookmark.query, 
+      layers: enabledLayers,
+      totalLayers: layers.length 
+    });
+    
+    // 发送搜索请求，包含多层查询信息
+    vscode.postMessage({
+      type: "search",
+      value: { 
+        language: "moonbit", 
+        query: bookmark.query, 
+        ...bookmark.options,
+        layers: enabledLayers.length > 0 ? enabledLayers : undefined
+      },
+    });
+    
+    // 同时更新本地状态
+    setSearchLayers(layers);
   };
   const handleDeleteBookmark = (id: string) =>
     vscode.postMessage({ type: "deleteBookmark", value: { id } });
