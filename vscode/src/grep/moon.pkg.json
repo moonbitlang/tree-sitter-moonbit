@@ -13,7 +13,7 @@
       "exports": ["setup", "compile", "search"]
     }
   },
-  "supported-targets": ["native"],
+  "supported-targets": ["native", "wasm-gc"],
   "test-import": [
     "tonyfettes/uv/async"
   ],

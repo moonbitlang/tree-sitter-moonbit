@@ -105,22 +105,22 @@ export const SearchReplaceGroup: React.FC<SearchReplaceGroupProps> = ({
       {/* Replace区块 */}
       <div className="replace-section">
         <div className="replace-controls">
-          <ControlButton
-            icon={showReplace ? "chevron-down" : "chevron-right"}
-            title="Toggle Replace"
-            onClick={toggleReplace}
-            className="toggle-replace-button"
-          />
-        </div>
+      <ControlButton
+        icon={showReplace ? "chevron-down" : "chevron-right"}
+        title="Toggle Replace"
+        onClick={toggleReplace}
+        className="toggle-replace-button"
+        />
+      </div>
         
         {showReplace && (
           <div className="replace-input-container">
-            <ReplaceInput
-              value={replaceValue}
-              onChange={onReplaceChange}
-              onSearch={onSearch}
-              onReplaceAll={onReplaceAll}
-            />
+          <ReplaceInput
+            value={replaceValue}
+            onChange={onReplaceChange}
+            onSearch={onSearch}
+            onReplaceAll={onReplaceAll}
+          />
           </div>
         )}
       </div>

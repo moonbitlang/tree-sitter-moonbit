@@ -95,31 +95,48 @@ export class Service {
   private async createWorker(): Promise<Worker> {
     const workerId = this.workerId++;
     this.workers.set(workerId, undefined);
-    const wasm = await this.getWasm();
-    const grepWasm = await this.getGrepWasm();
-    const grepProcess = await wasm.createProcess("moon-grep", grepWasm, {
-      stdio: {
-        in: { kind: "pipeIn" },
-        out: { kind: "pipeOut" },
-        err: { kind: "pipeOut" },
-      },
-    });
-    const worker: Worker = {
-      id: workerId,
-      process: grepProcess,
-      cancelTask: () => {
-        if (worker.task) {
-          worker.task.disposable?.dispose();
-          worker.task = undefined;
-        }
-        this.onAvail.fire();
-      },
-    };
-    this.workers.set(workerId, worker);
-    worker.process.run().then(() => {
-      worker.cancelTask();
-    });
-    return worker;
+    
+    try {
+      const wasm = await this.getWasm();
+      const grepWasm = await this.getGrepWasm();
+      const grepProcess = await wasm.createProcess("moon-grep", grepWasm, {
+        stdio: {
+          in: { kind: "pipeIn" },
+          out: { kind: "pipeOut" },
+          err: { kind: "pipeOut" },
+        },
+      });
+      
+      const worker: Worker = {
+        id: workerId,
+        process: grepProcess,
+        cancelTask: () => {
+          if (worker.task) {
+            worker.task.disposable?.dispose();
+            worker.task = undefined;
+          }
+          this.onAvail.fire();
+        },
+      };
+      
+      this.workers.set(workerId, worker);
+      
+      // 启动进程并处理可能的错误
+      worker.process.run().then(() => {
+        worker.cancelTask();
+      }).catch((error) => {
+        console.error(`[WORKER] Worker ${workerId} process failed:`, error);
+        worker.cancelTask();
+        // 从workers map中移除失败的worker
+        this.workers.delete(workerId);
+      });
+      
+      return worker;
+    } catch (error) {
+      console.error(`[WORKER] Failed to create worker ${workerId}:`, error);
+      this.workers.delete(workerId);
+      throw error;
+    }
   }
   private async waitAvail(): Promise<void> {
     await new Promise<void>((resolve) => {
@@ -134,6 +151,9 @@ export class Service {
     });
   }
   private async getWorker(): Promise<Worker> {
+    let retryCount = 0;
+    const maxRetries = 3;
+    
     while (true) {
       for (const [, worker] of this.workers) {
         if (worker === undefined) {
@@ -149,12 +169,25 @@ export class Service {
           return worker;
         }
       }
+      
       if (this.workers.size < this.workerLimit) {
-        const worker = await this.createWorker();
-        worker.task = {
-          id: this.taskId++,
-        };
-        return worker;
+        try {
+          const worker = await this.createWorker();
+          worker.task = {
+            id: this.taskId++,
+          };
+          return worker;
+        } catch (error) {
+          console.error(`[WORKER] Failed to create worker (attempt ${retryCount + 1}/${maxRetries}):`, error);
+          retryCount++;
+          
+          if (retryCount >= maxRetries) {
+            throw new Error(`Failed to create worker after ${maxRetries} attempts`);
+          }
+          
+          // 等待一段时间后重试
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
       } else {
         await this.waitAvail();
       }
@@ -466,6 +499,18 @@ export class Service {
               }
               
               try {
+                // 检查 result 是否有 range 属性
+                if (!json.result.range) {
+                  console.warn(`[SEARCH] Result missing range property:`, json.result);
+                  continue;
+                }
+                
+                // 检查 range 是否有 start 和 end 属性
+                if (!json.result.range.start || !json.result.range.end) {
+                  console.warn(`[SEARCH] Result range missing start or end:`, json.result.range);
+                  continue;
+                }
+                
                 const startLine = json.result.range.start.row;
                 const endLine = json.result.range.end.row;
                 const start = new vscode.Position(startLine, json.result.range.start.column);
@@ -492,6 +537,7 @@ export class Service {
                 this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
                 
               } catch (e) {
+                console.error(`[SEARCH] Error processing result:`, e);
                 // 继续处理其他结果，不中断整个搜索
               }
             }
@@ -521,41 +567,269 @@ export class Service {
     // 清除之前的结果，避免重复
     this.onClear.fire();
 
-    // 首先执行主查询
-    let currentResults = await this.executeSearchQuery(uri, options.query, content, contentLines, options.searchId, "main");
-    
-    if (!options.layers || options.layers.length === 0) {
-      // 如果没有层，直接发送主查询结果
+    // 简化搜索开始日志
+    const config = vscode.workspace.getConfiguration('moon-grep');
+    if (true) {
+      console.log("[MULTI_LAYER] Starting searchTextWithLayers", {
+        searchId: options.searchId,
+        hasLayers: options.layers && options.layers.length > 0,
+        layerCount: options.layers?.length || 0,
+        mainQuery: options.query
+      });
+    }
+
+    // 检查是否可以使用 Moonbit 的级联搜索
+    if (options.layers && options.layers.length > 0) {
+      if (true) {
+        console.log("[MULTI_LAYER] Using Moonbit cascade search");
+      }
+      
+      // 先测试基本的搜索是否工作
+      await this.testBasicSearch(uri, options.query, content, contentLines);
+      
+      // 使用 Moonbit 的级联搜索功能
+      await this.executeCascadeSearch(uri, options, content, contentLines);
+    } else {
+      if (true) {
+        console.log("[MULTI_LAYER] Using single layer search");
+      }
+      // 回退到单层搜索
+      const currentResults = await this.executeSearchQuery(uri, options.query, content, contentLines, options.searchId, "main");
+      if (true) {
+        console.log("[MULTI_LAYER] Single layer search results:", currentResults.length);
+      }
       for (const result of currentResults) {
         this.results.set(result.id, result);
         this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
       }
-      return;
     }
+  }
 
-    // 级联查询：每个层都在前一层的结果上进行查询
-    for (let i = 0; i < options.layers.length; i++) {
-      const layer = options.layers[i];
-      if (!layer.enabled || !layer.query.trim()) {
-        continue;
-      }
+  // 临时测试方法：测试普通的 search 方法是否工作
+  private async testBasicSearch(uri: vscode.Uri, query: string, content: string, contentLines: string[]): Promise<void> {
+    // 移除测试日志，减少控制台噪音
+    const results = await this.executeSearchQuery(uri, query, content, contentLines, "test", "test");
+  }
 
-      // 如果当前没有结果，直接返回
-      if (currentResults.length === 0) {
-        break;
-      }
-
-      // 在当前位置的结果范围内执行层查询
-      const layerResults = await this.executeSearchQueryInResults(uri, layer.query, currentResults, contentLines, options.searchId, `layer-${i + 1}`);
-      
-      // 更新当前结果
-      currentResults = layerResults;
-    }
+  // 新增：使用 Moonbit 的级联搜索
+  private async executeCascadeSearch(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
+    // 获取配置
+    const config = vscode.workspace.getConfiguration('moon-grep');
     
-    for (const result of currentResults) {
-      this.results.set(result.id, result);
-      this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
+    // 准备层查询
+    const layerQueries = options.layers!
+      .filter(layer => layer.enabled && layer.query.trim())
+      .map(layer => layer.query);
+
+    // 简化级联搜索调用日志
+    if (true) {
+      console.log("[MULTI_LAYER] executeCascadeSearch called", {
+        mainQuery: options.query,
+        layerQueries: layerQueries,
+        contentLength: content.length
+      });
     }
+
+    // 使用 Moonbit 的级联搜索
+    const request = {
+      id: crypto.randomUUID(),
+      method: "multiLayerSearch",
+      params: {
+        content: content,
+        mainQuery: options.query,
+        layerQueries: layerQueries,
+      },
+    };
+
+    // 简化请求发送日志
+    if (true) {
+      console.log("[MULTI_LAYER] Sending request to Moonbit", {
+        requestId: request.id,
+        method: request.method
+      });
+    }
+
+    return new Promise<void>(async (resolve) => {
+      const worker = await this.getWorker();
+      if (!worker.process.stdin) {
+        throw new Error(`Worker ${worker.id} stdin is not available`);
+      }
+      if (!worker.process.stdout) {
+        throw new Error(`Worker ${worker.id} stdout is not available`);
+      }
+      if (!worker.task) {
+        resolve();
+        return;
+      }
+
+      let buffer = "";
+      let disposable: vscode.Disposable | undefined;
+      let requestId = request.id; // 保存请求ID
+      let hasReceivedFinalResult = false;
+      
+      disposable = worker.process.stdout.onData(async (data) => {
+        if (!worker.task) {
+          disposable?.dispose();
+          resolve();
+          return;
+        }
+
+        buffer += this.textDecoder.decode(data);
+        const stdoutLines = buffer.split("\n");
+        if (stdoutLines.length < 2) {
+          return;
+        }
+        const lastIndex = stdoutLines.length - 1;
+        buffer = stdoutLines[lastIndex];
+
+        for (const line of stdoutLines.slice(0, lastIndex)) {
+          let json: any;
+          try {
+            json = JSON.parse(line);
+          } catch (e) {
+            // 只在开发模式下输出解析错误
+            if (true) {
+              console.log("[MULTI_LAYER] Failed to parse JSON line:", line);
+            }
+            continue;
+          }
+
+          // 简化响应日志，只在开发模式下输出详细信息
+          if (true) {
+            console.log("[MULTI_LAYER] Received JSON response:", {
+              hasId: "id" in json,
+              responseId: json.id,
+              expectedId: requestId,
+              hasResult: "result" in json,
+              resultType: typeof json.result
+            });
+          }
+
+          if (!("id" in json) || json.id !== requestId) {
+            // 只在开发模式下输出跳过响应信息
+            if (true) {
+              console.log("[MULTI_LAYER] Skipping response - ID mismatch or missing");
+            }
+            continue;
+          }
+          if (!("result" in json)) {
+            // 只在开发模式下输出跳过响应信息
+            if (true) {
+              console.log("[MULTI_LAYER] Skipping response - no result field");
+            }
+            continue;
+          }
+
+          // 处理调试消息 - 根据配置决定是否输出
+          if (typeof json.result === "string" && json.result.startsWith("DEBUG:")) {
+            // 根据VSCode配置决定是否输出debug信息
+            const config = vscode.workspace.getConfiguration('moon-grep');
+            if (true) {
+              console.log("[MULTI_LAYER] Moonbit debug message:", json.result);
+            }
+            continue;
+          }
+
+          const result = json.result;
+          
+          // 检查结果是否有效
+          if (!result || !result.range || !result.range.start || !result.range.end) {
+            // 只在开发模式下输出无效结果信息
+            if (true) {
+              console.log("[MULTI_LAYER] Skipping invalid result:", result);
+            }
+            continue;
+          }
+          
+          const resultId = crypto.randomUUID();
+          
+          // 简化结果处理日志
+          if (true) {
+            console.log("[MULTI_LAYER] Processing result:", {
+              resultId: resultId,
+              hasRange: !!result.range,
+              hasCaptures: !!result.captures
+            });
+          }
+          
+          // 转换 Moonbit 结果格式为 TypeScript 格式
+          const tsResult: Result = {
+            id: resultId,
+            uri: uri,
+            range: new vscode.Range(
+              new vscode.Position(result.range.start.row, result.range.start.column),
+              new vscode.Position(result.range.end.row, result.range.end.column)
+            ),
+            captures: result.captures || {},
+            context: this.extractContextFromLines(contentLines, result.range.start.row, result.range.end.row),
+            searchId: options.searchId,
+          };
+
+          // 简化结果创建日志
+          if (true) {
+            console.log("[MULTI_LAYER] Created TypeScript result:", {
+              id: tsResult.id,
+              capturesCount: Object.keys(tsResult.captures).length
+            });
+          }
+
+          this.results.set(resultId, tsResult);
+          this.onInsert.fire(tsResult);
+
+          // 检查是否收到了最终结果（null 表示搜索完成）
+          if (json.result === null && !hasReceivedFinalResult) {
+            hasReceivedFinalResult = true;
+            if (true) {
+              console.log("[MULTI_LAYER] Received final result (null), cleaning up worker task");
+            }
+            clearTimeout(timeoutId);
+            if (worker.task) {
+              worker.task.disposable?.dispose();
+              worker.task = undefined;
+              this.onAvail.fire();
+            }
+            disposable?.dispose();
+            resolve();
+            return;
+          }
+        }
+      });
+
+      // 发送请求到 Moonbit
+      if (true) {
+        console.log("[MULTI_LAYER] Writing request to worker stdin");
+      }
+      const requestString = JSON.stringify(request) + "\n";
+      if (true) {
+        console.log("[MULTI_LAYER] Request string:", requestString);
+      }
+      worker.process.stdin.write(requestString);
+      if (true) {
+        console.log("[MULTI_LAYER] Request sent, waiting for response...");
+      }
+      
+      // 不要立即取消任务，让 Moonbit 有时间处理请求
+      // 设置一个超时，如果 5 秒内没有响应，则取消任务
+      const timeoutId = setTimeout(() => {
+        if (worker.task) {
+          if (true) {
+            console.log("[MULTI_LAYER] Timeout reached, canceling task");
+          }
+          worker.cancelTask();
+          disposable?.dispose();
+          resolve();
+        }
+      }, 5000);
+    });
+  }
+
+  // 新增：从行数组中提取上下文
+  private extractContextFromLines(contentLines: string[], startRow: number, endRow: number): string[] {
+    const context: string[] = [];
+    for (let i = Math.max(0, startRow - 2); i <= Math.min(contentLines.length - 1, endRow + 2); i++) {
+      context.push(contentLines[i]);
+    }
+    return context;
   }
 
   private async executeSearchQuery(uri: vscode.Uri, query: string, content: string, contentLines: string[], searchId?: string, queryType: string = "unknown"): Promise<Result[]> {
@@ -570,87 +844,131 @@ export class Service {
 
     return new Promise<Result[]>((resolve) => {
       const results: Result[] = [];
+      let hasResolved = false;
+      
+      // 添加超时机制
+      const timeout = setTimeout(() => {
+        if (!hasResolved) {
+          hasResolved = true;
+          console.warn(`[SEARCH] Timeout reached for ${queryType} query`);
+          resolve(results);
+        }
+      }, 10000); // 10秒超时
       
       const processResults = async () => {
-      const worker = await this.getWorker();
-      if (!worker.process.stdin) {
-        throw new Error(`Worker ${worker.id} stdin is not available`);
-      }
-      if (!worker.process.stdout) {
-        throw new Error(`Worker ${worker.id} stdout is not available`);
-      }
-      if (!worker.task) {
-          resolve(results);
-        return;
-      }
-        
-      let buffer = "";
-      let disposable: vscode.Disposable | undefined;
-      disposable = worker.process.stdout.onData(async (data) => {
-        if (!worker.task) {
-          disposable?.dispose();
-            resolve(results);
-          return;
-        }
-          
-        buffer += this.textDecoder.decode(data);
-        const stdoutLines = buffer.split("\n");
-        if (stdoutLines.length < 2) {
-          return;
-        }
-        const lastIndex = stdoutLines.length - 1;
-        buffer = stdoutLines[lastIndex];
-          
-        for (const line of stdoutLines.slice(0, lastIndex)) {
-          let json: any;
-          try {
-            json = JSON.parse(line);
-          } catch (e) {
-            console.error("Failed to parse JSON:", line);
-            continue;
+        try {
+          const worker = await this.getWorker();
+          if (!worker.process.stdin) {
+            throw new Error(`Worker ${worker.id} stdin is not available`);
           }
-            
-          if (!("id" in json)) {
-            continue;
+          if (!worker.process.stdout) {
+            throw new Error(`Worker ${worker.id} stdout is not available`);
           }
-          if (json.id !== request.id) {
-              continue;
-          }
-          if (!("result" in json)) {
-            console.error('Missing "result" in JSON:', json);
-            continue;
-          }
-          if (!json.result) {
-            worker.cancelTask();
+          if (!worker.task) {
+            if (!hasResolved) {
+              hasResolved = true;
+              clearTimeout(timeout);
               resolve(results);
-              return;
+            }
+            return;
           }
             
-          const startLine = json.result.range.start.row;
-          const endLine = json.result.range.end.row;
-          const start = new vscode.Position(startLine, json.result.range.start.column);
-          const end = new vscode.Position(endLine, json.result.range.end.column);
-          const range = new vscode.Range(start, end);
-          const id = crypto.randomUUID();
-          const result = {
-            id,
-            uri: uri,
-            range: range,
-            context: contentLines.slice(startLine, endLine + 1),
-            captures: json.result.captures,
-          };
+          let buffer = "";
+          let disposable: vscode.Disposable | undefined;
+          disposable = worker.process.stdout.onData(async (data) => {
+            if (!worker.task || hasResolved) {
+              disposable?.dispose();
+              return;
+            }
+              
+            buffer += this.textDecoder.decode(data);
+            const stdoutLines = buffer.split("\n");
+            if (stdoutLines.length < 2) {
+              return;
+            }
+            const lastIndex = stdoutLines.length - 1;
+            buffer = stdoutLines[lastIndex];
+              
+            for (const line of stdoutLines.slice(0, lastIndex)) {
+              if (hasResolved) break;
+              
+              let json: any;
+              try {
+                json = JSON.parse(line);
+              } catch (e) {
+                console.error("Failed to parse JSON:", line);
+                continue;
+              }
+                
+              if (!("id" in json)) {
+                continue;
+              }
+              if (json.id !== request.id) {
+                continue;
+              }
+              if (!("result" in json)) {
+                console.error('Missing "result" in JSON:', json);
+                continue;
+              }
+              if (!json.result) {
+                if (!hasResolved) {
+                  hasResolved = true;
+                  clearTimeout(timeout);
+                  worker.cancelTask();
+                  resolve(results);
+                }
+                return;
+              }
+                
+              // 检查 result 是否有 range 属性
+              if (!json.result.range) {
+                console.warn(`[SEARCH] Result missing range property:`, json.result);
+                continue;
+              }
+                
+              // 检查 range 是否有 start 和 end 属性
+              if (!json.result.range.start || !json.result.range.end) {
+                console.warn(`[SEARCH] Result range missing start or end:`, json.result.range);
+                continue;
+              }
+                
+              const startLine = json.result.range.start.row;
+              const endLine = json.result.range.end.row;
+              const start = new vscode.Position(startLine, json.result.range.start.column);
+              const end = new vscode.Position(endLine, json.result.range.end.column);
+              const range = new vscode.Range(start, end);
+              const id = crypto.randomUUID();
+              const result = {
+                id,
+                uri: uri,
+                range: range,
+                context: contentLines.slice(startLine, endLine + 1),
+                captures: json.result.captures || {},
+              };
+                
+              results.push(result);
+            }
+          });
             
-            results.push(result);
+          worker.task.disposable = disposable;
+          await worker.process.stdin.write(JSON.stringify(request) + "\n");
+        } catch (error) {
+          console.error(`[SEARCH] Error in ${queryType} query:`, error);
+          if (!hasResolved) {
+            hasResolved = true;
+            clearTimeout(timeout);
+            resolve(results);
+          }
         }
-      });
-        
-      worker.task.disposable = disposable;
-      await worker.process.stdin.write(JSON.stringify(request) + "\n");
       };
       
       processResults().catch(error => {
         console.error(`[SEARCH] Error in ${queryType} query:`, error);
-        resolve(results);
+        if (!hasResolved) {
+          hasResolved = true;
+          clearTimeout(timeout);
+          resolve(results);
+        }
       });
     });
   }
