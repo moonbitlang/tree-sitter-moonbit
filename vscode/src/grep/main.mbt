@@ -12,27 +12,7 @@ fn main {
       let content = @encoding.decode(buffer.contents(), encoding=UTF8)
       let json = @json.parse(content)
       
-      // 注释掉早期debug消息，因为此时还没有解析出id
-      // jsonrpc_result(id=Json::null(), "DEBUG: Received request: \{json.to_json().stringify()}")
-      
-      // 检查是否是 multiLayerSearch 请求
-      let _ = match json {
-        {
-          "method": String(_method),
-          ..
-        } => {
-          // 注释掉早期debug消息，因为此时还没有解析出id
-          // if _method == "multiLayerSearch" {
-          //   jsonrpc_result(id=Json::null(), "DEBUG: Found multiLayerSearch method")
-          // } else {
-          //   jsonrpc_result(id=Json::null(), "DEBUG: Not multiLayerSearch method, method is: \{_method}")
-          // }
-        }
-        _ => {
-          // 注释掉早期debug消息，因为此时还没有解析出id
-          // jsonrpc_result(id=Json::null(), "DEBUG: Not multiLayerSearch method, no method field")
-        }
-      }
+      // 解析并分发 JSON-RPC 请求
       
       match json {
         {
@@ -41,10 +21,8 @@ fn main {
           "params": { "content": String(content), "query": String(query), .. },
           ..
         } => {
-          // 注释掉debug消息，因为search函数内部已经有足够的debug信息
-          // jsonrpc_result(id=Json::null(), "DEBUG: Processing search method")
           try {
-            for result in search(query~, content~, debug_id=id) {
+            for result in search(query~, content~) {
               jsonrpc_result(id~, result)
             }
             jsonrpc_result(id~, Json::null())
@@ -52,9 +30,10 @@ fn main {
             error => jsonrpc_error(id~, error.to_json())
           }
         }
+
         {
           "id": id,
-          "method": "multiLayerSearch",
+          "method": "nestedNodeSearch",
           "params": { 
             "content": String(content), 
             "mainQuery": String(main_query), 
@@ -63,9 +42,6 @@ fn main {
           },
           ..
         } => {
-          jsonrpc_result(id~, "DEBUG: Processing multiLayerSearch method")
-          
-          // 转换 layer_queries 从 Array[Json] 到 Array[@string.View]
           let layer_queries_strings = layer_queries.map(fn(query_json) {
             match query_json {
               String(query) => query.view()
@@ -73,30 +49,17 @@ fn main {
             }
           })
           
-          // 添加调试日志
-          jsonrpc_result(id~, Json::string("DEBUG: Starting multi_layer_search"))
+          // 添加调试信息
+          jsonrpc_result(id~, "DEBUG: Starting nested search with \{layer_queries_strings.length()} layer queries")
           
-          // 添加更多调试信息
-          jsonrpc_result(id~, Json::string("DEBUG: Main query: \{main_query}"))
-          jsonrpc_result(id~, Json::string("DEBUG: Layer queries count: \{layer_queries_strings.length()}"))
-          jsonrpc_result(id~, Json::string("DEBUG: Content length: \{content.length()}"))
-          
-          jsonrpc_result(id~, Json::string("DEBUG: About to call multi_layer_search"))
-          jsonrpc_result(id~, Json::string("DEBUG: Layer queries count: \{layer_queries_strings.length()}"))
-          jsonrpc_result(id~, Json::string("DEBUG: First layer query: \{layer_queries_strings[0]}"))
-
           let mut result_count = 0
-          for result in multi_layer_search(content~, main_query~, layer_queries_strings, id~) {
+          for result in nested_node_search(content~, main_query~, layer_queries_strings) {
             jsonrpc_result(id~, result.to_json())
             result_count = result_count + 1
-            if result_count % 10 == 0 {
-              jsonrpc_result(id~, Json::string("DEBUG: Processed \{result_count} results so far"))
-            }
           }
-          jsonrpc_result(id~, Json::string("DEBUG: Finished iterating over multi_layer_search results"))
           
-          // 添加调试日志
-          jsonrpc_result(id~, Json::string("DEBUG: multi_layer_search completed with \{result_count} results"))
+          // 显示最终结果数量
+          jsonrpc_result(id~, "DEBUG: Nested search completed with \{result_count} total results")
           jsonrpc_result(id~, Json::null())
         }
         {

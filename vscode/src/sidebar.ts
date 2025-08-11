@@ -138,7 +138,9 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     const onInsertDisposable = this.service.onInsert.event((result: any) => {
       // 只统计本次 searchId 的结果
       if (result.searchId === this.searchId) {
-        this.resultCountMap.set(this.searchId, (this.resultCountMap.get(this.searchId) || 0) + 1);
+        const currentCount = this.resultCountMap.get(this.searchId) || 0;
+        this.resultCountMap.set(this.searchId, currentCount + 1);
+        console.log(`[SIDEBAR] Result inserted, searchId: ${this.searchId}, count: ${currentCount + 1}`);
       }
       this.postMessage({
         type: "insert",
@@ -173,23 +175,29 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     this.eventDisposables.push(onRemoveDisposable);
 
     const onSearchFinishedDisposable = this.service.onSearchFinished.event((searchId: any) => {
+      console.log(`[SIDEBAR] Search finished event received, searchId: ${searchId}, currentSearchId: ${this.searchId}`);
+      
       // 确保只处理当前搜索的完成事件
       if (searchId !== this.searchId) {
+        console.log(`[SIDEBAR] Search ID mismatch, ignoring event`);
         return;
       }
       
       // 防止重复记录
       if (this.hasWrittenHistory) {
+        console.log(`[SIDEBAR] History already written, skipping`);
         return;
       }
       
       // 确保有查询内容
       if (!this.currentSearchQuery.trim()) {
+        console.log(`[SIDEBAR] No query content, skipping history`);
         this.hasWrittenHistory = true;
         return;
       }
       
       const count = this.resultCountMap.get(searchId) || 0;
+      console.log(`[SIDEBAR] Adding to history, query: "${this.currentSearchQuery}", count: ${count}`);
       
       // 获取当前启用的搜索层
       const enabledLayers = this.currentSearchLayers?.filter(layer => layer.enabled && layer.query.trim()) || [];
@@ -214,12 +222,14 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   private async search(options: Search.Options) {
     // 检查查询是否为空
     if (!options.query || !options.query.trim()) {
+      console.log(`[SIDEBAR] Empty query, skipping search`);
       return;
     }
     
     const now = Date.now();
     if (now - this.lastSearchTimestamp < 1000) {
       // 1秒内的重复search直接忽略
+      console.log(`[SIDEBAR] Search too frequent, skipping`);
       return;
     }
     this.lastSearchTimestamp = now;
@@ -236,7 +246,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     this.currentSearchLayers = (options as any).layers || [];
     this.hasWrittenHistory = false;
     
-
+    console.log(`[SIDEBAR] Starting search with searchId: ${this.searchId}, query: "${this.currentSearchQuery}"`);
 
     try {
       const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -246,7 +256,9 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       }
       // 传递 searchId
       await this.service.search(workspaceFolders[0].uri, { ...options, searchId: this.searchId } as any);
+      console.log(`[SIDEBAR] Search service call completed`);
     } catch (error: any) {
+      console.error(`[SIDEBAR] Search failed:`, error);
       vscode.window.showErrorMessage(`Search failed: ${error.message || "Unknown error"}`);
     }
   }
@@ -294,6 +306,8 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   }
 
   public addToHistory(query: string, resultCount: number, options: any, layers?: any[]) {
+    console.log(`[SIDEBAR] addToHistory called with query: "${query}", resultCount: ${resultCount}`);
+    
     const historyItem: SearchHistoryItem = {
       id: Date.now().toString(),
       query,
@@ -304,18 +318,20 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     };
 
     this.searchHistory.unshift(historyItem);
+    console.log(`[SIDEBAR] History item added, total history items: ${this.searchHistory.length}`);
     
     if (this.searchHistory.length > 50) {
       this.searchHistory = this.searchHistory.slice(0, 50);
     }
 
     this.saveHistory();
+    console.log(`[SIDEBAR] History saved to configuration`);
+    
     this.postMessage({
       type: "historyUpdated",
       history: this.searchHistory,
     });
-    
-
+    console.log(`[SIDEBAR] History update message sent to webview`);
   }
 
 

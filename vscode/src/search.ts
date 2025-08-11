@@ -195,36 +195,48 @@ export class Service {
   }
   private wrap(p: Promise<any>, searchId?: string) {
     this.pendingTasks++;
+    console.log(`[SEARCH] Task wrapped, searchId: ${searchId}, pendingTasks: ${this.pendingTasks}`);
     
     p.finally(() => {
       this.pendingTasks--;
+      console.log(`[SEARCH] Task completed, searchId: ${searchId}, pendingTasks: ${this.pendingTasks}`);
       
       // 防止 pendingTasks 变成负数
       if (this.pendingTasks < 0) {
         this.pendingTasks = 0;
       }
       
+      // 当所有任务完成时，触发搜索完成事件
       if (this.pendingTasks === 0 && !this.finished) {
         this.finished = true;
+        console.log(`[SEARCH] All tasks completed, firing onSearchFinished event, searchId: ${searchId}`);
         // 只有在 searchId 匹配时才触发事件
         if (searchId === this.finishSearchId) {
           try {
             this.onSearchFinished.fire(searchId);
+            console.log(`[SEARCH] onSearchFinished event fired successfully for searchId: ${searchId}`);
           } catch (e) {
+            console.error(`[SEARCH] Error firing onSearchFinished event:`, e);
             // 即使出错也要确保事件被触发
-        this.onSearchFinished.fire(searchId);
+            this.onSearchFinished.fire(searchId);
           }
+        } else {
+          console.log(`[SEARCH] SearchId mismatch, expected: ${this.finishSearchId}, got: ${searchId}`);
         }
       }
     });
   }
 
   public async search(uri: vscode.Uri, options: Options & { searchId?: string }): Promise<void> {
+    console.log(`[SEARCH] Search started, searchId: ${options.searchId}, uri: ${uri.fsPath}`);
+    
     // 重置状态，但不触发 onSearchFinished 事件
     await this.reset();
     this.pendingTasks = 0;
     this.finished = false;
     this.finishSearchId = options.searchId;
+    
+    console.log(`[SEARCH] State reset, finishSearchId: ${this.finishSearchId}`);
     
     // 简化任务计数：只包装主要的搜索任务
     const stat = await vscode.workspace.fs.stat(uri);
@@ -232,22 +244,26 @@ export class Service {
     
     switch (stat.type) {
       case vscode.FileType.Directory:
+        // 对于目录搜索，我们需要包装整个搜索过程
+        console.log(`[SEARCH] Directory search, uri: ${uri.fsPath}`);
         searchPromise = this.searchDirectory(uri, options, {
           ignore: ignore(),
           ignoreRoots: [],
         });
         break;
       case vscode.FileType.File:
+        console.log(`[SEARCH] File search, uri: ${uri.fsPath}`);
         searchPromise = this.searchFile(uri, options, {
           ignore: ignore(),
           ignoreRoots: [],
         });
         break;
       default:
+        console.log(`[SEARCH] Unknown file type: ${stat.type}`);
         return;
     }
     
-    // 使用简化的包装机制
+    // 使用 wrap 方法包装搜索任务
     this.wrap(searchPromise, options.searchId);
     
     // 添加超时机制，防止搜索永远卡住
@@ -374,7 +390,10 @@ export class Service {
     options: Options & { searchId?: string },
     context: Context
   ): Promise<void> {
+    console.log(`[SEARCH] searchDirectory started, uri: ${uri.fsPath}, searchId: ${options.searchId}`);
+    
     if (await this.shouldIgnore(uri, options, context)) {
+      console.log(`[SEARCH] Directory ignored, uri: ${uri.fsPath}`);
       return;
     }
     const gitignoreUri = vscode.Uri.joinPath(uri, ".gitignore");
@@ -391,39 +410,78 @@ export class Service {
     } catch (e) {
     }
     const files = await vscode.workspace.fs.readDirectory(uri);
-    await Promise.all(
-      files.map(async ([name, type]) => {
-        const fileUri = vscode.Uri.joinPath(uri, name);
+    console.log(`[SEARCH] Found ${files.length} files in directory: ${uri.fsPath}`);
+    
+    // 为每个文件创建搜索任务，但不使用 wrap 包装
+    const searchPromises = files.map(async ([name, type]) => {
+      const fileUri = vscode.Uri.joinPath(uri, name);
+      try {
         if (type === vscode.FileType.Directory) {
+          // 递归搜索子目录
+          console.log(`[SEARCH] Searching subdirectory: ${fileUri.fsPath}`);
           await this.searchDirectory(fileUri, options, context);
+          console.log(`[SEARCH] Subdirectory search completed: ${fileUri.fsPath}`);
         } else if (type === vscode.FileType.File) {
+          // 搜索单个文件
+          console.log(`[SEARCH] Searching file: ${fileUri.fsPath}`);
           await this.searchFile(fileUri, options, context);
+          console.log(`[SEARCH] File search completed: ${fileUri.fsPath}`);
         }
-      })
-    );
+      } catch (error) {
+        console.error(`[SEARCH] Error searching ${fileUri.fsPath}:`, error);
+        // 即使出错也要继续，不要让整个搜索失败
+      }
+    });
+    
+    // 等待所有文件搜索完成
+    console.log(`[SEARCH] Waiting for all search tasks to complete in directory: ${uri.fsPath}`);
+    try {
+      await Promise.all(searchPromises);
+      console.log(`[SEARCH] All search tasks completed in directory: ${uri.fsPath}`);
+    } catch (error) {
+      console.error(`[SEARCH] Error waiting for search tasks in directory ${uri.fsPath}:`, error);
+      // 即使出错也要继续，不要让整个搜索失败
+    }
   }
+  
   private async searchFile(uri: vscode.Uri, options: Options & { searchId?: string }, context: Context): Promise<void> {
+    console.log(`[SEARCH] searchFile started, uri: ${uri.fsPath}, searchId: ${options.searchId}`);
+    
     if (await this.shouldIgnore(uri, options, context)) {
+      console.log(`[SEARCH] File ignored, uri: ${uri.fsPath}`);
       return;
     }
     if (!uri.fsPath.endsWith(".mbt")) {
+      console.log(`[SEARCH] File not .mbt, skipping: ${uri.fsPath}`);
       return;
     }
     const bytes = await vscode.workspace.fs.readFile(uri);
     const text = this.textDecoder.decode(bytes);
+    console.log(`[SEARCH] File content loaded, size: ${text.length} chars, uri: ${uri.fsPath}`);
+    
+    // 直接调用 searchText，不使用 wrap 包装
     await this.searchText(uri, options, text);
+    console.log(`[SEARCH] searchText completed for file: ${uri.fsPath}`);
   }
   private async searchText(uri: vscode.Uri, options: Options & { searchId?: string }, content: string): Promise<void> {
     const contentLines = content.split("\n");
+    console.log(`[SEARCH] searchText called, uri: ${uri.fsPath}, searchId: ${options.searchId}, hasLayers: ${!!options.layers?.length}`);
     
-        // 检查是否有多层查询
+    // 检查是否有多层查询
     if (options.layers && options.layers.length > 0) {
+      // 直接调用多层搜索，不使用 wrap 包装
+      console.log(`[SEARCH] Executing multi-layer search directly`);
       await this.searchTextWithLayers(uri, options, content, contentLines);
+      console.log(`[SEARCH] Multi-layer search completed for: ${uri.fsPath}`);
     } else {
       // 清除之前的结果
       this.onClear.fire();
+      // 直接调用单层搜索，不使用 wrap 包装
+      console.log(`[SEARCH] Executing single-layer search directly`);
       await this.searchTextSingle(uri, options, content, contentLines);
+      console.log(`[SEARCH] Single-layer search completed for: ${uri.fsPath}`);
     }
+    console.log(`[SEARCH] searchText fully completed for: ${uri.fsPath}`);
   }
 
   private async searchTextSingle(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
@@ -567,37 +625,16 @@ export class Service {
     // 清除之前的结果，避免重复
     this.onClear.fire();
 
-    // 简化搜索开始日志
-    const config = vscode.workspace.getConfiguration('moon-grep');
-    if (true) {
-      console.log("[MULTI_LAYER] Starting searchTextWithLayers", {
-        searchId: options.searchId,
-        hasLayers: options.layers && options.layers.length > 0,
-        layerCount: options.layers?.length || 0,
-        mainQuery: options.query
-      });
-    }
-
     // 检查是否可以使用 Moonbit 的级联搜索
     if (options.layers && options.layers.length > 0) {
-      if (true) {
-        console.log("[MULTI_LAYER] Using Moonbit cascade search");
-      }
-      
-      // 先测试基本的搜索是否工作
-      await this.testBasicSearch(uri, options.query, content, contentLines);
-      
-      // 使用 Moonbit 的级联搜索功能
+      // 直接使用 Moonbit 的级联搜索功能，不需要测试
       await this.executeCascadeSearch(uri, options, content, contentLines);
+      
+      // 注意：executeCascadeSearch 内部已经通过 onInsert 触发了结果
+      // finished 状态现在由 wrap 方法管理，不需要在这里设置
     } else {
-      if (true) {
-        console.log("[MULTI_LAYER] Using single layer search");
-      }
       // 回退到单层搜索
       const currentResults = await this.executeSearchQuery(uri, options.query, content, contentLines, options.searchId, "main");
-      if (true) {
-        console.log("[MULTI_LAYER] Single layer search results:", currentResults.length);
-      }
       for (const result of currentResults) {
         this.results.set(result.id, result);
         this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
@@ -605,49 +642,23 @@ export class Service {
     }
   }
 
-  // 临时测试方法：测试普通的 search 方法是否工作
-  private async testBasicSearch(uri: vscode.Uri, query: string, content: string, contentLines: string[]): Promise<void> {
-    // 移除测试日志，减少控制台噪音
-    const results = await this.executeSearchQuery(uri, query, content, contentLines, "test", "test");
-  }
-
   // 新增：使用 Moonbit 的级联搜索
   private async executeCascadeSearch(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
-    // 获取配置
-    const config = vscode.workspace.getConfiguration('moon-grep');
-    
     // 准备层查询
     const layerQueries = options.layers!
       .filter(layer => layer.enabled && layer.query.trim())
       .map(layer => layer.query);
 
-    // 简化级联搜索调用日志
-    if (true) {
-      console.log("[MULTI_LAYER] executeCascadeSearch called", {
-        mainQuery: options.query,
-        layerQueries: layerQueries,
-        contentLength: content.length
-      });
-    }
-
-    // 使用 Moonbit 的级联搜索
+    // 使用 Moonbit 的基于Node的嵌套搜索
     const request = {
       id: crypto.randomUUID(),
-      method: "multiLayerSearch",
+      method: "nestedNodeSearch",
       params: {
         content: content,
         mainQuery: options.query,
         layerQueries: layerQueries,
       },
     };
-
-    // 简化请求发送日志
-    if (true) {
-      console.log("[MULTI_LAYER] Sending request to Moonbit", {
-        requestId: request.id,
-        method: request.method
-      });
-    }
 
     return new Promise<void>(async (resolve) => {
       const worker = await this.getWorker();
@@ -664,8 +675,7 @@ export class Service {
 
       let buffer = "";
       let disposable: vscode.Disposable | undefined;
-      let requestId = request.id; // 保存请求ID
-      let hasReceivedFinalResult = false;
+      let requestId = request.id;
       
       disposable = worker.process.stdout.onData(async (data) => {
         if (!worker.task) {
@@ -687,46 +697,34 @@ export class Service {
           try {
             json = JSON.parse(line);
           } catch (e) {
-            // 只在开发模式下输出解析错误
-            if (true) {
-              console.log("[MULTI_LAYER] Failed to parse JSON line:", line);
-            }
             continue;
-          }
-
-          // 简化响应日志，只在开发模式下输出详细信息
-          if (true) {
-            console.log("[MULTI_LAYER] Received JSON response:", {
-              hasId: "id" in json,
-              responseId: json.id,
-              expectedId: requestId,
-              hasResult: "result" in json,
-              resultType: typeof json.result
-            });
           }
 
           if (!("id" in json) || json.id !== requestId) {
-            // 只在开发模式下输出跳过响应信息
-            if (true) {
-              console.log("[MULTI_LAYER] Skipping response - ID mismatch or missing");
-            }
             continue;
           }
           if (!("result" in json)) {
-            // 只在开发模式下输出跳过响应信息
-            if (true) {
-              console.log("[MULTI_LAYER] Skipping response - no result field");
-            }
             continue;
           }
 
-          // 处理调试消息 - 根据配置决定是否输出
+          // 处理调试消息
           if (typeof json.result === "string" && json.result.startsWith("DEBUG:")) {
-            // 根据VSCode配置决定是否输出debug信息
-            const config = vscode.workspace.getConfiguration('moon-grep');
-            if (true) {
-              console.log("[MULTI_LAYER] Moonbit debug message:", json.result);
+            console.log("[MOONBIT]", json.result);
+            
+            // 检查是否是搜索完成消息
+            if (json.result.includes("Nested search completed")) {
+              console.log(`[SEARCH] Cascade search completed for ${uri.fsPath}, debug message: ${json.result}`);
+              clearTimeout(timeoutId);
+              if (worker.task) {
+                worker.task.disposable?.dispose();
+                worker.task = undefined;
+                this.onAvail.fire();
+              }
+              disposable?.dispose();
+              resolve();
+              return;
             }
+            
             continue;
           }
 
@@ -734,24 +732,11 @@ export class Service {
           
           // 检查结果是否有效
           if (!result || !result.range || !result.range.start || !result.range.end) {
-            // 只在开发模式下输出无效结果信息
-            if (true) {
-              console.log("[MULTI_LAYER] Skipping invalid result:", result);
-            }
             continue;
           }
           
           const resultId = crypto.randomUUID();
-          
-          // 简化结果处理日志
-          if (true) {
-            console.log("[MULTI_LAYER] Processing result:", {
-              resultId: resultId,
-              hasRange: !!result.range,
-              hasCaptures: !!result.captures
-            });
-          }
-          
+        
           // 转换 Moonbit 结果格式为 TypeScript 格式
           const tsResult: Result = {
             id: resultId,
@@ -765,23 +750,12 @@ export class Service {
             searchId: options.searchId,
           };
 
-          // 简化结果创建日志
-          if (true) {
-            console.log("[MULTI_LAYER] Created TypeScript result:", {
-              id: tsResult.id,
-              capturesCount: Object.keys(tsResult.captures).length
-            });
-          }
-
           this.results.set(resultId, tsResult);
           this.onInsert.fire(tsResult);
 
           // 检查是否收到了最终结果（null 表示搜索完成）
-          if (json.result === null && !hasReceivedFinalResult) {
-            hasReceivedFinalResult = true;
-            if (true) {
-              console.log("[MULTI_LAYER] Received final result (null), cleaning up worker task");
-            }
+          if (json.result === null) {
+            console.log(`[SEARCH] Cascade search completed for ${uri.fsPath}, result: null`);
             clearTimeout(timeoutId);
             if (worker.task) {
               worker.task.disposable?.dispose();
@@ -789,6 +763,13 @@ export class Service {
               this.onAvail.fire();
             }
             disposable?.dispose();
+            
+            // 移除这里的 onSearchFinished 事件触发，让主搜索任务统一管理
+            // 触发搜索完成事件，确保多层查询记录历史
+            // if (options.searchId) {
+            //   this.onSearchFinished.fire(options.searchId);
+            // }
+            
             resolve();
             return;
           }
@@ -796,30 +777,25 @@ export class Service {
       });
 
       // 发送请求到 Moonbit
-      if (true) {
-        console.log("[MULTI_LAYER] Writing request to worker stdin");
-      }
-      const requestString = JSON.stringify(request) + "\n";
-      if (true) {
-        console.log("[MULTI_LAYER] Request string:", requestString);
-      }
-      worker.process.stdin.write(requestString);
-      if (true) {
-        console.log("[MULTI_LAYER] Request sent, waiting for response...");
-      }
+      worker.process.stdin.write(JSON.stringify(request) + "\n");
       
-      // 不要立即取消任务，让 Moonbit 有时间处理请求
-      // 设置一个超时，如果 5 秒内没有响应，则取消任务
+      // 设置超时
       const timeoutId = setTimeout(() => {
+        console.log(`[SEARCH] Cascade search timeout for ${uri.fsPath}, forcing completion`);
         if (worker.task) {
-          if (true) {
-            console.log("[MULTI_LAYER] Timeout reached, canceling task");
-          }
           worker.cancelTask();
-          disposable?.dispose();
-          resolve();
         }
-      }, 5000);
+        disposable?.dispose();
+        resolve();
+      }, 30000); // 30秒超时
+      
+      // 添加额外的安全检查：如果 worker.task 不存在，立即解析
+      if (!worker.task) {
+        console.log(`[SEARCH] No worker task available for ${uri.fsPath}, resolving immediately`);
+        clearTimeout(timeoutId);
+        disposable?.dispose();
+        resolve();
+      }
     });
   }
 
