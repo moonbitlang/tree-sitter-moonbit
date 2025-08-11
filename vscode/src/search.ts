@@ -649,10 +649,16 @@ export class Service {
       .filter(layer => layer.enabled && layer.query.trim())
       .map(layer => layer.query);
 
-    // 使用 Moonbit 的基于Node的嵌套搜索
+    console.log(`[SEARCH] Executing cascade search for ${uri.fsPath}`, {
+      mainQuery: options.query,
+      layerQueries: layerQueries,
+      contentLength: content.length
+    });
+
+    // 使用 Moonbit 的级联搜索功能
     const request = {
       id: crypto.randomUUID(),
-      method: "nestedNodeSearch",
+              method: "cascade_search",
       params: {
         content: content,
         mainQuery: options.query,
@@ -712,7 +718,7 @@ export class Service {
             console.log("[MOONBIT]", json.result);
             
             // 检查是否是搜索完成消息
-            if (json.result.includes("Nested search completed")) {
+            if (json.result.includes("Cascade search completed")) {
               console.log(`[SEARCH] Cascade search completed for ${uri.fsPath}, debug message: ${json.result}`);
               clearTimeout(timeoutId);
               if (worker.task) {
@@ -728,67 +734,43 @@ export class Service {
             continue;
           }
 
-          const result = json.result;
-          
-          // 检查结果是否有效
-          if (!result || !result.range || !result.range.start || !result.range.end) {
-            continue;
-          }
-          
-          const resultId = crypto.randomUUID();
-        
-          // 转换 Moonbit 结果格式为 TypeScript 格式
-          const tsResult: Result = {
-            id: resultId,
-            uri: uri,
-            range: new vscode.Range(
-              new vscode.Position(result.range.start.row, result.range.start.column),
-              new vscode.Position(result.range.end.row, result.range.end.column)
-            ),
-            captures: result.captures || {},
-            context: this.extractContextFromLines(contentLines, result.range.start.row, result.range.end.row),
-            searchId: options.searchId,
-          };
+          // 处理搜索结果
+          if (json.result && json.result.range) {
+            const tsResult = {
+              id: crypto.randomUUID(),
+              uri: uri,
+              range: new vscode.Range(
+                json.result.range.start.row,
+                json.result.range.start.column,
+                json.result.range.end.row,
+                json.result.range.end.column
+              ),
+              captures: json.result.captures || {},
+              context: this.extractContextFromLines(contentLines, json.result.range.start.row, json.result.range.end.row),
+              searchId: options.searchId,
+            };
 
-          this.results.set(resultId, tsResult);
-          this.onInsert.fire(tsResult);
-
-          // 检查是否收到了最终结果（null 表示搜索完成）
-          if (json.result === null) {
-            console.log(`[SEARCH] Cascade search completed for ${uri.fsPath}, result: null`);
-            clearTimeout(timeoutId);
-            if (worker.task) {
-              worker.task.disposable?.dispose();
-              worker.task = undefined;
-              this.onAvail.fire();
-            }
-            disposable?.dispose();
-            
-            // 移除这里的 onSearchFinished 事件触发，让主搜索任务统一管理
-            // 触发搜索完成事件，确保多层查询记录历史
-            // if (options.searchId) {
-            //   this.onSearchFinished.fire(options.searchId);
-            // }
-            
-            resolve();
-            return;
+            this.results.set(tsResult.id, tsResult);
+            this.onInsert.fire(tsResult);
           }
         }
       });
 
-      // 发送请求到 Moonbit
+      // 发送请求
       worker.process.stdin.write(JSON.stringify(request) + "\n");
-      
+
       // 设置超时
       const timeoutId = setTimeout(() => {
-        console.log(`[SEARCH] Cascade search timeout for ${uri.fsPath}, forcing completion`);
+        console.log(`[SEARCH] True cascade search timeout for ${uri.fsPath}, forcing completion`);
         if (worker.task) {
-          worker.cancelTask();
+          worker.task.disposable?.dispose();
+          worker.task = undefined;
+          this.onAvail.fire();
         }
         disposable?.dispose();
         resolve();
       }, 30000); // 30秒超时
-      
+
       // 添加额外的安全检查：如果 worker.task 不存在，立即解析
       if (!worker.task) {
         console.log(`[SEARCH] No worker task available for ${uri.fsPath}, resolving immediately`);

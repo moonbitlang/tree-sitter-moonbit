@@ -411,6 +411,56 @@ fn node_equal(this : @tree_sitter.Node, that : @tree_sitter.Node) -> Bool {
 }
 
 ///|
+// 判断两个 Match 是否重复
+// 基于范围位置进行去重
+fn match_equal(this : Match, that : Match) -> Bool {
+  // 检查范围是否完全重叠
+  if this.range.start_byte() == that.range.start_byte() && 
+     this.range.end_byte() == that.range.end_byte() {
+    return true
+  }
+  
+  // 检查范围是否部分重叠
+  // 如果两个范围有重叠，则认为重复
+  if this.range.start_byte() < that.range.end_byte() && 
+     this.range.end_byte() > that.range.start_byte() {
+    return true
+  }
+  
+  return false
+}
+
+///|
+// 对 Match 数组进行去重
+fn deduplicate_matches(matches : Array[Match]) -> Array[Match] {
+  if matches.length() <= 1 {
+    return matches
+  }
+  
+  let unique_matches : Array[Match] = []
+  let seen_indices : Array[Int] = []
+  
+  for i = 0; i < matches.length(); i = i + 1 {
+    let mut is_duplicate = false
+    
+    // 检查是否与已处理的结果重复
+    for j = 0; j < seen_indices.length(); j = j + 1 {
+      if match_equal(matches[i], matches[seen_indices[j]]) {
+        is_duplicate = true
+        break
+      }
+    }
+    
+    if not(is_duplicate) {
+      unique_matches.push(matches[i])
+      seen_indices.push(i)
+    }
+  }
+  
+  return unique_matches
+}
+
+///|
 fn search(
   query~ : @string.View,
   content~ : @string.View
@@ -566,10 +616,8 @@ fn search_in_node_with_query(
       )
       
       // 调试：显示匹配的详细信息
-      let match_text = nodes[0].text()
-      let match_type = nodes[0].type_()
       // 注意：这里我们无法访问 id，所以暂时注释掉调试输出
-      // jsonrpc_result("DEBUG: Match found: type=\{match_type}, text='\{match_text}', bytes=\{start_byte}-\{end_byte}")
+      // jsonrpc_result("DEBUG: Match found: type=\{nodes[0].type_()}, text='\{nodes[0].text()}', bytes=\{start_byte}-\{end_byte}")
       
       match yield_(Match::{ range, captures }) {
         IterEnd => break IterEnd
@@ -582,8 +630,16 @@ fn search_in_node_with_query(
 }
  
 ///|
-// 基于Node的嵌套多层搜索
-pub fn nested_node_search(
+// 级联搜索：每一层都在前一层的结果范围内搜索
+// 基于节点范围的精确搜索，避免全文件扫描
+// 
+// 参数：
+//   content - 要搜索的文件内容
+//   main_query - 主查询字符串
+//   layer_queries - 层查询字符串数组
+// 
+// 返回：匹配结果的迭代器
+pub fn cascade_search(
   content~ : @string.View,
   main_query~ : @string.View,
   layer_queries : Array[@string.View]
@@ -595,6 +651,7 @@ pub fn nested_node_search(
     }
   }
   
+  // 执行主查询，获取初始结果集
   let main_results = search(query=main_query, content=content) catch {
     _ => {
       return Iter::empty()
@@ -603,26 +660,16 @@ pub fn nested_node_search(
   
   let main_results_array = main_results.collect()
   
+  // 边界条件：主查询无结果时直接返回
   if main_results_array.length() == 0 {
     return Iter::empty()
   }
   
-  // 预编译所有层查询，失败的跳过
-  let compiled_layer_queries : Array[@tree_sitter.Query] = []
-  for layer_query in layer_queries {
-    if layer_query == "" { continue }
-    let q = compiler.compile(layer_query) catch {
-      _ => { continue }
-    }
-    compiled_layer_queries.push(q)
-  }
-  if compiled_layer_queries.length() == 0 {
-    return Iter::empty()
-  }
-
+  // 边界条件：无层查询时返回主查询结果（去重后）
   if layer_queries.length() == 0 {
+    let deduplicated_main_results = deduplicate_matches(main_results_array)
     return Iter::new(fn(yield_) {
-      for result in main_results_array {
+      for result in deduplicated_main_results {
         match yield_(result) {
           IterEnd => break
           IterContinue => continue
@@ -632,73 +679,71 @@ pub fn nested_node_search(
     })
   }
   
-  let all_layer_results = []
-  
-  // 调试：显示主查询结果信息
-  // 注意：这里我们无法访问 id，所以暂时注释掉调试输出
-  // jsonrpc_result("DEBUG: Main query found \{main_results_array.length()} results")
-  
-  let mut i = 0
-  for main_result in main_results_array {
-    let main_node = root_node.descendant_for_byte_range(
-      main_result.range.start_byte(),
-      main_result.range.end_byte()
-    )
-    
-    match main_node {
-      Some(node) => {
-        // 调试：显示主节点的详细信息
-        let node_text = node.text()
-        let node_type = node.type_()
-        // jsonrpc_result("DEBUG: Main result \{i}: type=\{node_type}, text='\{node_text}', bytes=\{main_result.range.start_byte()}-\{main_result.range.end_byte()}")
-        
-        let mut j = 0
-        for q in compiled_layer_queries {
-          let layer_matches = search_in_node_with_query(query=q, node=node)
-          
-          let layer_results = layer_matches.collect()
-          
-          // 调试：显示层查询结果信息
-          // jsonrpc_result("DEBUG: Layer query \{j} found \{layer_results.length()} results in main result \{i}")
-          
-          let mut k = 0
-          for layer_result in layer_results {
-            // 调试：显示每个层结果的详细信息
-            let layer_node = root_node.descendant_for_byte_range(
-              layer_result.range.start_byte(),
-              layer_result.range.end_byte()
-            )
-            match layer_node {
-              Some(layer_node) => {
-                let layer_text = layer_node.text()
-                let layer_type = layer_node.type_()
-                // jsonrpc_result("DEBUG: Layer result \{k}: type=\{layer_type}, text='\{layer_text}', bytes=\{layer_result.range.start_byte()}-\{layer_result.range.end_byte()}")
-              }
-              None => {
-                // jsonrpc_result("DEBUG: Layer result \{k}: could not find node for bytes \{layer_result.range.start_byte()}-\{layer_result.range.end_byte()}")
-                ignore(())
-              }
-            }
-            
-            all_layer_results.push(layer_result)
-            k = k + 1
-          }
-          j = j + 1
-        }
-      }
-      None => {
-        // 忽略无法找到Node的结果
-        // jsonrpc_result("DEBUG: Could not find node for main result \{i} at bytes \{main_result.range.start_byte()}-\{main_result.range.end_byte()}")
-        ignore(())
-      }
+  // 预编译所有层查询以提高性能
+  let compiled_layer_queries : Array[@tree_sitter.Query] = []
+  for layer_query in layer_queries {
+    if layer_query == "" { continue }
+    let q = compiler.compile(layer_query) catch {
+      _ => { continue }
     }
-    i = i + 1
+    compiled_layer_queries.push(q)
   }
   
-  // jsonrpc_result("DEBUG: Total layer results: \{all_layer_results.length()}")
+  // 边界条件：无有效层查询时返回空结果
+  if compiled_layer_queries.length() == 0 {
+    return Iter::empty()
+  }
   
+  // 级联搜索核心逻辑：逐层在结果范围内搜索
+  let mut current_results = main_results_array
+  let mut current_level = 0
+  
+  for layer_query in compiled_layer_queries {
+    current_level = current_level + 1
+    
+    // 为当前层准备结果容器
+    let next_level_results = []
+    
+    for current_result in current_results {
+      // 根据字节范围定位对应的 AST 节点
+      let current_node = root_node.descendant_for_byte_range(
+        current_result.range.start_byte(),
+        current_result.range.end_byte()
+      )
+      
+      match current_node {
+        Some(node) => {
+          // 在限定节点范围内执行层查询
+          let layer_matches = search_in_node_with_query(query=layer_query, node=node)
+          let layer_results = layer_matches.collect()
+          
+          // 收集当前层的匹配结果
+          for layer_result in layer_results {
+            next_level_results.push(layer_result)
+          }
+        }
+        None => {
+          // 节点定位失败时跳过当前结果
+          continue
+        }
+      }
+    }
+    
+    // 更新结果集为当前层的结果
+    current_results = next_level_results
+    
+    // 优化：当前层无结果时提前终止搜索
+    if current_results.length() == 0 {
+      return Iter::empty()
+    }
+  }
+  
+  // 对最终结果进行去重
+  let deduplicated_results = deduplicate_matches(current_results)
+  
+  // 返回去重后的结果集
   Iter::new(fn(yield_) {
-    for result in all_layer_results {
+    for result in deduplicated_results {
       match yield_(result) {
         IterEnd => break
         IterContinue => continue

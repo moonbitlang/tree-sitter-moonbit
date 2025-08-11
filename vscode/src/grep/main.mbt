@@ -33,7 +33,7 @@ fn main {
 
         {
           "id": id,
-          "method": "nestedNodeSearch",
+          "method": "cascade_search",
           "params": { 
             "content": String(content), 
             "mainQuery": String(main_query), 
@@ -50,16 +50,16 @@ fn main {
           })
           
           // 添加调试信息
-          jsonrpc_result(id~, "DEBUG: Starting nested search with \{layer_queries_strings.length()} layer queries")
+          jsonrpc_result(id~, "DEBUG: Starting cascade search with \{layer_queries_strings.length()} layer queries")
           
           let mut result_count = 0
-          for result in nested_node_search(content~, main_query~, layer_queries_strings) {
+          for result in cascade_search(content~, main_query~, layer_queries_strings) {
             jsonrpc_result(id~, result.to_json())
             result_count = result_count + 1
           }
           
           // 显示最终结果数量
-          jsonrpc_result(id~, "DEBUG: Nested search completed with \{result_count} total results")
+          jsonrpc_result(id~, "DEBUG: Cascade search completed with \{result_count} total results")
           jsonrpc_result(id~, Json::null())
         }
         {
