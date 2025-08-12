@@ -411,41 +411,90 @@ fn node_equal(this : @tree_sitter.Node, that : @tree_sitter.Node) -> Bool {
 }
 
 ///|
-// 判断两个 Match 是否重复
-// 基于范围位置进行去重
-fn match_equal(this : Match, that : Match) -> Bool {
-  // 检查范围是否完全重叠
-  if this.range.start_byte() == that.range.start_byte() && 
-     this.range.end_byte() == that.range.end_byte() {
-    return true
-  }
-  
-  // 检查范围是否部分重叠
-  // 如果两个范围有重叠，则认为重复
-  if this.range.start_byte() < that.range.end_byte() && 
-     this.range.end_byte() > that.range.start_byte() {
-    return true
-  }
-  
-  return false
+// 检查两个范围是否重叠
+fn ranges_overlap(this : @tree_sitter.Range, that : @tree_sitter.Range) -> Bool {
+  return this.start_byte() < that.end_byte() && 
+         this.end_byte() > that.start_byte()
 }
 
 ///|
-// 对 Match 数组进行去重
-fn deduplicate_matches(matches : Array[Match]) -> Array[Match] {
+// 根据字节范围获取对应的 AST 节点
+fn get_node_at_range(root_node : @tree_sitter.Node, range : @tree_sitter.Range) -> Option[@tree_sitter.Node] {
+  return root_node.descendant_for_byte_range(
+    range.start_byte(),
+    range.end_byte()
+  )
+}
+
+
+
+///|
+// 基于 AST 节点成员一致性的去重判断
+fn match_equal_by_ast(this : Match, that : Match, root_node : @tree_sitter.Node) -> Bool {
+  // 首先检查范围是否重叠
+  if not(ranges_overlap(this.range, that.range)) {
+    return false
+  }
+  
+  // 获取两个匹配对应的 AST 节点
+  let this_node_opt = get_node_at_range(root_node, this.range)
+  let that_node_opt = get_node_at_range(root_node, that.range)
+  
+  // 如果无法获取节点，回退到范围去重
+  if this_node_opt == None || that_node_opt == None {
+    return ranges_overlap(this.range, that.range)
+  }
+  
+  let this_node = this_node_opt.unwrap()
+  let that_node = that_node_opt.unwrap()
+  
+  // 检查节点类型是否一致
+  if this_node.type_() != that_node.type_() {
+    return false
+  }
+  
+  // 检查节点是否命名一致
+  if this_node.is_named() != that_node.is_named() {
+    return false
+  }
+  
+  // 检查子节点数量是否一致
+  let this_children = this_node.children().collect()
+  let that_children = that_node.children().collect()
+  if this_children.length() != that_children.length() {
+    return false
+  }
+  
+  // 检查子节点类型是否一致（简化版本，只检查前几个子节点）
+  let max_check = if this_children.length() > 3 { 3 } else { this_children.length() }
+  for i = 0; i < max_check; i = i + 1 {
+    if this_children[i].type_() != that_children[i].type_() {
+      return false
+    }
+  }
+  
+  // 如果节点类型、命名状态、子节点数量和类型都一致，则认为重复
+  return true
+}
+
+///|
+// 基于 AST 的去重函数
+fn deduplicate_by_ast(matches : Array[Match], root_node : @tree_sitter.Node) -> Array[Match] {
   if matches.length() <= 1 {
     return matches
   }
   
   let unique_matches : Array[Match] = []
-  let seen_indices : Array[Int] = []
+  let processed_indices : Array[Int] = []
   
   for i = 0; i < matches.length(); i = i + 1 {
     let mut is_duplicate = false
     
-    // 检查是否与已处理的结果重复
-    for j = 0; j < seen_indices.length(); j = j + 1 {
-      if match_equal(matches[i], matches[seen_indices[j]]) {
+    // 与已处理的结果比较
+    for j = 0; j < processed_indices.length(); j = j + 1 {
+      let processed_match = matches[processed_indices[j]]
+      
+      if match_equal_by_ast(matches[i], processed_match, root_node) {
         is_duplicate = true
         break
       }
@@ -453,7 +502,7 @@ fn deduplicate_matches(matches : Array[Match]) -> Array[Match] {
     
     if not(is_duplicate) {
       unique_matches.push(matches[i])
-      seen_indices.push(i)
+      processed_indices.push(i)
     }
   }
   
@@ -665,9 +714,9 @@ pub fn cascade_search(
     return Iter::empty()
   }
   
-  // 边界条件：无层查询时返回主查询结果（去重后）
+  // 边界条件：无层查询时返回主查询结果（使用 AST 去重）
   if layer_queries.length() == 0 {
-    let deduplicated_main_results = deduplicate_matches(main_results_array)
+    let deduplicated_main_results = deduplicate_by_ast(main_results_array, root_node)
     return Iter::new(fn(yield_) {
       for result in deduplicated_main_results {
         match yield_(result) {
@@ -729,8 +778,8 @@ pub fn cascade_search(
       }
     }
     
-    // 更新结果集为当前层的结果
-    current_results = next_level_results
+    // 对当前层的结果进行 AST 去重
+    current_results = deduplicate_by_ast(next_level_results, root_node)
     
     // 优化：当前层无结果时提前终止搜索
     if current_results.length() == 0 {
@@ -738,8 +787,8 @@ pub fn cascade_search(
     }
   }
   
-  // 对最终结果进行去重
-  let deduplicated_results = deduplicate_matches(current_results)
+  // 对最终结果进行 AST 去重
+  let deduplicated_results = deduplicate_by_ast(current_results, root_node)
   
   // 返回去重后的结果集
   Iter::new(fn(yield_) {

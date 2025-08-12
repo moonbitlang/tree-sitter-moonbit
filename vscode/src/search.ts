@@ -414,7 +414,7 @@ export class Service {
     
     // 为每个文件创建搜索任务，但不使用 wrap 包装
     const searchPromises = files.map(async ([name, type]) => {
-      const fileUri = vscode.Uri.joinPath(uri, name);
+        const fileUri = vscode.Uri.joinPath(uri, name);
       try {
         if (type === vscode.FileType.Directory) {
           // 递归搜索子目录
@@ -467,7 +467,7 @@ export class Service {
     const contentLines = content.split("\n");
     console.log(`[SEARCH] searchText called, uri: ${uri.fsPath}, searchId: ${options.searchId}, hasLayers: ${!!options.layers?.length}`);
     
-    // 检查是否有多层查询
+        // 检查是否有多层查询
     if (options.layers && options.layers.length > 0) {
       // 直接调用多层搜索，不使用 wrap 包装
       console.log(`[SEARCH] Executing multi-layer search directly`);
@@ -576,10 +576,28 @@ export class Service {
                 const range = new vscode.Range(start, end);
                 const id = crypto.randomUUID();
                 
-                // 安全地获取上下文行
+                // 安全地获取上下文行，只包含匹配范围的内容
                 let context: string[] = [];
                 try {
-                  context = contentLines.slice(startLine, endLine + 1);
+                  if (startLine === endLine) {
+                    // 单行匹配：只显示匹配范围的内容
+                    const line = contentLines[startLine];
+                    const startChar = json.result.range.start.column;
+                    const endChar = json.result.range.end.column;
+                    context = [line.slice(startChar, endChar)];
+                  } else {
+                    // 多行匹配：第一行从匹配开始，最后一行到匹配结束
+                    const firstLine = contentLines[startLine];
+                    const lastLine = contentLines[endLine];
+                    const startChar = json.result.range.start.column;
+                    const endChar = json.result.range.end.column;
+                    
+                    context = [
+                      firstLine.slice(startChar), // 第一行从匹配开始
+                      ...contentLines.slice(startLine + 1, endLine), // 中间行完整显示
+                      lastLine.slice(0, endChar) // 最后一行到匹配结束
+                    ];
+                  }
                 } catch (e) {
                   context = [];
                 }
@@ -591,6 +609,16 @@ export class Service {
                   context: context,
                   captures: json.result.captures || {},
                 };
+                
+                // 调试：打印 context 内容
+                console.log(`[SEARCH] Result ${id} context:`, {
+                  uri: uri.fsPath,
+                  range: `${startLine}:${json.result.range.start.column}-${endLine}:${json.result.range.end.column}`,
+                  contextLength: context.length,
+                  contextContent: context,
+                  originalLines: contentLines.slice(startLine, endLine + 1)
+                });
+                
                 this.results.set(id, result);
                 this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
                 
@@ -733,32 +761,38 @@ export class Service {
             
             continue;
           }
-
+          
           // 处理搜索结果
           if (json.result && json.result.range) {
             const tsResult = {
               id: crypto.randomUUID(),
-              uri: uri,
-              range: new vscode.Range(
+            uri: uri,
+            range: new vscode.Range(
                 json.result.range.start.row,
                 json.result.range.start.column,
                 json.result.range.end.row,
                 json.result.range.end.column
-              ),
+            ),
               captures: json.result.captures || {},
-              context: this.extractContextFromLines(contentLines, json.result.range.start.row, json.result.range.end.row),
-              searchId: options.searchId,
-            };
+              context: this.extractContextFromLines(
+                contentLines, 
+                json.result.range.start.row, 
+                json.result.range.end.row,
+                json.result.range.start.column,
+                json.result.range.end.column
+              ),
+            searchId: options.searchId,
+          };
 
             this.results.set(tsResult.id, tsResult);
-            this.onInsert.fire(tsResult);
+          this.onInsert.fire(tsResult);
           }
         }
       });
 
       // 发送请求
       worker.process.stdin.write(JSON.stringify(request) + "\n");
-
+      
       // 设置超时
       const timeoutId = setTimeout(() => {
         console.log(`[SEARCH] True cascade search timeout for ${uri.fsPath}, forcing completion`);
@@ -775,19 +809,40 @@ export class Service {
       if (!worker.task) {
         console.log(`[SEARCH] No worker task available for ${uri.fsPath}, resolving immediately`);
         clearTimeout(timeoutId);
-        disposable?.dispose();
-        resolve();
-      }
+          disposable?.dispose();
+          resolve();
+        }
     });
   }
 
-  // 新增：从行数组中提取上下文
-  private extractContextFromLines(contentLines: string[], startRow: number, endRow: number): string[] {
-    const context: string[] = [];
-    for (let i = Math.max(0, startRow - 2); i <= Math.min(contentLines.length - 1, endRow + 2); i++) {
-      context.push(contentLines[i]);
+  // 新增：从行数组中提取上下文，保持整行显示但标记匹配范围
+  private extractContextFromLines(contentLines: string[], startRow: number, endRow: number, startColumn?: number, endColumn?: number): string[] {
+    // 如果没有提供列信息，回退到原来的逻辑
+    if (startColumn === undefined || endColumn === undefined) {
+      const context: string[] = [];
+      for (let i = Math.max(0, startRow - 2); i <= Math.min(contentLines.length - 1, endRow + 2); i++) {
+        context.push(contentLines[i]);
+      }
+      return context;
     }
-    return context;
+
+    // 保持整行显示，但标记匹配范围
+    if (startRow === endRow) {
+      // 单行匹配：显示整行，但标记匹配范围
+      const line = contentLines[startRow];
+      // 使用特殊标记来标识匹配范围，前端可以解析这些标记来高亮
+      return [`${line.slice(0, startColumn)}[MATCH_START]${line.slice(startColumn, endColumn)}[MATCH_END]${line.slice(endColumn)}`];
+    } else {
+      // 多行匹配：第一行从匹配开始，最后一行到匹配结束，中间行完整显示
+      const firstLine = contentLines[startRow];
+      const lastLine = contentLines[endRow];
+      
+      return [
+        `${firstLine.slice(0, startColumn)}[MATCH_START]${firstLine.slice(startColumn)}`, // 第一行到匹配开始
+        ...contentLines.slice(startRow + 1, endRow), // 中间行完整显示
+        `${lastLine.slice(0, endColumn)}[MATCH_END]${lastLine.slice(endColumn)}` // 最后一行从开始到匹配结束
+      ];
+    }
   }
 
   private async executeSearchQuery(uri: vscode.Uri, query: string, content: string, contentLines: string[], searchId?: string, queryType: string = "unknown"): Promise<Result[]> {

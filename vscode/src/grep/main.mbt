@@ -56,6 +56,10 @@ fn main {
           for result in cascade_search(content~, main_query~, layer_queries_strings) {
             jsonrpc_result(id~, result.to_json())
             result_count = result_count + 1
+            
+            // 调试：打印每个结果的节点信息（简化格式）
+            let debug_msg = "DEBUG: Result \{result_count}: Range \{result.range.start_byte()}-\{result.range.end_byte()}"
+            jsonrpc_result(id~, debug_msg)
           }
           
           // 显示最终结果数量
