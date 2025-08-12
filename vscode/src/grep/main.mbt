@@ -50,7 +50,7 @@ fn main {
           })
           
           // 添加调试信息
-          jsonrpc_result(id~, "DEBUG: Starting cascade search with \{layer_queries_strings.length()} layer queries")
+      
           
           let mut result_count = 0
           for result in cascade_search(content~, main_query~, layer_queries_strings) {
@@ -58,12 +58,11 @@ fn main {
             result_count = result_count + 1
             
             // 调试：打印每个结果的节点信息（简化格式）
-            let debug_msg = "DEBUG: Result \{result_count}: Range \{result.range.start_byte()}-\{result.range.end_byte()}"
-            jsonrpc_result(id~, debug_msg)
+            
           }
           
           // 显示最终结果数量
-          jsonrpc_result(id~, "DEBUG: Cascade search completed with \{result_count} total results")
+      
           jsonrpc_result(id~, Json::null())
         }
         {

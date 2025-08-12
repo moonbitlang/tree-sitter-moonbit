@@ -29,7 +29,7 @@ export interface Options {
   includePattern?: string;
   excludePattern?: string;
   includeIgnored?: boolean;
-  layers?: SearchLayer[]; // 新增：支持多层查询
+  layers?: SearchLayer[]; // New: support multi-layer queries
 }
 
 export interface Context {
@@ -121,13 +121,13 @@ export class Service {
       
       this.workers.set(workerId, worker);
       
-      // 启动进程并处理可能的错误
+              // Start process and handle possible errors
       worker.process.run().then(() => {
         worker.cancelTask();
       }).catch((error) => {
         console.error(`[WORKER] Worker ${workerId} process failed:`, error);
         worker.cancelTask();
-        // 从workers map中移除失败的worker
+        // Remove failed worker from workers map
         this.workers.delete(workerId);
       });
       
@@ -185,7 +185,7 @@ export class Service {
             throw new Error(`Failed to create worker after ${maxRetries} attempts`);
           }
           
-          // 等待一段时间后重试
+          // Wait for a while before retrying
           await new Promise(resolve => setTimeout(resolve, 1000));
         }
       } else {
@@ -195,92 +195,88 @@ export class Service {
   }
   private wrap(p: Promise<any>, searchId?: string) {
     this.pendingTasks++;
-    console.log(`[SEARCH] Task wrapped, searchId: ${searchId}, pendingTasks: ${this.pendingTasks}`);
+    
     
     p.finally(() => {
       this.pendingTasks--;
-      console.log(`[SEARCH] Task completed, searchId: ${searchId}, pendingTasks: ${this.pendingTasks}`);
       
-      // 防止 pendingTasks 变成负数
+      
+      // Prevent pendingTasks from becoming negative
       if (this.pendingTasks < 0) {
         this.pendingTasks = 0;
       }
       
-      // 当所有任务完成时，触发搜索完成事件
+              // When all tasks complete, trigger search completion event
       if (this.pendingTasks === 0 && !this.finished) {
         this.finished = true;
-        console.log(`[SEARCH] All tasks completed, firing onSearchFinished event, searchId: ${searchId}`);
-        // 只有在 searchId 匹配时才触发事件
+
+                  // Only trigger event when searchId matches
         if (searchId === this.finishSearchId) {
           try {
             this.onSearchFinished.fire(searchId);
-            console.log(`[SEARCH] onSearchFinished event fired successfully for searchId: ${searchId}`);
+  
           } catch (e) {
             console.error(`[SEARCH] Error firing onSearchFinished event:`, e);
-            // 即使出错也要确保事件被触发
+            // Ensure event is triggered even if error occurs
             this.onSearchFinished.fire(searchId);
           }
-        } else {
-          console.log(`[SEARCH] SearchId mismatch, expected: ${this.finishSearchId}, got: ${searchId}`);
-        }
+                  } else {
+            // SearchId mismatch
+          }
       }
     });
   }
 
   public async search(uri: vscode.Uri, options: Options & { searchId?: string }): Promise<void> {
-    console.log(`[SEARCH] Search started, searchId: ${options.searchId}, uri: ${uri.fsPath}`);
+
     
-    // 重置状态，但不触发 onSearchFinished 事件
+    // Reset state without triggering onSearchFinished event
     await this.reset();
     this.pendingTasks = 0;
     this.finished = false;
     this.finishSearchId = options.searchId;
     
-    console.log(`[SEARCH] State reset, finishSearchId: ${this.finishSearchId}`);
+
     
-    // 简化任务计数：只包装主要的搜索任务
+          // Simplify task counting: only wrap main search tasks
     const stat = await vscode.workspace.fs.stat(uri);
     let searchPromise: Promise<void>;
     
     switch (stat.type) {
-      case vscode.FileType.Directory:
-        // 对于目录搜索，我们需要包装整个搜索过程
-        console.log(`[SEARCH] Directory search, uri: ${uri.fsPath}`);
+              case vscode.FileType.Directory:
+          // For directory search, wrap the entire search process
+    
         searchPromise = this.searchDirectory(uri, options, {
           ignore: ignore(),
           ignoreRoots: [],
         });
         break;
-      case vscode.FileType.File:
-        console.log(`[SEARCH] File search, uri: ${uri.fsPath}`);
-        searchPromise = this.searchFile(uri, options, {
+              case vscode.FileType.File:
+          // For file search, wrap the search process
+          searchPromise = this.searchFile(uri, options, {
           ignore: ignore(),
           ignoreRoots: [],
         });
         break;
-      default:
-        console.log(`[SEARCH] Unknown file type: ${stat.type}`);
-        return;
+              default:
+          // Unknown file type
+          return;
     }
     
-    // 使用 wrap 方法包装搜索任务
+            // Use wrap method to wrap search tasks
     this.wrap(searchPromise, options.searchId);
     
-    // 添加超时机制，防止搜索永远卡住
-    setTimeout(() => {
-      if (!this.finished && this.pendingTasks > 0) {
-        console.warn("[SEARCH] Search timeout, forcing completion", {
-          searchId: options.searchId,
-          pendingTasks: this.pendingTasks,
-          timestamp: Date.now()
-        });
-        this.pendingTasks = 0;
-        this.finished = true;
-        if (options.searchId === this.finishSearchId) {
+          // Add timeout mechanism to prevent search from hanging forever
+          setTimeout(() => {
+        if (!this.finished && this.pendingTasks > 0) {
+          // Force trigger onSearchFinished event
+          this.pendingTasks = 0;
+          this.finished = true;
+          if (options.searchId === this.finishSearchId) {
           this.onSearchFinished.fire(options.searchId);
         }
-      }
-    }, 30000); // 30秒超时
+              }
+      }, 30000); // 30 second timeout
   }
   public async replace(resultId: string, replace: string): Promise<void> {
     try {
@@ -390,10 +386,10 @@ export class Service {
     options: Options & { searchId?: string },
     context: Context
   ): Promise<void> {
-    console.log(`[SEARCH] searchDirectory started, uri: ${uri.fsPath}, searchId: ${options.searchId}`);
+
     
     if (await this.shouldIgnore(uri, options, context)) {
-      console.log(`[SEARCH] Directory ignored, uri: ${uri.fsPath}`);
+      
       return;
     }
     const gitignoreUri = vscode.Uri.joinPath(uri, ".gitignore");
@@ -410,78 +406,76 @@ export class Service {
     } catch (e) {
     }
     const files = await vscode.workspace.fs.readDirectory(uri);
-    console.log(`[SEARCH] Found ${files.length} files in directory: ${uri.fsPath}`);
     
-    // 为每个文件创建搜索任务，但不使用 wrap 包装
+    
+          // Create search tasks for each file without wrapping
     const searchPromises = files.map(async ([name, type]) => {
         const fileUri = vscode.Uri.joinPath(uri, name);
       try {
-        if (type === vscode.FileType.Directory) {
-          // 递归搜索子目录
-          console.log(`[SEARCH] Searching subdirectory: ${fileUri.fsPath}`);
+                  if (type === vscode.FileType.Directory) {
+            // Recursively search subdirectories
+
           await this.searchDirectory(fileUri, options, context);
-          console.log(`[SEARCH] Subdirectory search completed: ${fileUri.fsPath}`);
-        } else if (type === vscode.FileType.File) {
-          // 搜索单个文件
-          console.log(`[SEARCH] Searching file: ${fileUri.fsPath}`);
+          
+                  } else if (type === vscode.FileType.File) {
+            // Search single file
+          
           await this.searchFile(fileUri, options, context);
-          console.log(`[SEARCH] File search completed: ${fileUri.fsPath}`);
+          
         }
       } catch (error) {
-        console.error(`[SEARCH] Error searching ${fileUri.fsPath}:`, error);
-        // 即使出错也要继续，不要让整个搜索失败
+        // Continue even if error occurs, don't let the entire search fail
       }
     });
     
-    // 等待所有文件搜索完成
-    console.log(`[SEARCH] Waiting for all search tasks to complete in directory: ${uri.fsPath}`);
+          // Wait for all file searches to complete
+    
     try {
       await Promise.all(searchPromises);
-      console.log(`[SEARCH] All search tasks completed in directory: ${uri.fsPath}`);
+      
     } catch (error) {
-      console.error(`[SEARCH] Error waiting for search tasks in directory ${uri.fsPath}:`, error);
-      // 即使出错也要继续，不要让整个搜索失败
+      // Continue even if error occurs, don't let the entire search fail
     }
   }
   
   private async searchFile(uri: vscode.Uri, options: Options & { searchId?: string }, context: Context): Promise<void> {
-    console.log(`[SEARCH] searchFile started, uri: ${uri.fsPath}, searchId: ${options.searchId}`);
+
     
     if (await this.shouldIgnore(uri, options, context)) {
-      console.log(`[SEARCH] File ignored, uri: ${uri.fsPath}`);
+      
       return;
     }
     if (!uri.fsPath.endsWith(".mbt")) {
-      console.log(`[SEARCH] File not .mbt, skipping: ${uri.fsPath}`);
+      
       return;
     }
     const bytes = await vscode.workspace.fs.readFile(uri);
     const text = this.textDecoder.decode(bytes);
-    console.log(`[SEARCH] File content loaded, size: ${text.length} chars, uri: ${uri.fsPath}`);
     
-    // 直接调用 searchText，不使用 wrap 包装
+    
+    // Call searchText directly without wrapping
     await this.searchText(uri, options, text);
-    console.log(`[SEARCH] searchText completed for file: ${uri.fsPath}`);
+    
   }
   private async searchText(uri: vscode.Uri, options: Options & { searchId?: string }, content: string): Promise<void> {
     const contentLines = content.split("\n");
-    console.log(`[SEARCH] searchText called, uri: ${uri.fsPath}, searchId: ${options.searchId}, hasLayers: ${!!options.layers?.length}`);
+
     
-        // 检查是否有多层查询
+        // Check if there are multiple layer queries
     if (options.layers && options.layers.length > 0) {
-      // 直接调用多层搜索，不使用 wrap 包装
-      console.log(`[SEARCH] Executing multi-layer search directly`);
+      // Call multi-layer search directly without wrapping
+      
       await this.searchTextWithLayers(uri, options, content, contentLines);
-      console.log(`[SEARCH] Multi-layer search completed for: ${uri.fsPath}`);
+      
     } else {
-      // 清除之前的结果
+      // Clear previous results
       this.onClear.fire();
-      // 直接调用单层搜索，不使用 wrap 包装
-      console.log(`[SEARCH] Executing single-layer search directly`);
+              // Call single-layer search directly without wrapping
+      
       await this.searchTextSingle(uri, options, content, contentLines);
-      console.log(`[SEARCH] Single-layer search completed for: ${uri.fsPath}`);
+      
     }
-    console.log(`[SEARCH] searchText fully completed for: ${uri.fsPath}`);
+    
   }
 
   private async searchTextSingle(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
@@ -557,15 +551,13 @@ export class Service {
               }
               
               try {
-                // 检查 result 是否有 range 属性
+                // Check if result has range property
                 if (!json.result.range) {
-                  console.warn(`[SEARCH] Result missing range property:`, json.result);
                   continue;
                 }
                 
-                // 检查 range 是否有 start 和 end 属性
+                // Check if range has start and end properties
                 if (!json.result.range.start || !json.result.range.end) {
-                  console.warn(`[SEARCH] Result range missing start or end:`, json.result.range);
                   continue;
                 }
                 
@@ -576,29 +568,30 @@ export class Service {
                 const range = new vscode.Range(start, end);
                 const id = crypto.randomUUID();
                 
-                // 安全地获取上下文行，只包含匹配范围的内容
+                // Safely get context lines, only containing matched content
                 let context: string[] = [];
                 try {
                   if (startLine === endLine) {
-                    // 单行匹配：只显示匹配范围的内容
+                    // Single line match: only show matched content
                     const line = contentLines[startLine];
                     const startChar = json.result.range.start.column;
                     const endChar = json.result.range.end.column;
                     context = [line.slice(startChar, endChar)];
                   } else {
-                    // 多行匹配：第一行从匹配开始，最后一行到匹配结束
+                    // Multi-line match: first line from match start, last line to match end
                     const firstLine = contentLines[startLine];
                     const lastLine = contentLines[endLine];
                     const startChar = json.result.range.start.column;
                     const endChar = json.result.range.end.column;
                     
-                    context = [
-                      firstLine.slice(startChar), // 第一行从匹配开始
-                      ...contentLines.slice(startLine + 1, endLine), // 中间行完整显示
-                      lastLine.slice(0, endChar) // 最后一行到匹配结束
-                    ];
+                                          context = [
+                        firstLine.slice(startChar), // First line from match start
+                        ...contentLines.slice(startLine + 1, endLine), // Middle lines complete
+                        lastLine.slice(0, endChar) // Last line to match end
+                      ];
                   }
                 } catch (e) {
+                  // Fallback to empty context
                   context = [];
                 }
                 
@@ -610,21 +603,13 @@ export class Service {
                   captures: json.result.captures || {},
                 };
                 
-                // 调试：打印 context 内容
-                console.log(`[SEARCH] Result ${id} context:`, {
-                  uri: uri.fsPath,
-                  range: `${startLine}:${json.result.range.start.column}-${endLine}:${json.result.range.end.column}`,
-                  contextLength: context.length,
-                  contextContent: context,
-                  originalLines: contentLines.slice(startLine, endLine + 1)
-                });
+
                 
                 this.results.set(id, result);
                 this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
                 
               } catch (e) {
-                console.error(`[SEARCH] Error processing result:`, e);
-                // 继续处理其他结果，不中断整个搜索
+                // Continue processing other results, don't interrupt the entire search
               }
             }
           } catch (e) {
@@ -650,18 +635,18 @@ export class Service {
   }
 
   private async searchTextWithLayers(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
-    // 清除之前的结果，避免重复
+    // Clear previous results to avoid duplicates
     this.onClear.fire();
 
-    // 检查是否可以使用 Moonbit 的级联搜索
+    // Check if Moonbit cascade search can be used
     if (options.layers && options.layers.length > 0) {
-      // 直接使用 Moonbit 的级联搜索功能，不需要测试
+      // Use Moonbit cascade search directly, no testing needed
       await this.executeCascadeSearch(uri, options, content, contentLines);
       
-      // 注意：executeCascadeSearch 内部已经通过 onInsert 触发了结果
-      // finished 状态现在由 wrap 方法管理，不需要在这里设置
-    } else {
-      // 回退到单层搜索
+      // Note: executeCascadeSearch internally triggers results via onInsert
+      // finished state is now managed by wrap method, no need to set here
+          } else {
+        // Fallback to single-layer search
       const currentResults = await this.executeSearchQuery(uri, options.query, content, contentLines, options.searchId, "main");
       for (const result of currentResults) {
         this.results.set(result.id, result);
@@ -672,18 +657,14 @@ export class Service {
 
   // 新增：使用 Moonbit 的级联搜索
   private async executeCascadeSearch(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
-    // 准备层查询
+    // Prepare layer queries
     const layerQueries = options.layers!
       .filter(layer => layer.enabled && layer.query.trim())
       .map(layer => layer.query);
 
-    console.log(`[SEARCH] Executing cascade search for ${uri.fsPath}`, {
-      mainQuery: options.query,
-      layerQueries: layerQueries,
-      contentLength: content.length
-    });
 
-    // 使用 Moonbit 的级联搜索功能
+
+    // Use Moonbit cascade search functionality
     const request = {
       id: crypto.randomUUID(),
               method: "cascade_search",
@@ -741,13 +722,10 @@ export class Service {
             continue;
           }
 
-          // 处理调试消息
+          // Handle debug messages
           if (typeof json.result === "string" && json.result.startsWith("DEBUG:")) {
-            console.log("[MOONBIT]", json.result);
-            
-            // 检查是否是搜索完成消息
+                          // Check if it's a search completion message
             if (json.result.includes("Cascade search completed")) {
-              console.log(`[SEARCH] Cascade search completed for ${uri.fsPath}, debug message: ${json.result}`);
               clearTimeout(timeoutId);
               if (worker.task) {
                 worker.task.disposable?.dispose();
@@ -762,7 +740,7 @@ export class Service {
             continue;
           }
           
-          // 处理搜索结果
+          // Handle search results
           if (json.result && json.result.range) {
             const tsResult = {
               id: crypto.randomUUID(),
@@ -790,12 +768,12 @@ export class Service {
         }
       });
 
-      // 发送请求
+      // Send request
       worker.process.stdin.write(JSON.stringify(request) + "\n");
       
-      // 设置超时
+      // Set timeout
       const timeoutId = setTimeout(() => {
-        console.log(`[SEARCH] True cascade search timeout for ${uri.fsPath}, forcing completion`);
+  
         if (worker.task) {
           worker.task.disposable?.dispose();
           worker.task = undefined;
@@ -803,11 +781,11 @@ export class Service {
         }
         disposable?.dispose();
         resolve();
-      }, 30000); // 30秒超时
+      }, 30000); // 30 second timeout
 
-      // 添加额外的安全检查：如果 worker.task 不存在，立即解析
+      // Add extra safety check: if worker.task doesn't exist, resolve immediately
       if (!worker.task) {
-        console.log(`[SEARCH] No worker task available for ${uri.fsPath}, resolving immediately`);
+
         clearTimeout(timeoutId);
           disposable?.dispose();
           resolve();
@@ -815,9 +793,9 @@ export class Service {
     });
   }
 
-  // 新增：从行数组中提取上下文，保持整行显示但标记匹配范围
+  // Extract context from line array, keep full lines but mark match ranges
   private extractContextFromLines(contentLines: string[], startRow: number, endRow: number, startColumn?: number, endColumn?: number): string[] {
-    // 如果没有提供列信息，回退到原来的逻辑
+    // If no column info provided, fallback to original logic
     if (startColumn === undefined || endColumn === undefined) {
       const context: string[] = [];
       for (let i = Math.max(0, startRow - 2); i <= Math.min(contentLines.length - 1, endRow + 2); i++) {
@@ -826,22 +804,22 @@ export class Service {
       return context;
     }
 
-    // 保持整行显示，但标记匹配范围
+    // Keep full lines but mark match ranges
     if (startRow === endRow) {
-      // 单行匹配：显示整行，但标记匹配范围
+      // Single line match: show full line but mark match range
       const line = contentLines[startRow];
-      // 使用特殊标记来标识匹配范围，前端可以解析这些标记来高亮
+              // Use special markers to identify match ranges, frontend can parse these for highlighting
       return [`${line.slice(0, startColumn)}[MATCH_START]${line.slice(startColumn, endColumn)}[MATCH_END]${line.slice(endColumn)}`];
-    } else {
-      // 多行匹配：第一行从匹配开始，最后一行到匹配结束，中间行完整显示
+          } else {
+        // Multi-line match: first line from match start, last line to match end, middle lines complete
       const firstLine = contentLines[startRow];
       const lastLine = contentLines[endRow];
       
-      return [
-        `${firstLine.slice(0, startColumn)}[MATCH_START]${firstLine.slice(startColumn)}`, // 第一行到匹配开始
-        ...contentLines.slice(startRow + 1, endRow), // 中间行完整显示
-        `${lastLine.slice(0, endColumn)}[MATCH_END]${lastLine.slice(endColumn)}` // 最后一行从开始到匹配结束
-      ];
+              return [
+          `${firstLine.slice(0, startColumn)}[MATCH_START]${firstLine.slice(startColumn)}`, // First line to match start
+          ...contentLines.slice(startRow + 1, endRow), // Middle lines complete
+          `${lastLine.slice(0, endColumn)}[MATCH_END]${lastLine.slice(endColumn)}` // Last line from start to match end
+        ];
     }
   }
 
@@ -859,14 +837,14 @@ export class Service {
       const results: Result[] = [];
       let hasResolved = false;
       
-      // 添加超时机制
+      // Add timeout mechanism
       const timeout = setTimeout(() => {
         if (!hasResolved) {
           hasResolved = true;
-          console.warn(`[SEARCH] Timeout reached for ${queryType} query`);
+
           resolve(results);
         }
-      }, 10000); // 10秒超时
+              }, 10000); // 10 second timeout
       
       const processResults = async () => {
         try {
@@ -933,17 +911,15 @@ export class Service {
                 return;
               }
                 
-              // 检查 result 是否有 range 属性
-              if (!json.result.range) {
-                console.warn(`[SEARCH] Result missing range property:`, json.result);
-                continue;
-              }
+                              // Check if result has range property
+                      if (!json.result.range) {
+          continue;
+        }
                 
-              // 检查 range 是否有 start 和 end 属性
-              if (!json.result.range.start || !json.result.range.end) {
-                console.warn(`[SEARCH] Result range missing start or end:`, json.result.range);
-                continue;
-              }
+                              // Check if range has start and end properties
+                      if (!json.result.range.start || !json.result.range.end) {
+          continue;
+        }
                 
               const startLine = json.result.range.start.row;
               const endLine = json.result.range.end.row;
@@ -966,7 +942,7 @@ export class Service {
           worker.task.disposable = disposable;
           await worker.process.stdin.write(JSON.stringify(request) + "\n");
         } catch (error) {
-          console.error(`[SEARCH] Error in ${queryType} query:`, error);
+
           if (!hasResolved) {
             hasResolved = true;
             clearTimeout(timeout);
@@ -976,7 +952,7 @@ export class Service {
       };
       
       processResults().catch(error => {
-        console.error(`[SEARCH] Error in ${queryType} query:`, error);
+
         if (!hasResolved) {
           hasResolved = true;
           clearTimeout(timeout);
@@ -987,33 +963,33 @@ export class Service {
   }
 
     private async executeSearchQueryInResults(uri: vscode.Uri, query: string, previousResults: Result[], contentLines: string[], searchId?: string, queryType: string = "unknown"): Promise<Result[]> {
-    // 如果没有前一层结果，返回空数组
+    // If no previous layer results, return empty array
     if (previousResults.length === 0) {
       return [];
     }
 
-    // 收集所有前一层结果的范围
+    // Collect ranges of all previous layer results
     const searchRanges: vscode.Range[] = [];
     for (const result of previousResults) {
       searchRanges.push(result.range);
     }
 
-    // 合并相邻的范围，减少重复搜索
+    // Merge adjacent ranges to reduce duplicate searches
     const mergedRanges = this.mergeOverlappingRanges(searchRanges);
 
-    // 在每个合并后的范围内执行查询
+    // Execute query in each merged range
     const allResults: Result[] = [];
     
     for (const range of mergedRanges) {
-      // 提取该范围内的内容
+      // Extract content from this range
       const startLine = range.start.line;
       const endLine = range.end.line;
       const rangeContent = contentLines.slice(startLine, endLine + 1).join('\n');
       
-      // 在该范围内执行查询
+      // Execute query in this range
       const rangeResults = await this.executeSearchQuery(uri, query, rangeContent, contentLines, searchId, `${queryType}-range-${startLine}-${endLine}`);
       
-      // 调整结果的行号，使其相对于原始文件
+      // Adjust result line numbers to be relative to original file
       const adjustedResults = rangeResults.map(result => ({
         ...result,
         range: new vscode.Range(
@@ -1031,7 +1007,7 @@ export class Service {
   private mergeOverlappingRanges(ranges: vscode.Range[]): vscode.Range[] {
     if (ranges.length === 0) return [];
     
-    // 按起始行排序
+    // Sort by start line
     const sortedRanges = [...ranges].sort((a, b) => a.start.line - b.start.line);
     const merged: vscode.Range[] = [];
     
@@ -1040,7 +1016,7 @@ export class Service {
     for (let i = 1; i < sortedRanges.length; i++) {
       const next = sortedRanges[i];
       
-      // 如果当前范围与下一个范围重叠或相邻，则合并
+      // If current range overlaps or is adjacent to next range, merge them
       if (current.end.line >= next.start.line - 1) {
         current = new vscode.Range(
           current.start,
@@ -1057,7 +1033,7 @@ export class Service {
   }
 
   private filterOverlappingResults(results1: Result[], results2: Result[]): Result[] {
-    // 过滤重叠的结果：只保留在两个结果集中都出现的结果 多层查询的主要逻辑是取交集
+    // Filter overlapping results: only keep results that appear in both result sets. Main logic of multi-layer queries is intersection
     const overlappingResults: Result[] = [];
     
     for (const result1 of results1) {
@@ -1073,12 +1049,12 @@ export class Service {
   }
 
   private resultsOverlap(result1: Result, result2: Result): boolean {
-    // 检查两个结果是否重叠
-    // 这里使用简单的行范围重叠检查
+          // Check if two results overlap
+          // Use simple line range overlap check here
     const range1 = result1.range;
     const range2 = result2.range;
     
-    // 检查行范围是否重叠
+          // Check if line ranges overlap
     const startLine1 = range1.start.line;
     const endLine1 = range1.end.line;
     const startLine2 = range2.start.line;
@@ -1110,12 +1086,12 @@ export class Service {
     return false;
   }
 
-  // 轻量级持久化存储 - 只存储查询信息，不存储具体结果
+      // Lightweight persistent storage - only store query info, not specific results
   private async loadPersistedResults() {
-    // 不再加载具体结果，只记录日志
+          // No longer load specific results, only log
   }
 
   private async savePersistedResults() {
-    // 不再保存具体结果，只记录日志
+    // No longer save specific results, only log
   }
 }

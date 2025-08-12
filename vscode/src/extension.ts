@@ -32,7 +32,7 @@ export async function activate(context: vscode.ExtensionContext) {
       sidebarWebviewProvider.postMessage({ type: "expandAll" });
     }),
     vscode.commands.registerCommand("moon-grep.saveBookmark", () => {
-      // 这个功能现在集成在sidebar中
+      // This functionality is now integrated in sidebar
       vscode.window.showInformationMessage("Use the Bookmarks tab to save searches!");
     }),
     vscode.commands.registerCommand("moon-grep.clearHistory", () => {

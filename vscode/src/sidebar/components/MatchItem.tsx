@@ -22,18 +22,18 @@ export const MatchItem: React.FC<MatchItemProps> = ({
 }) => {
   const vscode = useVSCode();
 
-  // 解析匹配标记并高亮
+  // Parse match markers and highlight
   const parseMatchLine = (line: string) => {
     const parts: Array<{text: string, isMatch: boolean}> = [];
     let currentIndex = 0;
     
-    // 查找匹配标记
+    // Find match markers
     const matchStartIndex = line.indexOf('[MATCH_START]');
     const matchEndIndex = line.indexOf('[MATCH_END]');
     
     if (matchStartIndex !== -1 && matchEndIndex !== -1) {
-      // 有匹配标记的情况
-      // 匹配开始前的文本
+      // Case with match markers
+              // Text before match start
       if (matchStartIndex > 0) {
         parts.push({
           text: line.slice(0, matchStartIndex),
@@ -41,21 +41,21 @@ export const MatchItem: React.FC<MatchItemProps> = ({
         });
       }
       
-      // 匹配的文本
+              // Matched text
       parts.push({
         text: line.slice(matchStartIndex + 13, matchEndIndex), // 13 = '[MATCH_START]'.length
         isMatch: true
       });
       
-      // 匹配结束后的文本
+              // Text after match end
       if (matchEndIndex + 11 < line.length) { // 11 = '[MATCH_END]'.length
         parts.push({
           text: line.slice(matchEndIndex + 11),
           isMatch: false
         });
       }
-    } else {
-      // 没有匹配标记的情况，整行不高亮
+          } else {
+        // Case without match markers, entire line not highlighted
       parts.push({
         text: line,
         isMatch: false
@@ -95,7 +95,7 @@ export const MatchItem: React.FC<MatchItemProps> = ({
           <IconButton icon="close" title="Dismiss match" onClick={handleDismiss} />
         </div>
         {lines.map((line, i) => {
-          // 解析匹配标记并高亮
+          // Parse match markers and highlight
           const parts = parseMatchLine(line);
           return (
             <div key={i} className="match-line">

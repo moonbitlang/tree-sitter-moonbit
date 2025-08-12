@@ -33,22 +33,22 @@ const App: React.FC = () => {
       const message = event.data;
       switch (message.type) {
         case "insert": {
-          console.log(`[INSERT] Adding result: ${message.result.id} to ${message.result.uri}`);
+  
           setResults((prevResults) => {
-            const newResults = { ...prevResults }; // 保留所有现有结果
+            const newResults = { ...prevResults }; // Keep all existing results
             if (!newResults[message.result.uri]) {
               newResults[message.result.uri] = [];
             }
-            // 避免重复添加相同 ID 的结果
+                          // Avoid adding results with duplicate IDs
             if (!newResults[message.result.uri].some((r) => r.id === message.result.id)) {
               newResults[message.result.uri] = [...newResults[message.result.uri], message.result];
-              console.log(`[INSERT] Added result to ${message.result.uri}, now has ${newResults[message.result.uri].length} results`);
+  
             } else {
-              console.log(`[INSERT] Skipped duplicate result: ${message.result.id}`);
+              
             }
             return newResults;
           });
-          // 移除这里的 setStats，让 useEffect 统一处理统计
+          // Remove setStats here, let useEffect handle statistics uniformly
           setCollapsedFiles((prev) => ({
             ...prev,
             [message.result.uri]: prev[message.result.uri] !== undefined ? prev[message.result.uri] : false,
@@ -68,7 +68,7 @@ const App: React.FC = () => {
             }
             return newResults;
           });
-          // 移除结果后，统计会在 useEffect 中自动更新
+          // After removing results, statistics will be automatically updated in useEffect
           break;
         }
         case "clear":
@@ -98,7 +98,7 @@ const App: React.FC = () => {
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [results]); // 依赖 results 以响应状态变化
+      }, [results]); // Depend on results to respond to state changes
 
   useEffect(() => {
     let matchCount = 0;
@@ -106,10 +106,10 @@ const App: React.FC = () => {
     
     for (const [uri, resultsByUri] of Object.entries(results)) {
       matchCount += resultsByUri.length;
-      console.log(`[STATS] File ${uri}: ${resultsByUri.length} results`);
+      
     }
     
-    console.log(`[STATS] Total: ${matchCount} results in ${fileCount} files`);
+    
     
     setStats({
       fileCount,
@@ -144,21 +144,16 @@ const App: React.FC = () => {
     vscode.postMessage({ type: "loadBookmarks" });
   }, []);
 
-  const performSearch = (searchPattern: string) => {
+    const performSearch = (searchPattern: string) => {
     if (!searchPattern.trim()) {
-      console.log("[performSearch] Empty search pattern, skipping");
+ 
       return;
     }
     
-    // 获取启用的搜索层
+    // Get enabled search layers
     const enabledLayers = searchLayers.filter(layer => layer.enabled && layer.query.trim());
-    console.log("[performSearch] Executing search", { 
-      query: searchPattern, 
-      layers: enabledLayers,
-      totalLayers: searchLayers.length 
-    });
     
-    // 发送搜索请求，包含多层查询信息
+    // Send search request with multi-layer query info
     vscode.postMessage({
       type: "search",
       value: { 
@@ -194,15 +189,11 @@ const App: React.FC = () => {
     setSearchOptions(item.options);
     setActiveTab("search");
     
-    // 直接使用历史记录中的层信息进行搜索，避免状态更新延迟
+    // Use layer info from history directly for search, avoid state update delay
     const layers = item.layers && item.layers.length > 0 ? item.layers : [];
     const enabledLayers = layers.filter(layer => layer.enabled && layer.query.trim());
     
-    console.log("[handleRerunHistorySearch] Executing search with layers", { 
-      query: item.query, 
-      layers: enabledLayers,
-      totalLayers: layers.length 
-    });
+
     
     // 发送搜索请求，包含多层查询信息
     vscode.postMessage({
@@ -215,7 +206,7 @@ const App: React.FC = () => {
       },
     });
     
-    // 同时更新本地状态
+    // Update local state
     setSearchLayers(layers);
   };
   const handleDeleteHistoryItem = (id: string) =>
@@ -226,17 +217,13 @@ const App: React.FC = () => {
     setSearchOptions(bookmark.options);
     setActiveTab("search");
     
-    // 直接使用书签中的层信息进行搜索，避免状态更新延迟
+    // Use layer info from bookmark directly for search, avoid state update delay
     const layers = bookmark.layers && bookmark.layers.length > 0 ? bookmark.layers : [];
     const enabledLayers = layers.filter(layer => layer.enabled && layer.query.trim());
     
-    console.log("[handleRunBookmark] Executing search with layers", { 
-      query: bookmark.query, 
-      layers: enabledLayers,
-      totalLayers: layers.length 
-    });
+
     
-    // 发送搜索请求，包含多层查询信息
+    // Send search request with multi-layer query info
     vscode.postMessage({
       type: "search",
       value: { 
@@ -254,7 +241,7 @@ const App: React.FC = () => {
     vscode.postMessage({ type: "deleteBookmark", value: { id } });
 
   const handleAddBookmark = () => {
-    console.log("[handleAddBookmark] searchPattern:", searchPattern);
+
     if (!searchPattern.trim()) {
       console.error("[handleAddBookmark] No search pattern");
       vscode.postMessage({ type: "error", value: "No search query available." });
@@ -269,7 +256,7 @@ const App: React.FC = () => {
       vscode.postMessage({ type: "error", value: "Bookmark name cannot be empty." });
       return;
     }
-    // 获取启用的搜索层
+    // Get enabled search layers
     const enabledLayers = searchLayers.filter(layer => layer.enabled && layer.query.trim());
     
     vscode.postMessage({
@@ -281,11 +268,15 @@ const App: React.FC = () => {
         layers: enabledLayers.length > 0 ? enabledLayers : undefined
       },
     });
-    console.log("[handleAddBookmark] Sent addBookmark:", {
-      name: bookmarkName,
-      query: searchPattern,
-      options: searchOptions,
-      layers: enabledLayers,
+    
+    vscode.postMessage({
+      type: "addBookmark",
+      value: {
+        name: bookmarkName,
+        query: searchPattern,
+        options: searchOptions,
+        layers: enabledLayers,
+      },
     });
     setShowBookmarkModal(false);
     setBookmarkName("");
@@ -300,9 +291,9 @@ const App: React.FC = () => {
           searchValue={searchPattern}
           replaceValue={replacePattern}
           onSearchChange={(value) => {
-            console.log("[SearchReplaceGroup] Updated searchPattern:", value);
+
             setSearchPattern(value);
-            // 移除自动搜索，只在用户按回车时搜索
+            // Remove auto-search, only search when user presses Enter
             // performSearch(value);
           }}
           onReplaceChange={setReplacePattern}

@@ -666,7 +666,7 @@ fn search_in_node_with_query(
       
       // 调试：显示匹配的详细信息
       // 注意：这里我们无法访问 id，所以暂时注释掉调试输出
-      // jsonrpc_result("DEBUG: Match found: type=\{nodes[0].type_()}, text='\{nodes[0].text()}', bytes=\{start_byte}-\{end_byte}")
+  
       
       match yield_(Match::{ range, captures }) {
         IterEnd => break IterEnd

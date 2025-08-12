@@ -13,7 +13,7 @@ export interface Result {
   uri: string;
   range: Range;
   lines: string[];
-  searchId?: string; // 新增，可选字段
+  searchId?: string; // New, optional field
 }
 
 export interface SearchLayer {
@@ -33,14 +33,14 @@ export interface SearchStats {
   fileCount: number;
 }
 
-// 新增：书签相关接口
+// New: bookmark related interfaces
 export interface SearchBookmark {
   id: string;
   name: string;
   query: string;
   timestamp: number;
   options: SearchOptions;
-  layers?: SearchLayer[]; // 新增：支持多层查询书签
+  layers?: SearchLayer[]; // New: support multi-layer query bookmarks
 }
 
 export interface SearchHistoryItem {
@@ -49,7 +49,7 @@ export interface SearchHistoryItem {
   timestamp: number;
   resultCount: number;
   options: SearchOptions;
-  layers?: SearchLayer[]; // 新增：支持多层查询历史记录
+  layers?: SearchLayer[]; // New: support multi-layer query history
 }
 
 export type Response =
@@ -101,7 +101,7 @@ export type Request =
         query: string;
         includePattern: string;
         excludePattern: string;
-        layers?: SearchLayer[]; // 新增：支持多层查询
+        layers?: SearchLayer[]; // New: support multi-layer queries
       };
     }
   | { type: "clear" }
@@ -117,6 +117,6 @@ export type Request =
   | { type: "loadBookmarks" }
   | { type: "addBookmark"; value: { name: string; query: string; options: SearchOptions; layers?: SearchLayer[] } }
   | { type: "deleteBookmark"; value: { id: string } }
-  // 移除 addToHistory 消息类型，历史记录现在完全由后端控制
+  // Remove addToHistory message type, history is now completely controlled by backend
   // | { type: "addToHistory"; value: { query: string; options: SearchOptions } }
   | { type: "error"; value: string };
