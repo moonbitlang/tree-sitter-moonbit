@@ -388,26 +388,9 @@ pub impl @json.FromJson for Match with from_json(
 }
 
 ///|
+// Function using built-in equality for Node comparison
 fn node_equal(this : @tree_sitter.Node, that : @tree_sitter.Node) -> Bool {
-  if this.is_named() != that.is_named() {
-    return false
-  }
-  if this.type_() != that.type_() {
-    return false
-  }
-  let this_children = this.children().collect()
-  let that_children = that.children().collect()
-  if this_children.length() != that_children.length() {
-    return false
-  }
-  for i = 0; i < this_children.length(); i = i + 1 {
-    let this_child = this_children[i]
-    let that_child = that_children[i]
-    if not(node_equal(this_child, that_child)) {
-      return false
-    }
-  }
-  return true
+  return this == that
 }
 
 ///|
@@ -429,7 +412,7 @@ fn get_node_at_range(root_node : @tree_sitter.Node, range : @tree_sitter.Range) 
 
 
 ///|
-// Deduplication based on AST node member consistency
+// Deduplication based on AST node member consistency using built-in equality
 fn match_equal_by_ast(this : Match, that : Match, root_node : @tree_sitter.Node) -> Bool {
       // First check if ranges overlap
   if not(ranges_overlap(this.range, that.range)) {
@@ -448,37 +431,12 @@ fn match_equal_by_ast(this : Match, that : Match, root_node : @tree_sitter.Node)
   let this_node = this_node_opt.unwrap()
   let that_node = that_node_opt.unwrap()
   
-      // Check if node types are consistent
-  if this_node.type_() != that_node.type_() {
-    return false
-  }
-  
-      // Check if nodes are named consistently
-  if this_node.is_named() != that_node.is_named() {
-    return false
-  }
-  
-      // Check if child node counts are consistent
-  let this_children = this_node.children().collect()
-  let that_children = that_node.children().collect()
-  if this_children.length() != that_children.length() {
-    return false
-  }
-  
-      // Check if child node types are consistent (simplified version, only check first few child nodes)
-  let max_check = if this_children.length() > 3 { 3 } else { this_children.length() }
-  for i = 0; i < max_check; i = i + 1 {
-    if this_children[i].type_() != that_children[i].type_() {
-      return false
-    }
-  }
-  
-      // If node types, naming status, child node counts and types are all consistent, consider them duplicates
-  return true
+      // Use built-in equality for Node comparison
+  return this_node == that_node
 }
 
 ///|
-// AST-based deduplication function
+// AST-based deduplication function using built-in equality
 fn deduplicate_by_ast(matches : Array[Match], root_node : @tree_sitter.Node) -> Array[Match] {
   if matches.length() <= 1 {
     return matches
@@ -490,10 +448,11 @@ fn deduplicate_by_ast(matches : Array[Match], root_node : @tree_sitter.Node) -> 
   for i = 0; i < matches.length(); i = i + 1 {
     let mut is_duplicate = false
     
-    // Compare with already processed results
+    // Compare with already processed results using built-in equality
     for j = 0; j < processed_indices.length(); j = j + 1 {
       let processed_match = matches[processed_indices[j]]
       
+      // Use match_equal_by_ast for comparison
       if match_equal_by_ast(matches[i], processed_match, root_node) {
         is_duplicate = true
         break
@@ -664,10 +623,7 @@ fn search_in_node_with_query(
         start_point, end_point, start_byte, end_byte,
       )
       
-          // Debug: display detailed information about matches
-    // Note: We cannot access id here, so debug output is temporarily commented out
-  
-      
+          
       match yield_(Match::{ range, captures }) {
         IterEnd => break IterEnd
         IterContinue => continue
