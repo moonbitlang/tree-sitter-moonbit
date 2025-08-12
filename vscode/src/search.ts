@@ -630,7 +630,7 @@ export class Service {
         }
       });
     } catch (e) {
-      // 即使出错也要确保方法完成
+              // Ensure method completion even if error occurs
     }
   }
 
@@ -655,7 +655,7 @@ export class Service {
     }
   }
 
-  // 新增：使用 Moonbit 的级联搜索
+      // New: use Moonbit's cascading search
   private async executeCascadeSearch(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
     // Prepare layer queries
     const layerQueries = options.layers!

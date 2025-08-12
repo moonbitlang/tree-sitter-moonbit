@@ -64,9 +64,9 @@ export const SearchReplaceGroup: React.FC<SearchReplaceGroupProps> = ({
 
   return (
     <div className="search-replace-group">
-      {/* 搜索区块 */}
+      {/* Search block */}
       <div className="search-section">
-        {/* 主搜索行：+按钮 + 搜索框 */}
+                  {/* Main search row: + button + search box */}
         <div className="search-row">
           <ControlButton
             icon="add"
@@ -79,7 +79,7 @@ export const SearchReplaceGroup: React.FC<SearchReplaceGroupProps> = ({
           </div>
         </div>
         
-        {/* 额外的搜索层 */}
+                  {/* Additional search layers */}
         {searchLayers.map((layer, index) => (
           <div key={layer.id} className="search-layer-row">
             <ControlButton
@@ -102,7 +102,7 @@ export const SearchReplaceGroup: React.FC<SearchReplaceGroupProps> = ({
 
       </div>
       
-      {/* Replace区块 */}
+              {/* Replace block */}
       <div className="replace-section">
         <div className="replace-controls">
       <ControlButton

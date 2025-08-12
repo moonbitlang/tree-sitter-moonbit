@@ -12,7 +12,7 @@ fn main {
       let content = @encoding.decode(buffer.contents(), encoding=UTF8)
       let json = @json.parse(content)
       
-      // 解析并分发 JSON-RPC 请求
+      // Parse and dispatch JSON-RPC requests
       
       match json {
         {
@@ -49,7 +49,7 @@ fn main {
             }
           })
           
-          // 添加调试信息
+          // Add debug information
       
           
           let mut result_count = 0
@@ -57,11 +57,11 @@ fn main {
             jsonrpc_result(id~, result.to_json())
             result_count = result_count + 1
             
-            // 调试：打印每个结果的节点信息（简化格式）
+            // Debug: print node information for each result (simplified format)
             
           }
           
-          // 显示最终结果数量
+          // Display final result count
       
           jsonrpc_result(id~, Json::null())
         }

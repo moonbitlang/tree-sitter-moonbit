@@ -411,14 +411,14 @@ fn node_equal(this : @tree_sitter.Node, that : @tree_sitter.Node) -> Bool {
 }
 
 ///|
-// 检查两个范围是否重叠
+// Check if two ranges overlap
 fn ranges_overlap(this : @tree_sitter.Range, that : @tree_sitter.Range) -> Bool {
   return this.start_byte() < that.end_byte() && 
          this.end_byte() > that.start_byte()
 }
 
 ///|
-// 根据字节范围获取对应的 AST 节点
+// Get corresponding AST node based on byte range
 fn get_node_at_range(root_node : @tree_sitter.Node, range : @tree_sitter.Range) -> Option[@tree_sitter.Node] {
   return root_node.descendant_for_byte_range(
     range.start_byte(),
@@ -429,18 +429,18 @@ fn get_node_at_range(root_node : @tree_sitter.Node, range : @tree_sitter.Range) 
 
 
 ///|
-// 基于 AST 节点成员一致性的去重判断
+// Deduplication based on AST node member consistency
 fn match_equal_by_ast(this : Match, that : Match, root_node : @tree_sitter.Node) -> Bool {
-  // 首先检查范围是否重叠
+      // First check if ranges overlap
   if not(ranges_overlap(this.range, that.range)) {
     return false
   }
   
-  // 获取两个匹配对应的 AST 节点
+      // Get AST nodes corresponding to two matches
   let this_node_opt = get_node_at_range(root_node, this.range)
   let that_node_opt = get_node_at_range(root_node, that.range)
   
-  // 如果无法获取节点，回退到范围去重
+      // If unable to get nodes, fallback to range deduplication
   if this_node_opt == None || that_node_opt == None {
     return ranges_overlap(this.range, that.range)
   }
@@ -448,24 +448,24 @@ fn match_equal_by_ast(this : Match, that : Match, root_node : @tree_sitter.Node)
   let this_node = this_node_opt.unwrap()
   let that_node = that_node_opt.unwrap()
   
-  // 检查节点类型是否一致
+      // Check if node types are consistent
   if this_node.type_() != that_node.type_() {
     return false
   }
   
-  // 检查节点是否命名一致
+      // Check if nodes are named consistently
   if this_node.is_named() != that_node.is_named() {
     return false
   }
   
-  // 检查子节点数量是否一致
+      // Check if child node counts are consistent
   let this_children = this_node.children().collect()
   let that_children = that_node.children().collect()
   if this_children.length() != that_children.length() {
     return false
   }
   
-  // 检查子节点类型是否一致（简化版本，只检查前几个子节点）
+      // Check if child node types are consistent (simplified version, only check first few child nodes)
   let max_check = if this_children.length() > 3 { 3 } else { this_children.length() }
   for i = 0; i < max_check; i = i + 1 {
     if this_children[i].type_() != that_children[i].type_() {
@@ -473,12 +473,12 @@ fn match_equal_by_ast(this : Match, that : Match, root_node : @tree_sitter.Node)
     }
   }
   
-  // 如果节点类型、命名状态、子节点数量和类型都一致，则认为重复
+      // If node types, naming status, child node counts and types are all consistent, consider them duplicates
   return true
 }
 
 ///|
-// 基于 AST 的去重函数
+// AST-based deduplication function
 fn deduplicate_by_ast(matches : Array[Match], root_node : @tree_sitter.Node) -> Array[Match] {
   if matches.length() <= 1 {
     return matches
@@ -490,7 +490,7 @@ fn deduplicate_by_ast(matches : Array[Match], root_node : @tree_sitter.Node) -> 
   for i = 0; i < matches.length(); i = i + 1 {
     let mut is_duplicate = false
     
-    // 与已处理的结果比较
+    // Compare with already processed results
     for j = 0; j < processed_indices.length(); j = j + 1 {
       let processed_match = matches[processed_indices[j]]
       
@@ -595,7 +595,7 @@ fn search(
 }
  
 ///|
-// 复用预编译查询：在指定 Node 上执行匹配
+    // Reuse precompiled query: execute matching on specified Node
 fn search_in_node_with_query(
   query~ : @tree_sitter.Query,
   node~ : @tree_sitter.Node,
@@ -664,8 +664,8 @@ fn search_in_node_with_query(
         start_point, end_point, start_byte, end_byte,
       )
       
-      // 调试：显示匹配的详细信息
-      // 注意：这里我们无法访问 id，所以暂时注释掉调试输出
+          // Debug: display detailed information about matches
+    // Note: We cannot access id here, so debug output is temporarily commented out
   
       
       match yield_(Match::{ range, captures }) {
@@ -679,15 +679,15 @@ fn search_in_node_with_query(
 }
  
 ///|
-// 级联搜索：每一层都在前一层的结果范围内搜索
-// 基于节点范围的精确搜索，避免全文件扫描
+// Cascading search: each layer searches within the result range of the previous layer
+// Precise search based on node ranges, avoiding full file scanning
 // 
-// 参数：
-//   content - 要搜索的文件内容
-//   main_query - 主查询字符串
-//   layer_queries - 层查询字符串数组
+// Parameters:
+//   content - file content to search
+//   main_query - main query string
+//   layer_queries - array of layer query strings
 // 
-// 返回：匹配结果的迭代器
+// Returns: iterator of match results
 pub fn cascade_search(
   content~ : @string.View,
   main_query~ : @string.View,
@@ -700,7 +700,7 @@ pub fn cascade_search(
     }
   }
   
-  // 执行主查询，获取初始结果集
+      // Execute main query to get initial result set
   let main_results = search(query=main_query, content=content) catch {
     _ => {
       return Iter::empty()
@@ -709,12 +709,12 @@ pub fn cascade_search(
   
   let main_results_array = main_results.collect()
   
-  // 边界条件：主查询无结果时直接返回
+      // Boundary condition: return directly when main query has no results
   if main_results_array.length() == 0 {
     return Iter::empty()
   }
   
-  // 边界条件：无层查询时返回主查询结果（使用 AST 去重）
+      // Boundary condition: return main query results when no layer queries (using AST deduplication)
   if layer_queries.length() == 0 {
     let deduplicated_main_results = deduplicate_by_ast(main_results_array, root_node)
     return Iter::new(fn(yield_) {
@@ -728,7 +728,7 @@ pub fn cascade_search(
     })
   }
   
-  // 预编译所有层查询以提高性能
+      // Precompile all layer queries to improve performance
   let compiled_layer_queries : Array[@tree_sitter.Query] = []
   for layer_query in layer_queries {
     if layer_query == "" { continue }
@@ -738,23 +738,23 @@ pub fn cascade_search(
     compiled_layer_queries.push(q)
   }
   
-  // 边界条件：无有效层查询时返回空结果
+      // Boundary condition: return empty results when no valid layer queries
   if compiled_layer_queries.length() == 0 {
     return Iter::empty()
   }
   
-  // 级联搜索核心逻辑：逐层在结果范围内搜索
+      // Core logic of cascading search: search layer by layer within result ranges
   let mut current_results = main_results_array
   let mut current_level = 0
   
   for layer_query in compiled_layer_queries {
     current_level = current_level + 1
     
-    // 为当前层准备结果容器
+          // Prepare result container for current layer
     let next_level_results = []
     
     for current_result in current_results {
-      // 根据字节范围定位对应的 AST 节点
+      // Locate corresponding AST node based on byte range
       let current_node = root_node.descendant_for_byte_range(
         current_result.range.start_byte(),
         current_result.range.end_byte()
@@ -762,35 +762,35 @@ pub fn cascade_search(
       
       match current_node {
         Some(node) => {
-          // 在限定节点范围内执行层查询
+          // Execute layer query within limited node range
           let layer_matches = search_in_node_with_query(query=layer_query, node=node)
           let layer_results = layer_matches.collect()
           
-          // 收集当前层的匹配结果
+                      // Collect match results for current layer
           for layer_result in layer_results {
             next_level_results.push(layer_result)
           }
         }
-        None => {
-          // 节点定位失败时跳过当前结果
+                  None => {
+            // Skip current result when node location fails
           continue
         }
       }
     }
     
-    // 对当前层的结果进行 AST 去重
+          // Perform AST deduplication on current layer results
     current_results = deduplicate_by_ast(next_level_results, root_node)
     
-    // 优化：当前层无结果时提前终止搜索
+          // Optimization: terminate search early when current layer has no results
     if current_results.length() == 0 {
       return Iter::empty()
     }
   }
   
-  // 对最终结果进行 AST 去重
+      // Perform AST deduplication on final results
   let deduplicated_results = deduplicate_by_ast(current_results, root_node)
   
-  // 返回去重后的结果集
+      // Return deduplicated result set
   Iter::new(fn(yield_) {
     for result in deduplicated_results {
       match yield_(result) {

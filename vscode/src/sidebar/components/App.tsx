@@ -195,7 +195,7 @@ const App: React.FC = () => {
     
 
     
-    // 发送搜索请求，包含多层查询信息
+            // Send search request with multi-layer query information
     vscode.postMessage({
       type: "search",
       value: { 
@@ -234,7 +234,7 @@ const App: React.FC = () => {
       },
     });
     
-    // 同时更新本地状态
+            // Also update local state
     setSearchLayers(layers);
   };
   const handleDeleteBookmark = (id: string) =>

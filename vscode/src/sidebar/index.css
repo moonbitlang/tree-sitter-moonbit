@@ -393,14 +393,14 @@ input[type="checkbox"] {
   gap: 8px;
 }
 
-/* 搜索区块 */
+/* Search block */
 .search-section {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-/* 搜索行：+按钮 + 搜索框 */
+/* Search row: + button + search box */
 .search-row {
   display: flex;
   align-items: center;
@@ -408,7 +408,7 @@ input[type="checkbox"] {
   width: 100%;
 }
 
-/* 搜索层行：-按钮 + 搜索框 */
+/* Search layer row: - button + search box */
 .search-layer-row {
   display: flex;
   align-items: center;
@@ -418,12 +418,12 @@ input[type="checkbox"] {
 
 .search-input-wrapper {
   flex: 1;
-  min-width: 0; /* 允许flex item收缩 */
+      min-width: 0; /* Allow flex item to shrink */
 }
 
 
 
-/* Replace区块 */
+/* Replace block */
 .replace-section {
   display: flex;
   flex-direction: column;
@@ -472,7 +472,7 @@ input[type="checkbox"] {
   transition: background-color 0.1s ease;
 }
 
-/* 标签页样式 */
+/* Tab styles */
 .tabs-header {
   display: flex;
   border-bottom: 1px solid var(--vscode-panel-border);
@@ -515,7 +515,7 @@ input[type="checkbox"] {
   flex-direction: column;
 }
 
-/* 历史记录样式 */
+/* History styles */
 .history-container {
   display: flex;
   flex-direction: column;
@@ -637,7 +637,7 @@ input[type="checkbox"] {
   font-size: 9px;
 }
 
-/* 书签样式 */
+/* Bookmark styles */
 .bookmarks-container {
   display: flex;
   flex-direction: column;
@@ -785,7 +785,7 @@ input[type="checkbox"] {
   border: 1px solid var(--vscode-panel-border);
 }
 
-/* 多层查询样式 */
+/* Multi-layer query styles */
 .search-controls {
   display: flex;
   gap: 4px;
@@ -916,7 +916,7 @@ input[type="checkbox"] {
   font-size: 12px;
 }
 
-/* 模态框样式 */
+/* Modal styles */
 .modal-overlay {
   position: fixed;
   top: 0;
