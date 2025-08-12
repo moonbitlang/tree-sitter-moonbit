@@ -49,20 +49,16 @@ fn main {
             }
           })
           
-          // Add debug information
-      
           
           let mut result_count = 0
           for result in cascade_search(content~, main_query~, layer_queries_strings) {
             jsonrpc_result(id~, result.to_json())
             result_count = result_count + 1
             
-            // Debug: print node information for each result (simplified format)
             
           }
           
-          // Display final result count
-      
+          
           jsonrpc_result(id~, Json::null())
         }
         {
