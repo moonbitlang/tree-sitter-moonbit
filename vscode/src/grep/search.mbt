@@ -30,6 +30,8 @@ fn Context::new(
   }
 }
 
+
+
 ///|
 suberror ParseError {
   MissingInterpolator
@@ -386,26 +388,84 @@ pub impl @json.FromJson for Match with from_json(
 }
 
 ///|
+// Function using built-in equality for Node comparison
 fn node_equal(this : @tree_sitter.Node, that : @tree_sitter.Node) -> Bool {
-  if this.is_named() != that.is_named() {
+  return this == that
+}
+
+///|
+// Check if two ranges overlap
+fn ranges_overlap(this : @tree_sitter.Range, that : @tree_sitter.Range) -> Bool {
+  return this.start_byte() < that.end_byte() && 
+         this.end_byte() > that.start_byte()
+}
+
+///|
+// Get corresponding AST node based on byte range
+fn get_node_at_range(root_node : @tree_sitter.Node, range : @tree_sitter.Range) -> Option[@tree_sitter.Node] {
+  return root_node.descendant_for_byte_range(
+    range.start_byte(),
+    range.end_byte()
+  )
+}
+
+
+
+///|
+// Deduplication based on AST node member consistency using built-in equality
+fn match_equal_by_ast(this : Match, that : Match, root_node : @tree_sitter.Node) -> Bool {
+      // First check if ranges overlap
+  if not(ranges_overlap(this.range, that.range)) {
     return false
   }
-  if this.type_() != that.type_() {
-    return false
+  
+      // Get AST nodes corresponding to two matches
+  let this_node_opt = get_node_at_range(root_node, this.range)
+  let that_node_opt = get_node_at_range(root_node, that.range)
+  
+      // If unable to get nodes, fallback to range deduplication
+  if this_node_opt == None || that_node_opt == None {
+    return ranges_overlap(this.range, that.range)
   }
-  let this_children = this.children().collect()
-  let that_children = that.children().collect()
-  if this_children.length() != that_children.length() {
-    return false
+  
+  let this_node = this_node_opt.unwrap()
+  let that_node = that_node_opt.unwrap()
+  
+      // Use built-in equality for Node comparison
+  return this_node == that_node
+}
+
+///|
+// AST-based deduplication function using built-in equality
+fn deduplicate_by_ast(matches : Array[Match], root_node : @tree_sitter.Node) -> Array[Match] {
+  if matches.length() <= 1 {
+    return matches
   }
-  for i = 0; i < this_children.length(); i = i + 1 {
-    let this_child = this_children[i]
-    let that_child = that_children[i]
-    if not(node_equal(this_child, that_child)) {
-      return false
+  
+  let unique_matches : Array[Match] = []
+  let processed_indices : Array[Int] = []
+  
+  for i = 0; i < matches.length(); i = i + 1 {
+    let mut is_duplicate = false
+    
+    // Compare with already processed results using built-in equality
+    for j = 0; j < processed_indices.length(); j = j + 1 {
+      let processed_match = matches[processed_indices[j]]
+      
+      // Use match_equal_by_ast for comparison
+      if match_equal_by_ast(matches[i], processed_match, root_node) {
+        is_duplicate = true
+        break
+      }
+    }
+    
+    if not(is_duplicate) {
+      unique_matches.push(matches[i])
+      processed_indices.push(i)
     }
   }
-  return true
+  
+  return unique_matches
 }
 
 ///|
@@ -415,9 +475,11 @@ fn search(
 ) -> Iter[Match] raise ParseError {
   let compiler = compiler()
   let root_node = compiler.parser.parse_string(content).root_node() catch {
-    e => raise ParseError(e)
+    e => { raise ParseError(e) }
   }
-  let query = compiler.compile(query)
+  
+  let query = compiler.compile(query) catch { _ => { return Iter::empty() } }
+  
   Iter::new(fn(yield_) {
     matches~: for matched in query.matches(root_node) {
       let nodes = []
@@ -490,3 +552,210 @@ fn search(
     }
   })
 }
+ 
+///|
+    // Reuse precompiled query: execute matching on specified Node
+fn search_in_node_with_query(
+  query~ : @tree_sitter.Query,
+  node~ : @tree_sitter.Node,
+) -> Iter[Match] {
+  Iter::new(fn(yield_) {
+    matches~: for matched in query.matches(node) {
+      let nodes = []
+      let captures : Map[String, Array[@tree_sitter.Node]] = {}
+      for capture in matched.captures() {
+        let name = capture.name()
+        let node = capture.node()
+        nodes.push(node)
+        match captures.get(name) {
+          Some([repr, ..]) =>
+            if not(node_equal(repr, node)) {
+              continue matches~
+            }
+          Some([] as nodes) => nodes.push(node)
+          _ => captures[name] = [node]
+        }
+      }
+      for predicate in matched.predicates() {
+        match predicate {
+          [String("eq?"), Capture(this), Capture(that)] =>
+            match (captures.get(this), captures.get(that)) {
+              (Some([this_node, ..]), Some([that_node, ..])) =>
+                if not(node_equal(this_node, that_node)) {
+                  continue matches~
+                }
+              (Some([]), Some([])) | (None, None) => ()
+              _ => continue matches~
+            }
+          [String("eq?"), String(string), Capture(name)]
+          | [String("eq?"), Capture(name), String(string)] =>
+            match captures.get(name) {
+              Some([node, ..]) => if node.text() != string { continue matches~ }
+              Some([]) | None => continue matches~
+            }
+          [String("eq?"), String(this), String(that)] =>
+            if this != that {
+              continue matches~
+            }
+          _ => ()
+        }
+      }
+      let captures = captures
+        .iter()
+        .filter_map(fn(name_nodes) {
+          match name_nodes {
+            (['_', ..], _) => None
+            (name, nodes) => {
+              let text_nodes = nodes.map(fn(node) {
+                Text::{ range: node.range(), text: node.text() }
+              })
+              Some((name, text_nodes))
+            }
+          }
+        })
+        |> Map::from_iter()
+      nodes.sort_by(fn(a, b) { a.start_byte() - b.start_byte() })
+      let start_point = nodes[0].start_point()
+      let start_byte = nodes[0].start_byte()
+      let end_point = nodes[nodes.length() - 1].end_point()
+      let end_byte = nodes[nodes.length() - 1].end_byte()
+      let range = @tree_sitter.Range::new(
+        start_point, end_point, start_byte, end_byte,
+      )
+      
+          
+      match yield_(Match::{ range, captures }) {
+        IterEnd => break IterEnd
+        IterContinue => continue
+      }
+    } else {
+      IterContinue
+    }
+  })
+}
+ 
+///|
+// Cascading search: each layer searches within the result range of the previous layer
+// Precise search based on node ranges, avoiding full file scanning
+// 
+// Parameters:
+//   content - file content to search
+//   main_query - main query string
+//   layer_queries - array of layer query strings
+// 
+// Returns: iterator of match results
+pub fn cascade_search(
+  content~ : @string.View,
+  main_query~ : @string.View,
+  layer_queries : Array[@string.View]
+) -> Iter[Match] raise ParseError {
+  let compiler = compiler()
+  let root_node = compiler.parser.parse_string(content).root_node() catch {
+    _ => {
+      return Iter::empty()
+    }
+  }
+  
+      // Execute main query to get initial result set
+  let main_results = search(query=main_query, content=content) catch {
+    _ => {
+      return Iter::empty()
+    }
+  }
+  
+  let main_results_array = main_results.collect()
+  
+      // Boundary condition: return directly when main query has no results
+  if main_results_array.length() == 0 {
+    return Iter::empty()
+  }
+  
+      // Boundary condition: return main query results when no layer queries (using AST deduplication)
+  if layer_queries.length() == 0 {
+    let deduplicated_main_results = deduplicate_by_ast(main_results_array, root_node)
+    return Iter::new(fn(yield_) {
+      for result in deduplicated_main_results {
+        match yield_(result) {
+          IterEnd => break
+          IterContinue => continue
+        }
+      }
+      IterContinue
+    })
+  }
+  
+      // Precompile all layer queries to improve performance
+  let compiled_layer_queries : Array[@tree_sitter.Query] = []
+  for layer_query in layer_queries {
+    if layer_query == "" { continue }
+    let q = compiler.compile(layer_query) catch {
+      _ => { continue }
+    }
+    compiled_layer_queries.push(q)
+  }
+  
+      // Boundary condition: return empty results when no valid layer queries
+  if compiled_layer_queries.length() == 0 {
+    return Iter::empty()
+  }
+  
+      // Core logic of cascading search: search layer by layer within result ranges
+  let mut current_results = main_results_array
+  let mut current_level = 0
+  
+  for layer_query in compiled_layer_queries {
+    current_level = current_level + 1
+    
+          // Prepare result container for current layer
+    let next_level_results = []
+    
+    for current_result in current_results {
+      // Locate corresponding AST node based on byte range
+      let current_node = root_node.descendant_for_byte_range(
+        current_result.range.start_byte(),
+        current_result.range.end_byte()
+      )
+      
+      match current_node {
+        Some(node) => {
+          // Execute layer query within limited node range
+          let layer_matches = search_in_node_with_query(query=layer_query, node=node)
+          let layer_results = layer_matches.collect()
+          
+                      // Collect match results for current layer
+          for layer_result in layer_results {
+            next_level_results.push(layer_result)
+          }
+        }
+                  None => {
+            // Skip current result when node location fails
+          continue
+        }
+      }
+    }
+    
+          // Perform AST deduplication on current layer results
+    current_results = deduplicate_by_ast(next_level_results, root_node)
+    
+          // Optimization: terminate search early when current layer has no results
+    if current_results.length() == 0 {
+      return Iter::empty()
+    }
+  }
+  
+      // Perform AST deduplication on final results
+  let deduplicated_results = deduplicate_by_ast(current_results, root_node)
+  
+      // Return deduplicated result set
+  Iter::new(fn(yield_) {
+    for result in deduplicated_results {
+      match yield_(result) {
+        IterEnd => break
+        IterContinue => continue
+      }
+    }
+    IterContinue
+  })
+}
+
+

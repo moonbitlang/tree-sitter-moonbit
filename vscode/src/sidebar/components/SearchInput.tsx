@@ -5,13 +5,14 @@ interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
   onSearch: () => void;
+  placeholder?: string;
 }
 
-export const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, onSearch }) => {
+export const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, onSearch, placeholder = "Search (Press Enter to search)" }) => {
   return (
     <InputBox
       id="searchInput"
-      placeholder="Search"
+      placeholder={placeholder}
       value={value}
       onChange={onChange}
       multiline={true}

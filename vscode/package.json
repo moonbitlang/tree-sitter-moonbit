@@ -10,13 +10,10 @@
   "engines": {
     "vscode": "^1.100.0"
   },
-  "categories": [
-    "Other"
-  ],
+  "categories": ["Other"],
   "activationEvents": [],
-  "extensionDependencies": [
-    "ms-vscode.wasm-wasi-core"
-  ],
+  "extensionDependencies": ["ms-vscode.wasm-wasi-core"],
+  "extensionPack": ["ms-vscode.wasm-wasi-core"],
   "main": "./src/extension.ts",
   "contributes": {
     "commands": [
@@ -91,6 +88,41 @@
           "group": "navigation"
         }
       ]
+    },
+    "configuration": {
+      "title": "Moon Grep",
+      "properties": {
+        "moon-grep.searchHistory": {
+          "type": "array",
+          "default": [],
+          "description": "Stores the search history items.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "query": { "type": "string" },
+              "timestamp": { "type": "number" },
+              "resultCount": { "type": "number" },
+              "options": { "type": "object" }
+            }
+          }
+        },
+        "moon-grep.bookmarks": {
+          "type": "array",
+          "default": [],
+          "description": "Stores the saved bookmarks.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "query": { "type": "string" },
+              "timestamp": { "type": "number" },
+              "options": { "type": "object" }
+            }
+          }
+        }
+      }
     }
   },
   "scripts": {

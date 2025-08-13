@@ -11,13 +11,16 @@ fn main {
       }
       let content = @encoding.decode(buffer.contents(), encoding=UTF8)
       let json = @json.parse(content)
+      
+      // Parse and dispatch JSON-RPC requests
+      
       match json {
         {
           "id": id,
           "method": "search",
           "params": { "content": String(content), "query": String(query), .. },
           ..
-        } =>
+        } => {
           try {
             for result in search(query~, content~) {
               jsonrpc_result(id~, result)
@@ -26,6 +29,38 @@ fn main {
           } catch {
             error => jsonrpc_error(id~, error.to_json())
           }
+        }
+
+        {
+          "id": id,
+          "method": "cascade_search",
+          "params": { 
+            "content": String(content), 
+            "mainQuery": String(main_query), 
+            "layerQueries": Array(layer_queries), 
+            .. 
+          },
+          ..
+        } => {
+          let layer_queries_strings = layer_queries.map(fn(query_json) {
+            match query_json {
+              String(query) => query.view()
+              _ => "".view()
+            }
+          })
+          
+          
+          let mut result_count = 0
+          for result in cascade_search(content~, main_query~, layer_queries_strings) {
+            jsonrpc_result(id~, result.to_json())
+            result_count = result_count + 1
+            
+            
+          }
+          
+          
+          jsonrpc_result(id~, Json::null())
+        }
         {
           "id": id,
           "method": "replace",

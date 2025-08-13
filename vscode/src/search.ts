@@ -8,11 +8,19 @@ export interface Result {
   range: vscode.Range;
   captures: Record<string, Capture[]>;
   context: string[];
+  searchId?: string;
+  lines?: string[];
 }
 
 export interface Capture {
   range: vscode.Range;
   text: string;
+}
+
+export interface SearchLayer {
+  id: string;
+  query: string;
+  enabled: boolean;
 }
 
 export interface Options {
@@ -21,6 +29,7 @@ export interface Options {
   includePattern?: string;
   excludePattern?: string;
   includeIgnored?: boolean;
+  layers?: SearchLayer[]; // New: support multi-layer queries
 }
 
 export interface Context {
@@ -56,8 +65,14 @@ export class Service {
   public readonly onRemove: vscode.EventEmitter<{ id: string; uri: vscode.Uri }> =
     new vscode.EventEmitter();
   public readonly onClear: vscode.EventEmitter<void> = new vscode.EventEmitter();
+  public readonly onSearchFinished: vscode.EventEmitter<string | undefined> = new vscode.EventEmitter();
+  private pendingTasks: number = 0;
+  private finished: boolean = false;
+  private finishSearchId: string | undefined = undefined;
+
   constructor(extensionUri: vscode.Uri) {
     this.extensionUri = extensionUri;
+    this.loadPersistedResults();
   }
   private async getWasm(): Promise<Wasm.Wasm> {
     if (this.wasm) {
@@ -80,31 +95,48 @@ export class Service {
   private async createWorker(): Promise<Worker> {
     const workerId = this.workerId++;
     this.workers.set(workerId, undefined);
-    const wasm = await this.getWasm();
-    const grepWasm = await this.getGrepWasm();
-    const grepProcess = await wasm.createProcess("moon-grep", grepWasm, {
-      stdio: {
-        in: { kind: "pipeIn" },
-        out: { kind: "pipeOut" },
-        err: { kind: "pipeOut" },
-      },
-    });
-    const worker: Worker = {
-      id: workerId,
-      process: grepProcess,
-      cancelTask: () => {
-        if (worker.task) {
-          worker.task.disposable?.dispose();
-          worker.task = undefined;
-        }
-        this.onAvail.fire();
-      },
-    };
-    this.workers.set(workerId, worker);
-    worker.process.run().then(() => {
-      worker.cancelTask();
-    });
-    return worker;
+    
+    try {
+      const wasm = await this.getWasm();
+      const grepWasm = await this.getGrepWasm();
+      const grepProcess = await wasm.createProcess("moon-grep", grepWasm, {
+        stdio: {
+          in: { kind: "pipeIn" },
+          out: { kind: "pipeOut" },
+          err: { kind: "pipeOut" },
+        },
+      });
+      
+      const worker: Worker = {
+        id: workerId,
+        process: grepProcess,
+        cancelTask: () => {
+          if (worker.task) {
+            worker.task.disposable?.dispose();
+            worker.task = undefined;
+          }
+          this.onAvail.fire();
+        },
+      };
+      
+      this.workers.set(workerId, worker);
+      
+              // Start process and handle possible errors
+      worker.process.run().then(() => {
+        worker.cancelTask();
+      }).catch((error) => {
+        console.error(`[WORKER] Worker ${workerId} process failed:`, error);
+        worker.cancelTask();
+        // Remove failed worker from workers map
+        this.workers.delete(workerId);
+      });
+      
+      return worker;
+    } catch (error) {
+      console.error(`[WORKER] Failed to create worker ${workerId}:`, error);
+      this.workers.delete(workerId);
+      throw error;
+    }
   }
   private async waitAvail(): Promise<void> {
     await new Promise<void>((resolve) => {
@@ -119,10 +151,12 @@ export class Service {
     });
   }
   private async getWorker(): Promise<Worker> {
+    let retryCount = 0;
+    const maxRetries = 3;
+    
     while (true) {
       for (const [, worker] of this.workers) {
         if (worker === undefined) {
-          // Worker is being created, skipping
           continue;
         }
         if (worker.task) {
@@ -135,185 +169,114 @@ export class Service {
           return worker;
         }
       }
+      
       if (this.workers.size < this.workerLimit) {
-        const worker = await this.createWorker();
-        worker.task = {
-          id: this.taskId++,
-        };
-        return worker;
+        try {
+          const worker = await this.createWorker();
+          worker.task = {
+            id: this.taskId++,
+          };
+          return worker;
+        } catch (error) {
+          console.error(`[WORKER] Failed to create worker (attempt ${retryCount + 1}/${maxRetries}):`, error);
+          retryCount++;
+          
+          if (retryCount >= maxRetries) {
+            throw new Error(`Failed to create worker after ${maxRetries} attempts`);
+          }
+          
+          // Wait for a while before retrying
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
       } else {
         await this.waitAvail();
       }
     }
   }
-  public async searchText(uri: vscode.Uri, options: Options, content: string): Promise<void> {
-    const contentLines = content.split("\n");
-    const request = {
-      id: crypto.randomUUID(),
-      method: "search",
-      params: {
-        query: options.query,
-        content: content,
-      },
-    };
-    await new Promise<void>(async (resolve) => {
-      const worker = await this.getWorker();
-      if (!worker.process.stdin) {
-        throw new Error(`Worker ${worker.id} stdin is not available`);
+  private wrap(p: Promise<any>, searchId?: string) {
+    this.pendingTasks++;
+    
+    
+    p.finally(() => {
+      this.pendingTasks--;
+      
+      
+      // Prevent pendingTasks from becoming negative
+      if (this.pendingTasks < 0) {
+        this.pendingTasks = 0;
       }
-      if (!worker.process.stdout) {
-        throw new Error(`Worker ${worker.id} stdout is not available`);
-      }
-      if (!worker.task) {
-        // Worker task has been cancelled
-        return;
-      }
-      let buffer = "";
-      let disposable: vscode.Disposable | undefined;
-      disposable = worker.process.stdout.onData(async (data) => {
-        if (!worker.task) {
-          // Worker task has been cancelled
-          disposable?.dispose();
-          return;
-        }
-        buffer += this.textDecoder.decode(data);
-        const stdoutLines = buffer.split("\n");
-        if (stdoutLines.length < 2) {
-          return;
-        }
-        const lastIndex = stdoutLines.length - 1;
-        buffer = stdoutLines[lastIndex];
-        for (const line of stdoutLines.slice(0, lastIndex)) {
-          let json: any;
+      
+              // When all tasks complete, trigger search completion event
+      if (this.pendingTasks === 0 && !this.finished) {
+        this.finished = true;
+
+                  // Only trigger event when searchId matches
+        if (searchId === this.finishSearchId) {
           try {
-            json = JSON.parse(line);
+            this.onSearchFinished.fire(searchId);
+  
           } catch (e) {
-            console.error("Failed to parse JSON:", line);
-            continue;
+            console.error(`[SEARCH] Error firing onSearchFinished event:`, e);
+            // Ensure event is triggered even if error occurs
+            this.onSearchFinished.fire(searchId);
           }
-          if (!("id" in json)) {
-            continue;
+                  } else {
+            // SearchId mismatch
           }
-          if (json.id !== request.id) {
-            throw new Error(
-              `(Worker ${worker.id}) (Task ${worker.task.id}): Ignoring response for request ID ${JSON.stringify(json)}`
-            );
-          }
-          if (!("result" in json)) {
-            console.error('Missing "result" in JSON:', json);
-            continue;
-          }
-          if (!json.result) {
-            worker.cancelTask();
-            resolve();
-            break;
-          }
-          const startLine = json.result.range.start.row;
-          const endLine = json.result.range.end.row;
-          const start = new vscode.Position(startLine, json.result.range.start.column);
-          const end = new vscode.Position(endLine, json.result.range.end.column);
-          const range = new vscode.Range(start, end);
-          const id = crypto.randomUUID();
-          const result = {
-            id,
-            uri: uri,
-            range: range,
-            context: contentLines.slice(startLine, endLine + 1),
-            captures: json.result.captures,
-          };
-          this.results.set(id, result);
-          this.onInsert.fire(result);
-        }
-      });
-      worker.task.disposable = disposable;
-      await worker.process.stdin.write(JSON.stringify(request) + "\n");
+      }
     });
   }
-  private async searchFile(uri: vscode.Uri, options: Options, context: Context): Promise<void> {
-    if (await this.shouldIgnore(uri, options, context)) {
-      return;
-    }
-    if (!uri.fsPath.endsWith(".mbt")) {
-      return;
-    }
-    const bytes = await vscode.workspace.fs.readFile(uri);
-    const text = this.textDecoder.decode(bytes);
-    await this.searchText(uri, options, text);
-  }
-  private async shouldIgnore(
-    uri: vscode.Uri,
-    options: Options,
-    context: Context
-  ): Promise<boolean> {
-    if (options.includePattern && !uri.fsPath.match(options.includePattern)) {
-      return true;
-    }
-    if (options.excludePattern && uri.fsPath.match(options.excludePattern)) {
-      return true;
-    }
-    if (!options.includeIgnored) {
-      for (const ignoredRoot of context.ignoreRoots) {
-        if (uri.fsPath.startsWith(ignoredRoot.fsPath)) {
-          const relativePath = uri.fsPath.slice(ignoredRoot.fsPath.length);
-          if (context.ignore.ignores(relativePath)) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-  private async searchDirectory(
-    uri: vscode.Uri,
-    options: Options,
-    context: Context
-  ): Promise<void> {
-    if (await this.shouldIgnore(uri, options, context)) {
-      return;
-    }
-    const gitignoreUri = vscode.Uri.joinPath(uri, ".gitignore");
-    try {
-      const bytes = await vscode.workspace.fs.readFile(gitignoreUri);
-      const text = this.textDecoder.decode(bytes);
-      context = {
-        ignore: context.ignore.add(text.split("\n")),
-        ignoreRoots: [
-          ...context.ignoreRoots,
-          uri.fsPath.endsWith("/") ? uri : vscode.Uri.joinPath(uri, "/"),
-        ],
-      };
-    } catch (e) {
-      // Ignore error
-    }
-    const files = await vscode.workspace.fs.readDirectory(uri);
-    Promise.all(
-      files.map(async ([name, type]) => {
-        const fileUri = vscode.Uri.joinPath(uri, name);
-        if (type === vscode.FileType.Directory) {
-          await this.searchDirectory(fileUri, options, context);
-        } else if (type === vscode.FileType.File) {
-          await this.searchFile(fileUri, options, context);
-        }
-      })
-    );
-  }
-  public async search(uri: vscode.Uri, options: Options): Promise<void> {
-    this.reset();
+
+  public async search(uri: vscode.Uri, options: Options & { searchId?: string }): Promise<void> {
+
+    
+    // Reset state without triggering onSearchFinished event
+    await this.reset();
+    this.pendingTasks = 0;
+    this.finished = false;
+    this.finishSearchId = options.searchId;
+    
+
+    
+          // Simplify task counting: only wrap main search tasks
     const stat = await vscode.workspace.fs.stat(uri);
+    let searchPromise: Promise<void>;
+    
     switch (stat.type) {
-      case vscode.FileType.Directory:
-        this.searchDirectory(uri, options, {
+              case vscode.FileType.Directory:
+          // For directory search, wrap the entire search process
+    
+        searchPromise = this.searchDirectory(uri, options, {
           ignore: ignore(),
           ignoreRoots: [],
         });
         break;
-      case vscode.FileType.File:
-        this.searchFile(uri, options, {
+              case vscode.FileType.File:
+          // For file search, wrap the search process
+          searchPromise = this.searchFile(uri, options, {
           ignore: ignore(),
           ignoreRoots: [],
         });
         break;
+              default:
+          // Unknown file type
+          return;
     }
+    
+            // Use wrap method to wrap search tasks
+    this.wrap(searchPromise, options.searchId);
+    
+          // Add timeout mechanism to prevent search from hanging forever
+          setTimeout(() => {
+        if (!this.finished && this.pendingTasks > 0) {
+          // Force trigger onSearchFinished event
+          this.pendingTasks = 0;
+          this.finished = true;
+          if (options.searchId === this.finishSearchId) {
+          this.onSearchFinished.fire(options.searchId);
+        }
+              }
+      }, 30000); // 30 second timeout
   }
   public async replace(resultId: string, replace: string): Promise<void> {
     try {
@@ -338,13 +301,11 @@ export class Service {
         throw new Error("Child process stdout is not available");
       }
       if (!worker.task) {
-        // Worker task has been cancelled
         return;
       }
       let buffer = "";
       const disposable = worker.process.stdout.onData(async (data) => {
         if (!worker.task) {
-          // Worker task has been cancelled
           disposable?.dispose();
           return;
         }
@@ -404,7 +365,6 @@ export class Service {
     const terminationPromises: Promise<number>[] = [];
     for (const [workerId, worker] of this.workers) {
       if (worker === undefined) {
-        // Worker is being created, skipping
         continue;
       }
       if (!worker.task) {
@@ -420,5 +380,718 @@ export class Service {
     this.availDisposables = [];
     this.results.clear();
     this.onClear.fire();
+  }
+  private async searchDirectory(
+    uri: vscode.Uri,
+    options: Options & { searchId?: string },
+    context: Context
+  ): Promise<void> {
+
+    
+    if (await this.shouldIgnore(uri, options, context)) {
+      
+      return;
+    }
+    const gitignoreUri = vscode.Uri.joinPath(uri, ".gitignore");
+    try {
+      const bytes = await vscode.workspace.fs.readFile(gitignoreUri);
+      const text = this.textDecoder.decode(bytes);
+      context = {
+        ignore: context.ignore.add(text.split("\n")),
+        ignoreRoots: [
+          ...context.ignoreRoots,
+          uri.fsPath.endsWith("/") ? uri : vscode.Uri.joinPath(uri, "/"),
+        ],
+      };
+    } catch (e) {
+    }
+    const files = await vscode.workspace.fs.readDirectory(uri);
+    
+    
+          // Create search tasks for each file without wrapping
+    const searchPromises = files.map(async ([name, type]) => {
+        const fileUri = vscode.Uri.joinPath(uri, name);
+      try {
+                  if (type === vscode.FileType.Directory) {
+            // Recursively search subdirectories
+
+          await this.searchDirectory(fileUri, options, context);
+          
+                  } else if (type === vscode.FileType.File) {
+            // Search single file
+          
+          await this.searchFile(fileUri, options, context);
+          
+        }
+      } catch (error) {
+        // Continue even if error occurs, don't let the entire search fail
+      }
+    });
+    
+          // Wait for all file searches to complete
+    
+    try {
+      await Promise.all(searchPromises);
+      
+    } catch (error) {
+      // Continue even if error occurs, don't let the entire search fail
+    }
+  }
+  
+  private async searchFile(uri: vscode.Uri, options: Options & { searchId?: string }, context: Context): Promise<void> {
+
+    
+    if (await this.shouldIgnore(uri, options, context)) {
+      
+      return;
+    }
+    if (!uri.fsPath.endsWith(".mbt")) {
+      
+      return;
+    }
+    const bytes = await vscode.workspace.fs.readFile(uri);
+    const text = this.textDecoder.decode(bytes);
+    
+    
+    // Call searchText directly without wrapping
+    await this.searchText(uri, options, text);
+    
+  }
+  private async searchText(uri: vscode.Uri, options: Options & { searchId?: string }, content: string): Promise<void> {
+    const contentLines = content.split("\n");
+
+    
+        // Check if there are multiple layer queries
+    if (options.layers && options.layers.length > 0) {
+      // Call multi-layer search directly without wrapping
+      
+      await this.searchTextWithLayers(uri, options, content, contentLines);
+      
+    } else {
+      // Clear previous results
+      this.onClear.fire();
+              // Call single-layer search directly without wrapping
+      
+      await this.searchTextSingle(uri, options, content, contentLines);
+      
+    }
+    
+  }
+
+  private async searchTextSingle(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
+    const request = {
+      id: crypto.randomUUID(),
+      method: "search",
+      params: {
+        query: options.query,
+        content: content,
+      },
+    };
+    
+    try {
+      await new Promise<void>(async (resolve, reject) => {
+        const worker = await this.getWorker();
+        if (!worker.process.stdin) {
+          reject(new Error(`Worker ${worker.id} stdin is not available`));
+          return;
+        }
+        if (!worker.process.stdout) {
+          reject(new Error(`Worker ${worker.id} stdout is not available`));
+          return;
+        }
+        if (!worker.task) {
+          resolve();
+          return;
+        }
+        
+        let buffer = "";
+        let disposable: vscode.Disposable | undefined;
+        let hasResolved = false;
+        
+        disposable = worker.process.stdout.onData(async (data) => {
+          if (!worker.task || hasResolved) {
+            disposable?.dispose();
+            return;
+          }
+          
+          try {
+            buffer += this.textDecoder.decode(data);
+            const stdoutLines = buffer.split("\n");
+            if (stdoutLines.length < 2) {
+              return;
+            }
+            const lastIndex = stdoutLines.length - 1;
+            buffer = stdoutLines[lastIndex];
+            
+            for (const line of stdoutLines.slice(0, lastIndex)) {
+              let json: any;
+              try {
+                json = JSON.parse(line);
+              } catch (e) {
+                continue;
+              }
+              
+              if (!("id" in json)) {
+                continue;
+              }
+              if (json.id !== request.id) {
+                continue;
+              }
+              if (!("result" in json)) {
+                continue;
+              }
+              if (!json.result) {
+                if (!hasResolved) {
+                  hasResolved = true;
+                  disposable?.dispose();
+                  worker.cancelTask();
+                  resolve();
+                }
+                break;
+              }
+              
+              try {
+                // Check if result has range property
+                if (!json.result.range) {
+                  continue;
+                }
+                
+                // Check if range has start and end properties
+                if (!json.result.range.start || !json.result.range.end) {
+                  continue;
+                }
+                
+                const startLine = json.result.range.start.row;
+                const endLine = json.result.range.end.row;
+                const start = new vscode.Position(startLine, json.result.range.start.column);
+                const end = new vscode.Position(endLine, json.result.range.end.column);
+                const range = new vscode.Range(start, end);
+                const id = crypto.randomUUID();
+                
+                // Safely get context lines, only containing matched content
+                let context: string[] = [];
+                try {
+                  if (startLine === endLine) {
+                    // Single line match: only show matched content
+                    const line = contentLines[startLine];
+                    const startChar = json.result.range.start.column;
+                    const endChar = json.result.range.end.column;
+                    context = [line.slice(startChar, endChar)];
+                  } else {
+                    // Multi-line match: first line from match start, last line to match end
+                    const firstLine = contentLines[startLine];
+                    const lastLine = contentLines[endLine];
+                    const startChar = json.result.range.start.column;
+                    const endChar = json.result.range.end.column;
+                    
+                                          context = [
+                        firstLine.slice(startChar), // First line from match start
+                        ...contentLines.slice(startLine + 1, endLine), // Middle lines complete
+                        lastLine.slice(0, endChar) // Last line to match end
+                      ];
+                  }
+                } catch (e) {
+                  // Fallback to empty context
+                  context = [];
+                }
+                
+                const result = {
+                  id,
+                  uri: uri,
+                  range: range,
+                  context: context,
+                  captures: json.result.captures || {},
+                };
+                
+
+                
+                this.results.set(id, result);
+                this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
+                
+              } catch (e) {
+                // Continue processing other results, don't interrupt the entire search
+              }
+            }
+          } catch (e) {
+            if (!hasResolved) {
+              hasResolved = true;
+              disposable?.dispose();
+              worker.cancelTask();
+              resolve();
+            }
+          }
+        });
+        
+        worker.task.disposable = disposable;
+        
+        try {
+          await worker.process.stdin.write(JSON.stringify(request) + "\n");
+        } catch (e) {
+        }
+      });
+    } catch (e) {
+              // Ensure method completion even if error occurs
+    }
+  }
+
+  private async searchTextWithLayers(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
+    // Clear previous results to avoid duplicates
+    this.onClear.fire();
+
+    // Check if Moonbit cascade search can be used
+    if (options.layers && options.layers.length > 0) {
+      // Use Moonbit cascade search directly, no testing needed
+      await this.executeCascadeSearch(uri, options, content, contentLines);
+      
+      // Note: executeCascadeSearch internally triggers results via onInsert
+      // finished state is now managed by wrap method, no need to set here
+          } else {
+        // Fallback to single-layer search
+      const currentResults = await this.executeSearchQuery(uri, options.query, content, contentLines, options.searchId, "main");
+      for (const result of currentResults) {
+        this.results.set(result.id, result);
+        this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context });
+      }
+    }
+  }
+
+      // New: use Moonbit's cascading search
+  private async executeCascadeSearch(uri: vscode.Uri, options: Options & { searchId?: string }, content: string, contentLines: string[]): Promise<void> {
+    // Prepare layer queries
+    const layerQueries = options.layers!
+      .filter(layer => layer.enabled && layer.query.trim())
+      .map(layer => layer.query);
+
+
+
+    // Use Moonbit cascade search functionality
+    const request = {
+      id: crypto.randomUUID(),
+              method: "cascade_search",
+      params: {
+        content: content,
+        mainQuery: options.query,
+        layerQueries: layerQueries,
+      },
+    };
+
+    return new Promise<void>(async (resolve) => {
+      const worker = await this.getWorker();
+      if (!worker.process.stdin) {
+        throw new Error(`Worker ${worker.id} stdin is not available`);
+      }
+      if (!worker.process.stdout) {
+        throw new Error(`Worker ${worker.id} stdout is not available`);
+      }
+      if (!worker.task) {
+        resolve();
+        return;
+      }
+
+      let buffer = "";
+      let disposable: vscode.Disposable | undefined;
+      let requestId = request.id;
+      
+      disposable = worker.process.stdout.onData(async (data) => {
+        if (!worker.task) {
+          disposable?.dispose();
+          resolve();
+          return;
+        }
+
+        buffer += this.textDecoder.decode(data);
+        const stdoutLines = buffer.split("\n");
+        if (stdoutLines.length < 2) {
+          return;
+        }
+        const lastIndex = stdoutLines.length - 1;
+        buffer = stdoutLines[lastIndex];
+
+        for (const line of stdoutLines.slice(0, lastIndex)) {
+          let json: any;
+          try {
+            json = JSON.parse(line);
+          } catch (e) {
+            continue;
+          }
+
+          if (!("id" in json) || json.id !== requestId) {
+            continue;
+          }
+          if (!("result" in json)) {
+            continue;
+          }
+
+          // Handle debug messages
+          if (typeof json.result === "string" && json.result.startsWith("DEBUG:")) {
+                          // Check if it's a search completion message
+            if (json.result.includes("Cascade search completed")) {
+              clearTimeout(timeoutId);
+              if (worker.task) {
+                worker.task.disposable?.dispose();
+                worker.task = undefined;
+                this.onAvail.fire();
+              }
+              disposable?.dispose();
+              resolve();
+              return;
+            }
+            
+            continue;
+          }
+          
+          // Handle search results
+          if (json.result && json.result.range) {
+            const tsResult = {
+              id: crypto.randomUUID(),
+            uri: uri,
+            range: new vscode.Range(
+                json.result.range.start.row,
+                json.result.range.start.column,
+                json.result.range.end.row,
+                json.result.range.end.column
+            ),
+              captures: json.result.captures || {},
+              context: this.extractContextFromLines(
+                contentLines, 
+                json.result.range.start.row, 
+                json.result.range.end.row,
+                json.result.range.start.column,
+                json.result.range.end.column
+              ),
+            searchId: options.searchId,
+          };
+
+            this.results.set(tsResult.id, tsResult);
+          this.onInsert.fire(tsResult);
+          }
+        }
+      });
+
+      // Send request
+      worker.process.stdin.write(JSON.stringify(request) + "\n");
+      
+      // Set timeout
+      const timeoutId = setTimeout(() => {
+  
+        if (worker.task) {
+          worker.task.disposable?.dispose();
+          worker.task = undefined;
+          this.onAvail.fire();
+        }
+        disposable?.dispose();
+        resolve();
+      }, 30000); // 30 second timeout
+
+      // Add extra safety check: if worker.task doesn't exist, resolve immediately
+      if (!worker.task) {
+
+        clearTimeout(timeoutId);
+          disposable?.dispose();
+          resolve();
+        }
+    });
+  }
+
+  // Extract context from line array, keep full lines but mark match ranges
+  private extractContextFromLines(contentLines: string[], startRow: number, endRow: number, startColumn?: number, endColumn?: number): string[] {
+    // If no column info provided, fallback to original logic
+    if (startColumn === undefined || endColumn === undefined) {
+      const context: string[] = [];
+      for (let i = Math.max(0, startRow - 2); i <= Math.min(contentLines.length - 1, endRow + 2); i++) {
+        context.push(contentLines[i]);
+      }
+      return context;
+    }
+
+    // Keep full lines but mark match ranges
+    if (startRow === endRow) {
+      // Single line match: show full line but mark match range
+      const line = contentLines[startRow];
+              // Use special markers to identify match ranges, frontend can parse these for highlighting
+      return [`${line.slice(0, startColumn)}[MATCH_START]${line.slice(startColumn, endColumn)}[MATCH_END]${line.slice(endColumn)}`];
+          } else {
+        // Multi-line match: first line from match start, last line to match end, middle lines complete
+      const firstLine = contentLines[startRow];
+      const lastLine = contentLines[endRow];
+      
+              return [
+          `${firstLine.slice(0, startColumn)}[MATCH_START]${firstLine.slice(startColumn)}`, // First line to match start
+          ...contentLines.slice(startRow + 1, endRow), // Middle lines complete
+          `${lastLine.slice(0, endColumn)}[MATCH_END]${lastLine.slice(endColumn)}` // Last line from start to match end
+        ];
+    }
+  }
+
+  private async executeSearchQuery(uri: vscode.Uri, query: string, content: string, contentLines: string[], searchId?: string, queryType: string = "unknown"): Promise<Result[]> {
+    const request = {
+      id: crypto.randomUUID(),
+      method: "search",
+      params: {
+        query: query,
+        content: content,
+      },
+    };
+
+    return new Promise<Result[]>((resolve) => {
+      const results: Result[] = [];
+      let hasResolved = false;
+      
+      // Add timeout mechanism
+      const timeout = setTimeout(() => {
+        if (!hasResolved) {
+          hasResolved = true;
+
+          resolve(results);
+        }
+              }, 10000); // 10 second timeout
+      
+      const processResults = async () => {
+        try {
+          const worker = await this.getWorker();
+          if (!worker.process.stdin) {
+            throw new Error(`Worker ${worker.id} stdin is not available`);
+          }
+          if (!worker.process.stdout) {
+            throw new Error(`Worker ${worker.id} stdout is not available`);
+          }
+          if (!worker.task) {
+            if (!hasResolved) {
+              hasResolved = true;
+              clearTimeout(timeout);
+              resolve(results);
+            }
+            return;
+          }
+            
+          let buffer = "";
+          let disposable: vscode.Disposable | undefined;
+          disposable = worker.process.stdout.onData(async (data) => {
+            if (!worker.task || hasResolved) {
+              disposable?.dispose();
+              return;
+            }
+              
+            buffer += this.textDecoder.decode(data);
+            const stdoutLines = buffer.split("\n");
+            if (stdoutLines.length < 2) {
+              return;
+            }
+            const lastIndex = stdoutLines.length - 1;
+            buffer = stdoutLines[lastIndex];
+              
+            for (const line of stdoutLines.slice(0, lastIndex)) {
+              if (hasResolved) break;
+              
+              let json: any;
+              try {
+                json = JSON.parse(line);
+              } catch (e) {
+                console.error("Failed to parse JSON:", line);
+                continue;
+              }
+                
+              if (!("id" in json)) {
+                continue;
+              }
+              if (json.id !== request.id) {
+                continue;
+              }
+              if (!("result" in json)) {
+                console.error('Missing "result" in JSON:', json);
+                continue;
+              }
+              if (!json.result) {
+                if (!hasResolved) {
+                  hasResolved = true;
+                  clearTimeout(timeout);
+                  worker.cancelTask();
+                  resolve(results);
+                }
+                return;
+              }
+                
+                              // Check if result has range property
+                      if (!json.result.range) {
+          continue;
+        }
+                
+                              // Check if range has start and end properties
+                      if (!json.result.range.start || !json.result.range.end) {
+          continue;
+        }
+                
+              const startLine = json.result.range.start.row;
+              const endLine = json.result.range.end.row;
+              const start = new vscode.Position(startLine, json.result.range.start.column);
+              const end = new vscode.Position(endLine, json.result.range.end.column);
+              const range = new vscode.Range(start, end);
+              const id = crypto.randomUUID();
+              const result = {
+                id,
+                uri: uri,
+                range: range,
+                context: contentLines.slice(startLine, endLine + 1),
+                captures: json.result.captures || {},
+              };
+                
+              results.push(result);
+            }
+          });
+            
+          worker.task.disposable = disposable;
+          await worker.process.stdin.write(JSON.stringify(request) + "\n");
+        } catch (error) {
+
+          if (!hasResolved) {
+            hasResolved = true;
+            clearTimeout(timeout);
+            resolve(results);
+          }
+        }
+      };
+      
+      processResults().catch(error => {
+
+        if (!hasResolved) {
+          hasResolved = true;
+          clearTimeout(timeout);
+          resolve(results);
+        }
+      });
+    });
+  }
+
+    private async executeSearchQueryInResults(uri: vscode.Uri, query: string, previousResults: Result[], contentLines: string[], searchId?: string, queryType: string = "unknown"): Promise<Result[]> {
+    // If no previous layer results, return empty array
+    if (previousResults.length === 0) {
+      return [];
+    }
+
+    // Collect ranges of all previous layer results
+    const searchRanges: vscode.Range[] = [];
+    for (const result of previousResults) {
+      searchRanges.push(result.range);
+    }
+
+    // Merge adjacent ranges to reduce duplicate searches
+    const mergedRanges = this.mergeOverlappingRanges(searchRanges);
+
+    // Execute query in each merged range
+    const allResults: Result[] = [];
+    
+    for (const range of mergedRanges) {
+      // Extract content from this range
+      const startLine = range.start.line;
+      const endLine = range.end.line;
+      const rangeContent = contentLines.slice(startLine, endLine + 1).join('\n');
+      
+      // Execute query in this range
+      const rangeResults = await this.executeSearchQuery(uri, query, rangeContent, contentLines, searchId, `${queryType}-range-${startLine}-${endLine}`);
+      
+      // Adjust result line numbers to be relative to original file
+      const adjustedResults = rangeResults.map(result => ({
+        ...result,
+        range: new vscode.Range(
+          new vscode.Position(result.range.start.line + startLine, result.range.start.character),
+          new vscode.Position(result.range.end.line + startLine, result.range.end.character)
+        )
+      }));
+      
+      allResults.push(...adjustedResults);
+    }
+
+    return allResults;
+  }
+
+  private mergeOverlappingRanges(ranges: vscode.Range[]): vscode.Range[] {
+    if (ranges.length === 0) return [];
+    
+    // Sort by start line
+    const sortedRanges = [...ranges].sort((a, b) => a.start.line - b.start.line);
+    const merged: vscode.Range[] = [];
+    
+    let current = sortedRanges[0];
+    
+    for (let i = 1; i < sortedRanges.length; i++) {
+      const next = sortedRanges[i];
+      
+      // If current range overlaps or is adjacent to next range, merge them
+      if (current.end.line >= next.start.line - 1) {
+        current = new vscode.Range(
+          current.start,
+          new vscode.Position(Math.max(current.end.line, next.end.line), next.end.character)
+        );
+      } else {
+        merged.push(current);
+        current = next;
+      }
+    }
+    
+    merged.push(current);
+    return merged;
+  }
+
+  private filterOverlappingResults(results1: Result[], results2: Result[]): Result[] {
+    // Filter overlapping results: only keep results that appear in both result sets. Main logic of multi-layer queries is intersection
+    const overlappingResults: Result[] = [];
+    
+    for (const result1 of results1) {
+      for (const result2 of results2) {
+        if (this.resultsOverlap(result1, result2)) {
+          overlappingResults.push(result1);
+          break;
+        }
+      }
+    }
+    
+    return overlappingResults;
+  }
+
+  private resultsOverlap(result1: Result, result2: Result): boolean {
+          // Check if two results overlap
+          // Use simple line range overlap check here
+    const range1 = result1.range;
+    const range2 = result2.range;
+    
+          // Check if line ranges overlap
+    const startLine1 = range1.start.line;
+    const endLine1 = range1.end.line;
+    const startLine2 = range2.start.line;
+    const endLine2 = range2.end.line;
+    
+    return !(endLine1 < startLine2 || endLine2 < startLine1);
+  }
+  private async shouldIgnore(
+    uri: vscode.Uri,
+    options: Options,
+    context: Context
+  ): Promise<boolean> {
+    if (options.includePattern && !uri.fsPath.match(options.includePattern)) {
+      return true;
+    }
+    if (options.excludePattern && uri.fsPath.match(options.excludePattern)) {
+      return true;
+    }
+    if (!options.includeIgnored) {
+      for (const ignoredRoot of context.ignoreRoots) {
+        if (uri.fsPath.startsWith(ignoredRoot.fsPath)) {
+          const relativePath = uri.fsPath.slice(ignoredRoot.fsPath.length);
+          if (context.ignore.ignores(relativePath)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+      // Lightweight persistent storage - only store query info, not specific results
+  private async loadPersistedResults() {
+          // No longer load specific results, only log
+  }
+
+  private async savePersistedResults() {
+    // No longer save specific results, only log
   }
 }

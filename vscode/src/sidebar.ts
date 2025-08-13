@@ -2,16 +2,40 @@ import * as vscode from "vscode";
 import type * as Search from "./search";
 import * as Sidebar from "./sidebar/types";
 
+// Import types
+type SearchHistoryItem = Sidebar.SearchHistoryItem;
+type SearchBookmark = Sidebar.SearchBookmark;
+type SearchLayer = Sidebar.SearchLayer;
+
+// Use type definitions imported from types.ts
+
 export class WebviewViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "moon-grep-search";
 
   private view?: vscode.WebviewView;
   private service: Search.Service;
   private readonly extensionUri: vscode.Uri;
+  private searchHistory: SearchHistoryItem[] = [];
+  private bookmarks: SearchBookmark[] = [];
+  private searchId: string = "";
+  private resultCountMap: Map<string, number> = new Map();
+  private hasWrittenHistory: boolean = false;
+  private currentSearchQuery: string = "";
+  private currentSearchOptions: any = {};
+  private currentSearchLayers: SearchLayer[] = [];
+  private lastSearchTimestamp: number = 0;
+  private eventDisposables: vscode.Disposable[] = [];
 
   constructor(extensionUri: vscode.Uri, service: Search.Service) {
     this.extensionUri = extensionUri;
     this.service = service;
+    this.loadHistory();
+    this.loadBookmarks();
+  }
+
+  dispose() {
+    this.eventDisposables.forEach(disposable => disposable.dispose());
+    this.eventDisposables = [];
   }
 
   private static getNonce() {
@@ -32,11 +56,15 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     _context: vscode.WebviewViewResolveContext,
     _token: vscode.CancellationToken
   ) {
+    this.eventDisposables.forEach(disposable => disposable.dispose());
+    this.eventDisposables = [];
+    
     this.view = webviewView;
 
     webviewView.webview.options = {
       enableScripts: true,
       localResourceRoots: [this.extensionUri],
+              enableForms: true, // Allow form interaction
     };
 
     webviewView.webview.html = this.getHtmlForWebview(webviewView.webview);
@@ -52,15 +80,12 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "refresh": {
-          // The webview will handle the refresh based on the current search pattern
           break;
         }
         case "collapseAll": {
-          // The webview will handle collapsing all items
           break;
         }
         case "expandAll": {
-          // The webview will handle expanding all items
           break;
         }
         case "dismissMatch": {
@@ -75,10 +100,48 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
           this._openMatch(message.value.uri, message.value.range);
           break;
         }
+
+        case "loadHistory": {
+          this.postMessage({
+            type: "historyLoaded",
+            history: this.searchHistory,
+          });
+          break;
+        }
+        case "clearHistory": {
+          this.clearHistory();
+          break;
+        }
+        case "deleteHistoryItem": {
+          this.deleteHistoryItem(message.value.id);
+          break;
+        }
+        case "loadBookmarks": {
+          this.postMessage({
+            type: "bookmarksLoaded",
+            bookmarks: this.bookmarks,
+          });
+          break;
+        }
+        case "addBookmark": {
+          this.addBookmark(message.value.name, message.value.query, message.value.options, message.value.layers);
+          break;
+        }
+        case "deleteBookmark": {
+          this.deleteBookmark(message.value.id);
+          break;
+        }
+        
       }
     });
 
-    this.service.onInsert.event((result) => {
+    const onInsertDisposable = this.service.onInsert.event((result: any) => {
+              // Only count results for current searchId
+      if (result.searchId === this.searchId) {
+        const currentCount = this.resultCountMap.get(this.searchId) || 0;
+        this.resultCountMap.set(this.searchId, currentCount + 1);
+
+      }
       this.postMessage({
         type: "insert",
         result: {
@@ -94,12 +157,13 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
               character: result.range.end.character,
             },
           },
-          lines: result.context,
+          lines: result.lines || result.context || [],
         },
       });
     });
+    this.eventDisposables.push(onInsertDisposable);
 
-    this.service.onRemove.event(({ id, uri }) => {
+    const onRemoveDisposable = this.service.onRemove.event(({ id, uri }) => {
       this.postMessage({
         type: "remove",
         result: {
@@ -108,12 +172,47 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
         },
       });
     });
+    this.eventDisposables.push(onRemoveDisposable);
 
-    this.service.onClear.event(() => {
+    const onSearchFinishedDisposable = this.service.onSearchFinished.event((searchId: any) => {
+
+      
+              // Ensure only current search completion events are processed
+      if (searchId !== this.searchId) {
+
+        return;
+      }
+      
+      // Prevent duplicate records
+      if (this.hasWrittenHistory) {
+
+        return;
+      }
+      
+              // Ensure there is query content
+      if (!this.currentSearchQuery.trim()) {
+
+        this.hasWrittenHistory = true;
+        return;
+      }
+      
+      const count = this.resultCountMap.get(searchId) || 0;
+
+      
+              // Get currently enabled search layers
+      const enabledLayers = this.currentSearchLayers?.filter(layer => layer.enabled && layer.query.trim()) || [];
+      
+      this.addToHistory(this.currentSearchQuery, count, this.currentSearchOptions, enabledLayers);
+      this.hasWrittenHistory = true;
+      this.resultCountMap.delete(searchId);
+    });
+    this.eventDisposables.push(onSearchFinishedDisposable);
+    const onClearDisposable = this.service.onClear.event(() => {
       this.postMessage({
         type: "clear",
       });
     });
+    this.eventDisposables.push(onClearDisposable);
   }
 
   public async postMessage(message: Sidebar.Response) {
@@ -121,17 +220,45 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   }
 
   private async search(options: Search.Options) {
+            // Check if query is empty
+    if (!options.query || !options.query.trim()) {
+
+      return;
+    }
+    
+    const now = Date.now();
+    if (now - this.lastSearchTimestamp < 1000) {
+      // Ignore duplicate searches within 1 second
+
+      return;
+    }
+    this.lastSearchTimestamp = now;
+    
+            // Generate unique searchId (timestamp + random number)
+    this.searchId = `${Date.now()}_${Math.floor(Math.random() * 1000000)}`;
+    this.resultCountMap.set(this.searchId, 0);
+    this.currentSearchQuery = options.query || "";
+    this.currentSearchOptions = {
+      includePattern: options.includePattern,
+      excludePattern: options.excludePattern,
+      includeIgnored: options.includeIgnored,
+    };
+    this.currentSearchLayers = (options as any).layers || [];
+    this.hasWrittenHistory = false;
+    
+    
+
     try {
       const workspaceFolders = vscode.workspace.workspaceFolders;
       if (!workspaceFolders) {
         vscode.window.showErrorMessage(`Search failed: no workspace folder available`);
         return;
       }
-      const promises = workspaceFolders.map((folder) => {
-        return this.service.search(folder.uri, options);
-      });
-      await Promise.all(promises);
+      // Pass searchId
+      await this.service.search(workspaceFolders[0].uri, { ...options, searchId: this.searchId } as any);
+      
     } catch (error: any) {
+      console.error(`[SIDEBAR] Search failed:`, error);
       vscode.window.showErrorMessage(`Search failed: ${error.message || "Unknown error"}`);
     }
   }
@@ -148,6 +275,100 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
         new vscode.Position(range.start.line, range.start.character),
         new vscode.Position(range.end.line, range.end.character)
       ),
+    });
+  }
+
+  private loadHistory() {
+    const historyData = vscode.workspace.getConfiguration("moon-grep").get("searchHistory", []);
+    this.searchHistory = historyData;
+  }
+
+  private saveHistory() {
+    vscode.workspace.getConfiguration("moon-grep").update("searchHistory", this.searchHistory, vscode.ConfigurationTarget.Workspace);
+  }
+
+  private clearHistory() {
+    this.searchHistory = [];
+    this.saveHistory();
+    this.postMessage({
+      type: "historyUpdated",
+      history: this.searchHistory,
+    });
+  }
+
+  private deleteHistoryItem(id: string) {
+    this.searchHistory = this.searchHistory.filter(item => item.id !== id);
+    this.saveHistory();
+    this.postMessage({
+      type: "historyUpdated",
+      history: this.searchHistory,
+    });
+  }
+
+  public addToHistory(query: string, resultCount: number, options: any, layers?: any[]) {
+    
+    
+    const historyItem: SearchHistoryItem = {
+      id: Date.now().toString(),
+      query,
+      timestamp: Date.now(),
+      resultCount,
+      options,
+      layers: layers,
+    };
+
+    this.searchHistory.unshift(historyItem);
+    
+    
+    if (this.searchHistory.length > 50) {
+      this.searchHistory = this.searchHistory.slice(0, 50);
+    }
+
+    this.saveHistory();
+    
+    
+    this.postMessage({
+      type: "historyUpdated",
+      history: this.searchHistory,
+    });
+    
+  }
+
+
+  private loadBookmarks() {
+    const bookmarksData = vscode.workspace.getConfiguration("moon-grep").get("bookmarks", []);
+    this.bookmarks = bookmarksData;
+  }
+
+  private saveBookmarks() {
+
+    vscode.workspace.getConfiguration("moon-grep").update("bookmarks", this.bookmarks, vscode.ConfigurationTarget.Workspace);
+  }
+
+  private addBookmark(name: string, query: string, options: any, layers?: any[]) {
+    const bookmark: SearchBookmark = {
+      id: Date.now().toString(),
+      name,
+      query,
+      timestamp: Date.now(),
+      options,
+      layers: layers,
+    };
+
+    this.bookmarks.unshift(bookmark);
+    this.saveBookmarks();
+    this.postMessage({
+      type: "bookmarksUpdated",
+      bookmarks: this.bookmarks,
+    });
+  }
+
+  private deleteBookmark(id: string) {
+    this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
+    this.saveBookmarks();
+    this.postMessage({
+      type: "bookmarksUpdated",
+      bookmarks: this.bookmarks,
     });
   }
 

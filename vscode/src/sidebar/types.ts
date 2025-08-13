@@ -13,6 +13,13 @@ export interface Result {
   uri: string;
   range: Range;
   lines: string[];
+  searchId?: string; // New, optional field
+}
+
+export interface SearchLayer {
+  id: string;
+  query: string;
+  enabled: boolean;
 }
 
 export interface SearchOptions {
@@ -24,6 +31,25 @@ export interface SearchOptions {
 export interface SearchStats {
   matchCount: number;
   fileCount: number;
+}
+
+// New: bookmark related interfaces
+export interface SearchBookmark {
+  id: string;
+  name: string;
+  query: string;
+  timestamp: number;
+  options: SearchOptions;
+  layers?: SearchLayer[]; // New: support multi-layer query bookmarks
+}
+
+export interface SearchHistoryItem {
+  id: string;
+  query: string;
+  timestamp: number;
+  resultCount: number;
+  options: SearchOptions;
+  layers?: SearchLayer[]; // New: support multi-layer query history
 }
 
 export type Response =
@@ -49,6 +75,22 @@ export type Response =
         uri: string;
         id: string;
       };
+    }
+  | {
+      type: "historyLoaded";
+      history: SearchHistoryItem[];
+    }
+  | {
+      type: "historyUpdated";
+      history: SearchHistoryItem[];
+    }
+  | {
+      type: "bookmarksLoaded";
+      bookmarks: SearchBookmark[];
+    }
+  | {
+      type: "bookmarksUpdated";
+      bookmarks: SearchBookmark[];
     };
 
 export type Request =
@@ -59,6 +101,7 @@ export type Request =
         query: string;
         includePattern: string;
         excludePattern: string;
+        layers?: SearchLayer[]; // New: support multi-layer queries
       };
     }
   | { type: "clear" }
@@ -67,4 +110,13 @@ export type Request =
   | { type: "expandAll" }
   | { type: "dismissMatch"; value: { id: string } }
   | { type: "replaceMatch"; value: { id: string, replace: string } }
-  | { type: "openMatch"; value: { uri: string; range: Range } };
+  | { type: "openMatch"; value: { uri: string; range: Range } }
+  | { type: "loadHistory" }
+  | { type: "clearHistory" }
+  | { type: "deleteHistoryItem"; value: { id: string } }
+  | { type: "loadBookmarks" }
+  | { type: "addBookmark"; value: { name: string; query: string; options: SearchOptions; layers?: SearchLayer[] } }
+  | { type: "deleteBookmark"; value: { id: string } }
+  // Remove addToHistory message type, history is now completely controlled by backend
+  // | { type: "addToHistory"; value: { query: string; options: SearchOptions } }
+  | { type: "error"; value: string };
