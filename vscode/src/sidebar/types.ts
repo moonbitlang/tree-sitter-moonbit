@@ -110,6 +110,7 @@ export type Request =
   | { type: "expandAll" }
   | { type: "dismissMatch"; value: { id: string } }
   | { type: "replaceMatch"; value: { id: string, replace: string } }
+  | { type: "replaceAll"; value: { replace: string } }
   | { type: "openMatch"; value: { uri: string; range: Range } }
   | { type: "loadHistory" }
   | { type: "clearHistory" }

@@ -79,6 +79,39 @@ fn main {
             error => jsonrpc_error(id~, error.to_json())
           }
         }
+        {
+          "id": id,
+          "method": "validate_file_syntax",
+          "params": {
+            "content": String(content),
+            ..
+          },
+          ..
+        } => {
+          let language = @tree_sitter_moonbit.language()
+          let parser = @tree_sitter.Parser::new()
+          parser.set_language(language) catch {
+            _ => {
+              jsonrpc_error(id~, "Failed to set language")
+              return
+            }
+          }
+          
+          let tree = parser.parse_string(content) catch {
+            _ => {
+              jsonrpc_error(id~, "Failed to parse file")
+              return
+            }
+          }
+          
+          let has_error = tree.root_node().has_error()
+          
+          if has_error {
+            jsonrpc_error(id~, "File contains syntax errors after replacement")
+          } else {
+            jsonrpc_result(id~, Json::null())
+          }
+        }
         { "id": id, .. } =>
           jsonrpc_error(id~, "Invalid request: \{json.to_json().stringify()}")
         _ =>

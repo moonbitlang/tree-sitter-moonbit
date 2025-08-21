@@ -40,7 +40,7 @@ suberror ParseError {
   SyntaxError(@tree_sitter.Node)
   QueryError(@tree_sitter.QueryError)
   Errors(Array[ParseError])
-} derive(Show, ToJson)
+} derive(Show, ToJson(style="legacy"))
 
 ///|
 fn lowest_common_ancestor(

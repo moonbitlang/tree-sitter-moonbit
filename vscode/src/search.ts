@@ -45,6 +45,7 @@ interface Task {
 interface Worker {
   id: number;
   process: Wasm.WasmProcess;
+  processPromise: Promise<number>;
   task?: Task;
   cancelTask(): void;
 }
@@ -64,11 +65,23 @@ export class Service {
   public readonly onInsert: vscode.EventEmitter<Result> = new vscode.EventEmitter();
   public readonly onRemove: vscode.EventEmitter<{ id: string; uri: vscode.Uri }> =
     new vscode.EventEmitter();
+  public readonly onReplace: vscode.EventEmitter<{ id: string; uri: vscode.Uri }> =
+    new vscode.EventEmitter();
   public readonly onClear: vscode.EventEmitter<void> = new vscode.EventEmitter();
   public readonly onSearchFinished: vscode.EventEmitter<string | undefined> = new vscode.EventEmitter();
   private pendingTasks: number = 0;
   private finished: boolean = false;
   private finishSearchId: string | undefined = undefined;
+
+  // Public method to get current result count
+  public getResultCount(): number {
+    return this.results.size;
+  }
+
+  // Public method to get all current result IDs
+  public getResultIds(): string[] {
+    return Array.from(this.results.keys());
+  }
 
   constructor(extensionUri: vscode.Uri) {
     this.extensionUri = extensionUri;
@@ -99,6 +112,7 @@ export class Service {
     try {
       const wasm = await this.getWasm();
       const grepWasm = await this.getGrepWasm();
+      
       const grepProcess = await wasm.createProcess("moon-grep", grepWasm, {
         stdio: {
           in: { kind: "pipeIn" },
@@ -107,9 +121,20 @@ export class Service {
         },
       });
       
+      // Start the process immediately to initialize stdin/stdout
+      const processPromise = grepProcess.run();
+      processPromise.then((exitCode) => {
+        // Mark worker as dead and trigger cleanup
+        this.markWorkerAsDead(workerId, exitCode);
+      }).catch((error) => {
+        // Mark worker as dead and trigger cleanup
+        this.markWorkerAsDead(workerId, -1);
+      });
+      
       const worker: Worker = {
         id: workerId,
         process: grepProcess,
+        processPromise: processPromise,
         cancelTask: () => {
           if (worker.task) {
             worker.task.disposable?.dispose();
@@ -121,41 +146,53 @@ export class Service {
       
       this.workers.set(workerId, worker);
       
-              // Start process and handle possible errors
-      worker.process.run().then(() => {
-        worker.cancelTask();
-      }).catch((error) => {
-        console.error(`[WORKER] Worker ${workerId} process failed:`, error);
-        worker.cancelTask();
-        // Remove failed worker from workers map
-        this.workers.delete(workerId);
-      });
+      // Wait a bit for the process to fully initialize
+      await new Promise(resolve => setTimeout(resolve, 100));
       
       return worker;
     } catch (error) {
-      console.error(`[WORKER] Failed to create worker ${workerId}:`, error);
       this.workers.delete(workerId);
       throw error;
     }
   }
+  private markWorkerAsDead(workerId: number, exitCode: number): void {
+    const worker = this.workers.get(workerId);
+    if (worker) {
+      // Clean up worker resources
+      if (worker.task) {
+        worker.task.disposable?.dispose();
+        worker.task = undefined;
+      }
+      // Remove dead worker
+      this.workers.delete(workerId);
+      
+      // Trigger availability event to wake up waiting tasks
+      this.onAvail.fire();
+    }
+  }
+
   private async waitAvail(): Promise<void> {
+    console.log(`[WORKER_DEBUG] waitAvail: Waiting for worker availability`);
     await new Promise<void>((resolve) => {
       let disposable: vscode.Disposable | undefined;
       disposable = this.onAvail.event(() => {
+        console.log(`[WORKER_DEBUG] waitAvail: Worker availability event fired`);
         if (disposable) {
           disposable.dispose();
         }
         resolve();
       });
       this.availDisposables.push(disposable);
+      console.log(`[WORKER_DEBUG] waitAvail: Event listener registered, waiting...`);
     });
+    console.log(`[WORKER_DEBUG] waitAvail: Worker availability resolved`);
   }
   private async getWorker(): Promise<Worker> {
     let retryCount = 0;
     const maxRetries = 3;
     
     while (true) {
-      for (const [, worker] of this.workers) {
+      for (const [workerId, worker] of this.workers) {
         if (worker === undefined) {
           continue;
         }
@@ -167,9 +204,14 @@ export class Service {
             id: this.taskId++,
           };
           return worker;
+        } else {
+          // Mark this worker as dead and remove it
+          this.markWorkerAsDead(workerId, -1);
+          continue; // Continue to next worker
         }
       }
       
+      // Always try to create new workers if we're below the limit
       if (this.workers.size < this.workerLimit) {
         try {
           const worker = await this.createWorker();
@@ -178,7 +220,6 @@ export class Service {
           };
           return worker;
         } catch (error) {
-          console.error(`[WORKER] Failed to create worker (attempt ${retryCount + 1}/${maxRetries}):`, error);
           retryCount++;
           
           if (retryCount >= maxRetries) {
@@ -196,33 +237,45 @@ export class Service {
   private wrap(p: Promise<any>, searchId?: string) {
     this.pendingTasks++;
     
-    
     p.finally(() => {
       this.pendingTasks--;
-      
       
       // Prevent pendingTasks from becoming negative
       if (this.pendingTasks < 0) {
         this.pendingTasks = 0;
       }
       
-              // When all tasks complete, trigger search completion event
+      // When all tasks complete, trigger search completion event
       if (this.pendingTasks === 0 && !this.finished) {
+        
         this.finished = true;
 
                   // Only trigger event when searchId matches
         if (searchId === this.finishSearchId) {
+          console.log(`[WRAP_DEBUG] SearchId matches, firing onSearchFinished event`);
           try {
             this.onSearchFinished.fire(searchId);
+            console.log(`[WRAP_DEBUG] onSearchFinished event fired successfully`);
   
           } catch (e) {
-            console.error(`[SEARCH] Error firing onSearchFinished event:`, e);
+            console.error(`[WRAP_DEBUG] Error firing onSearchFinished event:`, e);
             // Ensure event is triggered even if error occurs
             this.onSearchFinished.fire(searchId);
+            console.log(`[WRAP_DEBUG] onSearchFinished event fired after error recovery`);
           }
                   } else {
-            // SearchId mismatch
+            console.log(`[WRAP_DEBUG] SearchId mismatch, not firing event`, {
+              searchId: searchId,
+              finishSearchId: this.finishSearchId
+            });
           }
+      } else {
+        console.log(`[WRAP_DEBUG] Not triggering search completion`, {
+          pendingTasks: this.pendingTasks,
+          finished: this.finished,
+          searchId: searchId,
+          finishSearchId: this.finishSearchId
+        });
       }
     });
   }
@@ -285,6 +338,7 @@ export class Service {
         vscode.window.showErrorMessage(`Result not found: ${resultId}`);
         return;
       }
+      
       const request = {
         id: crypto.randomUUID(),
         method: "replace",
@@ -293,7 +347,9 @@ export class Service {
           replace,
         },
       };
+      
       const worker = await this.getWorker();
+      
       if (!worker.process.stdin) {
         throw new Error("Child process stdin is not available");
       }
@@ -303,51 +359,123 @@ export class Service {
       if (!worker.task) {
         return;
       }
+      
       let buffer = "";
+      let lineCount = 0;
+      let jsonParseCount = 0;
+      let validResponseCount = 0;
+      
       const disposable = worker.process.stdout.onData(async (data) => {
         if (!worker.task) {
           disposable?.dispose();
           return;
         }
-        buffer += this.textDecoder.decode(data);
+        
+        const decodedData = this.textDecoder.decode(data);
+        buffer += decodedData;
+        lineCount++;
+        
+        console.log(`[REPLACE_DEBUG] Received stdout data (line ${lineCount}):`, {
+          dataLength: data.length,
+          decodedLength: decodedData.length,
+          bufferLength: buffer.length,
+          hasNewlines: buffer.includes('\n')
+        });
+        
         const stdoutLines = buffer.split("\n");
         if (stdoutLines.length < 2) {
+          console.log(`[REPLACE_DEBUG] Buffer has ${stdoutLines.length} lines, waiting for more data`);
           return;
         }
+        
         const lastIndex = stdoutLines.length - 1;
         buffer = stdoutLines[lastIndex];
+        
+        console.log(`[REPLACE_DEBUG] Processing ${stdoutLines.length - 1} complete lines, keeping ${buffer.length} chars in buffer`);
+        
         for (const line of stdoutLines.slice(0, lastIndex)) {
+          jsonParseCount++;
+          console.log(`[REPLACE_DEBUG] Processing line ${jsonParseCount}: ${line.substring(0, 100)}${line.length > 100 ? '...' : ''}`);
+          
           let json: any;
           try {
             json = JSON.parse(line);
+            console.log(`[REPLACE_DEBUG] Successfully parsed JSON:`, {
+              hasId: "id" in json,
+              hasResult: "result" in json,
+              id: json.id,
+              resultType: typeof json.result
+            });
           } catch (e) {
-            console.error("Failed to parse JSON:", line);
+            console.error(`[REPLACE_DEBUG] Failed to parse JSON from line ${jsonParseCount}:`, {
+err: e,
+              line: line.substring(0, 100)
+            });
             continue;
           }
+          
           if (!("id" in json)) {
-            console.error('Missing "id" in JSON:', json);
+            console.log(`[REPLACE_DEBUG] Line ${jsonParseCount} missing "id" field:`, json);
             continue;
           }
+          
           if (json.id !== request.id) {
+            console.log(`[REPLACE_DEBUG] Line ${jsonParseCount} ID mismatch: expected ${request.id}, got ${json.id}`);
             continue;
           }
+          
           if (!("result" in json)) {
-            console.error('Missing "result" in JSON:', json);
+            console.error(`[REPLACE_DEBUG] Line ${jsonParseCount} missing "result" field:`, json);
             continue;
           }
+          
+          validResponseCount++;
+          console.log(`[REPLACE_DEBUG] Valid response received (${validResponseCount}):`, {
+            id: json.id,
+            resultType: typeof json.result,
+            resultLength: typeof json.result === 'string' ? json.result.length : 'N/A'
+          });
+          
           const replaced = json.result;
-          const editBuilder = new vscode.WorkspaceEdit();
-          editBuilder.replace(result.uri, result.range, replaced);
-          this.results.delete(resultId);
-          await vscode.workspace.applyEdit(editBuilder);
-          this.onRemove.fire({ id: resultId, uri: result.uri });
-          worker.cancelTask();
+          console.log(`[REPLACE_DEBUG] Replace result received:`, {
+            replaced: replaced,
+            replacedLength: typeof replaced === 'string' ? replaced.length : 'N/A',
+            originalRange: result.range,
+            originalContext: result.context
+          });
+          
+          try {
+            const editBuilder = new vscode.WorkspaceEdit();
+            editBuilder.replace(result.uri, result.range, replaced);
+            
+            this.results.delete(resultId);
+            
+            await vscode.workspace.applyEdit(editBuilder);
+            
+            this.onRemove.fire({ id: resultId, uri: result.uri });
+            
+            // Fire onReplace event to notify listeners that replace operation completed
+            this.onReplace.fire({ id: resultId, uri: result.uri });
+            
+            // Validate file syntax after replacement
+            await this.validateFileSyntaxAfterReplacement(result.uri);
+            
+            // Save task ID before cancelling the task
+            const taskId = worker.task?.id;
+            worker.cancelTask();
+          } catch (editError) {
+            throw editError;
+          }
         }
       });
+      
       worker.task.disposable = disposable;
-      await worker.process.stdin.write(JSON.stringify(request) + "\n");
+      
+      const requestJson = JSON.stringify(request);
+      
+      await worker.process.stdin.write(requestJson + "\n");
+      
     } catch (error: any) {
-      console.error("Error during replace:", error);
       vscode.window.showErrorMessage(`Replace failed: ${error.message || "Unknown error"}`);
     }
   }
@@ -363,6 +491,7 @@ export class Service {
   public async reset() {
     const freeWorkers: Map<number, Worker> = new Map();
     const terminationPromises: Promise<number>[] = [];
+    
     for (const [workerId, worker] of this.workers) {
       if (worker === undefined) {
         continue;
@@ -374,10 +503,12 @@ export class Service {
         worker.cancelTask();
       }
     }
+    
     await Promise.all(terminationPromises);
-    this.workers = freeWorkers;
+    
     this.availDisposables.forEach((disposable) => disposable.dispose());
     this.availDisposables = [];
+    
     this.results.clear();
     this.onClear.fire();
   }
@@ -504,6 +635,11 @@ export class Service {
           return;
         }
         
+        // Process is already started in createWorker, just use the existing promise
+        console.log(`[WORKER_DEBUG] Using already started process for worker ${worker.id}`);
+
+        const processPromise = worker.processPromise;
+        
         let buffer = "";
         let disposable: vscode.Disposable | undefined;
         let hasResolved = false;
@@ -625,6 +761,7 @@ export class Service {
         worker.task.disposable = disposable;
         
         try {
+          console.log(`[WORKER_DEBUG] Worker ${worker.id} sending search request`);
           await worker.process.stdin.write(JSON.stringify(request) + "\n");
         } catch (e) {
         }
@@ -687,6 +824,10 @@ export class Service {
         resolve();
         return;
       }
+      
+      // Process is already started in createWorker, just use the existing promise
+      console.log(`[WORKER_DEBUG] Using already started process for worker ${worker.id} in cascade search`);
+      const processPromise = worker.processPromise;
 
       let buffer = "";
       let disposable: vscode.Disposable | undefined;
@@ -769,6 +910,7 @@ export class Service {
       });
 
       // Send request
+      console.log(`[WORKER_DEBUG] Worker ${worker.id} cascade search sending request`);
       worker.process.stdin.write(JSON.stringify(request) + "\n");
       
       // Set timeout
@@ -1084,6 +1226,134 @@ export class Service {
       }
     }
     return false;
+  }
+
+  /**
+   * Validates Moonbit file syntax after replacement using tree-sitter
+   */
+  private async validateFileSyntaxAfterReplacement(uri: vscode.Uri): Promise<void> {
+    try {
+      // Only validate .mbt and .moon files
+      const fileExtension = uri.fsPath.split('.').pop()?.toLowerCase();
+      if (fileExtension !== 'mbt' && fileExtension !== 'moon') {
+        return;
+      }
+      
+      console.log(`[SYNTAX_VALIDATION] Validating Moonbit syntax for ${uri.fsPath}`);
+      
+      // Read the file content after replacement
+      const document = await vscode.workspace.openTextDocument(uri);
+      const content = document.getText();
+      
+      // Use tree-sitter to parse the file
+      const worker = await this.getWorker();
+      if (!worker.process.stdin || !worker.process.stdout) {
+        console.error(`[SYNTAX_VALIDATION] Worker not available for syntax validation`);
+        return;
+      }
+      
+      // Create a validation request
+      const request = {
+        id: crypto.randomUUID(),
+        method: "search", // Reuse search method with a simple query to trigger parsing
+        params: {
+          content: content,
+          query: "identifier", // Simple query that should always work
+        },
+      };
+      
+      let buffer = "";
+      let disposable: vscode.Disposable | undefined;
+      let hasSyntaxError = false;
+      let errorMessage = "";
+      
+      disposable = worker.process.stdout.onData(async (data) => {
+        if (!worker.task) {
+          disposable?.dispose();
+          return;
+        }
+        
+        buffer += this.textDecoder.decode(data);
+        const stdoutLines = buffer.split("\n");
+        if (stdoutLines.length < 2) {
+          return;
+        }
+        const lastIndex = stdoutLines.length - 1;
+        buffer = stdoutLines[lastIndex];
+        
+        for (const line of stdoutLines.slice(0, lastIndex)) {
+          let json: any;
+          try {
+            json = JSON.parse(line);
+          } catch (e) {
+            continue;
+          }
+          
+          if (!("id" in json) || json.id !== request.id) {
+            continue;
+          }
+          
+          // Check if there's a parse error
+          if (json.error) {
+            hasSyntaxError = true;
+            errorMessage = json.error.message || "Unknown parse error";
+            break;
+          }
+          
+          // If we get a null result, parsing was successful
+          if (json.result === null) {
+            hasSyntaxError = false;
+            break;
+          }
+        }
+      });
+      
+      if (worker.task) {
+        worker.task.disposable = disposable;
+      }
+      
+      // Send validation request
+      await worker.process.stdin.write(JSON.stringify(request) + "\n");
+      
+      // Wait for response with timeout
+      await new Promise<void>((resolve) => {
+        const timeout = setTimeout(() => {
+          disposable?.dispose();
+          resolve();
+        }, 5000); // 5 second timeout
+        
+        // Check if we got a response
+        const checkResponse = () => {
+          if (hasSyntaxError !== undefined) {
+            clearTimeout(timeout);
+            disposable?.dispose();
+            resolve();
+          } else {
+            setTimeout(checkResponse, 100);
+          }
+        };
+        checkResponse();
+      });
+      
+      // Show notification based on validation result
+      if (hasSyntaxError) {
+        vscode.window.showWarningMessage(
+          `⚠️ Moonbit syntax validation failed after replacement: ${errorMessage}`,
+          { modal: false }
+        );
+        console.log(`[SYNTAX_VALIDATION] Moonbit syntax validation failed: ${errorMessage}`);
+      } else {
+        vscode.window.showInformationMessage(
+          ` Moonbit file syntax is valid after replacement`,
+          { modal: false }
+        );
+        console.log(`[SYNTAX_VALIDATION] Moonbit syntax validation passed`);
+      }
+      
+    } catch (error) {
+      console.error(`[SYNTAX_VALIDATION] Error during Moonbit syntax validation:`, error);
+      // Don't show error notification for validation failures, just log them
+    }
   }
 
       // Lightweight persistent storage - only store query info, not specific results

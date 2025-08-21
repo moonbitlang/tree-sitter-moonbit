@@ -182,6 +182,12 @@ const App: React.FC = () => {
     setCollapsedFiles((prev) => ({ ...prev, [fileUri]: !prev[fileUri] }));
   const handleReplaceMatch = (id: string) =>
     vscode.postMessage({ type: "replaceMatch", value: { id, replace: replacePattern } });
+  
+  const handleReplaceAll = () => {
+    console.log("[FRONTEND_DEBUG] Replace All button clicked");
+    vscode.postMessage({ type: "replaceAll", value: { replace: replacePattern } });
+  };
+  
   const handleDismissMatch = (id: string) =>
     vscode.postMessage({ type: "dismissMatch", value: { id } });
   const handleRerunHistorySearch = (item: SearchHistoryItem) => {
@@ -300,6 +306,7 @@ const App: React.FC = () => {
           onSearch={() => performSearch(searchPattern)}
           searchLayers={searchLayers}
           onSearchLayersChange={setSearchLayers}
+          onReplaceAll={handleReplaceAll}
         />
         <SearchDetails
           includeIgnored={searchOptions.includeIgnored}

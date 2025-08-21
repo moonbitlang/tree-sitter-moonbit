@@ -24,6 +24,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   private currentSearchOptions: any = {};
   private currentSearchLayers: SearchLayer[] = [];
   private lastSearchTimestamp: number = 0;
+  private isReplaceAllInProgress: boolean = false;
   private eventDisposables: vscode.Disposable[] = [];
 
   constructor(extensionUri: vscode.Uri, service: Search.Service) {
@@ -94,6 +95,52 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
         }
         case "replaceMatch": {
           this.service.replace(message.value.id, message.value.replace);
+          break;
+        }
+        case "replaceAll": {
+          // Get current result count
+          const resultCount = this.service.getResultCount();
+          if (resultCount === 0) {
+            vscode.window.showInformationMessage("No search results to replace");
+            break;
+          }
+          
+          // Show confirmation dialog
+          const confirmMessage = `Replace ${resultCount} occurrence${resultCount > 1 ? 's' : ''}?`;
+          const confirmReplace = await vscode.window.showInformationMessage(
+            confirmMessage,
+            { modal: true },
+            "Replace All"
+          );
+          
+          if (confirmReplace !== "Replace All") {
+            break;
+          }
+          
+          try {
+            // Set flag to indicate replaceAll operation is in progress
+            this.isReplaceAllInProgress = true;
+            
+            // Get all result IDs and replace them one by one
+            const resultIds = this.service.getResultIds();
+            
+            // Replace all results sequentially to avoid conflicts
+            for (const resultId of resultIds) {
+              try {
+                await this.service.replace(resultId, message.value.replace);
+              } catch (replaceError: any) {
+                // Continue with other results even if one fails
+              }
+            }
+            
+            vscode.window.showInformationMessage(`ReplaceAll operation completed for ${resultCount} occurrence${resultCount > 1 ? 's' : ''}`);
+            
+            // Trigger re-search after replaceAll operation completes
+            await this.triggerReSearch();
+            
+          } catch (error: any) {
+            vscode.window.showErrorMessage(`ReplaceAll failed: ${error.message || "Unknown error"}`);
+          }
           break;
         }
         case "openMatch": {
@@ -173,6 +220,14 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       });
     });
     this.eventDisposables.push(onRemoveDisposable);
+
+    const onReplaceDisposable = this.service.onReplace.event(() => {
+      // Only trigger re-search for individual replace operations, not during replaceAll
+      if (!this.isReplaceAllInProgress) {
+        this.triggerReSearch();
+      }
+    });
+    this.eventDisposables.push(onReplaceDisposable);
 
     const onSearchFinishedDisposable = this.service.onSearchFinished.event((searchId: any) => {
 
@@ -261,6 +316,26 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       console.error(`[SIDEBAR] Search failed:`, error);
       vscode.window.showErrorMessage(`Search failed: ${error.message || "Unknown error"}`);
     }
+  }
+
+  private async triggerReSearch() {
+    // Check if we have a current search query to re-run
+    if (!this.currentSearchQuery || !this.currentSearchQuery.trim()) {
+      console.log(`[SIDEBAR_DEBUG] No current search query to re-run`);
+      return;
+    }
+
+    console.log(`[SIDEBAR_DEBUG] Triggering re-search with query: ${this.currentSearchQuery}`);
+    
+    // Create search options for re-search
+    const searchOptions: Search.Options = {
+      query: this.currentSearchQuery,
+      ...this.currentSearchOptions,
+      layers: this.currentSearchLayers,
+    };
+
+    // Trigger the search
+    await this.search(searchOptions);
   }
 
   private _openMatch(file: string, range: Sidebar.Range) {

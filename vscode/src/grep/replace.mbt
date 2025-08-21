@@ -8,7 +8,7 @@ priv enum Replace {
 suberror ReplaceError {
   VariableNotFound(String)
   MismatchedType(expect~ : String, actual~ : String)
-} derive(Show, ToJson)
+} derive(Show, ToJson(style="legacy"))
 
 ///|
 fn Replace::parse_identifier(
@@ -71,6 +71,7 @@ fn replace(
   captures : Map[@string.View, Array[Text]],
   replace : @string.View
 ) -> @string.View raise ReplaceError {
+
   let replaces = Replace::parse(replace)
   let replaced = StringBuilder::new()
   for replace in replaces {
@@ -150,3 +151,5 @@ impl @json.FromJson for Text with from_json(self : Json, path : @json.JsonPath) 
     _ => raise @json.JsonDecodeError((path, "Invalid text"))
   }
 }
+
+
