@@ -355,12 +355,18 @@ input[type="checkbox"] {
 
 .match-text {
   white-space: pre;
+  color: var(--vscode-editor-foreground);
+  opacity: 0.9;
 }
 
 .match-highlight {
   background-color: var(--vscode-editor-findMatchHighlightBackground);
   outline: 1px solid var(--vscode-editor-findMatchHighlightBorder, transparent);
   white-space: pre;
+  border-radius: 2px;
+  padding: 1px 2px;
+  font-weight: 500;
+  box-shadow: 0 0 0 1px var(--vscode-editor-findMatchHighlightBorder, transparent);
 }
 
 .collapsed .match-list {

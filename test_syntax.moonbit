@@ -1,0 +1,71 @@
+import lib
+
+fn main() {
+  println("开始测试基于AST的语法验证...")
+  
+  // 测试1: 正确的MoonBit代码
+  let correct_code = "fn hello() { println(\"Hello, World!\") }"
+  println("测试1 - 正确代码:")
+  println("  代码: {}", correct_code)
+  println("  结果: {}", lib.check_moonbit_syntax(correct_code))
+  
+  // 测试2: C风格的for循环（语法正确但语义不推荐）
+  let c_style_for = "fn test() { for (let i = 0; i < 10; i = i + 1) { } }"
+  println("\n测试2 - C风格for循环:")
+  println("  代码: {}", c_style_for)
+  println("  结果: {}", lib.check_moonbit_syntax(c_style_for))
+  
+  // 测试3: MoonBit风格的for循环
+  let moonbit_for = "fn test() { for i in 0..10 { } }"
+  println("\n测试3 - MoonBit风格for循环:")
+  println("  代码: {}", moonbit_for)
+  println("  结果: {}", lib.check_moonbit_syntax(moonbit_for))
+  
+  // 测试4: 不完整的函数定义
+  let incomplete_fn = "fn hello() {"
+  println("\n测试4 - 不完整函数定义:")
+  println("  代码: {}", incomplete_fn)
+  println("  结果: {}", lib.check_moonbit_syntax(incomplete_fn))
+  
+  // 测试5: 未闭合的括号
+  let unclosed_bracket = "fn test() { println(\"Hello\" }"
+  println("\n测试5 - 未闭合括号:")
+  println("  代码: {}", unclosed_bracket)
+  println("  结果: {}", lib.check_moonbit_syntax(unclosed_bracket))
+  
+  // 测试6: 复杂的正确代码
+  let complex_code = "
+fn fibonacci(n: Int) -> Int {
+  if n <= 1 {
+    n
+  } else {
+    fibonacci(n - 1) + fibonacci(n - 2)
+  }
+}
+
+fn main() {
+  for i in 0..10 {
+    println(\"fib({}) = {}\", i, fibonacci(i))
+  }
+}"
+  println("\n测试6 - 复杂正确代码:")
+  println("  代码长度: {} 字符", complex_code.length())
+  println("  结果: {}", lib.check_moonbit_syntax(complex_code))
+  
+  // 测试7: 混合风格的代码（包含C风格for循环）
+  let mixed_code = "
+fn test() {
+  for i in 0..5 {
+    println(\"MoonBit style: {}\", i)
+  }
+  
+  for (let j = 0; j < 5; j = j + 1) {
+    println(\"C style: {}\", j)
+  }
+}"
+  println("\n测试7 - 混合风格代码:")
+  println("  代码长度: {} 字符", mixed_code.length())
+  println("  结果: {}", lib.check_moonbit_syntax(mixed_code))
+  
+  println("\n所有测试完成！")
+} 

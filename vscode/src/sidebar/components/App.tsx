@@ -93,6 +93,7 @@ const App: React.FC = () => {
         case "bookmarksUpdated":
           setBookmarks(message.bookmarks || []);
           break;
+
       }
     };
 
@@ -115,6 +116,8 @@ const App: React.FC = () => {
       fileCount,
       matchCount,
     });
+
+
   }, [results]);
 
   useEffect(() => {
@@ -214,6 +217,9 @@ const App: React.FC = () => {
     
     // Update local state
     setSearchLayers(layers);
+
+    // Update the result count in history after search completes
+    // This will be handled by the useEffect that watches results changes
   };
   const handleDeleteHistoryItem = (id: string) =>
     vscode.postMessage({ type: "deleteHistoryItem", value: { id } });

@@ -1,4 +1,10 @@
 ///|
+// 辅助函数：获取两个数中的较小值
+fn min(a : Int, b : Int) -> Int {
+  if a < b { a } else { b }
+}
+
+///|
 priv enum Replace {
   Quote(String)
   Subst(String)
@@ -64,6 +70,115 @@ fn Replace::parse(string : @string.View) -> Array[Replace] {
   let replaces = []
   Replace::parse_replaces(string, replaces)
   return replaces
+}
+
+///|
+// 新增：打印 AST 所有节点的辅助函数
+fn print_ast_nodes(
+  node : @tree_sitter.Node,
+  depth : Int,
+  buffer : StringBuilder
+) -> Unit {
+  // 缩进
+  for i = 0; i < depth; i = i + 1 {
+    buffer.write_string("  ")
+  }
+  
+  // 节点类型和属性
+  let node_type = node.type_().to_string()
+  let is_named = node.is_named()
+  let child_count = node.child_count()
+  let text = node.text().to_string()
+  
+  buffer.write_string("Node: type='\{node_type}', named=\{is_named}, children=\{child_count}, text='\{text}'\n")
+  
+  // 递归打印子节点
+  for i = 0; i < child_count; i = i + 1 {
+    let child = node.child(i)
+    if child is Some(_) {
+      print_ast_nodes(child.unwrap(), depth + 1, buffer)
+    }
+  }
+}
+
+///|
+// 新增：获取完整 AST 信息的函数
+fn get_ast_info(content : @string.View) -> String {
+  let language = @tree_sitter_moonbit.language()
+  let parser = @tree_sitter.Parser::new()
+  
+  // 尝试设置语言
+  parser.set_language(language) catch {
+    _ => return "ERROR: Failed to set language"
+  }
+  
+  // 尝试解析内容
+  let tree = parser.parse_string(content) catch {
+    _ => return "ERROR: Failed to parse content"
+  }
+  
+  let root_node = tree.root_node()
+  let has_error = root_node.has_error()
+  
+  let buffer = StringBuilder::new()
+  buffer.write_string("=== COMPLETE FILE AST ANALYSIS ===\n")
+  buffer.write_string("Root node type: \{root_node.type_().to_string()}\n")
+  buffer.write_string("Has error: \{has_error}\n")
+  buffer.write_string("Total children: \{root_node.child_count()}\n")
+  buffer.write_string("Content length: \{content.to_string().length()}\n")
+  buffer.write_string("Content preview: \{content.to_string().substring(start=0, end=min(100, content.to_string().length()))}\n")
+  
+  if content.to_string().length() > 100 {
+    buffer.write_string("... (truncated for preview)\n")
+  }
+  
+  buffer.write_string("\n=== COMPLETE AST STRUCTURE ===\n")
+  
+  // 打印完整的AST结构
+  print_ast_nodes(root_node, 0, buffer)
+  
+  buffer.write_string("=== END COMPLETE AST ===\n")
+  return buffer.to_string()
+}
+
+///|
+// 新增：获取完整文件AST信息的函数（专门用于文件分析）
+fn get_complete_file_ast_info(content : @string.View) -> String {
+  let language = @tree_sitter_moonbit.language()
+  let parser = @tree_sitter.Parser::new()
+  
+  // 尝试设置语言
+  parser.set_language(language) catch {
+    _ => return "ERROR: Failed to set language"
+  }
+  
+  // 尝试解析完整文件内容
+  let tree = parser.parse_string(content) catch {
+    _ => return "ERROR: Failed to parse file content"
+  }
+  
+  let root_node = tree.root_node()
+  let has_error = root_node.has_error()
+  
+  let buffer = StringBuilder::new()
+  buffer.write_string("=== COMPLETE FILE AST ANALYSIS ===\n")
+  buffer.write_string("Root node type: \{root_node.type_().to_string()}\n")
+  buffer.write_string("Has error: \{has_error}\n")
+  buffer.write_string("Total children: \{root_node.child_count()}\n")
+  buffer.write_string("File content length: \{content.to_string().length()}\n")
+  buffer.write_string("File content preview: \{content.to_string().substring(start=0, end=min(200, content.to_string().length()))}\n")
+  
+  if content.to_string().length() > 200 {
+    buffer.write_string("... (truncated for preview)\n")
+  }
+  
+  buffer.write_string("\n=== COMPLETE FILE AST STRUCTURE ===\n")
+  
+  // 打印完整的文件AST结构
+  print_ast_nodes(root_node, 0, buffer)
+  
+  buffer.write_string("=== END COMPLETE FILE AST ===\n")
+  return buffer.to_string()
 }
 
 ///|

@@ -178,6 +178,11 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
           this.deleteBookmark(message.value.id);
           break;
         }
+        case "updateResultCount": {
+          // Update the result count for the specified search ID
+          this.resultCountMap.set(message.value.searchId, message.value.count);
+          break;
+        }
         
       }
     });
@@ -251,7 +256,9 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
         return;
       }
       
-      const count = this.resultCountMap.get(searchId) || 0;
+      // Use the actual result count from the service instead of the map
+      // This ensures we get the accurate count after deduplication
+      const count = this.service.getResultCount();
 
       
               // Get currently enabled search layers
@@ -301,7 +308,11 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     this.currentSearchLayers = (options as any).layers || [];
     this.hasWrittenHistory = false;
     
-    
+    // Notify frontend of the new search ID
+    this.postMessage({
+      type: "searchStarted",
+      searchId: this.searchId,
+    });
 
     try {
       const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -313,7 +324,6 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       await this.service.search(workspaceFolders[0].uri, { ...options, searchId: this.searchId } as any);
       
     } catch (error: any) {
-      console.error(`[SIDEBAR] Search failed:`, error);
       vscode.window.showErrorMessage(`Search failed: ${error.message || "Unknown error"}`);
     }
   }
@@ -321,11 +331,8 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   private async triggerReSearch() {
     // Check if we have a current search query to re-run
     if (!this.currentSearchQuery || !this.currentSearchQuery.trim()) {
-      console.log(`[SIDEBAR_DEBUG] No current search query to re-run`);
       return;
     }
-
-    console.log(`[SIDEBAR_DEBUG] Triggering re-search with query: ${this.currentSearchQuery}`);
     
     // Create search options for re-search
     const searchOptions: Search.Options = {

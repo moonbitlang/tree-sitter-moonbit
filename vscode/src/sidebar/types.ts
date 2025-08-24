@@ -91,6 +91,10 @@ export type Response =
   | {
       type: "bookmarksUpdated";
       bookmarks: SearchBookmark[];
+    }
+  | {
+      type: "searchStarted";
+      searchId: string;
     };
 
 export type Request =
@@ -118,6 +122,7 @@ export type Request =
   | { type: "loadBookmarks" }
   | { type: "addBookmark"; value: { name: string; query: string; options: SearchOptions; layers?: SearchLayer[] } }
   | { type: "deleteBookmark"; value: { id: string } }
+  | { type: "updateResultCount"; value: { searchId: string; count: number } }
   // Remove addToHistory message type, history is now completely controlled by backend
   // | { type: "addToHistory"; value: { query: string; options: SearchOptions } }
   | { type: "error"; value: string };
