@@ -346,6 +346,7 @@ export class Service {
         params: {
           captures: result.captures,
           replace: replace,
+          content: currentContent, // 添加文件内容，让MoonBit能够生成完整文件的AST信息
         },
       };
 
@@ -359,6 +360,7 @@ export class Service {
       let replacementText = "";
       let jsonParseCount = 0;
       let validResponseCount = 0;
+      let hasAppliedReplacement = false; // 添加标志位
 
       disposable = worker.process.stdout.onData(async (data) => {
         if (!worker.task) {
@@ -449,6 +451,12 @@ export class Service {
 
           // Apply the replacement to the document
           try {
+            // 防止重复应用替换
+            if (hasAppliedReplacement) {
+              continue;
+            }
+            hasAppliedReplacement = true;
+            
             // Get the original document content before replacement
             const originalDocument = await vscode.workspace.openTextDocument(result.uri);
             const originalContent = originalDocument.getText();
@@ -478,14 +486,12 @@ export class Service {
             const document = await vscode.workspace.openTextDocument(result.uri);
             const newContent = document.getText();
             
-
-            
-
-            
-            // Compare original vs new content
-            
-            // Validate file syntax after replacement using the complete file content
-            await this.validateFileSyntaxAfterReplacement(result.uri, newContent);
+            // 验证获取的内容确实是文件内容而不是JSON
+            if (newContent && !newContent.startsWith('{') && !newContent.startsWith('[')) {
+              // 只有在内容看起来像文件内容时才进行语法验证
+              // Validate file syntax after replacement using the complete file content
+              await this.validateFileSyntaxAfterReplacement(result.uri, newContent);
+            }
             
             // Save task ID before cancelling the task
             const taskId = worker.task?.id;
@@ -493,6 +499,7 @@ export class Service {
               worker.cancelTask();
             }
           } catch (editError) {
+            console.error(`Error applying replacement:`, editError);
             throw editError;
           }
         }
@@ -1052,7 +1059,6 @@ export class Service {
               try {
                 json = JSON.parse(line);
               } catch (e) {
-                console.error("Failed to parse JSON:", line);
                 continue;
               }
                 
@@ -1063,7 +1069,6 @@ export class Service {
                 continue;
               }
               if (!("result" in json)) {
-                console.error('Missing "result" in JSON:', json);
                 continue;
               }
               if (!json.result) {
@@ -1284,11 +1289,27 @@ export class Service {
         }
       }
       
+      // 添加内容验证：确保不是JSON字符串
+      if (!content || content.trim() === '') {
+        return;
+      }
+      
+      // 检查内容是否看起来像JSON而不是MoonBit代码
+      const trimmedContent = content.trim();
+      if (trimmedContent.startsWith('{') || trimmedContent.startsWith('[')) {
+        return;
+      }
+      
+      // 检查内容是否包含典型的MoonBit语法元素
+      const hasMoonBitSyntax = /fn\s+\w+|let\s+\w+|if\s+\w+|match\s+\w+|loop\s+\w+|try\s*\{/.test(content);
+      if (!hasMoonBitSyntax) {
+        return;
+      }
+      
       // Use tree-sitter to parse the file
       const worker = await this.getWorker();
       
       if (!worker.process.stdin || !worker.process.stdout) {
-        console.error(`Worker not available for syntax validation`);
         return;
       }
       
@@ -1339,7 +1360,6 @@ export class Service {
               hasReceivedResponse = true;
               
               if (response.error) {
-                console.error(`Moonbit returned error:`, response.error);
                 hasSyntaxError = true;
                 errorMessage = response.error.message || 'Unknown syntax error';
               } else if (response.result !== undefined) {
@@ -1409,8 +1429,6 @@ export class Service {
       }
       
     } catch (error) {
-      console.error(`Error during Moonbit syntax validation:`, error);
-      
       // Check if the error is related to worker process issues
       if (error && typeof error === 'object' && 'message' in error && 
           typeof error.message === 'string' && (
@@ -1425,7 +1443,7 @@ export class Service {
             this.markWorkerAsDead(worker.id, -1);
           }
         } catch (workerError) {
-          console.error(`Failed to get worker for cleanup:`, workerError);
+          // Worker cleanup failed, continue
         }
       }
     }

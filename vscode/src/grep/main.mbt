@@ -49,24 +49,22 @@ fn main {
             }
           })
           
-          
           let mut result_count = 0
           for result in cascade_search(content~, main_query~, layer_queries_strings) {
             jsonrpc_result(id~, result.to_json())
             result_count = result_count + 1
-            
-            
           }
-          
           
           jsonrpc_result(id~, Json::null())
         }
+        
         {
           "id": id,
           "method": "replace",
           "params": {
             "captures": Object(captures_json),
             "replace": String(replace_string),
+            "content": String(file_content),
             ..
           },
           ..
@@ -88,7 +86,7 @@ fn main {
           let ast_info = get_ast_info(replaced_content.view())
           
           // 获取完整文件的 AST 信息（用于控制台面板显示）
-          let complete_file_ast_info = get_complete_file_ast_info(content)
+          let complete_file_ast_info = get_complete_file_ast_info(file_content)
           
           // 返回替换结果和完整的AST信息
           let result = Json::object({
@@ -99,6 +97,7 @@ fn main {
           
           jsonrpc_result(id~, result)
         }
+        
         {
           "id": id,
           "method": "validate_file_syntax",
@@ -147,6 +146,7 @@ fn main {
             jsonrpc_result(id~, success_response)
           }
         }
+        
         { "id": id, .. } =>
           jsonrpc_error(id~, "Invalid request: \{json.to_json().stringify()}")
         _ =>
