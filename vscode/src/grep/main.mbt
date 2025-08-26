@@ -18,13 +18,34 @@ fn main {
         {
           "id": id,
           "method": "search",
-          "params": { "content": String(content), "query": String(query), .. },
+          "params": { 
+            "content": String(content), 
+            "query": String(query), 
+            .. 
+          },
           ..
         } => {
+          // Check if print_ast parameter exists, default to false if not
+          let print_ast_bool = match json {
+            { "params": { "print_ast": print_ast_value, .. }, .. } => @json.from_json(print_ast_value)
+            _ => false
+          }
+          
           try {
             for result in search(query~, content~) {
               jsonrpc_result(id~, result)
             }
+            
+            // Return AST info based on print_ast parameter
+            if print_ast_bool {
+              let ast_info = get_complete_file_ast_info(content)
+              let ast_result = Json::object({
+                "ast_info": Json::string(ast_info),
+                "print_ast_enabled": print_ast_bool.to_json()
+              })
+              jsonrpc_result(id~, ast_result)
+            }
+            
             jsonrpc_result(id~, Json::null())
           } catch {
             error => jsonrpc_error(id~, error.to_json())
@@ -42,6 +63,12 @@ fn main {
           },
           ..
         } => {
+          // Check if print_ast parameter exists, default to false if not
+          let print_ast_bool = match json {
+            { "params": { "print_ast": print_ast_value, .. }, .. } => @json.from_json(print_ast_value)
+            _ => false
+          }
+          
           let layer_queries_strings = layer_queries.map(fn(query_json) {
             match query_json {
               String(query) => query.view()
@@ -55,6 +82,16 @@ fn main {
             result_count = result_count + 1
           }
           
+          // Return AST info based on print_ast parameter
+          if print_ast_bool {
+            let ast_info = get_complete_file_ast_info(content)
+            let ast_result = Json::object({
+              "ast_info": Json::string(ast_info),
+              "print_ast_enabled": print_ast_bool.to_json()
+            })
+            jsonrpc_result(id~, ast_result)
+          }
+          
           jsonrpc_result(id~, Json::null())
         }
         
@@ -65,6 +102,7 @@ fn main {
             "captures": Object(captures_json),
             "replace": String(replace_string),
             "content": String(file_content),
+            "debug_mode": debug_mode,
             ..
           },
           ..
@@ -74,25 +112,43 @@ fn main {
             captures[name.view()] = @json.from_json(capture_json)
           }
           
-          // 执行替换
-          let replaced_content = replace(captures, replace_string) catch {
+          // Extract debug mode parameter from JSON
+          let debug_mode_bool = @json.from_json(debug_mode)
+          
+          // Check if print_ast parameter exists, default to false if not
+          let print_ast_bool = match json {
+            { "params": { "print_ast": print_ast_value, .. }, .. } => @json.from_json(print_ast_value)
+            _ => false
+          }
+          
+          // Execute replacement with debug mode parameter
+          let replaced_content = replace(captures, replace_string, debug_mode_bool) catch {
             error => {
               jsonrpc_error(id~, error.to_json())
               return
             }
           }
           
-          // 获取替换后内容的 AST 信息（用于调试替换结果）
-          let ast_info = get_ast_info(replaced_content.view())
+          // Get AST info based on print_ast parameter
+          let ast_info = if print_ast_bool {
+            get_ast_info(replaced_content.view())
+          } else {
+            "AST printing disabled"
+          }
           
-          // 获取完整文件的 AST 信息（用于控制台面板显示）
-          let complete_file_ast_info = get_complete_file_ast_info(file_content)
+          // Get complete file AST info based on print_ast parameter
+          let complete_file_ast_info = if print_ast_bool {
+            get_complete_file_ast_info(file_content)
+          } else {
+            "Complete file AST printing disabled"
+          }
           
-          // 返回替换结果和完整的AST信息
+          // Return replacement result and AST info (content based on control parameters)
           let result = Json::object({
             "replaced": Json::string(replaced_content.to_string()),
             "ast_info": Json::string(ast_info),
-            "complete_file_ast": Json::string(complete_file_ast_info)
+            "complete_file_ast": Json::string(complete_file_ast_info),
+            "print_ast_enabled": print_ast_bool.to_json()
           })
           
           jsonrpc_result(id~, result)
@@ -126,22 +182,38 @@ fn main {
           let root_node = tree.root_node()
           let has_error = root_node.has_error()
 
-          // 构建调试信息
+          // Check if print_ast parameter exists, default to false if not
+          let print_ast_bool = match json {
+            { "params": { "print_ast": print_ast_value, .. }, .. } => @json.from_json(print_ast_value)
+            _ => false
+          }
+
+          // Build basic debug info
           let debug_info = "DEBUG: root_type=" + root_node.type_().to_string() + 
                           ", has_error=" + has_error.to_string() + 
                           ", node_count=" + root_node.child_count().to_string() + 
-                          ", text_length=" + root_node.text().to_string().length().to_string()
+                          ", text_length=" + root_node.text().length().to_string()
           
-          // 检查是否有语法错误 - 确保正确检测
+          // Add detailed AST info based on print_ast parameter
+          let ast_info = if print_ast_bool {
+            "\n=== DETAILED AST INFO ===\n" + get_complete_file_ast_info(content)
+          } else {
+            "\nAST printing disabled"
+          }
+          
+          let full_debug_info = debug_info + ast_info
+          
+          // Check for syntax errors - ensure correct detection
           if has_error {
-            // 有错误时返回 JSON-RPC 错误响应
-            let error_message = "Syntax error detected: " + debug_info
+            // Return JSON-RPC error response when errors exist
+            let error_message = "Syntax error detected: " + full_debug_info
             jsonrpc_error(id~, error_message.to_json())
           } else {
-            // 成功时返回包含调试信息的对象
+            // Return success response with debug info
             let success_response = Json::object({
               "status": Json::string("success"),
-              "debug": Json::string(debug_info)
+              "debug": Json::string(full_debug_info),
+              "print_ast_enabled": print_ast_bool.to_json()
             })
             jsonrpc_result(id~, success_response)
           }

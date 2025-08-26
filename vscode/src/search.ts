@@ -30,6 +30,7 @@ export interface Options {
   excludePattern?: string;
   includeIgnored?: boolean;
   layers?: SearchLayer[]; // New: support multi-layer queries
+  enableAstPrint?: boolean; // New: control AST printing
 }
 
 export interface Context {
@@ -241,7 +242,7 @@ export class Service {
         this.pendingTasks = 0;
       }
       
-      // When all tasks complete, trigger search completion event
+              // When all tasks complete, trigger search completion event
       if (this.pendingTasks === 0 && !this.finished) {
         
         this.finished = true;
@@ -252,7 +253,7 @@ export class Service {
             if (searchId) {
               // Deduplicate results before firing the event
               this.deduplicateResults();
-              this.onSearchFinished.fire(searchId);
+            this.onSearchFinished.fire(searchId);
             }
   
           } catch (e) {
@@ -260,7 +261,7 @@ export class Service {
             // Ensure event is triggered even if error occurs
             if (searchId) {
               this.deduplicateResults();
-              this.onSearchFinished.fire(searchId);
+            this.onSearchFinished.fire(searchId);
             }
           }
                   } else {
@@ -321,34 +322,36 @@ export class Service {
           if (options.searchId) {
             // Deduplicate results before firing the event
             this.deduplicateResults();
-            this.onSearchFinished.fire(options.searchId);
+          this.onSearchFinished.fire(options.searchId);
           }
         }
               }
       }, 30000); // 30 second timeout
   }
-  public async replace(resultId: string, replace: string): Promise<void> {
-    const result = this.results.get(resultId);
-    if (!result) {
-      vscode.window.showErrorMessage(`Result not found: ${resultId}`);
-      return;
-    }
+  public async replace(resultId: string, replace: string, enableAstPrint: boolean = false): Promise<void> {
+      const result = this.results.get(resultId);
+      if (!result) {
+        vscode.window.showErrorMessage(`Result not found: ${resultId}`);
+        return;
+      }
 
     try {
       // Get the current document content
       const document = await vscode.workspace.openTextDocument(result.uri);
       const currentContent = document.getText();
       
-      // Create a replacement request
-      const request = {
-        id: crypto.randomUUID(),
-        method: "replace",
-        params: {
-          captures: result.captures,
-          replace: replace,
-          content: currentContent, // 添加文件内容，让MoonBit能够生成完整文件的AST信息
-        },
-      };
+                // Create a replacement request
+              const request = {
+          id: crypto.randomUUID(),
+          method: "replace",
+          params: {
+            captures: result.captures,
+            replace: replace,
+            content: currentContent, // 添加文件内容，让MoonBit能够生成完整文件的AST信息
+            debug_mode: true, // 添加 debug_mode 参数
+            print_ast: enableAstPrint, // 根据 enableAstPrint 参数动态设置
+          },
+        };
 
       const worker = await this.getWorker();
       if (!worker.process.stdin || !worker.process.stdout) {
@@ -412,8 +415,8 @@ export class Service {
           if (typeof json.result === 'object' && json.result.replaced) {
             replacementText = json.result.replaced;
             
-                        // Log AST information if available
-            if (json.result.ast_info) {
+                        // Log AST information if available (仅在启用AST打印时)
+            if (json.result.ast_info && enableAstPrint) {
               // Show AST info in VSCode output channel
               const outputChannel = vscode.window.createOutputChannel("MoonBit AST Analysis");
               outputChannel.clear();
@@ -428,8 +431,8 @@ export class Service {
               );
             }
             
-            // 新增：显示完整文件的AST信息
-            if (json.result.complete_file_ast) {
+            // 新增：显示完整文件的AST信息（仅在启用AST打印时）
+            if (json.result.complete_file_ast && enableAstPrint) {
               // Show complete file AST info in VSCode output channel
               const outputChannel = vscode.window.createOutputChannel("MoonBit Complete File AST Analysis");
               outputChannel.clear();
@@ -496,7 +499,7 @@ export class Service {
             // Save task ID before cancelling the task
             const taskId = worker.task?.id;
             if (worker.task) {
-              worker.cancelTask();
+          worker.cancelTask();
             }
           } catch (editError) {
             console.error(`Error applying replacement:`, editError);
@@ -506,7 +509,7 @@ export class Service {
       });
       
       if (worker.task) {
-        worker.task.disposable = disposable;
+      worker.task.disposable = disposable;
       }
       
       const requestJson = JSON.stringify(request);
@@ -654,6 +657,7 @@ export class Service {
       params: {
         query: options.query,
         content: content,
+        print_ast: options.enableAstPrint || false, // 根据 options.enableAstPrint 动态设置
       },
     };
     
@@ -743,8 +747,8 @@ export class Service {
                 // Safely get context lines with match highlighting markers
                 let context: string[] = [];
                 try {
-                  const startChar = json.result.range.start.column;
-                  const endChar = json.result.range.end.column;
+                    const startChar = json.result.range.start.column;
+                    const endChar = json.result.range.end.column;
                   context = this.getContextLines(contentLines, startLine, endLine, startChar, endChar);
                 } catch (e) {
                   // Fallback to empty context
@@ -808,7 +812,7 @@ export class Service {
       // finished state is now managed by wrap method, no need to set here
           } else {
         // Fallback to single-layer search
-      const currentResults = await this.executeSearchQuery(uri, options.query, content, contentLines, options.searchId, "main");
+      const currentResults = await this.executeSearchQuery(uri, options.query, content, contentLines, options.searchId, "main", options.enableAstPrint);
       for (const result of currentResults) {
         this.results.set(result.id, result);
         this.onInsert.fire({ ...result, searchId: options.searchId, lines: result.context, context: result.context });
@@ -838,6 +842,7 @@ export class Service {
         content: content,
         mainQuery: options.query,
         layerQueries: layerQueries,
+        print_ast: options.enableAstPrint || false, // 根据 options.enableAstPrint 动态设置
       },
     };
 
@@ -977,31 +982,32 @@ export class Service {
     if (startRow === endRow) {
       // Single line match: show full line but mark match range
       const line = contentLines[startRow];
-      // Use special markers to identify match ranges, frontend can parse these for highlighting
+              // Use special markers to identify match ranges, frontend can parse these for highlighting
       const markedLine = `${line.slice(0, startColumn)}[MATCH_START]${line.slice(startColumn, endColumn)}[MATCH_END]${line.slice(endColumn)}`;
       return [markedLine];
-    } else {
-      // Multi-line match: first line from match start, last line to match end, middle lines complete
+          } else {
+        // Multi-line match: first line from match start, last line to match end, middle lines complete
       const firstLine = contentLines[startRow];
       const lastLine = contentLines[endRow];
       
       const result = [
-        `${firstLine.slice(0, startColumn)}[MATCH_START]${firstLine.slice(startColumn)}`, // First line to match start
-        ...contentLines.slice(startRow + 1, endRow), // Middle lines complete
-        `${lastLine.slice(0, endColumn)}[MATCH_END]${lastLine.slice(endColumn)}` // Last line from start to match end
-      ];
+          `${firstLine.slice(0, startColumn)}[MATCH_START]${firstLine.slice(startColumn)}`, // First line to match start
+          ...contentLines.slice(startRow + 1, endRow), // Middle lines complete
+          `${lastLine.slice(0, endColumn)}[MATCH_END]${lastLine.slice(endColumn)}` // Last line from start to match end
+        ];
 
       return result;
     }
   }
 
-  private async executeSearchQuery(uri: vscode.Uri, query: string, content: string, contentLines: string[], searchId?: string, queryType: string = "unknown"): Promise<Result[]> {
+  private async executeSearchQuery(uri: vscode.Uri, query: string, content: string, contentLines: string[], searchId?: string, queryType: string = "unknown", enableAstPrint: boolean = false): Promise<Result[]> {
     const request = {
       id: crypto.randomUUID(),
       method: "search",
       params: {
         query: query,
         content: content,
+        print_ast: enableAstPrint, // 根据 enableAstPrint 参数动态设置
       },
     };
 
@@ -1159,7 +1165,7 @@ export class Service {
       const rangeContent = contentLines.slice(startLine, endLine + 1).join('\n');
       
       // Execute query in this range
-      const rangeResults = await this.executeSearchQuery(uri, query, rangeContent, contentLines, searchId, `${queryType}-range-${startLine}-${endLine}`);
+              const rangeResults = await this.executeSearchQuery(uri, query, rangeContent, contentLines, searchId, `${queryType}-range-${startLine}-${endLine}`, false);
       
       // Adjust result line numbers to be relative to original file
       const adjustedResults = rangeResults.map(result => ({
@@ -1319,6 +1325,7 @@ export class Service {
         method: "validate_file_syntax", // Use the dedicated validation method
         params: {
           content: content,
+          print_ast: true, // 添加 print_ast 参数，启用 AST 打印
         },
       };
       

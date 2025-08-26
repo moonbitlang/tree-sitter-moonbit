@@ -656,6 +656,8 @@ pub fn cascade_search(
     }
   }
   
+
+  
       // Execute main query to get initial result set
   let main_results = search(query=main_query, content=content) catch {
     _ => {

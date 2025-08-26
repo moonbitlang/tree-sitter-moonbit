@@ -26,6 +26,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   private lastSearchTimestamp: number = 0;
   private isReplaceAllInProgress: boolean = false;
   private eventDisposables: vscode.Disposable[] = [];
+  private enableAstPrint: boolean = false; // 添加 AST 打印状态
 
   constructor(extensionUri: vscode.Uri, service: Search.Service) {
     this.extensionUri = extensionUri;
@@ -94,7 +95,12 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "replaceMatch": {
-          this.service.replace(message.value.id, message.value.replace);
+          this.service.replace(message.value.id, message.value.replace, this.enableAstPrint);
+          break;
+        }
+        case "updateAstPrint": {
+          // Update AST print state immediately when button is clicked
+          this.enableAstPrint = message.value.enableAstPrint;
           break;
         }
         case "replaceAll": {
@@ -127,7 +133,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
             // Replace all results sequentially to avoid conflicts
             for (const resultId of resultIds) {
               try {
-                await this.service.replace(resultId, message.value.replace);
+                await this.service.replace(resultId, message.value.replace, this.enableAstPrint);
               } catch (replaceError: any) {
                 // Continue with other results even if one fails
               }
@@ -306,6 +312,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       includeIgnored: options.includeIgnored,
     };
     this.currentSearchLayers = (options as any).layers || [];
+    this.enableAstPrint = (options as any).enableAstPrint || false; // 保存 AST 打印状态
     this.hasWrittenHistory = false;
     
     // Notify frontend of the new search ID
@@ -339,6 +346,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       query: this.currentSearchQuery,
       ...this.currentSearchOptions,
       layers: this.currentSearchLayers,
+      enableAstPrint: this.enableAstPrint, // 传递 AST 打印状态
     };
 
     // Trigger the search
