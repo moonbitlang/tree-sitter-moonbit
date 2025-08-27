@@ -347,9 +347,9 @@ export class Service {
           params: {
             captures: result.captures,
             replace: replace,
-            content: currentContent, // 添加文件内容，让MoonBit能够生成完整文件的AST信息
-            debug_mode: true, // 添加 debug_mode 参数
-            print_ast: enableAstPrint, // 根据 enableAstPrint 参数动态设置
+            content: currentContent, // Add file content so MoonBit can generate complete file AST info
+            debug_mode: true, // Add debug_mode parameter
+            print_ast: enableAstPrint, // Set dynamically based on enableAstPrint parameter
           },
         };
 
@@ -363,7 +363,7 @@ export class Service {
       let replacementText = "";
       let jsonParseCount = 0;
       let validResponseCount = 0;
-      let hasAppliedReplacement = false; // 添加标志位
+      let hasAppliedReplacement = false; // Add flag
 
       disposable = worker.process.stdout.onData(async (data) => {
         if (!worker.task) {
@@ -415,7 +415,7 @@ export class Service {
           if (typeof json.result === 'object' && json.result.replaced) {
             replacementText = json.result.replaced;
             
-                        // Log AST information if available (仅在启用AST打印时)
+                        // Log AST information if available (only when AST printing is enabled)
             if (json.result.ast_info && enableAstPrint) {
               // Show AST info in VSCode output channel
               const outputChannel = vscode.window.createOutputChannel("MoonBit AST Analysis");
@@ -431,7 +431,7 @@ export class Service {
               );
             }
             
-            // 新增：显示完整文件的AST信息（仅在启用AST打印时）
+            // New: Show complete file AST info (only when AST printing is enabled)
             if (json.result.complete_file_ast && enableAstPrint) {
               // Show complete file AST info in VSCode output channel
               const outputChannel = vscode.window.createOutputChannel("MoonBit Complete File AST Analysis");
@@ -454,17 +454,23 @@ export class Service {
 
           // Apply the replacement to the document
           try {
-            // 防止重复应用替换
+            // Prevent duplicate replacement application
             if (hasAppliedReplacement) {
               continue;
             }
             hasAppliedReplacement = true;
             
-            // Get the original document content before replacement
+                        // Get the original document content before replacement
             const originalDocument = await vscode.workspace.openTextDocument(result.uri);
             const originalContent = originalDocument.getText();
             
-
+            // Extract the original text that will be replaced
+            const originalText = originalDocument.getText(new vscode.Range(
+              result.range.start.line,
+              result.range.start.character,
+              result.range.end.line,
+              result.range.end.character
+            ));
             
             const edit = new vscode.WorkspaceEdit();
             
@@ -489,20 +495,56 @@ export class Service {
             const document = await vscode.workspace.openTextDocument(result.uri);
             const newContent = document.getText();
             
-            // 验证获取的内容确实是文件内容而不是JSON
+            // Verify that the content is actually file content, not JSON
             if (newContent && !newContent.startsWith('{') && !newContent.startsWith('[')) {
-              // 只有在内容看起来像文件内容时才进行语法验证
+              // Only validate syntax if content looks like file content
               // Validate file syntax after replacement using the complete file content
-              await this.validateFileSyntaxAfterReplacement(result.uri, newContent);
+              const validationResult = await this.validateFileSyntax(result.uri, newContent);
+              
+              // If syntax validation fails, reject replacement and rollback
+              if (!validationResult.isValid) {
+                // Rollback replacement operation
+                const rollbackEdit = new vscode.WorkspaceEdit();
+                rollbackEdit.replace(result.uri, range, originalText);
+                
+                const rollbackSuccess = await vscode.workspace.applyEdit(rollbackEdit);
+                if (rollbackSuccess) {
+                  vscode.window.showErrorMessage(
+                    `❌Syntax validation failed: ${validationResult.errorMessage}. Replacement has been rolled back.`,
+                    { modal: false }
+                  );
+                  throw new Error(`Syntax validation failed: ${validationResult.errorMessage}. Replacement has been rolled back.`);
+                } else {
+                  vscode.window.showErrorMessage(
+                    `❌Syntax validation failed: ${validationResult.errorMessage}. Failed to rollback replacement.`,
+                    { modal: false }
+                  );
+                  throw new Error(`Syntax validation failed: ${validationResult.errorMessage}. Failed to rollback replacement.`);
+                }
+              }
+              
+              // if success, notification
+              if (validationResult.isValid) {
+                vscode.window.showInformationMessage(
+                  "✅Syntax validation passed - replacement completed successfully",
+                  { modal: false }
+                );
+              }
             }
             
             // Save task ID before cancelling the task
             const taskId = worker.task?.id;
             if (worker.task) {
-          worker.cancelTask();
+              worker.cancelTask();
             }
           } catch (editError) {
             console.error(`Error applying replacement:`, editError);
+            
+            if (editError instanceof Error && !editError.message.includes('Syntax validation failed')) {
+              const errorMessage = editError.message;
+              vscode.window.showErrorMessage(`Error applying replacement: ${errorMessage}`, { modal: false });
+            }
+            
             throw editError;
           }
         }
@@ -517,7 +559,16 @@ export class Service {
       await worker.process.stdin.write(requestJson + "\n");
       
     } catch (error: any) {
-      vscode.window.showErrorMessage(`Replace failed: ${error.message || "Unknown error"}`);
+      // Show detailed error information to user
+      const errorMessage = error.message || "Unknown error";
+      console.error(`Replace failed:`, error);
+      
+      // If error message is too long, truncate it to avoid long notifications
+      const displayMessage = errorMessage.length > 200 
+        ? errorMessage.substring(0, 200) + "..."
+        : errorMessage;
+      
+      vscode.window.showErrorMessage(`Replace failed: ${displayMessage}`, { modal: false });
     }
   }
   public async dismiss(resultId: string) {
@@ -657,7 +708,7 @@ export class Service {
       params: {
         query: options.query,
         content: content,
-        print_ast: options.enableAstPrint || false, // 根据 options.enableAstPrint 动态设置
+        print_ast: options.enableAstPrint || false, // Set dynamically based on options.enableAstPrint
       },
     };
     
@@ -842,7 +893,7 @@ export class Service {
         content: content,
         mainQuery: options.query,
         layerQueries: layerQueries,
-        print_ast: options.enableAstPrint || false, // 根据 options.enableAstPrint 动态设置
+        print_ast: options.enableAstPrint || false, // Set dynamically based on options.enableAstPrint
       },
     };
 
@@ -1007,7 +1058,7 @@ export class Service {
       params: {
         query: query,
         content: content,
-        print_ast: enableAstPrint, // 根据 enableAstPrint 参数动态设置
+        print_ast: enableAstPrint, // Set dynamically based on enableAstPrint parameter
       },
     };
 
@@ -1265,58 +1316,58 @@ export class Service {
   }
 
   /**
-   * Validates Moonbit file syntax after replacement using tree-sitter
+   * Validates Moonbit file syntax using tree-sitter
    */
-  private async validateFileSyntaxAfterReplacement(uri: vscode.Uri, newContent?: string): Promise<void> {
+  public async validateFileSyntax(uri: vscode.Uri, content?: string): Promise<{ isValid: boolean; errorMessage?: string }> {
     try {
       // Only validate .mbt and .moon files
       const fileExtension = uri.fsPath.split('.').pop()?.toLowerCase();
       if (fileExtension !== 'mbt' && fileExtension !== 'moon') {
-        return;
+        return { isValid: true }; // Skip validation for non-MoonBit files
       }
       
       // Get the content to validate
-      let content: string;
+      let contentToValidate: string;
       
-      if (newContent !== undefined) {
-        // Use the new content that was just applied
-        content = newContent;
+      if (content !== undefined) {
+        // Use the provided content
+        contentToValidate = content;
       } else {
         // Fallback to getting content from active editor or disk
         const activeEditor = vscode.window.activeTextEditor;
         
         if (activeEditor && activeEditor.document.uri.fsPath === uri.fsPath) {
           // Use content from active editor if it's the same file
-          content = activeEditor.document.getText();
+          contentToValidate = activeEditor.document.getText();
         } else {
           // Fallback to reading from disk if no active editor
           const document = await vscode.workspace.openTextDocument(uri);
-          content = document.getText();
+          contentToValidate = document.getText();
         }
       }
       
-      // 添加内容验证：确保不是JSON字符串
-      if (!content || content.trim() === '') {
-        return;
+                  // Add content validation: ensure it's not a JSON string
+      if (!contentToValidate || contentToValidate.trim() === '') {
+        return { isValid: true }; // Skip validation for empty content
       }
       
-      // 检查内容是否看起来像JSON而不是MoonBit代码
-      const trimmedContent = content.trim();
+      // Check if content looks like JSON instead of MoonBit code
+      const trimmedContent = contentToValidate.trim();
       if (trimmedContent.startsWith('{') || trimmedContent.startsWith('[')) {
-        return;
+        return { isValid: true }; // Skip validation for JSON content
       }
       
-      // 检查内容是否包含典型的MoonBit语法元素
-      const hasMoonBitSyntax = /fn\s+\w+|let\s+\w+|if\s+\w+|match\s+\w+|loop\s+\w+|try\s*\{/.test(content);
+      // Check if content contains typical MoonBit syntax elements
+      const hasMoonBitSyntax = /fn\s+\w+|let\s+\w+|if\s+\w+|match\s+\w+|loop\s+\w+|try\s*\{/.test(contentToValidate);
       if (!hasMoonBitSyntax) {
-        return;
+        return { isValid: true }; // Skip validation for non-MoonBit content
       }
       
       // Use tree-sitter to parse the file
       const worker = await this.getWorker();
       
       if (!worker.process.stdin || !worker.process.stdout) {
-        return;
+        return { isValid: false, errorMessage: "Worker process not available" };
       }
       
       // Create a validation request
@@ -1324,8 +1375,8 @@ export class Service {
         id: crypto.randomUUID(),
         method: "validate_file_syntax", // Use the dedicated validation method
         params: {
-          content: content,
-          print_ast: true, // 添加 print_ast 参数，启用 AST 打印
+          content: contentToValidate,
+          print_ast: true, // Add print_ast parameter, enable AST printing
         },
       };
       
@@ -1402,18 +1453,19 @@ export class Service {
       await worker.process.stdin.write(requestJson + "\n");
       
       // Wait for response with timeout
-      await new Promise<void>((resolve) => {
+      await new Promise<void>((resolve, reject) => {
         resolvePromise = resolve;
-        const timeout = setTimeout(() => {
-          disposable?.dispose();
-          resolve();
-        }, 10000); // Increase timeout to 10 seconds
         
-        // Check if we got a response
+        const timeout = setTimeout(() => {
+          if (!hasReceivedResponse) {
+            disposable?.dispose();
+            reject(new Error("Syntax validation timeout"));
+          }
+        }, 10000); // 10 second timeout
+        
         const checkResponse = () => {
           if (hasReceivedResponse) {
             clearTimeout(timeout);
-            disposable?.dispose();
             resolve();
           } else {
             setTimeout(checkResponse, 100);
@@ -1422,17 +1474,31 @@ export class Service {
         checkResponse();
       });
       
-      // Show notification based on validation result
+      // Return validation result
       if (hasSyntaxError) {
-        vscode.window.showWarningMessage(
-          `⚠️ Moonbit syntax validation failed after replacement: ${errorMessage}`,
-          { modal: false }
-        );
+        // Improve error message to be more user-friendly
+        let userFriendlyMessage = errorMessage;
+        
+        // If error message contains detailed AST info, extract key information
+        if (errorMessage.includes('DEBUG:') || errorMessage.includes('=== DETAILED AST INFO ===')) {
+          // Extract key error information
+          const debugMatch = errorMessage.match(/DEBUG: root_type=(\w+), has_error=(\w+), node_count=(\d+), text_length=(\d+)/);
+          if (debugMatch) {
+            const [, rootType, hasError, nodeCount, textLength] = debugMatch;
+            userFriendlyMessage = `Syntax error detected in MoonBit file. File has ${nodeCount} nodes and ${textLength} characters. Root type: ${rootType}.`;
+          } else {
+            userFriendlyMessage = "Syntax error detected in MoonBit file. Please check the file for syntax issues.";
+          }
+        }
+        
+        return {
+          isValid: false,
+          errorMessage: userFriendlyMessage
+        };
       } else {
-        vscode.window.showInformationMessage(
-          `✅ Moonbit file syntax is valid after replacement`,
-          { modal: false }
-        );
+        return {
+          isValid: true
+        };
       }
       
     } catch (error) {
@@ -1453,8 +1519,16 @@ export class Service {
           // Worker cleanup failed, continue
         }
       }
+      
+      // Return error result
+      return {
+        isValid: false,
+        errorMessage: error instanceof Error ? error.message : 'Unknown error during validation'
+      };
     }
   }
+
+
 
       // Lightweight persistent storage - only store query info, not specific results
   private async loadPersistedResults() {

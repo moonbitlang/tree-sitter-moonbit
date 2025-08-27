@@ -95,7 +95,9 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "replaceMatch": {
-          this.service.replace(message.value.id, message.value.replace, this.enableAstPrint);
+          // Always use the latest AST print state from the message
+          const enableAstPrint = message.value.enableAstPrint ?? this.enableAstPrint;
+          this.service.replace(message.value.id, message.value.replace, enableAstPrint);
           break;
         }
         case "updateAstPrint": {
@@ -133,6 +135,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
             // Replace all results sequentially to avoid conflicts
             for (const resultId of resultIds) {
               try {
+                // Always use the current AST print state for each replacement
                 await this.service.replace(resultId, message.value.replace, this.enableAstPrint);
               } catch (replaceError: any) {
                 // Continue with other results even if one fails

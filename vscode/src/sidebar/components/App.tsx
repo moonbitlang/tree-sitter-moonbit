@@ -184,13 +184,16 @@ const App: React.FC = () => {
   const toggleFileCollapse = (fileUri: string) =>
     setCollapsedFiles((prev) => ({ ...prev, [fileUri]: !prev[fileUri] }));
   const handleReplaceMatch = (id: string) =>
-    vscode.postMessage({ type: "replaceMatch", value: { id, replace: replacePattern } });
+    vscode.postMessage({ type: "replaceMatch", value: { id, replace: replacePattern, enableAstPrint } });
   
   const handleReplaceAll = () => {
-    vscode.postMessage({ type: "replaceAll", value: { replace: replacePattern } });
+    vscode.postMessage({ type: "replaceAll", value: { replace: replacePattern, enableAstPrint } });
   };
 
+
+
   const handleAstPrintChange = (enable: boolean) => {
+    console.log("[FRONTEND_DEBUG] AST print state changed to:", enable);
     setEnableAstPrint(enable);
     // Immediately notify backend of the state change
     vscode.postMessage({ type: "updateAstPrint", value: { enableAstPrint: enable } });

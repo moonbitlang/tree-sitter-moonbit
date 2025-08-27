@@ -114,8 +114,8 @@ export type Request =
   | { type: "collapseAll" }
   | { type: "expandAll" }
   | { type: "dismissMatch"; value: { id: string } }
-  | { type: "replaceMatch"; value: { id: string, replace: string } }
-  | { type: "replaceAll"; value: { replace: string } }
+  | { type: "replaceMatch"; value: { id: string, replace: string, enableAstPrint?: boolean } }
+  | { type: "replaceAll"; value: { replace: string, enableAstPrint?: boolean } }
   | { type: "openMatch"; value: { uri: string; range: Range } }
   | { type: "loadHistory" }
   | { type: "clearHistory" }
