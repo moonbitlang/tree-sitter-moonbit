@@ -18,6 +18,8 @@ interface SearchReplaceGroupProps {
   onReplaceAll?: () => void;
   searchLayers?: SearchLayer[];
   onSearchLayersChange?: (layers: SearchLayer[]) => void;
+  enableAstPrint?: boolean;
+  onEnableAstPrintChange?: (enable: boolean) => void;
 }
 
 export const SearchReplaceGroup: React.FC<SearchReplaceGroupProps> = ({
@@ -29,6 +31,8 @@ export const SearchReplaceGroup: React.FC<SearchReplaceGroupProps> = ({
   onReplaceAll,
   searchLayers = [],
   onSearchLayersChange,
+  enableAstPrint = false,
+  onEnableAstPrintChange,
 }) => {
   const [showReplace, setShowReplace] = useState(false);
 
@@ -105,13 +109,23 @@ export const SearchReplaceGroup: React.FC<SearchReplaceGroupProps> = ({
               {/* Replace block */}
       <div className="replace-section">
         <div className="replace-controls">
-      <ControlButton
-        icon={showReplace ? "chevron-down" : "chevron-right"}
-        title="Toggle Replace"
-        onClick={toggleReplace}
-        className="toggle-replace-button"
-        />
-      </div>
+          <ControlButton
+            icon={showReplace ? "chevron-down" : "chevron-right"}
+            title="Toggle Replace"
+            onClick={toggleReplace}
+            className="toggle-replace-button"
+          />
+          {onEnableAstPrintChange && (
+            <ControlButton
+              icon={enableAstPrint ? "symbol-class" : "symbol-class"}
+              title={enableAstPrint ? "AST Printing Enabled" : "AST Printing Disabled"}
+              onClick={() => {
+                onEnableAstPrintChange(!enableAstPrint);
+              }}
+              className={`ast-print-button ${enableAstPrint ? "active" : ""}`}
+            />
+          )}
+        </div>
         
         {showReplace && (
           <div className="replace-input-container">

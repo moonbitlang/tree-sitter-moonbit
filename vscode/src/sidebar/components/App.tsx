@@ -18,6 +18,7 @@ const App: React.FC = () => {
     includePattern: "",
     excludePattern: "",
   });
+  const [enableAstPrint, setEnableAstPrint] = useState(false);
   const [searchLayers, setSearchLayers] = useState<Array<{ id: string; query: string; enabled: boolean }>>([]);
   const [results, setResults] = useState<Record<string, Result[]>>({});
   const [stats, setStats] = useState({ matchCount: 0, fileCount: 0 });
@@ -152,6 +153,7 @@ const App: React.FC = () => {
     
     // Get enabled search layers
     const enabledLayers = searchLayers.filter(layer => layer.enabled && layer.query.trim());
+
     
     // Send search request with multi-layer query info
     vscode.postMessage({
@@ -160,7 +162,8 @@ const App: React.FC = () => {
         language: "moonbit", 
         query: searchPattern, 
         ...searchOptions,
-        layers: enabledLayers.length > 0 ? enabledLayers : undefined
+        layers: enabledLayers.length > 0 ? enabledLayers : undefined,
+        enableAstPrint
       },
     });
   };
@@ -181,7 +184,21 @@ const App: React.FC = () => {
   const toggleFileCollapse = (fileUri: string) =>
     setCollapsedFiles((prev) => ({ ...prev, [fileUri]: !prev[fileUri] }));
   const handleReplaceMatch = (id: string) =>
-    vscode.postMessage({ type: "replaceMatch", value: { id, replace: replacePattern } });
+    vscode.postMessage({ type: "replaceMatch", value: { id, replace: replacePattern, enableAstPrint } });
+  
+  const handleReplaceAll = () => {
+    vscode.postMessage({ type: "replaceAll", value: { replace: replacePattern, enableAstPrint } });
+  };
+
+
+
+  const handleAstPrintChange = (enable: boolean) => {
+    console.log("[FRONTEND_DEBUG] AST print state changed to:", enable);
+    setEnableAstPrint(enable);
+    // Immediately notify backend of the state change
+    vscode.postMessage({ type: "updateAstPrint", value: { enableAstPrint: enable } });
+  };
+  
   const handleDismissMatch = (id: string) =>
     vscode.postMessage({ type: "dismissMatch", value: { id } });
   const handleRerunHistorySearch = (item: SearchHistoryItem) => {
@@ -202,7 +219,8 @@ const App: React.FC = () => {
         language: "moonbit", 
         query: item.query, 
         ...item.options,
-        layers: enabledLayers.length > 0 ? enabledLayers : undefined
+        layers: enabledLayers.length > 0 ? enabledLayers : undefined,
+        enableAstPrint // Add enableAstPrint parameter
       },
     });
     
@@ -230,7 +248,8 @@ const App: React.FC = () => {
         language: "moonbit", 
         query: bookmark.query, 
         ...bookmark.options,
-        layers: enabledLayers.length > 0 ? enabledLayers : undefined
+        layers: enabledLayers.length > 0 ? enabledLayers : undefined,
+        enableAstPrint // Add enableAstPrint parameter
       },
     });
     
@@ -243,7 +262,6 @@ const App: React.FC = () => {
   const handleAddBookmark = () => {
 
     if (!searchPattern.trim()) {
-      console.error("[handleAddBookmark] No search pattern");
       vscode.postMessage({ type: "error", value: "No search query available." });
       return;
     }
@@ -252,7 +270,6 @@ const App: React.FC = () => {
 
   const handleSaveBookmark = () => {
     if (!bookmarkName.trim()) {
-      console.error("[handleAddBookmark] No bookmark name");
       vscode.postMessage({ type: "error", value: "Bookmark name cannot be empty." });
       return;
     }
@@ -261,21 +278,11 @@ const App: React.FC = () => {
     
     vscode.postMessage({
       type: "addBookmark",
-      value: { 
-        name: bookmarkName, 
-        query: searchPattern, 
-        options: searchOptions,
-        layers: enabledLayers.length > 0 ? enabledLayers : undefined
-      },
-    });
-    
-    vscode.postMessage({
-      type: "addBookmark",
       value: {
         name: bookmarkName,
         query: searchPattern,
         options: searchOptions,
-        layers: enabledLayers,
+        layers: enabledLayers.length > 0 ? enabledLayers : undefined,
       },
     });
     setShowBookmarkModal(false);
@@ -300,6 +307,9 @@ const App: React.FC = () => {
           onSearch={() => performSearch(searchPattern)}
           searchLayers={searchLayers}
           onSearchLayersChange={setSearchLayers}
+          onReplaceAll={handleReplaceAll}
+          enableAstPrint={enableAstPrint}
+          onEnableAstPrintChange={handleAstPrintChange}
         />
         <SearchDetails
           includeIgnored={searchOptions.includeIgnored}

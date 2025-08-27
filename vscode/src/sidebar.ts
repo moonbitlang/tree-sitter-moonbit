@@ -24,7 +24,9 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   private currentSearchOptions: any = {};
   private currentSearchLayers: SearchLayer[] = [];
   private lastSearchTimestamp: number = 0;
+  private isReplaceAllInProgress: boolean = false;
   private eventDisposables: vscode.Disposable[] = [];
+  private enableAstPrint: boolean = false; // Add AST print state
 
   constructor(extensionUri: vscode.Uri, service: Search.Service) {
     this.extensionUri = extensionUri;
@@ -93,7 +95,61 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "replaceMatch": {
-          this.service.replace(message.value.id, message.value.replace);
+          // Always use the latest AST print state from the message
+          const enableAstPrint = message.value.enableAstPrint ?? this.enableAstPrint;
+          this.service.replace(message.value.id, message.value.replace, enableAstPrint);
+          break;
+        }
+        case "updateAstPrint": {
+          // Update AST print state immediately when button is clicked
+          this.enableAstPrint = message.value.enableAstPrint;
+          break;
+        }
+        case "replaceAll": {
+          // Get current result count
+          const resultCount = this.service.getResultCount();
+          if (resultCount === 0) {
+            vscode.window.showInformationMessage("No search results to replace");
+            break;
+          }
+          
+          // Show confirmation dialog
+          const confirmMessage = `Replace ${resultCount} occurrence${resultCount > 1 ? 's' : ''}?`;
+          const confirmReplace = await vscode.window.showInformationMessage(
+            confirmMessage,
+            { modal: true },
+            "Replace All"
+          );
+          
+          if (confirmReplace !== "Replace All") {
+            break;
+          }
+          
+          try {
+            // Set flag to indicate replaceAll operation is in progress
+            this.isReplaceAllInProgress = true;
+            
+            // Get all result IDs and replace them one by one
+            const resultIds = this.service.getResultIds();
+            
+            // Replace all results sequentially to avoid conflicts
+            for (const resultId of resultIds) {
+              try {
+                // Always use the current AST print state for each replacement
+                await this.service.replace(resultId, message.value.replace, this.enableAstPrint);
+              } catch (replaceError: any) {
+                // Continue with other results even if one fails
+              }
+            }
+            
+            vscode.window.showInformationMessage(`ReplaceAll operation completed for ${resultCount} occurrence${resultCount > 1 ? 's' : ''}`);
+            
+            // Trigger re-search after replaceAll operation completes
+            await this.triggerReSearch();
+            
+          } catch (error: any) {
+            vscode.window.showErrorMessage(`ReplaceAll failed: ${error.message || "Unknown error"}`);
+          }
           break;
         }
         case "openMatch": {
@@ -129,6 +185,11 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
         }
         case "deleteBookmark": {
           this.deleteBookmark(message.value.id);
+          break;
+        }
+        case "updateResultCount": {
+          // Update the result count for the specified search ID
+          this.resultCountMap.set(message.value.searchId, message.value.count);
           break;
         }
         
@@ -174,6 +235,14 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
     });
     this.eventDisposables.push(onRemoveDisposable);
 
+    const onReplaceDisposable = this.service.onReplace.event(() => {
+      // Only trigger re-search for individual replace operations, not during replaceAll
+      if (!this.isReplaceAllInProgress) {
+        this.triggerReSearch();
+      }
+    });
+    this.eventDisposables.push(onReplaceDisposable);
+
     const onSearchFinishedDisposable = this.service.onSearchFinished.event((searchId: any) => {
 
       
@@ -196,7 +265,9 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
         return;
       }
       
-      const count = this.resultCountMap.get(searchId) || 0;
+      // Use the actual result count from the service instead of the map
+      // This ensures we get the accurate count after deduplication
+      const count = this.service.getResultCount();
 
       
               // Get currently enabled search layers
@@ -244,9 +315,14 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       includeIgnored: options.includeIgnored,
     };
     this.currentSearchLayers = (options as any).layers || [];
+    this.enableAstPrint = (options as any).enableAstPrint || false; // Save AST print state
     this.hasWrittenHistory = false;
     
-    
+    // Notify frontend of the new search ID
+    this.postMessage({
+      type: "searchStarted",
+      searchId: this.searchId,
+    });
 
     try {
       const workspaceFolders = vscode.workspace.workspaceFolders;
@@ -258,9 +334,26 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       await this.service.search(workspaceFolders[0].uri, { ...options, searchId: this.searchId } as any);
       
     } catch (error: any) {
-      console.error(`[SIDEBAR] Search failed:`, error);
       vscode.window.showErrorMessage(`Search failed: ${error.message || "Unknown error"}`);
     }
+  }
+
+  private async triggerReSearch() {
+    // Check if we have a current search query to re-run
+    if (!this.currentSearchQuery || !this.currentSearchQuery.trim()) {
+      return;
+    }
+    
+    // Create search options for re-search
+    const searchOptions: Search.Options = {
+      query: this.currentSearchQuery,
+      ...this.currentSearchOptions,
+      layers: this.currentSearchLayers,
+      enableAstPrint: this.enableAstPrint, // Pass AST print state
+    };
+
+    // Trigger the search
+    await this.search(searchOptions);
   }
 
   private _openMatch(file: string, range: Sidebar.Range) {

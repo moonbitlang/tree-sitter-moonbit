@@ -39,7 +39,6 @@ export async function activate(context: vscode.ExtensionContext) {
       sidebarWebviewProvider.postMessage({ type: "clearHistory" } as any);
     }),
     vscode.commands.registerCommand("moon-grep.exportResults", () => {
-      // TODO: Implement export functionality
       vscode.window.showInformationMessage("Export feature coming soon!");
     })
   );

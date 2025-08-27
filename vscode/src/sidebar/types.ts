@@ -91,6 +91,10 @@ export type Response =
   | {
       type: "bookmarksUpdated";
       bookmarks: SearchBookmark[];
+    }
+  | {
+      type: "searchStarted";
+      searchId: string;
     };
 
 export type Request =
@@ -102,6 +106,7 @@ export type Request =
         includePattern: string;
         excludePattern: string;
         layers?: SearchLayer[]; // New: support multi-layer queries
+        enableAstPrint?: boolean; // New: control AST printing
       };
     }
   | { type: "clear" }
@@ -109,7 +114,8 @@ export type Request =
   | { type: "collapseAll" }
   | { type: "expandAll" }
   | { type: "dismissMatch"; value: { id: string } }
-  | { type: "replaceMatch"; value: { id: string, replace: string } }
+  | { type: "replaceMatch"; value: { id: string, replace: string, enableAstPrint?: boolean } }
+  | { type: "replaceAll"; value: { replace: string, enableAstPrint?: boolean } }
   | { type: "openMatch"; value: { uri: string; range: Range } }
   | { type: "loadHistory" }
   | { type: "clearHistory" }
@@ -117,6 +123,8 @@ export type Request =
   | { type: "loadBookmarks" }
   | { type: "addBookmark"; value: { name: string; query: string; options: SearchOptions; layers?: SearchLayer[] } }
   | { type: "deleteBookmark"; value: { id: string } }
+  | { type: "updateResultCount"; value: { searchId: string; count: number } }
+  | { type: "updateAstPrint"; value: { enableAstPrint: boolean } }
   // Remove addToHistory message type, history is now completely controlled by backend
   // | { type: "addToHistory"; value: { query: string; options: SearchOptions } }
   | { type: "error"; value: string };

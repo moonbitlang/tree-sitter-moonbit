@@ -22,47 +22,89 @@ export const MatchItem: React.FC<MatchItemProps> = ({
 }) => {
   const vscode = useVSCode();
 
-  // Parse match markers and highlight
-  const parseMatchLine = (line: string) => {
-    const parts: Array<{text: string, isMatch: boolean}> = [];
-    let currentIndex = 0;
+  // Parse match markers and highlight - handle cross-line matches
+  const parseMatchLines = (lines: string[]) => {
+    const processedLines: Array<Array<{text: string, isMatch: boolean}>> = [];
     
-    // Find match markers
-    const matchStartIndex = line.indexOf('[MATCH_START]');
-    const matchEndIndex = line.indexOf('[MATCH_END]');
+    // Find the first [MATCH_START] and last [MATCH_END] across all lines
+    let firstStartLine = -1;
+    let firstStartPos = -1;
+    let lastEndLine = -1;
+    let lastEndPos = -1;
     
-    if (matchStartIndex !== -1 && matchEndIndex !== -1) {
-      // Case with match markers
-              // Text before match start
-      if (matchStartIndex > 0) {
-        parts.push({
-          text: line.slice(0, matchStartIndex),
-          isMatch: false
-        });
+    // Find first [MATCH_START]
+    for (let i = 0; i < lines.length; i++) {
+      const startPos = lines[i].indexOf('[MATCH_START]');
+      if (startPos !== -1) {
+        firstStartLine = i;
+        firstStartPos = startPos;
+        break;
       }
-      
-              // Matched text
-      parts.push({
-        text: line.slice(matchStartIndex + 13, matchEndIndex), // 13 = '[MATCH_START]'.length
-        isMatch: true
-      });
-      
-              // Text after match end
-      if (matchEndIndex + 11 < line.length) { // 11 = '[MATCH_END]'.length
-        parts.push({
-          text: line.slice(matchEndIndex + 11),
-          isMatch: false
-        });
-      }
-          } else {
-        // Case without match markers, entire line not highlighted
-      parts.push({
-        text: line,
-        isMatch: false
-      });
     }
     
-    return parts;
+    // Find last [MATCH_END]
+    for (let i = lines.length - 1; i >= 0; i--) {
+      const endPos = lines[i].indexOf('[MATCH_END]');
+      if (endPos !== -1) {
+        lastEndLine = i;
+        lastEndPos = endPos;
+        break;
+      }
+    }
+    
+    // Process each line
+    lines.forEach((line, lineIndex) => {
+      const parts: Array<{text: string, isMatch: boolean}> = [];
+      
+      if (firstStartLine === -1 || lastEndLine === -1) {
+        // No markers found, return whole line as non-match
+        parts.push({ text: line, isMatch: false });
+      } else if (lineIndex < firstStartLine || lineIndex > lastEndLine) {
+        // Line is outside the match range
+        parts.push({ text: line, isMatch: false });
+      } else if (lineIndex === firstStartLine && lineIndex === lastEndLine) {
+        // Start and end markers are on the same line
+        const beforeStart = line.slice(0, firstStartPos);
+        const matchText = line.slice(firstStartPos + 13, lastEndPos);
+        const afterEnd = line.slice(lastEndPos + 11);
+        
+        if (beforeStart) parts.push({ text: beforeStart, isMatch: false });
+        if (matchText) parts.push({ text: matchText, isMatch: true });
+        if (afterEnd) parts.push({ text: afterEnd, isMatch: false });
+      } else if (lineIndex === firstStartLine) {
+        // First line: from [MATCH_START] to end
+        const beforeStart = line.slice(0, firstStartPos);
+        const matchText = line.slice(firstStartPos + 13);
+        
+        if (beforeStart) parts.push({ text: beforeStart, isMatch: false });
+        if (matchText) parts.push({ text: matchText, isMatch: true });
+      } else if (lineIndex === lastEndLine) {
+        // Last line: from start to [MATCH_END]
+        if (lastEndPos === 0) {
+          // [MATCH_END] is at the very beginning of the line, skip this line entirely
+          parts.push({ text: line, isMatch: false });
+        } else {
+          // [MATCH_END] is somewhere in the middle or end of the line
+          const matchText = line.slice(0, lastEndPos);
+          const afterEnd = line.slice(lastEndPos + 11);
+          
+          if (matchText) parts.push({ text: matchText, isMatch: true });
+          if (afterEnd) parts.push({ text: afterEnd, isMatch: false });
+      }
+          } else {
+        // Middle lines: entire line is match
+        parts.push({ text: line, isMatch: true });
+      }
+      
+      // If no parts were created, return the whole line as non-match
+      if (parts.length === 0) {
+        parts.push({ text: line, isMatch: false });
+      }
+      
+      processedLines.push(parts);
+    });
+    
+    return processedLines;
   };
 
   const handleClick = () => {
@@ -94,25 +136,27 @@ export const MatchItem: React.FC<MatchItemProps> = ({
           <IconButton icon="replace" title="Replace match" onClick={handleReplace} />
           <IconButton icon="close" title="Dismiss match" onClick={handleDismiss} />
         </div>
-        {lines.map((line, i) => {
-          // Parse match markers and highlight
-          const parts = parseMatchLine(line);
-          return (
+        {(() => {
+          // Parse match markers and highlight - handle cross-line matches
+          const processedLines = parseMatchLines(lines);
+          
+          return processedLines.map((lineParts, i) => (
             <div key={i} className="match-line">
-              {parts.map((part, partIndex) => (
+              {lineParts.map((part, partIndex) => (
                 <span 
                   key={partIndex} 
-                  className={part.isMatch ? "match-highlight" : ""}
+                  className={part.isMatch ? "match-highlight" : "match-text"}
                 >
                   {part.text}
                 </span>
               ))}
             </div>
-          );
-        })}
+          ));
+        })()}
       </div>
     </div>
   );
 };
 
 export default MatchItem;
+
