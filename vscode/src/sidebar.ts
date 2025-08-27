@@ -26,7 +26,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
   private lastSearchTimestamp: number = 0;
   private isReplaceAllInProgress: boolean = false;
   private eventDisposables: vscode.Disposable[] = [];
-  private enableAstPrint: boolean = false; // 添加 AST 打印状态
+  private enableAstPrint: boolean = false; // Add AST print state
 
   constructor(extensionUri: vscode.Uri, service: Search.Service) {
     this.extensionUri = extensionUri;
@@ -315,7 +315,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       includeIgnored: options.includeIgnored,
     };
     this.currentSearchLayers = (options as any).layers || [];
-    this.enableAstPrint = (options as any).enableAstPrint || false; // 保存 AST 打印状态
+    this.enableAstPrint = (options as any).enableAstPrint || false; // Save AST print state
     this.hasWrittenHistory = false;
     
     // Notify frontend of the new search ID
@@ -349,7 +349,7 @@ export class WebviewViewProvider implements vscode.WebviewViewProvider {
       query: this.currentSearchQuery,
       ...this.currentSearchOptions,
       layers: this.currentSearchLayers,
-      enableAstPrint: this.enableAstPrint, // 传递 AST 打印状态
+      enableAstPrint: this.enableAstPrint, // Pass AST print state
     };
 
     // Trigger the search

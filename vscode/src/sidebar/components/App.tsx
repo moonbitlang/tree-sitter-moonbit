@@ -220,7 +220,7 @@ const App: React.FC = () => {
         query: item.query, 
         ...item.options,
         layers: enabledLayers.length > 0 ? enabledLayers : undefined,
-        enableAstPrint // 添加 enableAstPrint 参数
+        enableAstPrint // Add enableAstPrint parameter
       },
     });
     
@@ -249,7 +249,7 @@ const App: React.FC = () => {
         query: bookmark.query, 
         ...bookmark.options,
         layers: enabledLayers.length > 0 ? enabledLayers : undefined,
-        enableAstPrint // 添加 enableAstPrint 参数
+        enableAstPrint // Add enableAstPrint parameter
       },
     });
     
