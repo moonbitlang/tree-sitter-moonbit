@@ -40,7 +40,7 @@ suberror ParseError {
   SyntaxError(@tree_sitter.Node)
   QueryError(@tree_sitter.QueryError)
   Errors(Array[ParseError])
-} derive(Show, ToJson)
+} derive(Show, ToJson(style="legacy"))
 
 ///|
 fn lowest_common_ancestor(
@@ -655,6 +655,8 @@ pub fn cascade_search(
       return Iter::empty()
     }
   }
+  
+
   
       // Execute main query to get initial result set
   let main_results = search(query=main_query, content=content) catch {
