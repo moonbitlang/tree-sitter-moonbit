@@ -1097,7 +1097,7 @@ module.exports = grammar({
     type_annotation: ($) => seq(":", $._type),
 
     error_annotation: ($) =>
-      choice("raise", seq("raise", $._type), seq("raise", "?")),
+      choice("raise", "noraise", seq("raise", $._type), seq("raise", "?")),
 
     return_type: ($) =>
       choice(
