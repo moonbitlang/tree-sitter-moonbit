@@ -536,7 +536,7 @@ module.exports = grammar({
         )
       ),
 
-    unary_expression: ($) => seq(choice("-", "+"), $._simple_expression),
+    unary_expression: ($) => seq(choice("-", "+", "!"), $._simple_expression),
 
     binary_expression: ($) => {
       /**
