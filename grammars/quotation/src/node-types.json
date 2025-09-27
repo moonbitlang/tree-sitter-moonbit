@@ -120,11 +120,11 @@
         "named": true
       },
       {
-        "type": "try_expression",
+        "type": "try_catch_expression",
         "named": true
       },
       {
-        "type": "try_question_expression",
+        "type": "try_expression",
         "named": true
       },
       {
@@ -339,6 +339,10 @@
       },
       {
         "type": "trait_definition",
+        "named": true
+      },
+      {
+        "type": "tuple_struct_definition",
         "named": true
       },
       {
@@ -840,6 +844,10 @@
           "named": true
         },
         {
+          "type": "bitstring_pattern",
+          "named": true
+        },
+        {
           "type": "bytes_literal",
           "named": true
         },
@@ -1306,6 +1314,21 @@
         },
         {
           "type": "unit_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bitstring_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_pattern",
           "named": true
         }
       ]
@@ -3754,6 +3777,21 @@
     }
   },
   {
+    "type": "noraise_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "case_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "option_type",
     "named": true,
     "fields": {},
@@ -3863,6 +3901,10 @@
         },
         {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "optional_label",
           "named": true
         },
         {
@@ -4869,27 +4911,16 @@
         {
           "type": "case_clause",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "try_else_clause",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
+        },
         {
-          "type": "case_clause",
+          "type": "noraise_clause",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "try_expression",
+    "type": "try_catch_expression",
     "named": true,
     "fields": {},
     "children": {
@@ -5008,7 +5039,22 @@
     }
   },
   {
-    "type": "try_question_expression",
+    "type": "try_else_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "case_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "try_expression",
     "named": true,
     "fields": {},
     "children": {
@@ -5143,6 +5189,41 @@
       "types": [
         {
           "type": "_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tuple_struct_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_type",
+          "named": true
+        },
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "derive_directive",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "visibility",
           "named": true
         }
       ]
@@ -5986,6 +6067,10 @@
   },
   {
     "type": "mut",
+    "named": false
+  },
+  {
+    "type": "noraise",
     "named": false
   },
   {
