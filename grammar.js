@@ -1027,12 +1027,15 @@ module.exports = grammar({
 
     array_pattern: ($) => seq("[", list(",", $.array_sub_pattern), "]"),
 
+    bitstring_pattern: ($) => seq(/u\d+(le|be)?/, "(", $._pattern, ")"),
+
     array_sub_pattern: ($) =>
       choice(
         seq("..", $.qualified_identifier),
         seq("..", $.constructor_expression),
         seq("..", $.string_literal),
         seq("..", $.bytes_literal),
+        $.bitstring_pattern,
         $._pattern
       ),
 

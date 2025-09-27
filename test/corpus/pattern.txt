@@ -673,3 +673,103 @@ fn main {
               (qualified_identifier
                 (lowercase_identifier))))
           (unit_expression))))))
+
+================================================================================
+bitstring
+================================================================================
+fn main {
+  match x {
+    [u8(1), ..] => ()
+    [u16(a), ..] => ()
+    [u16be(a), ..] => ()
+    [u16le(a), ..] => ()
+    [u32(a as b), ..] => ()
+    [u64(_), ..] => ()
+    [u128(4), ..] => ()
+    [u256(1 | 2 | 3 as a), ..] => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (match_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (atomic_pattern
+                  (literal
+                    (integer_literal)))))
+            (array_sub_pattern))
+          (unit_expression))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (lowercase_identifier)))
+            (array_sub_pattern))
+          (unit_expression))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (lowercase_identifier)))
+            (array_sub_pattern))
+          (unit_expression))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (lowercase_identifier)))
+            (array_sub_pattern))
+          (unit_expression))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (as_pattern
+                  (lowercase_identifier)
+                  (lowercase_identifier))))
+            (array_sub_pattern))
+          (unit_expression))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (any_pattern)))
+            (array_sub_pattern))
+          (unit_expression))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (atomic_pattern
+                  (literal
+                    (integer_literal)))))
+            (array_sub_pattern))
+          (unit_expression))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (as_pattern
+                  (or_pattern
+                    (atomic_pattern
+                      (literal
+                        (integer_literal)))
+                    (or_pattern
+                      (atomic_pattern
+                        (literal
+                          (integer_literal)))
+                      (atomic_pattern
+                        (literal
+                          (integer_literal)))))
+                  (lowercase_identifier))))
+            (array_sub_pattern))
+          (unit_expression))))))
