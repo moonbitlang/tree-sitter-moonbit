@@ -8,7 +8,7 @@ struct Context {
 ///|
 fn Context::new(
   context : @string.View,
-  selector~ : @string.View
+  selector~ : @string.View,
 ) -> Context raise ParseError {
   let prefix = StringBuilder::new()
   loop context {
@@ -30,8 +30,6 @@ fn Context::new(
   }
 }
 
-
-
 ///|
 suberror ParseError {
   MissingInterpolator
@@ -45,7 +43,7 @@ suberror ParseError {
 ///|
 fn lowest_common_ancestor(
   root : @tree_sitter.Node,
-  nodes : Array[@tree_sitter.Node]
+  nodes : Array[@tree_sitter.Node],
 ) -> @tree_sitter.Node {
   let mut ancestor : @tree_sitter.Node? = None
   for node in nodes {
@@ -68,7 +66,7 @@ fn lowest_common_ancestor(
 ///|
 fn Compiler::compile(
   self : Compiler,
-  query : @string.View
+  query : @string.View,
 ) -> @tree_sitter.Query raise ParseError {
   self.parser.set_language(self.language) catch {
     e => raise LanguageError(e)
@@ -242,7 +240,7 @@ fn Compiler::nodes(
   self : Compiler,
   nodes : Array[@tree_sitter.Node],
   path~ : Array[Int],
-  buffer~ : StringBuilder
+  buffer~ : StringBuilder,
 ) -> Unit raise ParseError {
   for i, node in nodes {
     self.node(node, path=[..path, i], buffer~)
@@ -257,7 +255,7 @@ fn Compiler::node(
   self : Compiler,
   node : @tree_sitter.Node,
   path~ : Array[Int],
-  buffer~ : StringBuilder
+  buffer~ : StringBuilder,
 ) -> Unit raise ParseError {
   let children = node.children().collect()
   buffer.write_char('(')
@@ -347,7 +345,7 @@ pub impl ToJson for Match with to_json(self : Match) -> Json {
 ///|
 pub impl @json.FromJson for Match with from_json(
   self : Json,
-  path : @json.JsonPath
+  path : @json.JsonPath,
 ) -> Match raise @json.JsonDecodeError {
   match self {
     {
@@ -396,90 +394,91 @@ fn node_equal(this : @tree_sitter.Node, that : @tree_sitter.Node) -> Bool {
 ///|
 // Check if two ranges overlap
 fn ranges_overlap(this : @tree_sitter.Range, that : @tree_sitter.Range) -> Bool {
-  return this.start_byte() < that.end_byte() && 
-         this.end_byte() > that.start_byte()
+  return this.start_byte() < that.end_byte() &&
+    this.end_byte() > that.start_byte()
 }
 
 ///|
 // Get corresponding AST node based on byte range
-fn get_node_at_range(root_node : @tree_sitter.Node, range : @tree_sitter.Range) -> Option[@tree_sitter.Node] {
+fn get_node_at_range(
+  root_node : @tree_sitter.Node,
+  range : @tree_sitter.Range,
+) -> @tree_sitter.Node? {
   return root_node.descendant_for_byte_range(
     range.start_byte(),
-    range.end_byte()
+    range.end_byte(),
   )
 }
 
-
-
 ///|
 // Deduplication based on AST node member consistency using built-in equality
-fn match_equal_by_ast(this : Match, that : Match, root_node : @tree_sitter.Node) -> Bool {
-      // First check if ranges overlap
+fn match_equal_by_ast(
+  this : Match,
+  that : Match,
+  root_node : @tree_sitter.Node,
+) -> Bool {
+  // First check if ranges overlap
   if not(ranges_overlap(this.range, that.range)) {
     return false
   }
-  
-      // Get AST nodes corresponding to two matches
+
+  // Get AST nodes corresponding to two matches
   let this_node_opt = get_node_at_range(root_node, this.range)
   let that_node_opt = get_node_at_range(root_node, that.range)
-  
-      // If unable to get nodes, fallback to range deduplication
+
+  // If unable to get nodes, fallback to range deduplication
   if this_node_opt == None || that_node_opt == None {
     return ranges_overlap(this.range, that.range)
   }
-  
   let this_node = this_node_opt.unwrap()
   let that_node = that_node_opt.unwrap()
-  
-      // Use built-in equality for Node comparison
+
+  // Use built-in equality for Node comparison
   return this_node == that_node
 }
 
 ///|
 // AST-based deduplication function using built-in equality
-fn deduplicate_by_ast(matches : Array[Match], root_node : @tree_sitter.Node) -> Array[Match] {
+fn deduplicate_by_ast(
+  matches : Array[Match],
+  root_node : @tree_sitter.Node,
+) -> Array[Match] {
   if matches.length() <= 1 {
     return matches
   }
-  
   let unique_matches : Array[Match] = []
   let processed_indices : Array[Int] = []
-  
   for i = 0; i < matches.length(); i = i + 1 {
     let mut is_duplicate = false
-    
+
     // Compare with already processed results using built-in equality
     for j = 0; j < processed_indices.length(); j = j + 1 {
       let processed_match = matches[processed_indices[j]]
-      
+
       // Use match_equal_by_ast for comparison
       if match_equal_by_ast(matches[i], processed_match, root_node) {
         is_duplicate = true
         break
       }
     }
-    
     if not(is_duplicate) {
       unique_matches.push(matches[i])
       processed_indices.push(i)
     }
   }
-  
   return unique_matches
 }
 
 ///|
 fn search(
   query~ : @string.View,
-  content~ : @string.View
+  content~ : @string.View,
 ) -> Iter[Match] raise ParseError {
   let compiler = compiler()
   let root_node = compiler.parser.parse_string(content).root_node() catch {
-    e => { raise ParseError(e) }
+    e => raise ParseError(e)
   }
-  
-  let query = compiler.compile(query) catch { _ => { return Iter::empty() } }
-  
+  let query = compiler.compile(query) catch { _ => return Iter::empty() }
   Iter::new(fn(yield_) {
     matches~: for matched in query.matches(root_node) {
       let nodes = []
@@ -552,9 +551,9 @@ fn search(
     }
   })
 }
- 
+
 ///|
-    // Reuse precompiled query: execute matching on specified Node
+// Reuse precompiled query: execute matching on specified Node
 fn search_in_node_with_query(
   query~ : @tree_sitter.Query,
   node~ : @tree_sitter.Node,
@@ -622,8 +621,6 @@ fn search_in_node_with_query(
       let range = @tree_sitter.Range::new(
         start_point, end_point, start_byte, end_byte,
       )
-      
-          
       match yield_(Match::{ range, captures }) {
         IterEnd => break IterEnd
         IterContinue => continue
@@ -633,7 +630,7 @@ fn search_in_node_with_query(
     }
   })
 }
- 
+
 ///|
 // Cascading search: each layer searches within the result range of the previous layer
 // Precise search based on node ranges, avoiding full file scanning
@@ -647,34 +644,29 @@ fn search_in_node_with_query(
 pub fn cascade_search(
   content~ : @string.View,
   main_query~ : @string.View,
-  layer_queries : Array[@string.View]
+  layer_queries : Array[@string.View],
 ) -> Iter[Match] raise ParseError {
   let compiler = compiler()
   let root_node = compiler.parser.parse_string(content).root_node() catch {
-    _ => {
-      return Iter::empty()
-    }
+    _ => return Iter::empty()
   }
-  
 
-  
-      // Execute main query to get initial result set
-  let main_results = search(query=main_query, content=content) catch {
-    _ => {
-      return Iter::empty()
-    }
+  // Execute main query to get initial result set
+  let main_results = search(query=main_query, content~) catch {
+    _ => return Iter::empty()
   }
-  
   let main_results_array = main_results.collect()
-  
-      // Boundary condition: return directly when main query has no results
+
+  // Boundary condition: return directly when main query has no results
   if main_results_array.length() == 0 {
     return Iter::empty()
   }
-  
-      // Boundary condition: return main query results when no layer queries (using AST deduplication)
+
+  // Boundary condition: return main query results when no layer queries (using AST deduplication)
   if layer_queries.length() == 0 {
-    let deduplicated_main_results = deduplicate_by_ast(main_results_array, root_node)
+    let deduplicated_main_results = deduplicate_by_ast(
+      main_results_array, root_node,
+    )
     return Iter::new(fn(yield_) {
       for result in deduplicated_main_results {
         match yield_(result) {
@@ -685,70 +677,69 @@ pub fn cascade_search(
       IterContinue
     })
   }
-  
-      // Precompile all layer queries to improve performance
+
+  // Precompile all layer queries to improve performance
   let compiled_layer_queries : Array[@tree_sitter.Query] = []
   for layer_query in layer_queries {
-    if layer_query == "" { continue }
-    let q = compiler.compile(layer_query) catch {
-      _ => { continue }
+    if layer_query == "" {
+      continue
     }
+    let q = compiler.compile(layer_query) catch { _ => continue }
     compiled_layer_queries.push(q)
   }
-  
-      // Boundary condition: return empty results when no valid layer queries
+
+  // Boundary condition: return empty results when no valid layer queries
   if compiled_layer_queries.length() == 0 {
     return Iter::empty()
   }
-  
-      // Core logic of cascading search: search layer by layer within result ranges
+
+  // Core logic of cascading search: search layer by layer within result ranges
   let mut current_results = main_results_array
   let mut current_level = 0
-  
   for layer_query in compiled_layer_queries {
     current_level = current_level + 1
-    
-          // Prepare result container for current layer
+
+    // Prepare result container for current layer
     let next_level_results = []
-    
     for current_result in current_results {
       // Locate corresponding AST node based on byte range
       let current_node = root_node.descendant_for_byte_range(
         current_result.range.start_byte(),
-        current_result.range.end_byte()
+        current_result.range.end_byte(),
       )
-      
       match current_node {
         Some(node) => {
           // Execute layer query within limited node range
-          let layer_matches = search_in_node_with_query(query=layer_query, node=node)
+          let layer_matches = search_in_node_with_query(
+            query=layer_query,
+            node~,
+          )
           let layer_results = layer_matches.collect()
-          
-                      // Collect match results for current layer
+
+          // Collect match results for current layer
           for layer_result in layer_results {
             next_level_results.push(layer_result)
           }
         }
-                  None => {
-            // Skip current result when node location fails
+        None =>
+          // Skip current result when node location fails
           continue
-        }
       }
     }
-    
-          // Perform AST deduplication on current layer results
+
+    // Perform AST deduplication on current layer results
     current_results = deduplicate_by_ast(next_level_results, root_node)
-    
-          // Optimization: terminate search early when current layer has no results
+
+    // Optimization: terminate search early when current layer has no results
     if current_results.length() == 0 {
       return Iter::empty()
     }
   }
-  
-      // Perform AST deduplication on final results
+
+  // Perform AST deduplication on final results
   let deduplicated_results = deduplicate_by_ast(current_results, root_node)
-  
-      // Return deduplicated result set
+
+  // Return deduplicated result set
   Iter::new(fn(yield_) {
     for result in deduplicated_results {
       match yield_(result) {
@@ -759,5 +750,3 @@ pub fn cascade_search(
     IterContinue
   })
 }
-
-
