@@ -15,7 +15,7 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (try_expression
+      (try_catch_expression
         (block_expression
           (apply_expression
             (qualified_identifier
@@ -49,7 +49,7 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (try_expression
+      (try_catch_expression
         (block_expression
           (apply_expression
             (qualified_identifier
@@ -85,7 +85,7 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (try_expression
+      (try_catch_expression
         (block_expression
           (apply_expression
             (qualified_identifier
@@ -130,7 +130,7 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (try_expression
+      (try_catch_expression
         (block_expression
           (apply_expression
             (qualified_identifier
@@ -172,7 +172,7 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (try_question_expression
+      (try_expression
         (apply_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -181,7 +181,7 @@ fn main {
               (atomic_expression
                 (literal
                   (boolean_literal)))))))
-      (try_question_expression
+      (try_expression
         (binary_expression
           (apply_expression
             (qualified_identifier
@@ -211,7 +211,7 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
-      (try_expression
+      (try_catch_expression
         (apply_expression
           (qualified_identifier
             (lowercase_identifier))
@@ -224,3 +224,252 @@ fn main {
           (case_clause
             (any_pattern)
             (unit_expression)))))))
+
+================================================================================
+try expression with noraise
+================================================================================
+test "each with error callback 2" {
+  let arr = [1, 2, 3]
+  let mut sum = 0
+  try
+    arr.each(x => {
+      if x == 2 {
+        fail("Error at 2")
+      }
+      sum += x
+    })
+  catch {
+    Failure(_) => inspect(sum, content="1")
+  } noraise {
+    _ => assert_true(false)
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (test_definition
+    (string_literal
+      (string_fragment
+        (unescaped_string_fragment)))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal)))))
+      (let_mut_expression
+        (lowercase_identifier)
+        (atomic_expression
+          (literal
+            (integer_literal))))
+      (try_catch_expression
+        (dot_apply_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (dot_identifier
+            (dot_lowercase_identifier))
+          (argument
+            (arrow_function_expression
+              (lowercase_identifier)
+              (block_expression
+                (if_expression
+                  (binary_expression
+                    (qualified_identifier
+                      (lowercase_identifier))
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))
+                  (block_expression
+                    (apply_expression
+                      (qualified_identifier
+                        (lowercase_identifier))
+                      (arguments
+                        (argument
+                          (atomic_expression
+                            (literal
+                              (string_literal
+                                (string_fragment
+                                  (unescaped_string_fragment))))))))))
+                (assign_expression
+                  (left_value
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (assign_operator)
+                  (qualified_identifier
+                    (lowercase_identifier)))))))
+        (try_catch_clause
+          (case_clause
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (any_pattern)))
+            (apply_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (arguments
+                (argument
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (argument
+                  (labelled_argument
+                    (lowercase_identifier)
+                    (atomic_expression
+                      (literal
+                        (string_literal
+                          (string_fragment
+                            (unescaped_string_fragment))))))))))
+          (noraise_clause
+            (case_clause
+              (any_pattern)
+              (apply_expression
+                (qualified_identifier
+                  (lowercase_identifier))
+                (arguments
+                  (argument
+                    (atomic_expression
+                      (literal
+                        (boolean_literal)))))))))))))
+
+================================================================================
+try!
+================================================================================
+test "decoding UTF8 with bom" {
+  let text = b"\xef\xbb\xbf\x61\x62\x63\xe4\xbd\xa0\xe5\xa5\xbd\xf0\x9f\x91\x80"
+  inspect(try! @utf8.decode(text), content="﻿abc你好👀")
+  inspect(try! @utf8.decode(text, ignore_bom=true), content="abc你好👀")
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (test_definition
+    (string_literal
+      (string_fragment
+        (unescaped_string_fragment)))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (atomic_expression
+          (literal
+            (bytes_literal
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))
+              (string_fragment
+                (unescaped_string_fragment))))))
+      (apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (arguments
+          (argument
+            (try_expression
+              (apply_expression
+                (qualified_identifier
+                  (package_identifier)
+                  (dot_lowercase_identifier))
+                (arguments
+                  (argument
+                    (qualified_identifier
+                      (lowercase_identifier)))))))
+          (argument
+            (labelled_argument
+              (lowercase_identifier)
+              (atomic_expression
+                (literal
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment)))))))))
+      (apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (arguments
+          (argument
+            (try_expression
+              (apply_expression
+                (qualified_identifier
+                  (package_identifier)
+                  (dot_lowercase_identifier))
+                (arguments
+                  (argument
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (argument
+                    (labelled_argument
+                      (lowercase_identifier)
+                      (atomic_expression
+                        (literal
+                          (boolean_literal)))))))))
+          (argument
+            (labelled_argument
+              (lowercase_identifier)
+              (atomic_expression
+                (literal
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment))))))))))))

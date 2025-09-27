@@ -78,6 +78,7 @@ module.exports = grammar({
         $.type_definition,
         $.error_type_definition,
         $.struct_definition,
+        $.tuple_struct_definition,
         $.enum_definition,
         $.value_definition,
         $.const_definition,
@@ -153,6 +154,19 @@ module.exports = grammar({
         "{",
         list($._semicolon, $.struct_field_declaration),
         "}",
+        optional($.derive_directive)
+      ),
+
+    tuple_struct_definition: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "struct",
+        $.identifier,
+        optional($.type_parameters),
+        "(",
+        list(",", $._type),
+        ")",
         optional($.derive_directive)
       ),
 
@@ -367,8 +381,8 @@ module.exports = grammar({
         $.match_expression,
         $.for_expression,
         $.for_in_expression,
+        $.try_catch_expression,
         $.try_expression,
-        $.try_question_expression,
         $.arrow_function_expression
       ),
 
@@ -522,7 +536,7 @@ module.exports = grammar({
         )
       ),
 
-    unary_expression: ($) => seq(choice("-", "+"), $._simple_expression),
+    unary_expression: ($) => seq(choice("-", "+", "!"), $._simple_expression),
 
     binary_expression: ($) => {
       /**
@@ -752,7 +766,7 @@ module.exports = grammar({
     continue_expression: ($) =>
       seq("continue", optional($.label), strictList(",", $._expression)),
 
-    try_expression: ($) =>
+    try_catch_expression: ($) =>
       seq(
         optional("try"),
         $._simple_expression,
@@ -760,15 +774,19 @@ module.exports = grammar({
         optional($.try_else_clause)
       ),
 
-    try_question_expression: ($) => seq("try", "?", $._simple_expression),
+    try_expression: ($) => seq("try", choice("!", "?"), $._simple_expression),
 
     try_catch_clause: ($) =>
       seq(
         seq("catch", optional("!")),
         "{",
         list($._semicolon, $.case_clause),
-        "}"
+        "}",
+        optional($.noraise_clause)
       ),
+
+    noraise_clause: ($) =>
+      seq("noraise", "{", list($._semicolon, $.case_clause), "}"),
 
     try_else_clause: ($) =>
       seq("else", "{", list($._semicolon, $.case_clause), "}"),
@@ -1009,12 +1027,15 @@ module.exports = grammar({
 
     array_pattern: ($) => seq("[", list(",", $.array_sub_pattern), "]"),
 
+    bitstring_pattern: ($) => seq(/u\d+(le|be)?/, "(", $._pattern, ")"),
+
     array_sub_pattern: ($) =>
       choice(
         seq("..", $.qualified_identifier),
         seq("..", $.constructor_expression),
         seq("..", $.string_literal),
         seq("..", $.bytes_literal),
+        $.bitstring_pattern,
         $._pattern
       ),
 
@@ -1079,7 +1100,7 @@ module.exports = grammar({
     type_annotation: ($) => seq(":", $._type),
 
     error_annotation: ($) =>
-      choice("raise", seq("raise", $._type), seq("raise", "?")),
+      choice("raise", "noraise", seq("raise", $._type), seq("raise", "?")),
 
     return_type: ($) =>
       choice(
@@ -1103,7 +1124,12 @@ module.exports = grammar({
       seq($.optional_label, optional($.type_annotation)),
 
     optional_parameter_with_default: ($) =>
-      seq($.label, optional($.type_annotation), "=", $._expression),
+      seq(
+        choice($.label, $.optional_label),
+        optional($.type_annotation),
+        "=",
+        $._expression
+      ),
 
     parameter: ($) =>
       choice(
