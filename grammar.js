@@ -381,8 +381,8 @@ module.exports = grammar({
         $.match_expression,
         $.for_expression,
         $.for_in_expression,
+        $.try_catch_expression,
         $.try_expression,
-        $.try_question_expression,
         $.arrow_function_expression
       ),
 
@@ -766,7 +766,7 @@ module.exports = grammar({
     continue_expression: ($) =>
       seq("continue", optional($.label), strictList(",", $._expression)),
 
-    try_expression: ($) =>
+    try_catch_expression: ($) =>
       seq(
         optional("try"),
         $._simple_expression,
@@ -774,7 +774,7 @@ module.exports = grammar({
         optional($.try_else_clause)
       ),
 
-    try_question_expression: ($) => seq("try", "?", $._simple_expression),
+    try_expression: ($) => seq("try", choice("!", "?"), $._simple_expression),
 
     try_catch_clause: ($) =>
       seq(
