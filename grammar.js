@@ -1117,7 +1117,7 @@ module.exports = grammar({
       seq($.optional_label, optional($.type_annotation)),
 
     optional_parameter_with_default: ($) =>
-      seq($.label, optional($.type_annotation), "=", $._expression),
+      seq(choice($.label, $.optional_label), optional($.type_annotation), "=", $._expression),
 
     parameter: ($) =>
       choice(

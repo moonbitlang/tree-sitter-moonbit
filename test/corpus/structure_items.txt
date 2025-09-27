@@ -473,7 +473,7 @@ let printable = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]
 ================================================================================
 labelled argument and optional argument
 ================================================================================
-fn greeting(name~: String, location~: Option[String] = None) -> Unit {
+fn greeting(name~: String, location~: Option[String] = None, loc? : String = "a") -> Unit {
   match location {
     Some(_) => println("Hi, \{name}!")
     None => println("Hi, \{name} from \{location}!")
@@ -513,7 +513,20 @@ fn init {
                   (identifier
                     (uppercase_identifier))))))
           (constructor_expression
-            (uppercase_identifier)))))
+            (uppercase_identifier))))
+      (parameter
+        (optional_parameter_with_default
+          (optional_label
+            (lowercase_identifier))
+          (type_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))
+          (atomic_expression
+            (literal
+              (string_literal
+                (string_fragment
+                  (unescaped_string_fragment))))))))
     (return_type
       (qualified_type_identifier
         (identifier
