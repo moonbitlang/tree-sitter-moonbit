@@ -78,6 +78,7 @@ module.exports = grammar({
         $.type_definition,
         $.error_type_definition,
         $.struct_definition,
+        $.tuple_struct_definition,
         $.enum_definition,
         $.value_definition,
         $.const_definition,
@@ -153,6 +154,19 @@ module.exports = grammar({
         "{",
         list($._semicolon, $.struct_field_declaration),
         "}",
+        optional($.derive_directive)
+      ),
+
+    tuple_struct_definition: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "struct",
+        $.identifier,
+        optional($.type_parameters),
+        "(",
+        list(",", $._type),
+        ")",
         optional($.derive_directive)
       ),
 

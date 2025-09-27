@@ -1,0 +1,47 @@
+================================================================================
+tuple struct
+================================================================================
+struct A(B)
+struct A(B, C)
+struct A(B, C, D) derive(Show, ToJson)
+--------------------------------------------------------------------------------
+
+(structure
+  (tuple_struct_definition
+    (identifier
+      (uppercase_identifier))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier))))
+  (tuple_struct_definition
+    (identifier
+      (uppercase_identifier))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier))))
+  (tuple_struct_definition
+    (identifier
+      (uppercase_identifier))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))
+    (derive_directive
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
