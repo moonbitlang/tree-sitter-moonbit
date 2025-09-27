@@ -781,8 +781,12 @@ module.exports = grammar({
         seq("catch", optional("!")),
         "{",
         list($._semicolon, $.case_clause),
-        "}"
+        "}",
+        optional($.noraise_clause)
       ),
+
+    noraise_clause: ($) =>
+      seq("noraise", "{", list($._semicolon, $.case_clause), "}"),
 
     try_else_clause: ($) =>
       seq("else", "{", list($._semicolon, $.case_clause), "}"),
@@ -1117,7 +1121,12 @@ module.exports = grammar({
       seq($.optional_label, optional($.type_annotation)),
 
     optional_parameter_with_default: ($) =>
-      seq(choice($.label, $.optional_label), optional($.type_annotation), "=", $._expression),
+      seq(
+        choice($.label, $.optional_label),
+        optional($.type_annotation),
+        "=",
+        $._expression
+      ),
 
     parameter: ($) =>
       choice(

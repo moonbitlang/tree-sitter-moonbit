@@ -224,3 +224,116 @@ fn main {
           (case_clause
             (any_pattern)
             (unit_expression)))))))
+
+================================================================================
+try expression with noraise
+================================================================================
+test "each with error callback 2" {
+  let arr = [1, 2, 3]
+  let mut sum = 0
+  try
+    arr.each(x => {
+      if x == 2 {
+        fail("Error at 2")
+      }
+      sum += x
+    })
+  catch {
+    Failure(_) => inspect(sum, content="1")
+  } noraise {
+    _ => assert_true(false)
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (test_definition
+    (string_literal
+      (string_fragment
+        (unescaped_string_fragment)))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal)))))
+      (let_mut_expression
+        (lowercase_identifier)
+        (atomic_expression
+          (literal
+            (integer_literal))))
+      (try_expression
+        (dot_apply_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (dot_identifier
+            (dot_lowercase_identifier))
+          (argument
+            (arrow_function_expression
+              (lowercase_identifier)
+              (block_expression
+                (if_expression
+                  (binary_expression
+                    (qualified_identifier
+                      (lowercase_identifier))
+                    (atomic_expression
+                      (literal
+                        (integer_literal))))
+                  (block_expression
+                    (apply_expression
+                      (qualified_identifier
+                        (lowercase_identifier))
+                      (arguments
+                        (argument
+                          (atomic_expression
+                            (literal
+                              (string_literal
+                                (string_fragment
+                                  (unescaped_string_fragment))))))))))
+                (assign_expression
+                  (left_value
+                    (qualified_identifier
+                      (lowercase_identifier)))
+                  (assign_operator)
+                  (qualified_identifier
+                    (lowercase_identifier)))))))
+        (try_catch_clause
+          (case_clause
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (any_pattern)))
+            (apply_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (arguments
+                (argument
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (argument
+                  (labelled_argument
+                    (lowercase_identifier)
+                    (atomic_expression
+                      (literal
+                        (string_literal
+                          (string_fragment
+                            (unescaped_string_fragment))))))))))
+          (noraise_clause
+            (case_clause
+              (any_pattern)
+              (apply_expression
+                (qualified_identifier
+                  (lowercase_identifier))
+                (arguments
+                  (argument
+                    (atomic_expression
+                      (literal
+                        (boolean_literal)))))))))))))
