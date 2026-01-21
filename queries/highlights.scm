@@ -201,7 +201,7 @@
 
 [
   "guard" "let" "letrec" "and" "const"
-  "with" "as" "is" "import" "using" "defer"
+  "with" "as" "is" "using"
 ] @keyword
 
 "derive" @keyword
@@ -220,7 +220,7 @@
 
 [ "try" "raise" "catch" ] @keyword.exception
 
-[ "noraise" "except" ] @keyword.exception
+[ "noraise" ] @keyword.exception
 
 ((lowercase_identifier) @keyword
  (#any-of? @keyword

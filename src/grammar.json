@@ -319,8 +319,17 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_type"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "="
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_type"
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -2442,6 +2451,19 @@
           ]
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "trait"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "qualified_type_identifier"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_lowercase_identifier"
         }
@@ -2772,6 +2794,10 @@
         {
           "type": "SYMBOL",
           "name": "match_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_expression"
         },
         {
           "type": "SYMBOL",
@@ -3289,7 +3315,7 @@
             "value": 1,
             "content": {
               "type": "PATTERN",
-              "value": "\\\\[^ntbr'\"\\\\{]"
+              "value": "\\\\[^ntbrf'\"\\\\{]"
             }
           }
         },
@@ -3313,7 +3339,7 @@
           "type": "IMMEDIATE_TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "\\\\[ntbr'\"\\\\]"
+            "value": "\\\\[ntbrf'\"\\\\]"
           }
         },
         {
@@ -5291,17 +5317,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "match"
-            },
-            {
-              "type": "STRING",
-              "value": "lexmatch"
-            }
-          ]
+          "type": "STRING",
+          "value": "match"
         },
         {
           "type": "SYMBOL",
@@ -5362,12 +5379,107 @@
         }
       ]
     },
+    "lexmatch_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "lexmatch"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_simple_expression"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "lexmatch_case_clause"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_semicolon"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "lexmatch_case_clause"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_semicolon"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
     "case_clause": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
           "name": "_pattern"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "pattern_guard"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_statement_expression"
+        }
+      ]
+    },
+    "lexmatch_case_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_pattern"
         },
         {
           "type": "CHOICE",
@@ -7419,7 +7531,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "u\\d+(le|be)?"
+          "value": "[ui]\\d+(le|be)?"
         },
         {
           "type": "STRING",
@@ -7428,6 +7540,230 @@
         {
           "type": "SYMBOL",
           "name": "_pattern"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "lexmatch_pattern": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_sequence_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_or_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_as_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_range_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_simple_pattern"
+        }
+      ]
+    },
+    "lexmatch_sequence_pattern": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "lexmatch_pattern_atom"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "lexmatch_pattern_atom"
+            }
+          }
+        ]
+      }
+    },
+    "lexmatch_or_pattern": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "lexmatch_pattern"
+          },
+          {
+            "type": "STRING",
+            "value": "|"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "lexmatch_pattern"
+          }
+        ]
+      }
+    },
+    "lexmatch_as_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_pattern"
+        },
+        {
+          "type": "STRING",
+          "value": "as"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_lowercase_identifier"
+        }
+      ]
+    },
+    "lexmatch_range_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_simple_pattern"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "..<"
+            },
+            {
+              "type": "STRING",
+              "value": "..="
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_simple_pattern"
+        }
+      ]
+    },
+    "lexmatch_simple_pattern": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_parenthesized_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "atomic_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_lowercase_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constructor_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constraint_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "struct_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "map_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "empty_struct_or_map_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "any_pattern"
+        }
+      ]
+    },
+    "lexmatch_pattern_atom": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_parenthesized_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "atomic_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_lowercase_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constructor_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tuple_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "constraint_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "struct_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "map_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "empty_struct_or_map_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "any_pattern"
+        }
+      ]
+    },
+    "lexmatch_parenthesized_pattern": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lexmatch_pattern"
         },
         {
           "type": "STRING",
@@ -8881,6 +9217,10 @@
     [
       "_simple_expression",
       "arrow_function_expression"
+    ],
+    [
+      "_simple_pattern",
+      "lexmatch_simple_pattern"
     ]
   ],
   "precedences": [
@@ -9014,6 +9354,16 @@
       {
         "type": "SYMBOL",
         "name": "as_pattern"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "lexmatch_or_pattern"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "lexmatch_as_pattern"
       }
     ]
   ],
