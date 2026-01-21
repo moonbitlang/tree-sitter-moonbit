@@ -75,6 +75,7 @@ module.exports = grammar({
 
     _structure_item: ($) =>
       choice(
+        $.using_declaration,
         $.type_definition,
         $.error_type_definition,
         $.struct_definition,
@@ -356,6 +357,22 @@ module.exports = grammar({
         optional($.visibility),
         "fnalias",
         $.function_alias_targets
+      ),
+
+    using_target: ($) => choice(seq("type", $._type), $._lowercase_identifier),
+
+    using_targets: ($) =>
+      choice(
+        seq($.package_identifier, "{", list(",", $.using_target), "}"),
+        seq($.type_name, "::", "{", list(",", $.using_target), "}")
+      ),
+
+    using_declaration: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "using",
+        $.using_targets
       ),
 
     impl_definition: ($) =>
