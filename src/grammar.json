@@ -3246,10 +3246,6 @@
             {
               "type": "STRING",
               "value": "!"
-            },
-            {
-              "type": "STRING",
-              "value": "not"
             }
           ]
         },
@@ -3384,10 +3380,6 @@
                   {
                     "type": "STRING",
                     "value": "<"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "==="
                   },
                   {
                     "type": "STRING",

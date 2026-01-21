@@ -5878,10 +5878,6 @@
     "named": false
   },
   {
-    "type": "===",
-    "named": false
-  },
-  {
     "type": "=>",
     "named": false
   },
@@ -6075,10 +6071,6 @@
   },
   {
     "type": "noraise",
-    "named": false
-  },
-  {
-    "type": "not",
     "named": false
   },
   {
