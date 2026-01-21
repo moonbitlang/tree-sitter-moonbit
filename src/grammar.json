@@ -1731,6 +1731,18 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "SYMBOL",
+              "name": "attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "STRING",
               "value": "async"
             },
@@ -8528,6 +8540,10 @@
           "name": "_lowercase_identifier"
         },
         {
+          "type": "SYMBOL",
+          "name": "_uppercase_identifier"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -8563,6 +8579,19 @@
             {
               "type": "SYMBOL",
               "name": "dot_lowercase_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "attribute_properties"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_uppercase_identifier"
             },
             {
               "type": "SYMBOL",

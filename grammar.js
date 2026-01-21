@@ -281,6 +281,7 @@ module.exports = grammar({
 
     trait_method_declaration: ($) =>
       seq(
+        optional($.attributes),
         optional("async"),
         $.function_identifier,
         optional("!"),
@@ -751,7 +752,7 @@ module.exports = grammar({
 
     match_expression: ($) =>
       seq(
-        "match",
+        choice("match", "lexmatch"),
         $._simple_expression,
         "{",
         list($._semicolon, $.case_clause),
@@ -1215,6 +1216,7 @@ module.exports = grammar({
     attribute_expression: ($) =>
       choice(
         $._lowercase_identifier,
+        $._uppercase_identifier,
         seq($._lowercase_identifier, $.dot_lowercase_identifier),
         seq($._lowercase_identifier, $.attribute_properties),
         seq(
@@ -1222,6 +1224,7 @@ module.exports = grammar({
           $.dot_lowercase_identifier,
           $.attribute_properties
         ),
+        seq($._uppercase_identifier, $.attribute_properties),
         $.string_literal
       ),
 
