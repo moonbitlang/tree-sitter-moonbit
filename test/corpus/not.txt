@@ -40,34 +40,3 @@ fn fib(n : Int) -> Int {
                     (string_literal
                       (string_fragment
                         (unescaped_string_fragment)))))))))))))
-
-================================================================================
-not (keyword)
-================================================================================
-fn main {
-  if not flag {
-    println("b")
-  }
-}
---------------------------------------------------------------------------------
-
-(structure
-  (function_definition
-    (function_identifier
-      (lowercase_identifier))
-    (block_expression
-      (if_expression
-        (unary_expression
-          (qualified_identifier
-            (lowercase_identifier)))
-        (block_expression
-          (apply_expression
-            (qualified_identifier
-              (lowercase_identifier))
-            (arguments
-              (argument
-                (atomic_expression
-                  (literal
-                    (string_literal
-                      (string_fragment
-                        (unescaped_string_fragment)))))))))))))
