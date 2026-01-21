@@ -103,6 +103,16 @@
            "Error"
            "Self"))
 
+((qualified_type_identifier) @type.builtin
+ (#any-of? @type.builtin
+           "Eq"
+           "Compare"
+           "Hash"
+           "Show"
+           "Default"
+           "ToJson"
+           "FromJson"))
+
 ; Fields
 
 (struct_field_declaration (lowercase_identifier) @variable.member)
@@ -169,10 +179,12 @@
 	"+" "-" "*" "/" "%"
   "<<" ">>" "|" "&" "^"
   "=" "+=" "-=" "*=" "/=" "%="
-  "<" ">" ">=" "<=" "==" "!="
+  "<" ">" ">=" "<=" "===" "==" "!="
   "&&" "||"
+  "|>"
   "=>" "->"
   "!" "!!" "?"
+  "not"
 ] @operator
 
 ;; Keywords
@@ -180,7 +192,7 @@
 [ (mutability) "mut" ] @keyword.modifier
 
 [
-  "struct" "enum" "type" "trait" "typealias" "traitalias"
+  "struct" "enum" "type" "trait" "typealias" "traitalias" "suberror"
 ] @keyword.type
 
 [
@@ -188,8 +200,8 @@
 ] @keyword.modifier
 
 [
-  "guard" "let" "const"
-  "with" "as" "is"
+  "guard" "let" "letrec" "and" "const"
+  "with" "as" "is" "import" "using" "defer"
 ] @keyword
 
 "derive" @keyword
@@ -207,6 +219,19 @@
 "async" @keyword.coroutine
 
 [ "try" "raise" "catch" ] @keyword.exception
+
+[ "noraise" "except" ] @keyword.exception
+
+((lowercase_identifier) @keyword
+ (#any-of? @keyword
+           "import"
+           "using"
+           "defer"
+           "lexmatch"
+           "recur"))
+
+((lowercase_identifier) @keyword.exception
+ (#eq? @keyword.exception "except"))
 
 ;; Delimiters
 

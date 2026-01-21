@@ -185,6 +185,7 @@ binary expression
 fn main {
   let a = 1 == 2
   let b = 3 != 4
+  let c = 5 === 6
 }
 --------------------------------------------------------------------------------
 
@@ -193,6 +194,15 @@ fn main {
     (function_identifier
       (lowercase_identifier))
     (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (binary_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal)))))
       (let_expression
         (lowercase_identifier)
         (binary_expression
