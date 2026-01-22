@@ -4,7 +4,7 @@
 const multiplicative_operators = ["*", "/", "%"];
 const additive_operators = ["+", "-"];
 const shift_operators = ["<<", ">>"];
-const comparative_operators = [">", ">=", "<=", "<", "===", "==", "!="];
+const comparative_operators = [">", ">=", "<=", "<", "==", "!="];
 
 module.exports = grammar({
   name: "moonbit",
