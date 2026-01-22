@@ -103,6 +103,16 @@
            "Error"
            "Self"))
 
+((qualified_type_identifier) @type.builtin
+ (#any-of? @type.builtin
+           "Eq"
+           "Compare"
+           "Hash"
+           "Show"
+           "Default"
+           "ToJson"
+           "FromJson"))
+
 ; Fields
 
 (struct_field_declaration (lowercase_identifier) @variable.member)
@@ -171,6 +181,7 @@
   "=" "+=" "-=" "*=" "/=" "%="
   "<" ">" ">=" "<=" "==" "!="
   "&&" "||"
+  "|>"
   "=>" "->"
   "!" "!!" "?"
 ] @operator
@@ -180,7 +191,7 @@
 [ (mutability) "mut" ] @keyword.modifier
 
 [
-  "struct" "enum" "type" "trait" "typealias" "traitalias"
+  "struct" "enum" "type" "trait" "typealias" "traitalias" "suberror"
 ] @keyword.type
 
 [
@@ -188,8 +199,8 @@
 ] @keyword.modifier
 
 [
-  "guard" "let" "const"
-  "with" "as" "is"
+  "guard" "let" "letrec" "and" "const"
+  "with" "as" "is" "using"
 ] @keyword
 
 "derive" @keyword
@@ -208,6 +219,19 @@
 
 [ "try" "raise" "catch" ] @keyword.exception
 
+[ "noraise" ] @keyword.exception
+
+((lowercase_identifier) @keyword
+ (#any-of? @keyword
+           "import"
+           "using"
+           "defer"
+           "lexmatch"
+           "recur"))
+
+((lowercase_identifier) @keyword.exception
+ (#eq? @keyword.exception "except"))
+
 ;; Delimiters
 
 [
@@ -224,8 +248,11 @@
 (dot_dot_apply_expression (dot_dot_identifier ".." @punctuation.delimiter))
 
 [
- "..<"
- "..="
+  "..<"
+  "..="
+  "..<="
+  "..>"
+  "..>="
 ] @operator
 
 [

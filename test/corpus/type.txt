@@ -1,7 +1,7 @@
 ================================================================================
 Option type
 ================================================================================
-type T (Int) -> Int?
+type T = (Int) -> Int?
 --------------------------------------------------------------------------------
 
 (structure
@@ -21,13 +21,13 @@ type T (Int) -> Int?
 ================================================================================
 error type
 ================================================================================
-type T0 (Int) -> Int!
-type T1 (Int) -> Int?!
-type T2 (Int) -> Int!Error
-type T3 (Int) -> Int?!Error?
-type T4 () -> ((Int) -> Int)!Error
-type T5 () -> ((Int) -> Int)?!Error?
-type T6 () -> ((Int) -> Int?!)!Error?
+type T0 = (Int) -> Int!
+type T1 = (Int) -> Int?!
+type T2 = (Int) -> Int!Error
+type T3 = (Int) -> Int?!Error?
+type T4 = () -> ((Int) -> Int)!Error
+type T5 = () -> ((Int) -> Int)?!Error?
+type T6 = () -> ((Int) -> Int?!)!Error?
 --------------------------------------------------------------------------------
 
 (structure
@@ -143,12 +143,12 @@ type T6 () -> ((Int) -> Int?!)!Error?
 ================================================================================
 error annotation
 ================================================================================
-type T0 (Int) -> Int raise
-type T1 (Int) -> Int? raise
-type T2 (Int) -> Int raise Error
-type T3 (Int) -> Int? raise Error
-type T4 () -> ((Int) -> Int) raise Error
-type T5 () -> ((Int) -> Int)? raise Error
+type T0 = (Int) -> Int raise
+type T1 = (Int) -> Int? raise
+type T2 = (Int) -> Int raise Error
+type T3 = (Int) -> Int? raise Error
+type T4 = () -> ((Int) -> Int) raise Error
+type T5 = () -> ((Int) -> Int)? raise Error
 fn f() -> Int raise {}
 fn f() -> Int? raise {}
 fn f() -> Int raise Error {}
@@ -394,7 +394,7 @@ fn f() noraise {}
 ================================================================================
 trait object type
 ================================================================================
-type T &Logger
+type T = &Logger
 
 impl Show for T with output(self : T, logger : &Logger) -> Unit {
 }

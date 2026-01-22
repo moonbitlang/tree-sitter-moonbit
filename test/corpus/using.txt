@@ -1,0 +1,24 @@
+================================================================================
+using declaration
+================================================================================
+using @builtin {trait Show, type Int}
+using @builtin {not}
+--------------------------------------------------------------------------------
+
+(structure
+  (using_declaration
+    (using_targets
+      (package_identifier)
+      (using_target
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (using_target
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))))
+  (using_declaration
+    (using_targets
+      (package_identifier)
+      (using_target
+        (lowercase_identifier)))))
