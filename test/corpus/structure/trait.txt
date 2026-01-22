@@ -294,7 +294,7 @@ impl MyShow with str(self : Self) -> String {
   self.repr()
 }
 
-type MyInt Int
+type MyInt = Int
 fn repr(self:MyInt) -> String {
   self.0.to_string()
 }
