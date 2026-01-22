@@ -1005,7 +1005,11 @@ module.exports = grammar({
 
     range_expression: ($) =>
       prec.left(
-        seq($._simple_expression, choice("..<", "..="), $._simple_expression)
+        seq(
+          $._simple_expression,
+          choice("..<", "..=", "..<="),
+          $._simple_expression
+        )
       ),
 
     return_expression: ($) => seq("return", optional($._expression)),

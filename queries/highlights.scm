@@ -249,8 +249,9 @@
 (dot_dot_apply_expression (dot_dot_identifier ".." @punctuation.delimiter))
 
 [
- "..<"
- "..="
+  "..<"
+  "..="
+  "..<="
 ] @operator
 
 [
