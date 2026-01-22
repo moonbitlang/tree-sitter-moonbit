@@ -1,0 +1,72 @@
+================================================================================
+range operators
+================================================================================
+fn main {
+  for i in 0..<10 { () }
+  for i in 0..=10 { () }
+  for i in 0..<=10 { () }
+  for i in 10..>0 { () }
+  for i in 10..>=0 { () }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (for_in_expression
+        (lowercase_identifier)
+        (range_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (block_expression
+          (unit_expression)))
+      (for_in_expression
+        (lowercase_identifier)
+        (range_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (block_expression
+          (unit_expression)))
+      (for_in_expression
+        (lowercase_identifier)
+        (range_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (block_expression
+          (unit_expression)))
+      (for_in_expression
+        (lowercase_identifier)
+        (range_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (block_expression
+          (unit_expression)))
+      (for_in_expression
+        (lowercase_identifier)
+        (range_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (block_expression
+          (unit_expression))))))
