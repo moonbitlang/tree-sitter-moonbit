@@ -1007,7 +1007,7 @@ module.exports = grammar({
       prec.left(
         seq(
           $._simple_expression,
-          choice("..<", "..=", "..<="),
+          choice("..<", "..=", "..<=", "..>", "..>="),
           $._simple_expression
         )
       ),
