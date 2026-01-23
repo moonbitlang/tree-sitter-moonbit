@@ -165,3 +165,46 @@ jobs:
         with:
           name: failures-mbti
           path: ${{steps.core-mbti.outputs.failures}}
+
+  test-async:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup tree-sitter
+        uses: tree-sitter/setup-action/cli@v2
+        with:
+          tree-sitter-ref: v0.25.4
+
+      - name: Generate tree-sitter parser
+        run: python3 scripts/generate.py
+
+      - name: Checkout moonbitlang/async
+        run: git clone https://github.com/moonbitlang/async.git
+
+      - name: Test async .mbt files
+        id: async-mbt
+        uses: tree-sitter/parse-action@v4
+        with:
+          files: async/**/*.mbt
+
+      - name: Test async .mbti files
+        id: async-mbti
+        uses: tree-sitter/parse-action@v4
+        with:
+          files: async/**/*.mbti
+
+      - name: Upload async .mbt failures
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.async-mbt.outputs.failures != '' }}
+        with:
+          name: failures-async-mbt
+          path: ${{steps.async-mbt.outputs.failures}}
+
+      - name: Upload async .mbti failures
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.async-mbti.outputs.failures != '' }}
+        with:
+          name: failures-async-mbti
+          path: ${{steps.async-mbti.outputs.failures}}

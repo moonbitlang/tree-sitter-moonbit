@@ -72,6 +72,8 @@ module.exports = grammar({
     [$._simple_pattern, $.lexmatch_simple_pattern],
     [$.declaration_parameters, $.parameters],
     [$.declaration_parameter, $.parameters],
+    [$.lexmatch_simple_pattern, $.lexmatch_pattern_atom],
+    [$.lexmatch_pattern, $.lexmatch_range_pattern],
   ],
 
   rules: {
@@ -307,6 +309,7 @@ module.exports = grammar({
     test_definition: ($) =>
       seq(
         optional($.attributes),
+        optional("async"),
         "test",
         optional($.string_literal),
         optional($.parameters),
@@ -523,6 +526,7 @@ module.exports = grammar({
         $.map_expression,
         $.as_expression,
         $.is_expression,
+        $.lexmatch_test_expression,
         $.range_expression,
         $.binary_expression,
         "_"
@@ -845,6 +849,12 @@ module.exports = grammar({
         choice($.range_pattern, $._simple_pattern)
       ),
 
+    lexmatch_test_expression: ($) =>
+      prec.right(
+        -1,
+        seq($._simple_expression, "lexmatch?", $.lexmatch_pattern)
+      ),
+
     match_expression: ($) =>
       seq(
         "match",
@@ -934,9 +944,12 @@ module.exports = grammar({
         $.continue_expression,
         $.return_expression,
         $.raise_expression,
+        $.defer_expression,
         $._expression,
         $.unfinished
       ),
+
+    defer_expression: ($) => seq("defer", $._expression),
 
     unfinished: (_) => "...",
 
@@ -1162,10 +1175,10 @@ module.exports = grammar({
       ),
 
     lexmatch_or_pattern: ($) =>
-      prec.right(seq($.lexmatch_pattern, "|", $.lexmatch_pattern)),
+      prec.right(0, seq($.lexmatch_pattern, "|", $.lexmatch_pattern)),
 
     lexmatch_as_pattern: ($) =>
-      seq($.lexmatch_pattern, "as", $._lowercase_identifier),
+      prec.right(0, seq($.lexmatch_pattern, "as", $._lowercase_identifier)),
 
     lexmatch_range_pattern: ($) =>
       seq(
@@ -1180,7 +1193,7 @@ module.exports = grammar({
         $.atomic_pattern,
         $._lowercase_identifier,
         $.constructor_pattern,
-        $.tuple_pattern,
+        $.lexmatch_tuple_pattern,
         $.constraint_pattern,
         $.array_pattern,
         $.struct_pattern,
@@ -1195,7 +1208,7 @@ module.exports = grammar({
         $.atomic_pattern,
         $._lowercase_identifier,
         $.constructor_pattern,
-        $.tuple_pattern,
+        $.lexmatch_tuple_pattern,
         $.constraint_pattern,
         $.array_pattern,
         $.struct_pattern,
@@ -1206,6 +1219,9 @@ module.exports = grammar({
 
     lexmatch_parenthesized_pattern: ($) =>
       seq("(", $.lexmatch_pattern, ")"),
+
+    lexmatch_tuple_pattern: ($) =>
+      seq("(", $.lexmatch_pattern, ",", list1(",", $.lexmatch_pattern), ")"),
 
     array_sub_pattern: ($) =>
       choice(
