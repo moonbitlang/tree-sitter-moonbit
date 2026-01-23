@@ -868,6 +868,7 @@ module.exports = grammar({
       seq(
         "lexmatch",
         $._simple_expression,
+        optional(seq("using", "longest")),
         "{",
         list($._semicolon, $.lexmatch_case_clause),
         "}"
