@@ -70,6 +70,8 @@ module.exports = grammar({
     [$._simple_type, $.positional_parameter],
     [$._simple_expression, $.arrow_function_expression],
     [$._simple_pattern, $.lexmatch_simple_pattern],
+    [$.declaration_parameters, $.parameters],
+    [$.declaration_parameter, $.parameters],
   ],
 
   rules: {
@@ -77,22 +79,37 @@ module.exports = grammar({
 
     _structure_item: ($) =>
       choice(
+        $.package_declaration,
+        $.import_declaration,
         $.using_declaration,
         $.type_definition,
         $.error_type_definition,
         $.struct_definition,
         $.tuple_struct_definition,
         $.enum_definition,
-        $.value_definition,
+        prec.dynamic(1, $.value_definition),
+        prec.dynamic(0, $.value_declaration),
         $.const_definition,
-        $.function_definition,
+        prec.dynamic(1, $.function_definition),
+        prec.dynamic(0, $.function_declaration),
         $.test_definition,
-        $.trait_definition,
+        prec.dynamic(1, $.trait_definition),
+        prec.dynamic(0, $.trait_declaration),
         $.impl_definition,
+        $.impl_declaration,
         $.type_alias_definition,
         $.trait_alias_definition,
         $.function_alias_definition
       ),
+
+    // Package declaration for .mbti interface files
+    package_declaration: ($) => seq("package", $.string_literal),
+
+    // Import declaration for .mbti interface files
+    import_declaration: ($) =>
+      seq("import", "{", list(",", $.import_item), "}"),
+
+    import_item: ($) => $.string_literal,
 
     visibility: ($) => choice("priv", seq("pub", optional($.pub_attribute))),
 
@@ -221,6 +238,16 @@ module.exports = grammar({
         $._expression
       ),
 
+    // Value declaration without initializer (for .mbti interface files)
+    value_declaration: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "let",
+        $._lowercase_identifier,
+        $.type_annotation
+      ),
+
     const_definition: ($) =>
       seq(
         optional($.attributes),
@@ -256,6 +283,27 @@ module.exports = grammar({
         choice($.block_expression, seq("=", $.external_source))
       ),
 
+    // Function declaration without body (for .mbti interface files)
+    function_declaration: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        optional("async"),
+        "fn",
+        optional($.type_parameters),
+        $.function_identifier,
+        optional("!"),
+        $.declaration_parameters,
+        optional(choice(seq("->", $.return_type), $.error_annotation))
+      ),
+
+    // Parameters for function declarations (can be types without names)
+    declaration_parameters: ($) =>
+      seq("(", list(",", $.declaration_parameter), ")"),
+
+    declaration_parameter: ($) =>
+      choice($._type, $.parameter),
+
     test_definition: ($) =>
       seq(
         optional($.attributes),
@@ -275,6 +323,16 @@ module.exports = grammar({
         "{",
         list($._semicolon, $.trait_method_declaration),
         "}"
+      ),
+
+    // Trait declaration without body (for .mbti interface files)
+    trait_declaration: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "trait",
+        $.identifier,
+        optional($.super_trait_declaration)
       ),
 
     super_trait_declaration: ($) =>
@@ -363,8 +421,8 @@ module.exports = grammar({
 
     using_target: ($) =>
       choice(
-        seq("type", $._type),
-        seq("trait", $.qualified_type_identifier),
+        seq("type", $._type, optional(seq("as", $.identifier))),
+        seq("trait", $.qualified_type_identifier, optional(seq("as", $.identifier))),
         $._lowercase_identifier
       ),
 
@@ -396,6 +454,18 @@ module.exports = grammar({
         $.parameters,
         optional(seq("->", $.return_type)),
         choice($.block_expression, seq("=", $.external_source))
+      ),
+
+    // Impl declaration without body (for .mbti interface files)
+    impl_declaration: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "impl",
+        optional($.type_parameters),
+        $.type_name,
+        "for",
+        $._type
       ),
 
     _complex_expression: ($) =>

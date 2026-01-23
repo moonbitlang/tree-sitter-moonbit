@@ -140,15 +140,28 @@ jobs:
       - name: Checkout moonbitlang/core
         run: git clone https://github.com/moonbitlang/core.git
 
-      - name: Test core
-        id: core
+      - name: Test core .mbt files
+        id: core-mbt
         uses: tree-sitter/parse-action@v4
         with:
           files: core/**/*.mbt
 
-      - name: Upload failures
-        uses: actions/upload-artifact@v4
-        if: ${{ always() && steps.core.outputs.failures != '' }}
+      - name: Test core .mbti files
+        id: core-mbti
+        uses: tree-sitter/parse-action@v4
         with:
-          name: failures
-          path: ${{steps.core.outputs.failures}}
+          files: core/**/*.mbti
+
+      - name: Upload .mbt failures
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.core-mbt.outputs.failures != '' }}
+        with:
+          name: failures-mbt
+          path: ${{steps.core-mbt.outputs.failures}}
+
+      - name: Upload .mbti failures
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.core-mbti.outputs.failures != '' }}
+        with:
+          name: failures-mbti
+          path: ${{steps.core-mbti.outputs.failures}}

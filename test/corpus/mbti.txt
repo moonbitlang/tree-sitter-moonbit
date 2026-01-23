@@ -1,0 +1,192 @@
+================================================================================
+package declaration
+================================================================================
+package "moonbitlang/core/example"
+--------------------------------------------------------------------------------
+
+(structure
+  (package_declaration
+    (string_literal
+      (string_fragment
+        (unescaped_string_fragment)))))
+
+================================================================================
+import declaration
+================================================================================
+import {
+  "moonbitlang/core/builtin",
+  "moonbitlang/core/json",
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (import_declaration
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))))
+
+================================================================================
+function declaration with type parameters
+================================================================================
+fn[T] abort(String) -> T
+--------------------------------------------------------------------------------
+
+(structure
+  (function_declaration
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (function_identifier
+      (lowercase_identifier))
+    (declaration_parameters
+      (declaration_parameter
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
+
+================================================================================
+function declaration with labeled parameter
+================================================================================
+pub fn abort(String, loc~ : SourceLoc) -> T
+--------------------------------------------------------------------------------
+
+(structure
+  (function_declaration
+    (visibility)
+    (function_identifier
+      (lowercase_identifier))
+    (declaration_parameters
+      (declaration_parameter
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (declaration_parameter
+        (parameter
+          (labelled_parameter
+            (label
+              (lowercase_identifier))
+            (type_annotation
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
+
+================================================================================
+impl declaration
+================================================================================
+pub impl Eq for JsonPath
+--------------------------------------------------------------------------------
+
+(structure
+  (impl_declaration
+    (visibility)
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))))
+
+================================================================================
+impl declaration with type parameters
+================================================================================
+pub impl[K : Hash + Eq, V : Eq] Eq for HashMap[K, V]
+--------------------------------------------------------------------------------
+
+(structure
+  (impl_declaration
+    (visibility)
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))
+        (constraints
+          (constraint
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))
+          (constraint
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (type_identifier
+        (identifier
+          (uppercase_identifier))
+        (constraints
+          (constraint
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (apply_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (type_arguments
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
+
+================================================================================
+value declaration
+================================================================================
+pub let null : Json
+--------------------------------------------------------------------------------
+
+(structure
+  (value_declaration
+    (visibility)
+    (lowercase_identifier)
+    (type_annotation
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
+
+================================================================================
+trait declaration
+================================================================================
+trait Leb128
+--------------------------------------------------------------------------------
+
+(structure
+  (trait_declaration
+    (identifier
+      (uppercase_identifier))))
+
+================================================================================
+using declaration with as
+================================================================================
+pub using @builtin {type ArrayView as View}
+--------------------------------------------------------------------------------
+
+(structure
+  (using_declaration
+    (visibility)
+    (using_targets
+      (package_identifier)
+      (using_target
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (identifier
+          (uppercase_identifier))))))
