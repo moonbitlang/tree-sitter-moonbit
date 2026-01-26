@@ -31,21 +31,41 @@ import {
           (unescaped_string_fragment))))))
 
 ================================================================================
+import declaration (paren form)
+================================================================================
+import(
+  "moonbitlang/core/builtin"
+  "moonbitlang/core/json"
+)
+--------------------------------------------------------------------------------
+
+(structure
+  (import_declaration
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))))
+
+================================================================================
 function declaration with type parameters
 ================================================================================
 fn[T] abort(String) -> T
 --------------------------------------------------------------------------------
 
 (structure
-  (function_declaration
+  (function_definition
     (type_parameters
       (type_identifier
         (identifier
           (uppercase_identifier))))
     (function_identifier
       (lowercase_identifier))
-    (declaration_parameters
-      (declaration_parameter
+    (parameters
+      (parameter
         (qualified_type_identifier
           (identifier
             (uppercase_identifier)))))
@@ -61,24 +81,23 @@ pub fn abort(String, loc~ : SourceLoc) -> T
 --------------------------------------------------------------------------------
 
 (structure
-  (function_declaration
+  (function_definition
     (visibility)
     (function_identifier
       (lowercase_identifier))
-    (declaration_parameters
-      (declaration_parameter
+    (parameters
+      (parameter
         (qualified_type_identifier
           (identifier
             (uppercase_identifier))))
-      (declaration_parameter
-        (parameter
-          (labelled_parameter
-            (label
-              (lowercase_identifier))
-            (type_annotation
-              (qualified_type_identifier
-                (identifier
-                  (uppercase_identifier))))))))
+      (parameter
+        (labelled_parameter
+          (label
+            (lowercase_identifier))
+          (type_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
     (return_type
       (qualified_type_identifier
         (identifier
@@ -154,7 +173,7 @@ pub let null : Json
 --------------------------------------------------------------------------------
 
 (structure
-  (value_declaration
+  (value_definition
     (visibility)
     (lowercase_identifier)
     (type_annotation
@@ -169,7 +188,7 @@ trait Leb128
 --------------------------------------------------------------------------------
 
 (structure
-  (trait_declaration
+  (trait_definition
     (identifier
       (uppercase_identifier))))
 
@@ -190,3 +209,30 @@ pub using @builtin {type ArrayView as View}
             (uppercase_identifier)))
         (identifier
           (uppercase_identifier))))))
+
+================================================================================
+option type chaining
+================================================================================
+pub fn[T] flatten(T??) -> T?
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (visibility)
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (option_type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (return_type
+      (option_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))

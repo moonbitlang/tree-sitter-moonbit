@@ -67,13 +67,9 @@ module.exports = grammar({
     [$.positional_parameter, $.identifier],
     [$.optional_label, $.identifier],
     [$._simple_expression, $.positional_parameter],
-    [$._simple_type, $.positional_parameter],
+    [$._non_option_type, $.positional_parameter],
     [$._simple_expression, $.arrow_function_expression],
     [$._simple_pattern, $.lexmatch_simple_pattern],
-    [$.declaration_parameters, $.parameters],
-    [$.declaration_parameter, $.parameters],
-    [$.lexmatch_simple_pattern, $.lexmatch_pattern_atom],
-    [$.lexmatch_pattern, $.lexmatch_range_pattern],
   ],
 
   rules: {
@@ -89,14 +85,11 @@ module.exports = grammar({
         $.struct_definition,
         $.tuple_struct_definition,
         $.enum_definition,
-        prec.dynamic(1, $.value_definition),
-        prec.dynamic(0, $.value_declaration),
+        $.value_definition,
         $.const_definition,
-        prec.dynamic(1, $.function_definition),
-        prec.dynamic(0, $.function_declaration),
+        $.function_definition,
         $.test_definition,
-        prec.dynamic(1, $.trait_definition),
-        prec.dynamic(0, $.trait_declaration),
+        $.trait_definition,
         $.impl_definition,
         $.impl_declaration,
         $.type_alias_definition,
@@ -105,11 +98,17 @@ module.exports = grammar({
       ),
 
     // Package declaration for .mbti interface files
-    package_declaration: ($) => seq("package", $.string_literal),
+    package_declaration: ($) => seq(token(prec(1, "package")), $.string_literal),
 
     // Import declaration for .mbti interface files
     import_declaration: ($) =>
-      seq("import", "{", list(",", $.import_item), "}"),
+      seq(
+        token(prec(1, "import")),
+        choice(
+          seq("{", list(",", $.import_item), "}"),
+          seq("(", repeat($.import_item), ")")
+        )
+      ),
 
     import_item: ($) => $.string_literal,
 
@@ -235,19 +234,10 @@ module.exports = grammar({
         optional($.visibility),
         "let",
         $._lowercase_identifier,
-        optional($.type_annotation),
-        "=",
-        $._expression
-      ),
-
-    // Value declaration without initializer (for .mbti interface files)
-    value_declaration: ($) =>
-      seq(
-        optional($.attributes),
-        optional($.visibility),
-        "let",
-        $._lowercase_identifier,
-        $.type_annotation
+        choice(
+          seq(optional($.type_annotation), "=", $._expression),
+          $.type_annotation
+        )
       ),
 
     const_definition: ($) =>
@@ -280,31 +270,18 @@ module.exports = grammar({
         optional($.type_parameters),
         $.function_identifier,
         optional("!"),
-        optional($.parameters),
+        optional(alias($._signature_parameters, $.parameters)),
         optional(choice(seq("->", $.return_type), $.error_annotation)),
-        choice($.block_expression, seq("=", $.external_source))
+        optional(choice($.block_expression, seq("=", $.external_source)))
       ),
 
-    // Function declaration without body (for .mbti interface files)
-    function_declaration: ($) =>
-      seq(
-        optional($.attributes),
-        optional($.visibility),
-        optional("async"),
-        "fn",
-        optional($.type_parameters),
-        $.function_identifier,
-        optional("!"),
-        $.declaration_parameters,
-        optional(choice(seq("->", $.return_type), $.error_annotation))
-      ),
+    _signature_parameters: ($) =>
+      seq("(", list(",", $._signature_parameter), ")"),
 
-    // Parameters for function declarations (can be types without names)
-    declaration_parameters: ($) =>
-      seq("(", list(",", $.declaration_parameter), ")"),
+    _signature_parameter: ($) =>
+      choice($.parameter, alias($._signature_type_only_parameter, $.parameter)),
 
-    declaration_parameter: ($) =>
-      choice($._type, $.parameter),
+    _signature_type_only_parameter: ($) => $._type,
 
     test_definition: ($) =>
       seq(
@@ -323,19 +300,9 @@ module.exports = grammar({
         "trait",
         $.identifier,
         optional($.super_trait_declaration),
-        "{",
-        list($._semicolon, $.trait_method_declaration),
-        "}"
-      ),
-
-    // Trait declaration without body (for .mbti interface files)
-    trait_declaration: ($) =>
-      seq(
-        optional($.attributes),
-        optional($.visibility),
-        "trait",
-        $.identifier,
-        optional($.super_trait_declaration)
+        optional(
+          seq("{", list($._semicolon, $.trait_method_declaration), "}")
+        )
       ),
 
     super_trait_declaration: ($) =>
@@ -1163,16 +1130,17 @@ module.exports = grammar({
 
     lexmatch_pattern: ($) =>
       choice(
-        $.lexmatch_sequence_pattern,
         $.lexmatch_or_pattern,
         $.lexmatch_as_pattern,
         $.lexmatch_range_pattern,
+        $.lexmatch_sequence_pattern,
         $.lexmatch_simple_pattern
       ),
 
     lexmatch_sequence_pattern: ($) =>
       prec.right(
-        seq($.lexmatch_pattern_atom, repeat1($.lexmatch_pattern_atom))
+        1,
+        seq($.lexmatch_simple_pattern, repeat1($.lexmatch_simple_pattern))
       ),
 
     lexmatch_or_pattern: ($) =>
@@ -1182,10 +1150,13 @@ module.exports = grammar({
       prec.right(0, seq($.lexmatch_pattern, "as", $._lowercase_identifier)),
 
     lexmatch_range_pattern: ($) =>
-      seq(
-        $.lexmatch_simple_pattern,
-        choice("..<", "..="),
-        $.lexmatch_simple_pattern
+      prec.left(
+        2,
+        seq(
+          $.lexmatch_simple_pattern,
+          choice("..<", "..="),
+          $.lexmatch_simple_pattern
+        )
       ),
 
     lexmatch_simple_pattern: ($) =>
@@ -1197,24 +1168,6 @@ module.exports = grammar({
         $.lexmatch_tuple_pattern,
         $.constraint_pattern,
         $.array_pattern,
-        $.struct_pattern,
-        $.map_pattern,
-        $.empty_struct_or_map_pattern,
-        $.any_pattern
-      ),
-
-    lexmatch_pattern_atom: ($) =>
-      choice(
-        $.lexmatch_parenthesized_pattern,
-        $.atomic_pattern,
-        $._lowercase_identifier,
-        $.constructor_pattern,
-        $.lexmatch_tuple_pattern,
-        $.constraint_pattern,
-        $.array_pattern,
-        $.struct_pattern,
-        $.map_pattern,
-        $.empty_struct_or_map_pattern,
         $.any_pattern
       ),
 
@@ -1269,10 +1222,15 @@ module.exports = grammar({
         seq("->", $.return_type)
       ),
 
-    _simple_type: ($) =>
+    _simple_type: ($) => choice($._non_option_type, $.option_type),
+
+    parenthesized_type: ($) => seq("(", $._type, ")"),
+
+    apply_type: ($) => seq($.qualified_type_identifier, $.type_arguments),
+
+    _non_option_type: ($) =>
       choice(
         $.qualified_type_identifier,
-        $.option_type,
         $.apply_type,
         $.tuple_type,
         $.trait_object_type,
@@ -1280,11 +1238,7 @@ module.exports = grammar({
         "_"
       ),
 
-    parenthesized_type: ($) => seq("(", $._type, ")"),
-
-    apply_type: ($) => seq($.qualified_type_identifier, $.type_arguments),
-
-    option_type: ($) => seq($._simple_type, "?"),
+    option_type: ($) => prec.left(1, seq($._non_option_type, repeat1("?"))),
 
     trait_object_type: ($) => seq("&", $.qualified_type_identifier),
 
