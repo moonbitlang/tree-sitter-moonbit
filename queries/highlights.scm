@@ -200,8 +200,10 @@
 
 [
   "guard" "let" "letrec" "and" "const"
-  "with" "as" "is" "using"
+  "with" "as" "is" "lexmatch?" "using" "longest"
 ] @keyword
+
+[ "package" "import" ] @keyword.import
 
 "derive" @keyword
 

@@ -21,3 +21,8 @@ This repo uses generated parser artifacts. Follow these guidelines:
   parser artifacts.
 - CI runs `scripts/generate.py` (see `.github/workflows/test.yml`), so avoid
   committing generated file updates unless they are explicitly needed.
+
+## Dev dependency repos
+CI validates this grammar against the latest `moonbitlang/core` and `moonbitlang/async`
+sources (see `.github/workflows/test.yml`). Having local checkouts of those repos is
+helpful when iterating on grammar changes and reproducing downstream failures.

@@ -23,19 +23,19 @@ fn main {
               (lexmatch_parenthesized_pattern
                 (lexmatch_pattern
                   (lexmatch_sequence_pattern
-                    (lexmatch_pattern_atom
+                    (lexmatch_simple_pattern
                       (atomic_pattern
                         (literal
                           (string_literal
                             (string_fragment
                               (unescaped_string_fragment))))))
-                    (lexmatch_pattern_atom
+                    (lexmatch_simple_pattern
                       (atomic_pattern
                         (literal
                           (string_literal
                             (string_fragment
                               (unescaped_string_fragment))))))
-                    (lexmatch_pattern_atom
+                    (lexmatch_simple_pattern
                       (lexmatch_parenthesized_pattern
                         (lexmatch_pattern
                           (lexmatch_as_pattern
@@ -52,4 +52,80 @@ fn main {
           (lexmatch_pattern
             (lexmatch_simple_pattern
               (any_pattern)))
+          (unit_expression))))))
+
+================================================================================
+lexmatch test expression
+================================================================================
+fn main {
+  if x lexmatch? (host, ":" ("[0-9]+" as port_str)) {
+    ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (if_expression
+        (lexmatch_test_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (lexmatch_pattern
+            (lexmatch_simple_pattern
+              (lexmatch_tuple_pattern
+                (lexmatch_pattern
+                  (lexmatch_simple_pattern
+                    (lowercase_identifier)))
+                (lexmatch_pattern
+                  (lexmatch_sequence_pattern
+                    (lexmatch_simple_pattern
+                      (atomic_pattern
+                        (literal
+                          (string_literal
+                            (string_fragment
+                              (unescaped_string_fragment))))))
+                    (lexmatch_simple_pattern
+                      (lexmatch_parenthesized_pattern
+                        (lexmatch_pattern
+                          (lexmatch_as_pattern
+                            (lexmatch_pattern
+                              (lexmatch_simple_pattern
+                                (atomic_pattern
+                                  (literal
+                                    (string_literal
+                                      (string_fragment
+                                        (unescaped_string_fragment)))))))
+                            (lowercase_identifier)))))))))))
+        (block_expression
+          (unit_expression))))))
+
+================================================================================
+lexmatch using longest
+================================================================================
+fn main {
+  lexmatch x using longest {
+    "a" => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (lexmatch_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (lexmatch_case_clause
+          (lexmatch_pattern
+            (lexmatch_simple_pattern
+              (atomic_pattern
+                (literal
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment)))))))
           (unit_expression))))))

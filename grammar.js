@@ -67,7 +67,7 @@ module.exports = grammar({
     [$.positional_parameter, $.identifier],
     [$.optional_label, $.identifier],
     [$._simple_expression, $.positional_parameter],
-    [$._simple_type, $.positional_parameter],
+    [$._non_option_type, $.positional_parameter],
     [$._simple_expression, $.arrow_function_expression],
     [$._simple_pattern, $.lexmatch_simple_pattern],
   ],
@@ -77,6 +77,8 @@ module.exports = grammar({
 
     _structure_item: ($) =>
       choice(
+        $.package_declaration,
+        $.import_declaration,
         $.using_declaration,
         $.type_definition,
         $.error_type_definition,
@@ -89,10 +91,26 @@ module.exports = grammar({
         $.test_definition,
         $.trait_definition,
         $.impl_definition,
+        $.impl_declaration,
         $.type_alias_definition,
         $.trait_alias_definition,
         $.function_alias_definition
       ),
+
+    // Package declaration for .mbti interface files
+    package_declaration: ($) => seq(token(prec(1, "package")), $.string_literal),
+
+    // Import declaration for .mbti interface files
+    import_declaration: ($) =>
+      seq(
+        token(prec(1, "import")),
+        choice(
+          seq("{", list(",", $.import_item), "}"),
+          seq("(", repeat($.import_item), ")")
+        )
+      ),
+
+    import_item: ($) => $.string_literal,
 
     visibility: ($) => choice("priv", seq("pub", optional($.pub_attribute))),
 
@@ -216,9 +234,10 @@ module.exports = grammar({
         optional($.visibility),
         "let",
         $._lowercase_identifier,
-        optional($.type_annotation),
-        "=",
-        $._expression
+        choice(
+          seq(optional($.type_annotation), "=", $._expression),
+          $.type_annotation
+        )
       ),
 
     const_definition: ($) =>
@@ -241,8 +260,8 @@ module.exports = grammar({
         $.multiline_string_literal
       ),
 
-    function_definition: ($) =>
-      seq(
+    function_definition: ($) => {
+      const signature = seq(
         optional($.attributes),
         optional($.visibility),
         optional($.external_linkage),
@@ -251,14 +270,28 @@ module.exports = grammar({
         optional($.type_parameters),
         $.function_identifier,
         optional("!"),
-        optional($.parameters),
-        optional(choice(seq("->", $.return_type), $.error_annotation)),
-        choice($.block_expression, seq("=", $.external_source))
-      ),
+        optional(alias($._signature_parameters, $.parameters)),
+        optional(choice(seq("->", $.return_type), $.error_annotation))
+      );
+
+      return choice(
+        seq(signature, choice($.block_expression, seq("=", $.external_source))),
+        signature
+      );
+    },
+
+    _signature_parameters: ($) =>
+      seq("(", list(",", $._signature_parameter), ")"),
+
+    _signature_parameter: ($) =>
+      choice($.parameter, alias($._signature_type_only_parameter, $.parameter)),
+
+    _signature_type_only_parameter: ($) => $._type,
 
     test_definition: ($) =>
       seq(
         optional($.attributes),
+        optional("async"),
         "test",
         optional($.string_literal),
         optional($.parameters),
@@ -272,9 +305,9 @@ module.exports = grammar({
         "trait",
         $.identifier,
         optional($.super_trait_declaration),
-        "{",
-        list($._semicolon, $.trait_method_declaration),
-        "}"
+        optional(
+          seq("{", list($._semicolon, $.trait_method_declaration), "}")
+        )
       ),
 
     super_trait_declaration: ($) =>
@@ -363,8 +396,8 @@ module.exports = grammar({
 
     using_target: ($) =>
       choice(
-        seq("type", $._type),
-        seq("trait", $.qualified_type_identifier),
+        seq("type", $._type, optional(seq("as", $.identifier))),
+        seq("trait", $.qualified_type_identifier, optional(seq("as", $.identifier))),
         $._lowercase_identifier
       ),
 
@@ -396,6 +429,18 @@ module.exports = grammar({
         $.parameters,
         optional(seq("->", $.return_type)),
         choice($.block_expression, seq("=", $.external_source))
+      ),
+
+    // Impl declaration without body (for .mbti interface files)
+    impl_declaration: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "impl",
+        optional($.type_parameters),
+        $.type_name,
+        "for",
+        $._type
       ),
 
     _complex_expression: ($) =>
@@ -453,6 +498,7 @@ module.exports = grammar({
         $.map_expression,
         $.as_expression,
         $.is_expression,
+        $.lexmatch_test_expression,
         $.range_expression,
         $.binary_expression,
         "_"
@@ -775,6 +821,12 @@ module.exports = grammar({
         choice($.range_pattern, $._simple_pattern)
       ),
 
+    lexmatch_test_expression: ($) =>
+      prec.right(
+        -1,
+        seq($._simple_expression, "lexmatch?", $.lexmatch_pattern)
+      ),
+
     match_expression: ($) =>
       seq(
         "match",
@@ -788,6 +840,7 @@ module.exports = grammar({
       seq(
         "lexmatch",
         $._simple_expression,
+        optional(seq("using", "longest")),
         "{",
         list($._semicolon, $.lexmatch_case_clause),
         "}"
@@ -864,9 +917,12 @@ module.exports = grammar({
         $.continue_expression,
         $.return_expression,
         $.raise_expression,
+        $.defer_expression,
         $._expression,
         $.unfinished
       ),
+
+    defer_expression: ($) => seq("defer", $._expression),
 
     unfinished: (_) => "...",
 
@@ -1079,29 +1135,33 @@ module.exports = grammar({
 
     lexmatch_pattern: ($) =>
       choice(
-        $.lexmatch_sequence_pattern,
         $.lexmatch_or_pattern,
         $.lexmatch_as_pattern,
         $.lexmatch_range_pattern,
+        $.lexmatch_sequence_pattern,
         $.lexmatch_simple_pattern
       ),
 
     lexmatch_sequence_pattern: ($) =>
       prec.right(
-        seq($.lexmatch_pattern_atom, repeat1($.lexmatch_pattern_atom))
+        1,
+        seq($.lexmatch_simple_pattern, repeat1($.lexmatch_simple_pattern))
       ),
 
     lexmatch_or_pattern: ($) =>
-      prec.right(seq($.lexmatch_pattern, "|", $.lexmatch_pattern)),
+      prec.right(0, seq($.lexmatch_pattern, "|", $.lexmatch_pattern)),
 
     lexmatch_as_pattern: ($) =>
-      seq($.lexmatch_pattern, "as", $._lowercase_identifier),
+      prec.right(0, seq($.lexmatch_pattern, "as", $._lowercase_identifier)),
 
     lexmatch_range_pattern: ($) =>
-      seq(
-        $.lexmatch_simple_pattern,
-        choice("..<", "..="),
-        $.lexmatch_simple_pattern
+      prec.left(
+        2,
+        seq(
+          $.lexmatch_simple_pattern,
+          choice("..<", "..="),
+          $.lexmatch_simple_pattern
+        )
       ),
 
     lexmatch_simple_pattern: ($) =>
@@ -1110,32 +1170,17 @@ module.exports = grammar({
         $.atomic_pattern,
         $._lowercase_identifier,
         $.constructor_pattern,
-        $.tuple_pattern,
+        $.lexmatch_tuple_pattern,
         $.constraint_pattern,
         $.array_pattern,
-        $.struct_pattern,
-        $.map_pattern,
-        $.empty_struct_or_map_pattern,
-        $.any_pattern
-      ),
-
-    lexmatch_pattern_atom: ($) =>
-      choice(
-        $.lexmatch_parenthesized_pattern,
-        $.atomic_pattern,
-        $._lowercase_identifier,
-        $.constructor_pattern,
-        $.tuple_pattern,
-        $.constraint_pattern,
-        $.array_pattern,
-        $.struct_pattern,
-        $.map_pattern,
-        $.empty_struct_or_map_pattern,
         $.any_pattern
       ),
 
     lexmatch_parenthesized_pattern: ($) =>
       seq("(", $.lexmatch_pattern, ")"),
+
+    lexmatch_tuple_pattern: ($) =>
+      seq("(", $.lexmatch_pattern, ",", list1(",", $.lexmatch_pattern), ")"),
 
     array_sub_pattern: ($) =>
       choice(
@@ -1182,10 +1227,15 @@ module.exports = grammar({
         seq("->", $.return_type)
       ),
 
-    _simple_type: ($) =>
+    _simple_type: ($) => choice($._non_option_type, $.option_type),
+
+    parenthesized_type: ($) => seq("(", $._type, ")"),
+
+    apply_type: ($) => seq($.qualified_type_identifier, $.type_arguments),
+
+    _non_option_type: ($) =>
       choice(
         $.qualified_type_identifier,
-        $.option_type,
         $.apply_type,
         $.tuple_type,
         $.trait_object_type,
@@ -1193,11 +1243,7 @@ module.exports = grammar({
         "_"
       ),
 
-    parenthesized_type: ($) => seq("(", $._type, ")"),
-
-    apply_type: ($) => seq($.qualified_type_identifier, $.type_arguments),
-
-    option_type: ($) => seq($._simple_type, "?"),
+    option_type: ($) => prec.left(1, seq($._non_option_type, repeat1("?"))),
 
     trait_object_type: ($) => seq("&", $.qualified_type_identifier),
 
