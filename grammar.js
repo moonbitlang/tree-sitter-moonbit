@@ -260,8 +260,8 @@ module.exports = grammar({
         $.multiline_string_literal
       ),
 
-    function_definition: ($) =>
-      seq(
+    function_definition: ($) => {
+      const signature = seq(
         optional($.attributes),
         optional($.visibility),
         optional($.external_linkage),
@@ -271,9 +271,14 @@ module.exports = grammar({
         $.function_identifier,
         optional("!"),
         optional(alias($._signature_parameters, $.parameters)),
-        optional(choice(seq("->", $.return_type), $.error_annotation)),
-        optional(choice($.block_expression, seq("=", $.external_source)))
-      ),
+        optional(choice(seq("->", $.return_type), $.error_annotation))
+      );
+
+      return choice(
+        seq(signature, choice($.block_expression, seq("=", $.external_source))),
+        signature
+      );
+    },
 
     _signature_parameters: ($) =>
       seq("(", list(",", $._signature_parameter), ")"),
