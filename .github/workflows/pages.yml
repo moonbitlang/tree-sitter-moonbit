@@ -42,7 +42,12 @@ jobs:
 
       - name: Build web playground
         working-directory: web
-        run: npm run build
+        run: |
+          echo "Verifying tree-sitter is in PATH..."
+          echo "PATH=$PATH"
+          which tree-sitter || echo "tree-sitter not found in PATH"
+          tree-sitter --version || echo "tree-sitter --version failed"
+          npm run build
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
