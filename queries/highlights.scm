@@ -205,6 +205,8 @@
 
 "derive" @keyword
 
+[ "package" "import" ] @keyword.import
+
 [ "fn" "test" "impl" "fnalias" ] @keyword.function
 "return" @keyword.return
 [ "while" "loop" "for" "break" "continue" "in" ] @keyword.repeat

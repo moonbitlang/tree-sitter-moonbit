@@ -77,6 +77,8 @@ module.exports = grammar({
 
     _structure_item: ($) =>
       choice(
+        $.package_declaration,
+        $.import_declaration,
         $.using_declaration,
         $.type_definition,
         $.error_type_definition,
@@ -89,10 +91,26 @@ module.exports = grammar({
         $.test_definition,
         $.trait_definition,
         $.impl_definition,
+        $.impl_declaration,
         $.type_alias_definition,
         $.trait_alias_definition,
         $.function_alias_definition
       ),
+
+    // Package declaration for .mbti interface files
+    package_declaration: ($) => seq(token(prec(1, "package")), $.string_literal),
+
+    // Import declaration for .mbti interface files
+    import_declaration: ($) =>
+      seq(
+        token(prec(1, "import")),
+        choice(
+          seq("{", list(",", $.import_item), "}"),
+          seq("(", repeat($.import_item), ")")
+        )
+      ),
+
+    import_item: ($) => $.string_literal,
 
     visibility: ($) => choice("priv", seq("pub", optional($.pub_attribute))),
 
@@ -216,9 +234,10 @@ module.exports = grammar({
         optional($.visibility),
         "let",
         $._lowercase_identifier,
-        optional($.type_annotation),
-        "=",
-        $._expression
+        choice(
+          seq(optional($.type_annotation), "=", $._expression),
+          $.type_annotation
+        )
       ),
 
     const_definition: ($) =>
@@ -241,8 +260,8 @@ module.exports = grammar({
         $.multiline_string_literal
       ),
 
-    function_definition: ($) =>
-      seq(
+    function_definition: ($) => {
+      const full_signature = seq(
         optional($.attributes),
         optional($.visibility),
         optional($.external_linkage),
@@ -251,10 +270,37 @@ module.exports = grammar({
         optional($.type_parameters),
         $.function_identifier,
         optional("!"),
-        optional($.parameters),
-        optional(choice(seq("->", $.return_type), $.error_annotation)),
-        choice($.block_expression, seq("=", $.external_source))
-      ),
+        optional(alias($._signature_parameters, $.parameters)),
+        optional(choice(seq("->", $.return_type), $.error_annotation))
+      );
+
+      // Signature-only form (for .mbti files) requires return type or error annotation
+      const signature_only = seq(
+        optional($.attributes),
+        optional($.visibility),
+        optional($.external_linkage),
+        optional("async"),
+        "fn",
+        optional($.type_parameters),
+        $.function_identifier,
+        optional("!"),
+        optional(alias($._signature_parameters, $.parameters)),
+        choice(seq("->", $.return_type), $.error_annotation)
+      );
+
+      return choice(
+        seq(full_signature, choice($.block_expression, seq("=", $.external_source))),
+        signature_only
+      );
+    },
+
+    _signature_parameters: ($) =>
+      seq("(", list(",", $._signature_parameter), ")"),
+
+    _signature_parameter: ($) =>
+      choice($.parameter, alias($._signature_type_only_parameter, $.parameter)),
+
+    _signature_type_only_parameter: ($) => $._type,
 
     test_definition: ($) =>
       seq(
@@ -273,9 +319,9 @@ module.exports = grammar({
         "trait",
         $.identifier,
         optional($.super_trait_declaration),
-        "{",
-        list($._semicolon, $.trait_method_declaration),
-        "}"
+        optional(
+          seq("{", list($._semicolon, $.trait_method_declaration), "}")
+        )
       ),
 
     super_trait_declaration: ($) =>
@@ -397,6 +443,18 @@ module.exports = grammar({
         $.parameters,
         optional(seq("->", $.return_type)),
         choice($.block_expression, seq("=", $.external_source))
+      ),
+
+    // Impl declaration without body (for .mbti interface files)
+    impl_declaration: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "impl",
+        optional($.type_parameters),
+        $.type_name,
+        "for",
+        $._type
       ),
 
     _complex_expression: ($) =>

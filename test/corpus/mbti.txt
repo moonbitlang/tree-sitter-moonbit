@@ -1,0 +1,200 @@
+================================================================================
+package declaration
+================================================================================
+
+package "moonbitlang/core/builtin"
+
+--------------------------------------------------------------------------------
+
+(structure
+  (package_declaration
+    (string_literal
+      (string_fragment
+        (unescaped_string_fragment)))))
+
+================================================================================
+import declaration with braces
+================================================================================
+
+import {
+  "moonbitlang/core/array"
+}
+
+--------------------------------------------------------------------------------
+
+(structure
+  (import_declaration
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))))
+
+================================================================================
+import declaration with parens
+================================================================================
+
+import (
+  "moonbitlang/core/array"
+  "moonbitlang/core/string"
+)
+
+--------------------------------------------------------------------------------
+
+(structure
+  (import_declaration
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))))
+
+================================================================================
+function declaration with type parameters
+================================================================================
+
+fn[T] abort(String) -> T
+
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
+
+================================================================================
+impl declaration
+================================================================================
+
+impl Show for Int
+
+--------------------------------------------------------------------------------
+
+(structure
+  (impl_declaration
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))))
+
+================================================================================
+impl declaration with type parameters
+================================================================================
+
+impl[T : Show] Show for Array[T]
+
+--------------------------------------------------------------------------------
+
+(structure
+  (impl_declaration
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))
+        (constraints
+          (constraint
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (apply_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (type_arguments
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
+
+================================================================================
+value declaration with type only
+================================================================================
+
+pub let default_capacity : Int
+
+--------------------------------------------------------------------------------
+
+(structure
+  (value_definition
+    (visibility)
+    (lowercase_identifier)
+    (type_annotation
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
+
+================================================================================
+trait declaration without body
+================================================================================
+
+pub trait Show
+
+--------------------------------------------------------------------------------
+
+(structure
+  (trait_definition
+    (visibility)
+    (identifier
+      (uppercase_identifier))))
+
+================================================================================
+trait declaration with super trait but no body
+================================================================================
+
+pub trait MyTrait : Eq
+
+--------------------------------------------------------------------------------
+
+(structure
+  (trait_definition
+    (visibility)
+    (identifier
+      (uppercase_identifier))
+    (super_trait_declaration
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
+
+================================================================================
+async function declaration
+================================================================================
+
+pub async fn fetch(String) -> String
+
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (visibility)
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))))
