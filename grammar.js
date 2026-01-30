@@ -865,9 +865,12 @@ module.exports = grammar({
         $.continue_expression,
         $.return_expression,
         $.raise_expression,
+        $.defer_expression,
         $._expression,
         $.unfinished
       ),
+
+    defer_expression: ($) => seq("defer", $._expression),
 
     unfinished: (_) => "...",
 
