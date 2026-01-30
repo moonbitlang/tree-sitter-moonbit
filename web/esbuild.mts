@@ -72,7 +72,7 @@ const context = await ESBuild.context({
       },
       {
         name: "moonbit_quotation",
-        path: "../moonbit_quotation",
+        path: "../grammars/quotation",
         outfile: "tree-sitter-moonbit_quotation.wasm",
       },
     ]),
