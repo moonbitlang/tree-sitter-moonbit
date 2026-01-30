@@ -12,3 +12,12 @@ A [tree-sitter][] grammar for [MoonBit](https://www.moonbitlang.com).
   `scripts/generate.py` (see `.github/workflows/test.yml`).
 - Avoid editing generated files by hand. Only regenerate when you intend to update
   parser artifacts, and expect large diffs.
+
+### Downstream repos (core/async)
+
+For development and validating grammar changes, you'll typically want local checkouts of:
+
+- `moonbitlang/core`
+- `moonbitlang/async`
+
+CI clones these repos and parses `**/*.mbt` and `**/*.mbti` (see `.github/workflows/test.yml`). If you hit cache lock permission errors locally, set `XDG_CACHE_HOME` (e.g. `XDG_CACHE_HOME=/tmp/xdg-cache`).
