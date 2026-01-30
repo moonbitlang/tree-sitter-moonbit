@@ -1,23 +1,8 @@
 # Agent Notes
 
-This repo uses generated parser artifacts. Follow these guidelines:
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full details. Key rules:
 
-## Edit manually
-- `grammar.js`
-- `queries/*.scm`
-- `test/corpus/*`
-- `README.md`
-
-## Generated (do not edit by hand)
-- `src/grammar.json`
-- `src/node-types.json`
-- `src/parser.c`
-- `grammars/quotation/src/grammar.json`
-- `grammars/quotation/src/node-types.json`
-- `grammars/quotation/src/parser.c`
-
-## Regeneration
-- Run `python3 scripts/generate.py` only when you intend to update the generated
-  parser artifacts.
-- CI runs `scripts/generate.py` (see `.github/workflows/test.yml`), so avoid
-  committing generated file updates unless they are explicitly needed.
+1. **Edit**: `grammar.js`, `queries/*.scm`, `test/corpus/*.txt`
+2. **Don't commit**: `src/parser.c`, `src/grammar.json`, `src/node-types.json`, `grammars/quotation/src/*`
+3. **Test**: `python3 scripts/generate.py && tree-sitter test`
+4. **CI auto-generates** parser files after merge — don't include them in PRs.
