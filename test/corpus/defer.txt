@@ -1,0 +1,25 @@
+================================================================================
+defer expression
+================================================================================
+fn main {
+  defer file.close()
+  file.read()
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (defer_expression
+        (dot_apply_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (dot_identifier
+            (dot_lowercase_identifier))))
+      (dot_apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (dot_identifier
+          (dot_lowercase_identifier))))))
