@@ -456,6 +456,7 @@ module.exports = grammar({
         $.is_expression,
         $.range_expression,
         $.binary_expression,
+        $.lexmatch_test_expression,
         "_"
       ),
 
@@ -789,9 +790,16 @@ module.exports = grammar({
       seq(
         "lexmatch",
         $._simple_expression,
+        optional(seq("using", "longest")),
         "{",
         list($._semicolon, $.lexmatch_case_clause),
         "}"
+      ),
+
+    lexmatch_test_expression: ($) =>
+      prec.right(
+        -1,
+        seq($._simple_expression, "lexmatch?", $.lexmatch_pattern)
       ),
 
     case_clause: ($) =>
@@ -1083,29 +1091,33 @@ module.exports = grammar({
 
     lexmatch_pattern: ($) =>
       choice(
-        $.lexmatch_sequence_pattern,
         $.lexmatch_or_pattern,
         $.lexmatch_as_pattern,
         $.lexmatch_range_pattern,
+        $.lexmatch_sequence_pattern,
         $.lexmatch_simple_pattern
       ),
 
     lexmatch_sequence_pattern: ($) =>
       prec.right(
-        seq($.lexmatch_pattern_atom, repeat1($.lexmatch_pattern_atom))
+        1,
+        seq($.lexmatch_simple_pattern, repeat1($.lexmatch_simple_pattern))
       ),
 
     lexmatch_or_pattern: ($) =>
-      prec.right(seq($.lexmatch_pattern, "|", $.lexmatch_pattern)),
+      prec.right(0, seq($.lexmatch_pattern, "|", $.lexmatch_pattern)),
 
     lexmatch_as_pattern: ($) =>
-      seq($.lexmatch_pattern, "as", $._lowercase_identifier),
+      prec.right(0, seq($.lexmatch_pattern, "as", $._lowercase_identifier)),
 
     lexmatch_range_pattern: ($) =>
-      seq(
-        $.lexmatch_simple_pattern,
-        choice("..<", "..="),
-        $.lexmatch_simple_pattern
+      prec.left(
+        2,
+        seq(
+          $.lexmatch_simple_pattern,
+          choice("..<", "..="),
+          $.lexmatch_simple_pattern
+        )
       ),
 
     lexmatch_simple_pattern: ($) =>
@@ -1114,29 +1126,14 @@ module.exports = grammar({
         $.atomic_pattern,
         $._lowercase_identifier,
         $.constructor_pattern,
-        $.tuple_pattern,
+        $.lexmatch_tuple_pattern,
         $.constraint_pattern,
         $.array_pattern,
-        $.struct_pattern,
-        $.map_pattern,
-        $.empty_struct_or_map_pattern,
         $.any_pattern
       ),
 
-    lexmatch_pattern_atom: ($) =>
-      choice(
-        $.lexmatch_parenthesized_pattern,
-        $.atomic_pattern,
-        $._lowercase_identifier,
-        $.constructor_pattern,
-        $.tuple_pattern,
-        $.constraint_pattern,
-        $.array_pattern,
-        $.struct_pattern,
-        $.map_pattern,
-        $.empty_struct_or_map_pattern,
-        $.any_pattern
-      ),
+    lexmatch_tuple_pattern: ($) =>
+      seq("(", $.lexmatch_pattern, ",", list1(",", $.lexmatch_pattern), ")"),
 
     lexmatch_parenthesized_pattern: ($) =>
       seq("(", $.lexmatch_pattern, ")"),
