@@ -8825,10 +8825,6 @@
             },
             {
               "type": "SYMBOL",
-              "name": "option_type"
-            },
-            {
-              "type": "SYMBOL",
               "name": "apply_type"
             },
             {
@@ -8842,6 +8838,10 @@
             {
               "type": "SYMBOL",
               "name": "parenthesized_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "option_type"
             },
             {
               "type": "STRING",
@@ -8886,17 +8886,21 @@
       ]
     },
     "option_type": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_simple_type"
-        },
-        {
-          "type": "STRING",
-          "value": "?"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_type"
+          },
+          {
+            "type": "STRING",
+            "value": "?"
+          }
+        ]
+      }
     },
     "trait_object_type": {
       "type": "SEQ",
