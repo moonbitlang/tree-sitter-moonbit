@@ -261,7 +261,7 @@ module.exports = grammar({
       ),
 
     function_definition: ($) => {
-      const full_signature = seq(
+      const signature = seq(
         optional($.attributes),
         optional($.visibility),
         optional($.external_linkage),
@@ -270,27 +270,18 @@ module.exports = grammar({
         optional($.type_parameters),
         $.function_identifier,
         optional("!"),
-        optional(alias($._signature_parameters, $.parameters)),
-        optional(choice(seq("->", $.return_type), $.error_annotation))
-      );
-
-      // Signature-only form (for .mbti files) requires return type or error annotation
-      const signature_only = seq(
-        optional($.attributes),
-        optional($.visibility),
-        optional($.external_linkage),
-        optional("async"),
-        "fn",
-        optional($.type_parameters),
-        $.function_identifier,
-        optional("!"),
-        optional(alias($._signature_parameters, $.parameters)),
-        choice(seq("->", $.return_type), $.error_annotation)
+        optional(alias($._signature_parameters, $.parameters))
       );
 
       return choice(
-        seq(full_signature, choice($.block_expression, seq("=", $.external_source))),
-        signature_only
+        // With body (normal .mbt files)
+        seq(
+          signature,
+          optional(choice(seq("->", $.return_type), $.error_annotation)),
+          choice($.block_expression, seq("=", $.external_source))
+        ),
+        // Without body (.mbti files) - requires return type to disambiguate from ASI
+        seq(signature, choice(seq("->", $.return_type), $.error_annotation))
       );
     },
 
