@@ -3028,6 +3028,10 @@
           "name": "binary_expression"
         },
         {
+          "type": "SYMBOL",
+          "name": "lexmatch_test_expression"
+        },
+        {
           "type": "STRING",
           "value": "_"
         }
@@ -5399,6 +5403,27 @@
           "name": "_simple_expression"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "using"
+                },
+                {
+                  "type": "STRING",
+                  "value": "longest"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "STRING",
           "value": "{"
         },
@@ -5452,6 +5477,27 @@
           "value": "}"
         }
       ]
+    },
+    "lexmatch_test_expression": {
+      "type": "PREC_RIGHT",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_simple_expression"
+          },
+          {
+            "type": "STRING",
+            "value": "lexmatch?"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "lexmatch_pattern"
+          }
+        ]
+      }
     },
     "case_clause": {
       "type": "SEQ",
@@ -7589,10 +7635,6 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "lexmatch_sequence_pattern"
-        },
-        {
-          "type": "SYMBOL",
           "name": "lexmatch_or_pattern"
         },
         {
@@ -7605,25 +7647,29 @@
         },
         {
           "type": "SYMBOL",
+          "name": "lexmatch_sequence_pattern"
+        },
+        {
+          "type": "SYMBOL",
           "name": "lexmatch_simple_pattern"
         }
       ]
     },
     "lexmatch_sequence_pattern": {
       "type": "PREC_RIGHT",
-      "value": 0,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
           {
             "type": "SYMBOL",
-            "name": "lexmatch_pattern_atom"
+            "name": "lexmatch_simple_pattern"
           },
           {
             "type": "REPEAT1",
             "content": {
               "type": "SYMBOL",
-              "name": "lexmatch_pattern_atom"
+              "name": "lexmatch_simple_pattern"
             }
           }
         ]
@@ -7651,47 +7697,55 @@
       }
     },
     "lexmatch_as_pattern": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "lexmatch_pattern"
-        },
-        {
-          "type": "STRING",
-          "value": "as"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_lowercase_identifier"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "lexmatch_pattern"
+          },
+          {
+            "type": "STRING",
+            "value": "as"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_lowercase_identifier"
+          }
+        ]
+      }
     },
     "lexmatch_range_pattern": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "lexmatch_simple_pattern"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "..<"
-            },
-            {
-              "type": "STRING",
-              "value": "..="
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "lexmatch_simple_pattern"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "lexmatch_simple_pattern"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "..<"
+              },
+              {
+                "type": "STRING",
+                "value": "..="
+              }
+            ]
+          },
+          {
+            "type": "SYMBOL",
+            "name": "lexmatch_simple_pattern"
+          }
+        ]
+      }
     },
     "lexmatch_simple_pattern": {
       "type": "CHOICE",
@@ -7714,7 +7768,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "tuple_pattern"
+          "name": "lexmatch_tuple_pattern"
         },
         {
           "type": "SYMBOL",
@@ -7723,18 +7777,6 @@
         {
           "type": "SYMBOL",
           "name": "array_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "struct_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "map_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "empty_struct_or_map_pattern"
         },
         {
           "type": "SYMBOL",
@@ -7742,52 +7784,61 @@
         }
       ]
     },
-    "lexmatch_pattern_atom": {
-      "type": "CHOICE",
+    "lexmatch_tuple_pattern": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "lexmatch_parenthesized_pattern"
+          "type": "STRING",
+          "value": "("
         },
         {
           "type": "SYMBOL",
-          "name": "atomic_pattern"
+          "name": "lexmatch_pattern"
         },
         {
-          "type": "SYMBOL",
-          "name": "_lowercase_identifier"
+          "type": "STRING",
+          "value": ","
         },
         {
-          "type": "SYMBOL",
-          "name": "constructor_pattern"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "lexmatch_pattern"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "lexmatch_pattern"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "tuple_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "constraint_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "array_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "struct_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "map_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "empty_struct_or_map_pattern"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "any_pattern"
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
