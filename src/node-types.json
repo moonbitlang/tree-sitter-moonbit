@@ -236,6 +236,10 @@
         "named": true
       },
       {
+        "type": "defer_expression",
+        "named": true
+      },
+      {
         "type": "enum_definition",
         "named": true
       },
@@ -1606,6 +1610,21 @@
         },
         {
           "type": "label",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "defer_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         }
       ]
@@ -6067,6 +6086,10 @@
   },
   {
     "type": "continue",
+    "named": false
+  },
+  {
+    "type": "defer",
     "named": false
   },
   {

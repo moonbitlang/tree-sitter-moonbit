@@ -6063,11 +6063,28 @@
         },
         {
           "type": "SYMBOL",
+          "name": "defer_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_expression"
         },
         {
           "type": "SYMBOL",
           "name": "unfinished"
+        }
+      ]
+    },
+    "defer_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "defer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
         }
       ]
     },
