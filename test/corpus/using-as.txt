@@ -1,0 +1,17 @@
+================================================================================
+using declaration with as
+================================================================================
+pub using @builtin {type ArrayView as View}
+--------------------------------------------------------------------------------
+
+(structure
+  (using_declaration
+    (visibility)
+    (using_targets
+      (package_identifier)
+      (using_target
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (identifier
+          (uppercase_identifier))))))

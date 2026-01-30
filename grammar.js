@@ -364,8 +364,8 @@ module.exports = grammar({
 
     using_target: ($) =>
       choice(
-        seq("type", $._type),
-        seq("trait", $.qualified_type_identifier),
+        seq("type", $._type, optional(seq("as", $.identifier))),
+        seq("trait", $.qualified_type_identifier, optional(seq("as", $.identifier))),
         $._lowercase_identifier
       ),
 
