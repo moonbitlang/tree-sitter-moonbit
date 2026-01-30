@@ -198,3 +198,31 @@ pub async fn fetch(String) -> String
       (qualified_type_identifier
         (identifier
           (uppercase_identifier))))))
+
+================================================================================
+option type chaining
+================================================================================
+pub fn[T] flatten(T??) -> T?
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (visibility)
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (option_type
+          (option_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (return_type
+      (option_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))

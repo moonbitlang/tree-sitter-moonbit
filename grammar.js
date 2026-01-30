@@ -1235,11 +1235,11 @@ module.exports = grammar({
     _simple_type: ($) =>
       choice(
         $.qualified_type_identifier,
-        $.option_type,
         $.apply_type,
         $.tuple_type,
         $.trait_object_type,
         $.parenthesized_type,
+        $.option_type,
         "_"
       ),
 
@@ -1247,7 +1247,7 @@ module.exports = grammar({
 
     apply_type: ($) => seq($.qualified_type_identifier, $.type_arguments),
 
-    option_type: ($) => seq($._simple_type, "?"),
+    option_type: ($) => prec.left(1, seq($._simple_type, "?")),
 
     trait_object_type: ($) => seq("&", $.qualified_type_identifier),
 
