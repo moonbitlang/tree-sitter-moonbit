@@ -167,3 +167,33 @@ fn main {
         (anonymous_lambda_expression
           (parameters)
           (block_expression))))))
+
+================================================================================
+async test
+================================================================================
+async test "main" {
+  let result = try? main_prog()
+  inspect(result)
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (test_definition
+    (string_literal
+      (string_fragment
+        (unescaped_string_fragment)))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (try_expression
+          (apply_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (arguments))))
+      (apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (arguments
+          (argument
+            (qualified_identifier
+              (lowercase_identifier))))))))
