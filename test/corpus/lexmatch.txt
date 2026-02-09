@@ -129,3 +129,31 @@ fn main {
                     (string_fragment
                       (unescaped_string_fragment)))))))
           (unit_expression))))))
+
+================================================================================
+lexmatch with longest
+================================================================================
+fn main {
+  lexmatch x with longest {
+    "a" => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (lexmatch_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (lexmatch_case_clause
+          (lexmatch_pattern
+            (lexmatch_simple_pattern
+              (atomic_pattern
+                (literal
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment)))))))
+          (unit_expression))))))
