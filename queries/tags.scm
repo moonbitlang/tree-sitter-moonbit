@@ -10,6 +10,14 @@
  (#strip! @doc "^//[/]?\\s*")
  (#set-adjacent! @doc @definition.function))
 
+((comment)* @doc
+ .
+ (struct_constructor_declaration
+  (lowercase_identifier) @name
+ ) @definition.function
+ (#strip! @doc "^//[/]?\\s*")
+ (#set-adjacent! @doc @definition.function))
+
 
 ((comment)* @doc
  .
