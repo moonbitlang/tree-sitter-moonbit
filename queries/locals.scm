@@ -3,6 +3,7 @@
 ; Functions
 
 (function_definition (function_identifier) @local.definition)
+(struct_constructor_declaration (lowercase_identifier) @local.definition)
 
 ; Variables
 

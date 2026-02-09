@@ -173,10 +173,13 @@ module.exports = grammar({
         $.identifier,
         optional($.type_parameters),
         "{",
-        list($._semicolon, $.struct_field_declaration),
+        list($._semicolon, $._struct_body_item),
         "}",
         optional($.derive_directive)
       ),
+
+    _struct_body_item: ($) =>
+      choice(prec(1, $.struct_constructor_declaration), $.struct_field_declaration),
 
     tuple_struct_definition: ($) =>
       seq(
@@ -198,6 +201,17 @@ module.exports = grammar({
         $._lowercase_identifier,
         ":",
         $._type
+      ),
+
+    struct_constructor_declaration: ($) =>
+      seq(
+        optional($.attributes),
+        optional("async"),
+        "fn",
+        optional($.type_parameters),
+        $._lowercase_identifier,
+        alias($._signature_parameters, $.parameters),
+        optional(choice(seq("->", $.return_type), $.error_annotation))
       ),
 
     enum_definition: ($) =>

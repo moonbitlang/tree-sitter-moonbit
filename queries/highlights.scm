@@ -156,6 +156,7 @@
 ; Function definitions
 
 (function_definition (function_identifier (lowercase_identifier) @function))
+(struct_constructor_declaration (lowercase_identifier) @function)
 (function_alias_targets (lowercase_identifier) @function)
 (function_alias_targets (dot_lowercase_identifier) @function)
 (function_alias_targets (dot_lowercase_identifier) @function)
