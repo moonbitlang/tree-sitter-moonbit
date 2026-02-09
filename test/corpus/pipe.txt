@@ -159,6 +159,48 @@ fn init {
               (integer_literal))))))))
 
 ================================================================================
+pipe with arrow function
+================================================================================
+fn init {
+  let v = 1
+    |> x => {
+      x + 1
+    }
+    |> Int::to_string()
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (binary_expression
+          (binary_expression
+            (atomic_expression
+              (literal
+                (integer_literal)))
+            (pipe_arrow_function_expression
+              (lowercase_identifier)
+              (block_expression
+                (binary_expression
+                  (qualified_identifier
+                    (lowercase_identifier))
+                  (atomic_expression
+                    (literal
+                      (integer_literal)))))))
+          (apply_expression
+            (method_expression
+              (type_name
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier))))
+              (lowercase_identifier))
+            (arguments)))))))
+
+================================================================================
 pipe (multi line with single line comment, not left aligned)
 :language(moonbit)
 ================================================================================

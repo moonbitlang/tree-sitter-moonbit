@@ -477,6 +477,16 @@ module.exports = grammar({
         seq("_", "=>", $._arrow_function_body)
       ),
 
+    pipe_arrow_function_expression: ($) =>
+      prec(
+        1,
+        choice(
+          seq($.parameters, "=>", $.block_expression),
+          seq($._lowercase_identifier, "=>", $.block_expression),
+          seq("_", "=>", $.block_expression)
+        )
+      ),
+
     _expression: ($) => choice($._complex_expression, $._simple_expression),
 
     _simple_expression: ($) =>
@@ -630,7 +640,6 @@ module.exports = grammar({
         ["bitwise_or", "|"],
         ["and", "&&"],
         ["or", "||"],
-        ["pipe", "|>"],
       ];
 
       return choice(
@@ -638,6 +647,14 @@ module.exports = grammar({
           prec.left(
             precedence,
             seq($._simple_expression, operator, $._simple_expression)
+          )
+        ),
+        prec.left(
+          "pipe",
+          seq(
+            $._simple_expression,
+            "|>",
+            choice($._simple_expression, $.pipe_arrow_function_expression)
           )
         )
       );
@@ -839,7 +856,7 @@ module.exports = grammar({
       seq(
         "lexmatch",
         $._simple_expression,
-        optional(seq("using", "longest")),
+        optional(seq(choice("using", "with"), "longest")),
         "{",
         list($._semicolon, $.lexmatch_case_clause),
         "}"
