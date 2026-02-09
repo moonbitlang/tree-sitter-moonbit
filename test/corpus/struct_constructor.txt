@@ -187,6 +187,43 @@ pub struct Command {
             (uppercase_identifier)))))))
 
 ================================================================================
+struct constructor declaration with optional labels
+================================================================================
+pub struct ValueRange {
+  fn new(lower? : Int, upper? : Int) -> ValueRange
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (struct_definition
+    (visibility)
+    (identifier
+      (uppercase_identifier))
+    (struct_constructor_declaration
+      (lowercase_identifier)
+      (parameters
+        (parameter
+          (optional_parameter
+            (optional_label
+              (lowercase_identifier))
+            (type_annotation
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (parameter
+          (optional_parameter
+            (optional_label
+              (lowercase_identifier))
+            (type_annotation
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))
+      (return_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))))
+
+================================================================================
 struct fields with constructor
 ================================================================================
 struct Point {

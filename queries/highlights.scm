@@ -71,6 +71,7 @@
 
 (enum_definition (identifier) @type.definition)
 (struct_definition (identifier) @type.definition)
+(tuple_struct_definition (identifier) @type.definition)
 (type_definition (identifier) @type.definition)
 (trait_definition (identifier) @type.definition)
 (type_alias_targets (identifier) @type.definition)
