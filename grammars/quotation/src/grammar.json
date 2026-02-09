@@ -897,7 +897,7 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "struct_field_declaration"
+                  "name": "_struct_body_item"
                 },
                 {
                   "type": "REPEAT",
@@ -910,7 +910,7 @@
                       },
                       {
                         "type": "SYMBOL",
-                        "name": "struct_field_declaration"
+                        "name": "_struct_body_item"
                       }
                     ]
                   }
@@ -949,6 +949,23 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "_struct_body_item": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "struct_constructor_declaration"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "struct_field_declaration"
         }
       ]
     },
@@ -1104,6 +1121,94 @@
         {
           "type": "SYMBOL",
           "name": "_type"
+        }
+      ]
+    },
+    "struct_constructor_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "attributes"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "async"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "fn"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "type_parameters"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_lowercase_identifier"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_signature_parameters"
+          },
+          "named": true,
+          "value": "parameters"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "->"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "return_type"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "error_annotation"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

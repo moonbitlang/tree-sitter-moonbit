@@ -5166,6 +5166,45 @@
     }
   },
   {
+    "type": "struct_constructor_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "error_annotation",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "parameters",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
+          "type": "return_type",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "struct_definition",
     "named": true,
     "fields": {},
@@ -5183,6 +5222,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "struct_constructor_declaration",
           "named": true
         },
         {
