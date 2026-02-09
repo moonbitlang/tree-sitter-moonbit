@@ -1297,6 +1297,10 @@
           "named": true
         },
         {
+          "type": "pipe_arrow_function_expression",
+          "named": true
+        },
+        {
           "type": "qualified_identifier",
           "named": true
         },
@@ -4450,6 +4454,29 @@
       "types": [
         {
           "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pipe_arrow_function_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "parameters",
           "named": true
         }
       ]
