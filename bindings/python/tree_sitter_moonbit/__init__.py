@@ -3,6 +3,8 @@
 from importlib.resources import files as _files
 
 from ._binding import language
+from ._binding import language_interface
+from ._binding import language_package
 
 
 def _get_query(name, file):
@@ -28,6 +30,8 @@ def __getattr__(name):
 
 __all__ = [
     "language",
+    "language_interface",
+    "language_package",
     # "HIGHLIGHTS_QUERY",
     # "INJECTIONS_QUERY",
     # "LOCALS_QUERY",

@@ -3,6 +3,8 @@
 typedef struct TSLanguage TSLanguage;
 
 extern "C" TSLanguage *tree_sitter_moonbit();
+extern "C" TSLanguage *tree_sitter_moonbit_interface();
+extern "C" TSLanguage *tree_sitter_moonbit_package();
 
 // "tree-sitter", "language" hashed with BLAKE2
 const napi_type_tag LANGUAGE_TYPE_TAG = {
@@ -10,9 +12,18 @@ const napi_type_tag LANGUAGE_TYPE_TAG = {
 };
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    auto language = Napi::External<TSLanguage>::New(env, tree_sitter_moonbit());
-    language.TypeTag(&LANGUAGE_TYPE_TAG);
-    exports["language"] = language;
+    auto moonbit = Napi::External<TSLanguage>::New(env, tree_sitter_moonbit());
+    moonbit.TypeTag(&LANGUAGE_TYPE_TAG);
+    exports["language"] = moonbit;
+
+    auto moonbit_interface = Napi::External<TSLanguage>::New(env, tree_sitter_moonbit_interface());
+    moonbit_interface.TypeTag(&LANGUAGE_TYPE_TAG);
+    exports["moonbit_interface"] = moonbit_interface;
+
+    auto moonbit_package = Napi::External<TSLanguage>::New(env, tree_sitter_moonbit_package());
+    moonbit_package.TypeTag(&LANGUAGE_TYPE_TAG);
+    exports["moonbit_package"] = moonbit_package;
+
     return exports;
 }
 

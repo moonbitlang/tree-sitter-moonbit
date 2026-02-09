@@ -3,9 +3,19 @@
 typedef struct TSLanguage TSLanguage;
 
 TSLanguage *tree_sitter_moonbit(void);
+TSLanguage *tree_sitter_moonbit_interface(void);
+TSLanguage *tree_sitter_moonbit_package(void);
 
 static PyObject* _binding_language(PyObject *Py_UNUSED(self), PyObject *Py_UNUSED(args)) {
     return PyCapsule_New(tree_sitter_moonbit(), "tree_sitter.Language", NULL);
+}
+
+static PyObject* _binding_language_interface(PyObject *Py_UNUSED(self), PyObject *Py_UNUSED(args)) {
+    return PyCapsule_New(tree_sitter_moonbit_interface(), "tree_sitter.Language", NULL);
+}
+
+static PyObject* _binding_language_package(PyObject *Py_UNUSED(self), PyObject *Py_UNUSED(args)) {
+    return PyCapsule_New(tree_sitter_moonbit_package(), "tree_sitter.Language", NULL);
 }
 
 static struct PyModuleDef_Slot slots[] = {
@@ -18,6 +28,10 @@ static struct PyModuleDef_Slot slots[] = {
 static PyMethodDef methods[] = {
     {"language", _binding_language, METH_NOARGS,
      "Get the tree-sitter language for this grammar."},
+    {"language_interface", _binding_language_interface, METH_NOARGS,
+     "Get the tree-sitter language for the MoonBit interface grammar."},
+    {"language_package", _binding_language_package, METH_NOARGS,
+     "Get the tree-sitter language for the MoonBit package grammar."},
     {NULL, NULL, 0, NULL}
 };
 

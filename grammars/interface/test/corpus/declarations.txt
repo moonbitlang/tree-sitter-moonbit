@@ -1,0 +1,338 @@
+================================================================================
+Package declaration
+================================================================================
+
+package "moonbitlang/core/builtin"
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (package_declaration
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment)))))
+  (semicolon))
+
+================================================================================
+Import declaration
+================================================================================
+
+import (
+  "moonbitlang/core/iter"
+  "moonbitlang/core/array"
+)
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (import_declaration
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment)))
+      (semicolon)
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment)))
+      (semicolon)))
+  (semicolon))
+
+================================================================================
+Function declaration
+================================================================================
+
+fn hello(String) -> Unit
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (function_declaration
+      (lowercase_identifier)
+      (function_parameters
+        (function_parameter
+          (type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (return_type
+        (type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (semicolon))
+
+================================================================================
+Value declaration
+================================================================================
+
+let pi : Double
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (value_declaration
+      (lowercase_identifier)
+      (type_annotation
+        (type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (semicolon))
+
+================================================================================
+Const declaration
+================================================================================
+
+const MAX_VALUE : Int = 42
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (const_declaration
+      (uppercase_identifier)
+      (type_annotation
+        (type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))
+      (literal
+        (integer_literal))))
+  (semicolon))
+
+================================================================================
+Type declaration
+================================================================================
+
+type MyType
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (type_declaration
+      (identifier
+        (uppercase_identifier))))
+  (semicolon))
+
+================================================================================
+Struct declaration
+================================================================================
+
+struct Point {
+  x : Double
+  y : Double
+}
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (struct_declaration
+      (identifier
+        (uppercase_identifier))
+      (struct_field_declaration
+        (lowercase_identifier)
+        (type_annotation
+          (type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (semicolon)
+      (struct_field_declaration
+        (lowercase_identifier)
+        (type_annotation
+          (type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (semicolon)))
+  (semicolon))
+
+================================================================================
+Enum declaration
+================================================================================
+
+enum Color {
+  Red
+  Green
+  Blue
+}
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (enum_declaration
+      (identifier
+        (uppercase_identifier))
+      (constructor
+        (uppercase_identifier))
+      (semicolon)
+      (constructor
+        (uppercase_identifier))
+      (semicolon)
+      (constructor
+        (uppercase_identifier))
+      (semicolon)))
+  (semicolon))
+
+================================================================================
+Trait declaration
+================================================================================
+
+trait Show {
+  to_string(Self) -> String
+}
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (trait_declaration
+      (identifier
+        (uppercase_identifier))
+      (trait_method_declaration
+        (lowercase_identifier)
+        (trait_method_parameter
+          (trait_method_positional_parameter
+            (type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (return_type
+          (type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (semicolon)))
+  (semicolon))
+
+================================================================================
+Impl for type declaration
+================================================================================
+
+impl Show for Int
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (impl_for_type_declaration
+      (type_name
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))))
+  (semicolon))
+
+================================================================================
+Method declarations
+================================================================================
+
+impl Array {
+  length(Self) -> Int
+}
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (method_declarations
+      (type_name
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (method_declaration
+        (lowercase_identifier)
+        (function_parameters
+          (function_parameter
+            (type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (return_type
+          (type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (semicolon)))
+  (semicolon))
+
+================================================================================
+Error type declaration
+================================================================================
+
+type ! MyError String
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (error_type_declaration
+      (identifier
+        (uppercase_identifier))
+      (type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))))
+  (semicolon))
+
+================================================================================
+Type alias declaration
+================================================================================
+
+typealias MyInt = Int
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (type_alias_declaration
+      (type_alias_targets
+        (identifier
+          (uppercase_identifier))
+        (type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (semicolon))
+
+================================================================================
+Visibility modifiers
+================================================================================
+
+pub fn public_fn() -> Unit
+priv fn private_fn() -> Unit
+
+--------------------------------------------------------------------------------
+
+(signature
+  (signature_item
+    (function_declaration
+      (visibility)
+      (lowercase_identifier)
+      (function_parameters)
+      (return_type
+        (type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (semicolon)
+  (signature_item
+    (function_declaration
+      (visibility)
+      (lowercase_identifier)
+      (function_parameters)
+      (return_type
+        (type
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier)))))))
+  (semicolon))

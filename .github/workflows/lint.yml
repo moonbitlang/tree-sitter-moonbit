@@ -5,10 +5,12 @@ on:
     branches: [ "main" ]
     paths:
       - grammar.js
+      - grammars/**/grammar.js
   pull_request:
     branches: [ "main" ]
     paths:
       - grammar.js
+      - grammars/**/grammar.js
 
 jobs:
   lint:

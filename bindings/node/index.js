@@ -9,3 +9,11 @@ module.exports =
 try {
   module.exports.nodeTypeInfo = require("../../src/node-types.json");
 } catch (_) {}
+
+try {
+  module.exports.moonbit_interface.nodeTypeInfo = require("../../grammars/interface/src/node-types.json");
+} catch (_) {}
+
+try {
+  module.exports.moonbit_package.nodeTypeInfo = require("../../grammars/package/src/node-types.json");
+} catch (_) {}

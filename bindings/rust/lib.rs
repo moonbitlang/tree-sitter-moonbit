@@ -22,10 +22,20 @@ use tree_sitter_language::LanguageFn;
 
 extern "C" {
     fn tree_sitter_moonbit() -> *const ();
+    fn tree_sitter_moonbit_interface() -> *const ();
+    fn tree_sitter_moonbit_package() -> *const ();
 }
 
 /// The tree-sitter [`LanguageFn`] for this grammar.
 pub const LANGUAGE: LanguageFn = unsafe { LanguageFn::from_raw(tree_sitter_moonbit) };
+
+/// The tree-sitter [`LanguageFn`] for the MoonBit interface grammar.
+pub const LANGUAGE_INTERFACE: LanguageFn =
+    unsafe { LanguageFn::from_raw(tree_sitter_moonbit_interface) };
+
+/// The tree-sitter [`LanguageFn`] for the MoonBit package grammar.
+pub const LANGUAGE_PACKAGE: LanguageFn =
+    unsafe { LanguageFn::from_raw(tree_sitter_moonbit_package) };
 
 /// The content of the [`node-types.json`] file for this grammar.
 ///
@@ -47,5 +57,21 @@ mod tests {
         parser
             .set_language(&super::LANGUAGE.into())
             .expect("Error loading Moonbit parser");
+    }
+
+    #[test]
+    fn test_can_load_interface_grammar() {
+        let mut parser = tree_sitter::Parser::new();
+        parser
+            .set_language(&super::LANGUAGE_INTERFACE.into())
+            .expect("Error loading Moonbit interface parser");
+    }
+
+    #[test]
+    fn test_can_load_package_grammar() {
+        let mut parser = tree_sitter::Parser::new();
+        parser
+            .set_language(&super::LANGUAGE_PACKAGE.into())
+            .expect("Error loading Moonbit package parser");
     }
 }

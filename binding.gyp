@@ -7,10 +7,14 @@
       ],
       "include_dirs": [
         "src",
+        "grammars/interface/src",
+        "grammars/package/src",
       ],
       "sources": [
         "bindings/node/binding.cc",
         "src/parser.c",
+        "grammars/interface/src/parser.c",
+        "grammars/package/src/parser.c",
       ],
       "variables": {
         "has_scanner": "<!(node -p \"fs.existsSync('src/scanner.c')\")"

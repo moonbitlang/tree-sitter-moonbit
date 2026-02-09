@@ -1,0 +1,182 @@
+================================================================================
+Import statement
+================================================================================
+
+import {
+  "moonbitlang/core/builtin",
+  "moonbitlang/core/iter"
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (import_statement
+      (import_item
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))
+      (import_item
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))))
+  (semicolon))
+
+================================================================================
+Import with alias
+================================================================================
+
+import {
+  "moonbitlang/core/iter" @iter
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (import_statement
+      (import_item
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment)))
+        (package_alias))))
+  (semicolon))
+
+================================================================================
+Import for test
+================================================================================
+
+import {
+  "moonbitlang/core/test"
+} for "test"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (import_statement
+      (import_item
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))
+      (import_for_clause
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))))
+  (semicolon))
+
+================================================================================
+Assign statement
+================================================================================
+
+is_main = true
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (assign_statement
+      (identifier)
+      (expression
+        (boolean_literal))))
+  (semicolon))
+
+================================================================================
+Apply statement
+================================================================================
+
+warn(
+  msg : "deprecated"
+)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (apply_statement
+      (identifier)
+      (labeled_argument
+        (argument_label
+          (identifier))
+        (expression
+          (string_literal
+            (string_fragment
+              (unescaped_string_fragment)))))))
+  (semicolon))
+
+================================================================================
+Array expression
+================================================================================
+
+targets = ["wasm", "wasm-gc", "js"]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (assign_statement
+      (identifier)
+      (expression
+        (array_expression
+          (expression
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment))))
+          (expression
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment))))
+          (expression
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment))))))))
+  (semicolon))
+
+================================================================================
+Map expression
+================================================================================
+
+link = {
+  "wasm": { "exports": ["main"] },
+  "js": { "format": "esm" }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (statement
+    (assign_statement
+      (identifier)
+      (expression
+        (map_expression
+          (map_entry
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment)))
+            (expression
+              (map_expression
+                (map_entry
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment)))
+                  (expression
+                    (array_expression
+                      (expression
+                        (string_literal
+                          (string_fragment
+                            (unescaped_string_fragment))))))))))
+          (map_entry
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment)))
+            (expression
+              (map_expression
+                (map_entry
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment)))
+                  (expression
+                    (string_literal
+                      (string_fragment
+                        (unescaped_string_fragment))))))))))))
+  (semicolon))

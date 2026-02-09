@@ -8,6 +8,8 @@ extern "C" {
 #endif
 
 const TSLanguage *tree_sitter_moonbit(void);
+const TSLanguage *tree_sitter_moonbit_interface(void);
+const TSLanguage *tree_sitter_moonbit_package(void);
 
 #ifdef __cplusplus
 }

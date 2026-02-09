@@ -28,6 +28,10 @@
     "bindings/node/*",
     "queries/*",
     "src/**",
+    "grammars/interface/grammar.js",
+    "grammars/interface/src/**",
+    "grammars/package/grammar.js",
+    "grammars/package/src/**",
     "*.wasm"
   ],
   "dependencies": {

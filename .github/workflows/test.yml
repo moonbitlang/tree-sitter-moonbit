@@ -6,6 +6,8 @@ on:
     paths:
       - grammar.js
       - src/**
+      - grammars/**/grammar.js
+      - grammars/**/src/**
       - bindings/**
       - binding.gyp
       - .github/workflows/test.yml
@@ -13,6 +15,8 @@ on:
     paths:
       - grammar.js
       - src/**
+      - grammars/**/grammar.js
+      - grammars/**/src/**
       - bindings/**
       - binding.gyp
       - .github/workflows/test.yml
@@ -154,6 +158,12 @@ jobs:
         with:
           files: core/**/*.mbti
 
+      - name: Test core moon.pkg files
+        id: core-pkg
+        uses: tree-sitter/parse-action@v4
+        with:
+          files: core/**/moon.pkg
+
       - name: Upload .mbt failures
         uses: actions/upload-artifact@v4
         if: ${{ always() && steps.core-mbt.outputs.failures != '' }}
@@ -167,6 +177,13 @@ jobs:
         with:
           name: failures-mbti
           path: ${{steps.core-mbti.outputs.failures}}
+
+      - name: Upload moon.pkg failures
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.core-pkg.outputs.failures != '' }}
+        with:
+          name: failures-pkg
+          path: ${{steps.core-pkg.outputs.failures}}
 
   test-async:
     runs-on: ubuntu-latest
@@ -197,6 +214,12 @@ jobs:
         with:
           files: async/**/*.mbti
 
+      - name: Test async moon.pkg files
+        id: async-pkg
+        uses: tree-sitter/parse-action@v4
+        with:
+          files: async/**/moon.pkg
+
       - name: Upload async .mbt failures
         uses: actions/upload-artifact@v4
         if: ${{ always() && steps.async-mbt.outputs.failures != '' }}
@@ -210,3 +233,10 @@ jobs:
         with:
           name: failures-async-mbti
           path: ${{steps.async-mbti.outputs.failures}}
+
+      - name: Upload async moon.pkg failures
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && steps.async-pkg.outputs.failures != '' }}
+        with:
+          name: failures-async-pkg
+          path: ${{steps.async-pkg.outputs.failures}}
