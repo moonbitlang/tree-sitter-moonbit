@@ -375,6 +375,9 @@ static enum AsiResult can_insert_semi(TSLexer *lexer,
   case 'w':
     advance(lexer);
     return asi_symbol(lexer, "ith");
+  case 'n':
+    advance(lexer);
+    return asi_symbol(lexer, "obreak");
   default:
     return ASI_INSERT;
   }

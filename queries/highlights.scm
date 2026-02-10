@@ -213,7 +213,7 @@
 
 [
   "guard" "let" "letrec" "and" "const"
-  "with" "as" "is" "lexmatch?" "using" "longest"
+  "with" "as" "is" "lexmatch?" "using" "longest" "nobreak"
 ] @keyword
 
 "derive" @keyword

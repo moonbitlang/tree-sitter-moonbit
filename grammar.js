@@ -1005,6 +1005,8 @@ module.exports = grammar({
     else_clause: ($) =>
       seq("else", choice($.block_expression, $.if_expression)),
 
+    nobreak_clause: ($) => seq("nobreak", $.block_expression),
+
     _statement_expression: ($) =>
       choice(
         $.struct_definition,
@@ -1117,7 +1119,7 @@ module.exports = grammar({
         "while",
         $._simple_expression,
         $.block_expression,
-        optional($.else_clause)
+        optional(choice($.else_clause, $.nobreak_clause))
       ),
 
     loop_expression: ($) =>
@@ -1143,14 +1145,14 @@ module.exports = grammar({
           $._semicolon,
           strictList(",", $.for_binder),
           $.block_expression,
-          optional($.else_clause)
+          optional(choice($.else_clause, $.nobreak_clause))
         ),
         seq(
           optional($.loop_label),
           "for",
           strictList(",", $.for_binder),
           $.block_expression,
-          optional($.else_clause)
+          optional(choice($.else_clause, $.nobreak_clause))
         )
       ),
 
@@ -1162,7 +1164,7 @@ module.exports = grammar({
         "in",
         $._expression,
         $.block_expression,
-        optional($.else_clause)
+        optional(choice($.else_clause, $.nobreak_clause))
       ),
 
     range_expression: ($) =>
