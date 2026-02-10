@@ -2272,6 +2272,10 @@
         {
           "type": "loop_label",
           "named": true
+        },
+        {
+          "type": "nobreak_clause",
+          "named": true
         }
       ]
     }
@@ -2298,6 +2302,10 @@
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "nobreak_clause",
           "named": true
         },
         {
@@ -3022,6 +3030,14 @@
         {
           "type": "import_item",
           "named": true
+        },
+        {
+          "type": "package_import_for_clause",
+          "named": true
+        },
+        {
+          "type": "package_import_kind",
+          "named": true
         }
       ]
     }
@@ -3029,16 +3045,27 @@
   {
     "type": "import_item",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "string_literal",
-          "named": true
-        }
-      ]
+    "fields": {
+      "alias": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "package_identifier",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4374,6 +4401,21 @@
     }
   },
   {
+    "type": "nobreak_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "noraise_clause",
     "named": true,
     "fields": {},
@@ -4527,6 +4569,103 @@
     }
   },
   {
+    "type": "package_apply_statement",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "package_statement_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "package_argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_argument",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "package_statement_identifier",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "package_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "package_array_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "package_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_assignment_statement",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "package_statement_identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "package_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "package_declaration",
     "named": true,
     "fields": {},
@@ -4536,6 +4675,128 @@
       "types": [
         {
           "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "boolean_literal",
+          "named": true
+        },
+        {
+          "type": "integer_literal",
+          "named": true
+        },
+        {
+          "type": "package_array_expression",
+          "named": true
+        },
+        {
+          "type": "package_map_expression",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_import_for_clause",
+    "named": true,
+    "fields": {
+      "kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "package_import_kind",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "package_import_kind",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_map_entry",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "package_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "package_map_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "package_map_entry",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "package_apply_statement",
+          "named": true
+        },
+        {
+          "type": "package_assignment_statement",
           "named": true
         }
       ]
@@ -5369,6 +5630,10 @@
       "types": [
         {
           "type": "_structure_item",
+          "named": true
+        },
+        {
+          "type": "package_statement",
           "named": true
         }
       ]
@@ -6470,6 +6735,10 @@
           "named": true
         },
         {
+          "type": "nobreak_clause",
+          "named": true
+        },
+        {
           "type": "parenthesized_expression",
           "named": true
         },
@@ -6885,6 +7154,10 @@
     "named": false
   },
   {
+    "type": "nobreak",
+    "named": false
+  },
+  {
     "type": "noraise",
     "named": false
   },
@@ -6902,6 +7175,10 @@
   },
   {
     "type": "package_identifier",
+    "named": true
+  },
+  {
+    "type": "package_statement_identifier",
     "named": true
   },
   {
