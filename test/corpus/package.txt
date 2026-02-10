@@ -1,0 +1,249 @@
+================================================================================
+package import with aliases
+================================================================================
+
+import {
+  "moonbitlang/core/json",
+  "moonbitlang/x/path" @xpath,
+  "moonbitlang/async" as @async,
+}
+
+--------------------------------------------------------------------------------
+
+(structure
+  (import_declaration
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment)))
+      (package_identifier))
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment)))
+      (package_identifier))))
+
+================================================================================
+package import for test and wbtest
+================================================================================
+
+import {
+  "moonbitlang/async",
+} for "test"
+
+import {
+  "moonbitlang/async",
+} for "wbtest"
+
+--------------------------------------------------------------------------------
+
+(structure
+  (import_declaration
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))
+    (package_import_for_clause
+      (package_import_kind
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))))
+  (import_declaration
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))
+    (package_import_for_clause
+      (package_import_kind
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment)))))))
+
+================================================================================
+legacy package imports
+================================================================================
+
+import "test" {
+  "moonbitlang/maria/internal/mock",
+}
+
+import "wbtest" {
+  "moonbitlang/async",
+}
+
+--------------------------------------------------------------------------------
+
+(structure
+  (import_declaration
+    (package_import_kind
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment)))))
+  (import_declaration
+    (package_import_kind
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))))
+
+================================================================================
+package assignment expressions
+================================================================================
+
+warnings = "+unused_value-deprecated"
+test-import-all = true
+flags = ["js", "wasm-gc", 2]
+links = {
+  "js": {
+    "exports": ["setup", "compile", "search"],
+  },
+}
+
+--------------------------------------------------------------------------------
+
+(structure
+  (package_statement
+    (package_assignment_statement
+      (package_statement_identifier)
+      (package_expression
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))))
+  (package_statement
+    (package_assignment_statement
+      (package_statement_identifier)
+      (package_expression
+        (boolean_literal))))
+  (package_statement
+    (package_assignment_statement
+      (package_statement_identifier)
+      (package_expression
+        (package_array_expression
+          (package_expression
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment))))
+          (package_expression
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment))))
+          (package_expression
+            (integer_literal))))))
+  (package_statement
+    (package_assignment_statement
+      (package_statement_identifier)
+      (package_expression
+        (package_map_expression
+          (package_map_entry
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment)))
+            (package_expression
+              (package_map_expression
+                (package_map_entry
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment)))
+                  (package_expression
+                    (package_array_expression
+                      (package_expression
+                        (string_literal
+                          (string_fragment
+                            (unescaped_string_fragment))))
+                      (package_expression
+                        (string_literal
+                          (string_fragment
+                            (unescaped_string_fragment))))
+                      (package_expression
+                        (string_literal
+                          (string_fragment
+                            (unescaped_string_fragment)))))))))))))))
+
+================================================================================
+package apply statement
+================================================================================
+
+options(
+  "is-main": true,
+  formatter: {
+    "ignore": [],
+  },
+  supported_targets: ["native"],
+)
+
+--------------------------------------------------------------------------------
+
+(structure
+  (package_statement
+    (package_apply_statement
+      (package_statement_identifier)
+      (package_argument
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment)))
+        (package_expression
+          (boolean_literal)))
+      (package_argument
+        (package_statement_identifier)
+        (package_expression
+          (package_map_expression
+            (package_map_entry
+              (string_literal
+                (string_fragment
+                  (unescaped_string_fragment)))
+              (package_expression
+                (package_array_expression))))))
+      (package_argument
+        (package_statement_identifier)
+        (package_expression
+          (package_array_expression
+            (package_expression
+              (string_literal
+                (string_fragment
+                  (unescaped_string_fragment))))))))))
+
+================================================================================
+mixed package statements and comments
+================================================================================
+
+// package settings
+warnings = "-24";
+/* package options */
+options(
+  "warn-list": "-test_unqualified_package",
+)
+
+--------------------------------------------------------------------------------
+
+(structure
+  (comment)
+  (package_statement
+    (package_assignment_statement
+      (package_statement_identifier)
+      (package_expression
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment))))))
+  (block_comment)
+  (package_statement
+    (package_apply_statement
+      (package_statement_identifier)
+      (package_argument
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment)))
+        (package_expression
+          (string_literal
+            (string_fragment
+              (unescaped_string_fragment))))))))

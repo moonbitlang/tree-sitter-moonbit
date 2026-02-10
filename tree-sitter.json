@@ -5,7 +5,7 @@
       "name": "moonbit",
       "camelcase": "MoonBit",
       "scope": "source.moonbit",
-      "file-types": ["mbt", "mbti", "moonbit"],
+      "file-types": ["mbt", "mbti", "moonbit", "moon.pkg"],
       "injection-regex": "^(mbt|moonbit)$",
       "highlights": "queries/highlights.scm",
       "tags": "queries/tags.scm",

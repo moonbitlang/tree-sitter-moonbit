@@ -1,0 +1,190 @@
+================================================================================
+while with nobreak
+================================================================================
+
+fn while_nobreak() -> Int {
+  let mut i = 0
+  while i < 3 {
+    i = i + 1
+  } nobreak {
+    42
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression
+      (let_mut_expression
+        (lowercase_identifier)
+        (atomic_expression
+          (literal
+            (integer_literal))))
+      (while_expression
+        (binary_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (block_expression
+          (assign_expression
+            (left_value
+              (qualified_identifier
+                (lowercase_identifier)))
+            (assign_operator)
+            (binary_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (atomic_expression
+                (literal
+                  (integer_literal))))))
+        (nobreak_clause
+          (block_expression
+            (atomic_expression
+              (literal
+                (integer_literal)))))))))
+
+================================================================================
+for with nobreak
+================================================================================
+
+fn for_nobreak() -> Int {
+  for i = 0, x = 1; i < 3; i = i + 1, x = x + 1 {
+    continue i + 1, x + 1
+  } nobreak {
+    x
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression
+      (for_expression
+        (for_binder
+          (lowercase_identifier)
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (for_binder
+          (lowercase_identifier)
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (binary_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (for_binder
+          (lowercase_identifier)
+          (binary_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (atomic_expression
+              (literal
+                (integer_literal)))))
+        (for_binder
+          (lowercase_identifier)
+          (binary_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (atomic_expression
+              (literal
+                (integer_literal)))))
+        (block_expression
+          (continue_expression
+            (binary_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (atomic_expression
+                (literal
+                  (integer_literal))))
+            (binary_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (atomic_expression
+                (literal
+                  (integer_literal))))))
+        (nobreak_clause
+          (block_expression
+            (qualified_identifier
+              (lowercase_identifier))))))))
+
+================================================================================
+for-in with nobreak
+================================================================================
+
+fn for_in_nobreak(xs : Array[Int]) -> Int {
+  for x in xs {
+    if x > 100 {
+      break x
+    }
+  } nobreak {
+    0
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (type_arguments
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))))))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression
+      (for_in_expression
+        (lowercase_identifier)
+        (qualified_identifier
+          (lowercase_identifier))
+        (block_expression
+          (if_expression
+            (binary_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (atomic_expression
+                (literal
+                  (integer_literal))))
+            (block_expression
+              (break_expression
+                (qualified_identifier
+                  (lowercase_identifier))))))
+        (nobreak_clause
+          (block_expression
+            (atomic_expression
+              (literal
+                (integer_literal)))))))))

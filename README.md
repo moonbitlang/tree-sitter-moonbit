@@ -2,6 +2,9 @@
 
 A [tree-sitter][] grammar for [MoonBit](https://www.moonbitlang.com).
 
+This grammar parses MoonBit source/interface files and `moon.pkg` package
+configuration files.
+
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
 
 ## Development notes
