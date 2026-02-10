@@ -24,17 +24,6 @@
       "class-name": "TreeSitterMoonbitQuotation",
       "path": "grammars/quotation",
       "external-files": ["src/scanner.c"]
-    },
-    {
-      "name": "moonpkg",
-      "camelcase": "MoonPkg",
-      "title": "MoonBit Package Config",
-      "scope": "source.moonpkg",
-      "file-types": ["moon.pkg"],
-      "injection-regex": "^moonpkg$",
-      "class-name": "TreeSitterMoonPkg",
-      "path": "grammars/moonpkg",
-      "highlights": "grammars/moonpkg/queries/highlights.scm"
     }
   ],
   "metadata": {
