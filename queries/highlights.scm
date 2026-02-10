@@ -45,6 +45,9 @@
 (let_mut_expression (lowercase_identifier) @variable)
 (for_in_expression "for" (lowercase_identifier) @variable "in")
 (for_binder (lowercase_identifier) @variable)
+(package_statement_identifier) @variable
+(package_assignment_statement
+  name: (package_statement_identifier) @variable)
 
 ; Constructors
 
@@ -147,6 +150,8 @@
 
 (apply_expression (qualified_identifier (lowercase_identifier) @function.call))
 (apply_expression (qualified_identifier (dot_lowercase_identifier) @function.call))
+(package_apply_statement
+  name: (package_statement_identifier) @function.call)
 
 ; Method calls
 
@@ -174,6 +179,12 @@
 (loop_label) @label
 ("continue" (label) @label)
 ("break" (label) @label)
+(package_argument
+  label: (package_statement_identifier) @label)
+(package_argument
+  label: (string_literal) @label)
+(package_map_entry
+  key: (string_literal) @label)
 
 ;; Operators
 
@@ -284,6 +295,7 @@
 ;; Comments
 
 (comment) @comment @spell
+(block_comment) @comment @spell
 ; (docstring) @comment.documentation @spell
 
 ;; Errors

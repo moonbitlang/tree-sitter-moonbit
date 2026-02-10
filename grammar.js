@@ -9,7 +9,7 @@ const comparative_operators = [">", ">=", "<=", "<", "==", "!="];
 module.exports = grammar({
   name: "moonbit",
 
-  extras: ($) => [$.comment, /\s/, $._scanner_reset],
+  extras: ($) => [$.comment, $.block_comment, /\s/, $._scanner_reset],
 
   externals: ($) => [
     $._scanner_reset,
@@ -73,7 +73,8 @@ module.exports = grammar({
   ],
 
   rules: {
-    structure: ($) => list($._semicolon, $._structure_item),
+    structure: ($) =>
+      list($._semicolon, choice($._structure_item, $.package_statement)),
 
     _structure_item: ($) =>
       choice(
@@ -97,6 +98,9 @@ module.exports = grammar({
         $.function_alias_definition
       ),
 
+    package_statement: ($) =>
+      choice($.package_assignment_statement, $.package_apply_statement),
+
     // Package declaration for .mbti interface files
     package_declaration: ($) => seq(token(prec(1, "package")), $.string_literal),
 
@@ -105,12 +109,78 @@ module.exports = grammar({
       seq(
         token(prec(1, "import")),
         choice(
-          seq("{", list(",", $.import_item), "}"),
-          seq("(", repeat($.import_item), ")")
+          seq(
+            "{",
+            list(",", $.import_item),
+            "}",
+            optional($.package_import_for_clause)
+          ),
+          seq("(", repeat($.import_item), ")"),
+          seq($.package_import_kind, "{", list(",", $.import_item), "}")
         )
       ),
 
-    import_item: ($) => $.string_literal,
+    import_item: ($) =>
+      seq(
+        field("path", $.string_literal),
+        optional(
+          choice(
+            field("alias", $.package_identifier),
+            seq("as", field("alias", $.package_identifier))
+          )
+        )
+      ),
+
+    package_import_for_clause: ($) =>
+      seq("for", field("kind", $.package_import_kind)),
+
+    package_import_kind: ($) => $.string_literal,
+
+    package_assignment_statement: ($) =>
+      seq(
+        field("name", $.package_statement_identifier),
+        "=",
+        field("value", $.package_expression)
+      ),
+
+    package_apply_statement: ($) =>
+      seq(
+        field("name", $.package_statement_identifier),
+        "(",
+        list(",", $.package_argument),
+        ")"
+      ),
+
+    package_argument: ($) =>
+      seq(
+        field(
+          "label",
+          choice($.package_statement_identifier, $.string_literal)
+        ),
+        ":",
+        field("value", $.package_expression)
+      ),
+
+    package_expression: ($) =>
+      choice(
+        $.boolean_literal,
+        $.integer_literal,
+        $.string_literal,
+        $.package_array_expression,
+        $.package_map_expression
+      ),
+
+    package_array_expression: ($) => seq("[", list(",", $.package_expression), "]"),
+
+    package_map_expression: ($) =>
+      seq("{", list(",", $.package_map_entry), "}"),
+
+    package_map_entry: ($) =>
+      seq(
+        field("key", $.string_literal),
+        ":",
+        field("value", $.package_expression)
+      ),
 
     visibility: ($) => choice("priv", seq("pub", optional($.pub_attribute))),
 
@@ -1346,6 +1416,8 @@ module.exports = grammar({
 
     identifier: ($) => choice($._uppercase_identifier, $._lowercase_identifier),
 
+    package_statement_identifier: (_) => /[_a-z][_a-zA-Z0-9-]*/,
+
     _semicolon: ($) => choice($._automatic_semicolon, ";"),
 
     dot_identifier: ($) =>
@@ -1391,6 +1463,8 @@ module.exports = grammar({
     constraint: ($) => $.qualified_type_identifier,
 
     comment: (_) => /\/\/.*/,
+
+    block_comment: (_) => token(seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
 
     attribute_properties: ($) => seq("(", list(",", $.attribute_property), ")"),
 
