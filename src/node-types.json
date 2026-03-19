@@ -2225,6 +2225,10 @@
           "named": true
         },
         {
+          "type": "for_binder",
+          "named": true
+        },
+        {
           "type": "loop_label",
           "named": true
         },
@@ -3805,6 +3809,10 @@
           "named": true
         },
         {
+          "type": "regex_literal",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         }
@@ -4994,6 +5002,21 @@
         },
         {
           "type": "tuple_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "regex_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string_fragment",
           "named": true
         }
       ]
@@ -6813,6 +6836,10 @@
   },
   {
     "type": "raise",
+    "named": false
+  },
+  {
+    "type": "re\"",
     "named": false
   },
   {

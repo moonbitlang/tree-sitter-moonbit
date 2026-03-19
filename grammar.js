@@ -626,6 +626,7 @@ module.exports = grammar({
         $.char_literal,
         $.string_literal,
         $.bytes_literal,
+        $.regex_literal,
         $.multiline_string_literal
       ),
 
@@ -659,6 +660,8 @@ module.exports = grammar({
     string_literal: ($) => choice(seq('"', repeat($.string_fragment), '"')),
 
     bytes_literal: ($) => seq('b"', repeat($.string_fragment), '"'),
+
+    regex_literal: ($) => seq('re"', repeat($.string_fragment), '"'),
 
     string_fragment: ($) =>
       choice($.unescaped_string_fragment, $.escape_sequence),
@@ -1163,6 +1166,7 @@ module.exports = grammar({
         strictList(",", $._lowercase_identifier),
         "in",
         $._expression,
+        optional(seq($._semicolon, strictList(",", $.for_binder))),
         $.block_expression,
         optional(choice($.else_clause, $.nobreak_clause))
       ),
