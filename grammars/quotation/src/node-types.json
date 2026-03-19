@@ -2297,6 +2297,10 @@
           "named": true
         },
         {
+          "type": "for_binder",
+          "named": true
+        },
+        {
           "type": "loop_label",
           "named": true
         },
@@ -3937,6 +3941,10 @@
           "named": true
         },
         {
+          "type": "byte_escape_literal",
+          "named": true
+        },
+        {
           "type": "byte_literal",
           "named": true
         },
@@ -3966,6 +3974,10 @@
         },
         {
           "type": "quotation_literal_expander",
+          "named": true
+        },
+        {
+          "type": "regex_literal",
           "named": true
         },
         {
@@ -5330,6 +5342,21 @@
         },
         {
           "type": "tuple_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "regex_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string_fragment",
           "named": true
         }
       ]
@@ -6950,6 +6977,10 @@
     "named": false
   },
   {
+    "type": ">..",
+    "named": false
+  },
+  {
     "type": ">=",
     "named": false
   },
@@ -7016,6 +7047,10 @@
   {
     "type": "break",
     "named": false
+  },
+  {
+    "type": "byte_escape_literal",
+    "named": true
   },
   {
     "type": "catch",
@@ -7195,6 +7230,10 @@
   },
   {
     "type": "raise",
+    "named": false
+  },
+  {
+    "type": "re\"",
     "named": false
   },
   {
