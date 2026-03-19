@@ -4246,6 +4246,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "byte_escape_literal"
+        },
+        {
+          "type": "SYMBOL",
           "name": "char_literal"
         },
         {
@@ -4351,6 +4355,22 @@
           "value": "'"
         }
       ]
+    },
+    "byte_escape_literal": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "\\\\x[0-9a-fA-F]{1,2}"
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\\\o[0-7]{1,3}"
+          }
+        ]
+      }
     },
     "char_literal": {
       "type": "SEQ",

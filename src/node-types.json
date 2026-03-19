@@ -3781,6 +3781,10 @@
           "named": true
         },
         {
+          "type": "byte_escape_literal",
+          "named": true
+        },
+        {
           "type": "byte_literal",
           "named": true
         },
@@ -6668,6 +6672,10 @@
   {
     "type": "break",
     "named": false
+  },
+  {
+    "type": "byte_escape_literal",
+    "named": true
   },
   {
     "type": "catch",
