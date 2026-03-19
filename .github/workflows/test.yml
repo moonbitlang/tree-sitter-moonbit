@@ -27,7 +27,7 @@ jobs:
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.25.4
+          tree-sitter-ref: v0.26.7
 
       - name: Generate tree-sitter parser
         run: python3 scripts/generate.py
@@ -44,7 +44,7 @@ jobs:
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.25.4
+          tree-sitter-ref: v0.26.7
 
       - name: Generate tree-sitter parser
         run: python3 scripts/generate.py
@@ -65,7 +65,7 @@ jobs:
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.25.4
+          tree-sitter-ref: v0.26.7
 
       - name: Generate tree-sitter parser
         run: python3 scripts/generate.py
@@ -86,7 +86,7 @@ jobs:
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.25.4
+          tree-sitter-ref: v0.26.7
 
       - name: Generate tree-sitter parser
         run: python3 scripts/generate.py
@@ -108,7 +108,7 @@ jobs:
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.25.4
+          tree-sitter-ref: v0.26.7
 
       - name: Generate tree-sitter parser
         run: python3 scripts/generate.py
@@ -134,7 +134,7 @@ jobs:
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.25.4
+          tree-sitter-ref: v0.26.7
 
       - name: Generate tree-sitter parser
         run: python3 scripts/generate.py
@@ -177,7 +177,7 @@ jobs:
       - name: Setup tree-sitter
         uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.25.4
+          tree-sitter-ref: v0.26.7
 
       - name: Generate tree-sitter parser
         run: python3 scripts/generate.py
