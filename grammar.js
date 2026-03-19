@@ -623,9 +623,11 @@ module.exports = grammar({
         $.float_literal,
         $.integer_literal,
         $.byte_literal,
+        $.byte_escape_literal,
         $.char_literal,
         $.string_literal,
         $.bytes_literal,
+        $.regex_literal,
         $.multiline_string_literal
       ),
 
@@ -653,12 +655,17 @@ module.exports = grammar({
     byte_literal: ($) =>
       seq("b'", choice($.escape_sequence, token.immediate(/[^']/)), "'"),
 
+    byte_escape_literal: (_) =>
+      token(choice(/\\x[0-9a-fA-F]{1,2}/, /\\o[0-7]{1,3}/)),
+
     char_literal: ($) =>
       seq("'", choice($.escape_sequence, token.immediate(/[^']/)), "'"),
 
     string_literal: ($) => choice(seq('"', repeat($.string_fragment), '"')),
 
     bytes_literal: ($) => seq('b"', repeat($.string_fragment), '"'),
+
+    regex_literal: ($) => seq('re"', repeat($.string_fragment), '"'),
 
     string_fragment: ($) =>
       choice($.unescaped_string_fragment, $.escape_sequence),
@@ -1163,6 +1170,7 @@ module.exports = grammar({
         strictList(",", $._lowercase_identifier),
         "in",
         $._expression,
+        optional(seq($._semicolon, strictList(",", $.for_binder))),
         $.block_expression,
         optional(choice($.else_clause, $.nobreak_clause))
       ),
@@ -1171,7 +1179,7 @@ module.exports = grammar({
       prec.left(
         seq(
           $._simple_expression,
-          choice("..<", "..=", "..<=", "..>", "..>="),
+          choice("..<", "..=", "..<=", "..>", "..>=", ">.."),
           $._simple_expression
         )
       ),
