@@ -25,7 +25,7 @@ jobs:
       - name: Install tree-sitter CLI
         uses: tree-sitter/setup-action@v2
         with:
-          tree-sitter-ref: v0.25.4
+          tree-sitter-ref: v0.26.7
 
       - name: Generate tree-sitter grammar
         run: |
