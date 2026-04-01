@@ -13,6 +13,21 @@
       "path": "."
     },
     {
+      "name": "moonbit_mbtp",
+      "camelcase": "MoonbitMbtp",
+      "title": "MoonBit Predicate",
+      "scope": "source.moonbit_mbtp",
+      "file-types": [
+        "mbtp"
+      ],
+      "injection-regex": "^mbtp$",
+      "highlights": "grammars/mbtp/queries/highlights.scm",
+      "tags": "grammars/mbtp/queries/tags.scm",
+      "class-name": "TreeSitterMoonbitMbtp",
+      "path": "grammars/mbtp",
+      "external-files": ["src/scanner.c"]
+    },
+    {
       "name": "moonbit_quotation",
       "camelcase": "MoonbitQuotation",
       "title": "Quoted MoonBit",
