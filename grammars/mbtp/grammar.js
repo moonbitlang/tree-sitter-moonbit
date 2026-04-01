@@ -7,26 +7,27 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-const base = require("../../grammar.js");
 const shift_operators = ["<<", ">>"];
 
-module.exports = grammar(base, {
+module.exports = grammar({
   name: "moonbit_mbtp",
 
+  extras: ($) => [$.comment, $.block_comment, /\s/, $._scanner_reset],
+
+  externals: ($) => [
+    $._scanner_reset,
+    $._automatic_semicolon,
+    ";",
+    "#|",
+    "$|",
+    $._double_literal,
+    "for",
+    $.error_sentinel,
+  ],
+
+  word: ($) => $.lowercase_identifier,
+
   conflicts: ($) => [
-    [$.optional_label, $.qualified_identifier],
-    [$.positional_parameter, $.qualified_identifier],
-    [$.unit_expression, $.parameters],
-    [$.qualified_identifier, $.arrow_function_expression],
-    [$.positional_parameter, $.identifier],
-    [$.optional_label, $.identifier],
-    [$._simple_expression, $.positional_parameter],
-    [$._simple_type, $.positional_parameter],
-    [$._simple_expression, $.arrow_function_expression],
-    [$._simple_pattern, $.lexmatch_simple_pattern],
-    [$.mbtp_term_atom, $.mbtp_parenthesized_expression],
-    [$.mbtp_logic_block_expression, $.mbtp_term_atom],
-    [$.lemma_match_expression, $.mbtp_match_expression],
     [$.lemma_nonsequence_expression, $.mbtp_term_atom],
   ],
 
@@ -44,7 +45,7 @@ module.exports = grammar(base, {
       seq(
         optional($.attributes),
         optional("pub"),
-        "predicate",
+        token(prec(1, "predicate")),
         optional(seq(field("receiver", $.uppercase_identifier), "::")),
         field("name", $._lowercase_identifier),
         field("parameters", $.mbtp_parameter_list),
@@ -71,7 +72,7 @@ module.exports = grammar(base, {
       seq(
         optional($.attributes),
         optional("pub"),
-        "lemma",
+        token(prec(1, "lemma")),
         field("name", $._lowercase_identifier),
         field("parameters", $.mbtp_parameter_list),
         optional(field("where", $.mbtp_where_clause)),
@@ -91,7 +92,11 @@ module.exports = grammar(base, {
     mbtp_parameter_list: ($) => seq("(", list(",", $.mbtp_parameter), ")"),
 
     mbtp_parameter: ($) =>
-      seq(field("name", $._lowercase_identifier), ":", field("type", $.mbtp_type)),
+      seq(
+        field("name", $._lowercase_identifier),
+        ":",
+        field("type", $.mbtp_type)
+      ),
 
     mbtp_parameter_decl: ($) =>
       choice(
@@ -106,37 +111,32 @@ module.exports = grammar(base, {
       ),
 
     mbtp_logic_block_expression: ($) =>
-      prec(
-        1,
-        seq(
-          "{",
-          field("body", $._mbtp_logic_expression),
-          "}"
-        )
-      ),
+      prec(1, seq("{", field("body", $._mbtp_logic_expression), "}")),
 
     _mbtp_logic_expression: ($) => $._mbtp_logic_or_expression,
 
     _mbtp_logic_or_expression: ($) =>
       choice(
-        prec.left(2, seq($._mbtp_logic_or_expression, "||", $._mbtp_logic_and_expression)),
+        prec.left(
+          2,
+          seq($._mbtp_logic_or_expression, "||", $._mbtp_logic_and_expression)
+        ),
         $._mbtp_logic_and_expression
       ),
 
     _mbtp_logic_and_expression: ($) =>
       choice(
-        prec.left(3, seq($._mbtp_logic_and_expression, "&&", $._mbtp_logic_not_expression)),
+        prec.left(
+          3,
+          seq($._mbtp_logic_and_expression, "&&", $._mbtp_logic_not_expression)
+        ),
         $._mbtp_logic_not_expression
       ),
 
     _mbtp_logic_not_expression: ($) =>
-      choice(
-        prec(4, seq("!", $._mbtp_logic_not_expression)),
-        $.mbtp_expression
-      ),
+      choice(prec(4, seq("!", $._mbtp_logic_not_expression)), $.mbtp_expression),
 
-    lemma_block_expression: ($) =>
-      seq("{", optional($.lemma_sequence_expression), "}"),
+    lemma_block_expression: ($) => seq("{", optional($.lemma_sequence_expression), "}"),
 
     lemma_sequence_expression: ($) =>
       choice(
@@ -160,7 +160,8 @@ module.exports = grammar(base, {
 
     lemma_unit_expression: (_) => seq("(", ")"),
 
-    lemma_proof_assert_expression: ($) => seq("proof_assert", $.mbtp_term),
+    lemma_proof_assert_expression: ($) =>
+      seq(token(prec(1, "proof_assert")), $.mbtp_term),
 
     lemma_if_expression: ($) =>
       seq(
@@ -198,10 +199,7 @@ module.exports = grammar(base, {
 
     mbtp_implies_term: ($) =>
       choice(
-        prec.right(
-          1,
-          seq($.mbtp_or_term, "→", field("right", $.mbtp_implies_term))
-        ),
+        prec.right(1, seq($.mbtp_or_term, "→", field("right", $.mbtp_implies_term))),
         $.mbtp_or_term
       ),
 
@@ -235,11 +233,7 @@ module.exports = grammar(base, {
       ),
 
     mbtp_term_atom: ($) =>
-      choice(
-        prec(-1, seq("(", $.mbtp_term, ")")),
-        seq("{", $.mbtp_term, "}"),
-        $.mbtp_expression
-      ),
+      choice(prec(-1, seq("(", $.mbtp_term, ")")), seq("{", $.mbtp_term, "}"), $.mbtp_expression),
 
     mbtp_expression: ($) =>
       choice(
@@ -310,52 +304,15 @@ module.exports = grammar(base, {
         $.mbtp_logic_block_expression
       ),
 
-    mbtp_binary_expression: ($) => {
-      const operand = choice($._mbtp_simple_expression, $.mbtp_binary_expression);
-      const table = [
-        [7, choice("*", "/", "%")],
-        [6, choice("+", "-")],
-        [5, choice(...shift_operators)],
-        [4, choice(">", ">=", "<=", "<", "==", "!=")],
-        [3, "&"],
-        [2, "^"],
-        [1, "|"],
-      ];
+    mbtp_binary_expression: ($) =>
+      binaryExpression($, $._mbtp_simple_expression, $.mbtp_binary_expression),
 
-      return choice(
-        ...table.map(([precedence, operator]) =>
-          prec.left(
-            precedence,
-            seq(operand, operator, operand)
-          )
-        )
-      );
-    },
-
-    mbtp_binary_expression_no_match: ($) => {
-      const operand = choice(
+    mbtp_binary_expression_no_match: ($) =>
+      binaryExpression(
+        $,
         $._mbtp_simple_expression_no_match,
         $.mbtp_binary_expression_no_match
-      );
-      const table = [
-        [7, choice("*", "/", "%")],
-        [6, choice("+", "-")],
-        [5, choice(...shift_operators)],
-        [4, choice(">", ">=", "<=", "<", "==", "!=")],
-        [3, "&"],
-        [2, "^"],
-        [1, "|"],
-      ];
-
-      return choice(
-        ...table.map(([precedence, operator]) =>
-          prec.left(
-            precedence,
-            seq(operand, operator, operand)
-          )
-        )
-      );
-    },
+      ),
 
     mbtp_unary_expression: ($) =>
       prec(8, seq(choice("-", "!"), $._mbtp_simple_expression)),
@@ -364,10 +321,7 @@ module.exports = grammar(base, {
       prec(8, seq(choice("-", "!"), $._mbtp_simple_expression_no_match)),
 
     mbtp_apply_expression: ($) =>
-      prec.left(
-        9,
-        seq($._mbtp_simple_expression, "(", list(",", $.mbtp_expression), ")")
-      ),
+      prec.left(9, seq($._mbtp_simple_expression, "(", list(",", $.mbtp_expression), ")")),
 
     mbtp_apply_expression_no_match: ($) =>
       prec.left(
@@ -445,10 +399,7 @@ module.exports = grammar(base, {
       ),
 
     mbtp_atomic_expression_no_match: ($) =>
-      choice(
-        $.mbtp_literal_expression,
-        $.mbtp_identifier_expression
-      ),
+      choice($.mbtp_literal_expression, $.mbtp_identifier_expression),
 
     mbtp_match_expression: ($) =>
       seq(
@@ -460,11 +411,7 @@ module.exports = grammar(base, {
       ),
 
     mbtp_match_case: ($) =>
-      seq(
-        field("pattern", $.mbtp_pattern),
-        "=>",
-        field("body", $.mbtp_term)
-      ),
+      seq(field("pattern", $.mbtp_pattern), "=>", field("body", $.mbtp_term)),
 
     mbtp_identifier_expression: ($) => $.mbtp_value_path,
 
@@ -493,20 +440,12 @@ module.exports = grammar(base, {
         "_",
         $._lowercase_identifier,
         $.mbtp_pattern_constructor,
-        seq(
-          $.mbtp_pattern_constructor,
-          "(",
-          list1(",", $.mbtp_pattern),
-          ")"
-        ),
+        seq($.mbtp_pattern_constructor, "(", list1(",", $.mbtp_pattern), ")"),
         seq("(", list1(",", $.mbtp_pattern), ")")
       ),
 
     mbtp_pattern_constructor: ($) =>
-      choice(
-        $.uppercase_identifier,
-        seq($.package_identifier, $.dot_uppercase_identifier)
-      ),
+      choice($.uppercase_identifier, seq($.package_identifier, $.dot_uppercase_identifier)),
 
     mbtp_type: ($) => choice($.mbtp_function_type, $.mbtp_non_function_type),
 
@@ -526,13 +465,11 @@ module.exports = grammar(base, {
         "_"
       ),
 
-    mbtp_tuple_type: ($) =>
-      seq("(", $.mbtp_type, ",", list1(",", $.mbtp_type), ")"),
+    mbtp_tuple_type: ($) => seq("(", $.mbtp_type, ",", list1(",", $.mbtp_type), ")"),
 
     mbtp_parenthesized_type: ($) => seq("(", $.mbtp_type, ")"),
 
-    mbtp_applied_type: ($) =>
-      seq($.mbtp_type_path, "[", list1(",", $.mbtp_type), "]"),
+    mbtp_applied_type: ($) => seq($.mbtp_type_path, "[", list1(",", $.mbtp_type), "]"),
 
     mbtp_type_path: ($) =>
       choice(
@@ -541,13 +478,162 @@ module.exports = grammar(base, {
         seq($.package_identifier, $.dot_identifier, repeat($.dot_identifier))
       ),
 
-    mbtp_value_path: ($) =>
+    mbtp_value_path: ($) => choice($.identifier, seq($.package_identifier, $.dot_identifier)),
+
+    interpolator: ($) => seq("\\{", $.mbtp_expression, "}"),
+
+    literal: ($) =>
       choice(
-        $.identifier,
-        seq($.package_identifier, $.dot_identifier)
+        $.boolean_literal,
+        $.double_literal,
+        $.float_literal,
+        $.integer_literal,
+        $.byte_literal,
+        $.byte_escape_literal,
+        $.char_literal,
+        $.string_literal,
+        $.bytes_literal,
+        $.regex_literal,
+        $.multiline_string_literal
       ),
+
+    boolean_literal: (_) => choice("true", "false"),
+
+    integer_literal: (_) =>
+      token(
+        choice(
+          /[0-9][0-9_]*(UL|U|L|N)?/,
+          /0[xX][0-9a-fA-F_]+(UL|U|L|N)?/,
+          /0[oO][0-7_]+(UL|U|L|N)?/,
+          /0[bB][01_]+(UL|U|L|N)?/
+        )
+      ),
+
+    float_literal: ($) => seq($._double_literal, token.immediate("F")),
+
+    double_literal: ($) => $._double_literal,
+
+    byte_literal: ($) =>
+      seq("b'", choice($.escape_sequence, token.immediate(/[^']/)), "'"),
+
+    byte_escape_literal: (_) => token(choice(/\\x[0-9a-fA-F]{1,2}/, /\\o[0-7]{1,3}/)),
+
+    char_literal: ($) =>
+      seq("'", choice($.escape_sequence, token.immediate(/[^']/)), "'"),
+
+    string_literal: ($) => seq('"', repeat($.string_fragment), '"'),
+
+    bytes_literal: ($) => seq('b"', repeat($.string_fragment), '"'),
+
+    regex_literal: ($) => seq('re"', repeat($.string_fragment), '"'),
+
+    string_fragment: ($) => choice($.unescaped_string_fragment, $.escape_sequence),
+
+    unescaped_string_fragment: (_) =>
+      choice(
+        token.immediate(prec(1, /\\[^ntbrf'"\\{]/)),
+        token.immediate(prec(1, /[^"\\]+/))
+      ),
+
+    escape_sequence: (_) =>
+      choice(
+        token.immediate(/\\[ntbrf'"\\]/),
+        token.immediate(/\\o[0-7]{1,3}/),
+        token.immediate(/\\x[0-9a-fA-F]{1,2}/),
+        token.immediate(/\\x\{[0-9a-fA-F]+\}/),
+        token.immediate(/\\u[0-9a-fA-F]{4}/),
+        token.immediate(/\\u\{[0-9a-fA-F]+\}/)
+      ),
+
+    multiline_string_content: (_) => /[^\n]*/,
+
+    multiline_string_fragment: ($) => seq("#|", $.multiline_string_content),
+
+    multiline_interpolation_content: ($) =>
+      choice(
+        token.immediate(prec(1, /\\[^{]/)),
+        token.immediate(prec(1, /[^\n\\]+/)),
+        $.interpolator
+      ),
+
+    multiline_interpolation_fragment: ($) => seq("$|", repeat($.multiline_interpolation_content)),
+
+    multiline_string_literal: ($) =>
+      prec.left(repeat1(choice($.multiline_string_fragment, $.multiline_interpolation_fragment))),
+
+    uppercase_identifier: (_) => /[\p{Uppercase_Letter}][_\p{XID_Continue}]*/v,
+
+    _uppercase_identifier: ($) => $.uppercase_identifier,
+
+    lowercase_identifier: (_) => /[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
+
+    _lowercase_identifier: ($) => $.lowercase_identifier,
+
+    identifier: ($) => choice($._uppercase_identifier, $._lowercase_identifier),
+
+    _semicolon: ($) => choice($._automatic_semicolon, ";"),
+
+    dot_identifier: ($) => choice($.dot_lowercase_identifier, $.dot_uppercase_identifier),
+
+    dot_lowercase_identifier: (_) => /\.[_[\p{XID_Start}--\p{Uppercase_Letter}]][_\p{XID_Continue}]*/v,
+
+    dot_uppercase_identifier: (_) => /\.[\p{Uppercase_Letter}][_\p{XID_Continue}]*/v,
+
+    package_identifier: (_) => /@[_\p{XID_Start}\/][_\p{XID_Continue}\/]*/v,
+
+    comment: (_) => /\/\/.*/,
+
+    block_comment: (_) => token(seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")),
+
+    attribute_properties: ($) => seq("(", list(",", $.attribute_property), ")"),
+
+    attribute_property: ($) =>
+      choice(
+        seq($._lowercase_identifier, "=", $.attribute_expression),
+        $.attribute_expression
+      ),
+
+    attribute_expression: ($) =>
+      choice(
+        $._lowercase_identifier,
+        $._uppercase_identifier,
+        seq($._lowercase_identifier, $.dot_lowercase_identifier),
+        seq($._lowercase_identifier, $.attribute_properties),
+        seq($._lowercase_identifier, $.dot_lowercase_identifier, $.attribute_properties),
+        seq($._uppercase_identifier, $.attribute_properties),
+        $.string_literal
+      ),
+
+    attribute: ($) => seq("#", $.attribute_expression),
+
+    attributes: ($) => repeat1($.attribute),
   },
 });
+
+/**
+ * @param {RuleBuilder<RuleSet>} $
+ * @param {Rule} simple
+ * @param {Rule} recursive
+ * @returns {Rule}
+ */
+function binaryExpression($, simple, recursive) {
+  const operand = choice(simple, recursive);
+  const table = [
+    [7, choice("*", "/", "%")],
+    [6, choice("+", "-")],
+    [5, choice(...shift_operators)],
+    [4, choice(">", ">=", "<=", "<", "==", "!=")],
+    [3, "&"],
+    [2, "^"],
+    [1, "|"],
+  ];
+
+  return choice(
+    ...table.map(([precedence, operator]) =>
+      prec.left(precedence, seq(operand, operator, operand))
+    )
+  );
+}
 
 /**
  * @param {RuleOrLiteral} separator
