@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - grammar.js
+      - tree-sitter.json
       - src/**
       - bindings/**
       - binding.gyp
