@@ -185,6 +185,7 @@
   label: (string_literal) @label)
 (package_map_entry
   key: (string_literal) @label)
+(where_clause_field (lowercase_identifier) @label)
 
 ;; Operators
 
@@ -213,7 +214,7 @@
 
 [
   "guard" "let" "letrec" "and" "const"
-  "with" "as" "is" "lexmatch?" "using" "longest" "nobreak"
+  "with" "as" "is" "lexmatch?" "using" "where" "longest" "nobreak"
   "defer"
 ] @keyword
 
@@ -241,6 +242,8 @@
  (#any-of? @keyword
            "import"
            "using"
+           "proof_assert"
+           "proof_let"
            "defer"
            "lexmatch"
            "recur"))

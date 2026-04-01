@@ -362,7 +362,14 @@ module.exports = grammar({
         seq(
           signature,
           optional(choice(seq("->", $.return_type), $.error_annotation)),
-          choice($.block_expression, seq("=", $.external_source))
+          optional($.where_clause),
+          $.block_expression
+        ),
+        seq(
+          signature,
+          optional(choice(seq("->", $.return_type), $.error_annotation)),
+          "=",
+          $.external_source
         ),
         // Without body (.mbti files) - requires return type to disambiguate from ASI
         seq(signature, choice(seq("->", $.return_type), $.error_annotation))
@@ -1033,11 +1040,24 @@ module.exports = grammar({
         $.return_expression,
         $.raise_expression,
         $.defer_expression,
+        $.proof_assert_expression,
+        $.proof_let_expression,
         $._expression,
         $.unfinished
       ),
 
     defer_expression: ($) => seq("defer", $._expression),
+
+    proof_assert_expression: ($) =>
+      seq(token(prec(1, "proof_assert")), $._expression),
+
+    proof_let_expression: ($) =>
+      seq(
+        token(prec(1, "proof_let")),
+        $._lowercase_identifier,
+        "=",
+        $._expression
+      ),
 
     unfinished: (_) => "...",
 
@@ -1120,6 +1140,11 @@ module.exports = grammar({
 
     loop_label: ($) => seq($.label, ":"),
 
+    where_clause_field: ($) => seq($._lowercase_identifier, ":", $._expression),
+
+    where_clause: ($) =>
+      seq("where", "{", list(",", $.where_clause_field), "}"),
+
     while_expression: ($) =>
       seq(
         optional($.loop_label),
@@ -1152,14 +1177,16 @@ module.exports = grammar({
           $._semicolon,
           strictList(",", $.for_binder),
           $.block_expression,
-          optional(choice($.else_clause, $.nobreak_clause))
+          optional(choice($.else_clause, $.nobreak_clause)),
+          optional($.where_clause)
         ),
         seq(
           optional($.loop_label),
           "for",
           strictList(",", $.for_binder),
           $.block_expression,
-          optional(choice($.else_clause, $.nobreak_clause))
+          optional(choice($.else_clause, $.nobreak_clause)),
+          optional($.where_clause)
         )
       ),
 
@@ -1172,7 +1199,8 @@ module.exports = grammar({
         $._expression,
         optional(seq($._semicolon, strictList(",", $.for_binder))),
         $.block_expression,
-        optional(choice($.else_clause, $.nobreak_clause))
+        optional(choice($.else_clause, $.nobreak_clause)),
+        optional($.where_clause)
       ),
 
     range_expression: ($) =>
