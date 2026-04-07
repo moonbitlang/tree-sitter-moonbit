@@ -214,6 +214,7 @@
 [
   "guard" "let" "letrec" "and" "const"
   "with" "as" "is" "lexmatch?" "using" "longest" "nobreak"
+  "defer"
 ] @keyword
 
 "derive" @keyword
