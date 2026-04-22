@@ -99,6 +99,8 @@ module.exports = grammar({
     [$._simple_pattern, $.lexmatch_simple_pattern],
     [$.list_comprehension_binder, $.for_in_expression],
     [$.list_comprehension_for_binder, $._expression],
+    [$.block_expression, $.map_expression],
+    [$.block_expression, $.nonempty_block_expression],
   ],
 
   rules: {
@@ -1344,6 +1346,16 @@ module.exports = grammar({
           optional($._expression),
           $._semicolon,
           strictList(",", $.for_binder),
+          $.block_expression,
+          optional(choice($.else_clause, $.nobreak_clause)),
+          optional($.where_clause)
+        ),
+        seq(
+          optional($.loop_label),
+          "for",
+          strictList(",", $.for_binder),
+          $._semicolon,
+          optional($._expression),
           $.block_expression,
           optional(choice($.else_clause, $.nobreak_clause)),
           optional($.where_clause)
