@@ -288,6 +288,14 @@
         "named": true
       },
       {
+        "type": "proof_assert_expression",
+        "named": true
+      },
+      {
+        "type": "proof_let_expression",
+        "named": true
+      },
+      {
         "type": "raise_expression",
         "named": true
       },
@@ -2276,6 +2284,10 @@
         {
           "type": "nobreak_clause",
           "named": true
+        },
+        {
+          "type": "where_clause",
+          "named": true
         }
       ]
     }
@@ -2297,6 +2309,10 @@
           "named": true
         },
         {
+          "type": "for_binder",
+          "named": true
+        },
+        {
           "type": "loop_label",
           "named": true
         },
@@ -2310,6 +2326,10 @@
         },
         {
           "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
+          "type": "where_clause",
           "named": true
         }
       ]
@@ -2472,6 +2492,10 @@
         },
         {
           "type": "visibility",
+          "named": true
+        },
+        {
+          "type": "where_clause",
           "named": true
         }
       ]
@@ -3937,6 +3961,10 @@
           "named": true
         },
         {
+          "type": "byte_escape_literal",
+          "named": true
+        },
+        {
           "type": "byte_literal",
           "named": true
         },
@@ -3966,6 +3994,10 @@
         },
         {
           "type": "quotation_literal_expander",
+          "named": true
+        },
+        {
+          "type": "regex_literal",
           "named": true
         },
         {
@@ -4959,6 +4991,44 @@
     }
   },
   {
+    "type": "proof_assert_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "proof_let_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "pub",
     "named": true,
     "fields": {}
@@ -5330,6 +5400,21 @@
         },
         {
           "type": "tuple_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "regex_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string_fragment",
           "named": true
         }
       ]
@@ -6647,6 +6732,44 @@
     }
   },
   {
+    "type": "where_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "where_clause_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "where_clause_field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "while_expression",
     "named": true,
     "fields": {},
@@ -6950,6 +7073,10 @@
     "named": false
   },
   {
+    "type": ">..",
+    "named": false
+  },
+  {
     "type": ">=",
     "named": false
   },
@@ -7016,6 +7143,10 @@
   {
     "type": "break",
     "named": false
+  },
+  {
+    "type": "byte_escape_literal",
+    "named": true
   },
   {
     "type": "catch",
@@ -7190,11 +7321,23 @@
     "named": false
   },
   {
+    "type": "proof_assert",
+    "named": false
+  },
+  {
+    "type": "proof_let",
+    "named": false
+  },
+  {
     "type": "pub",
     "named": false
   },
   {
     "type": "raise",
+    "named": false
+  },
+  {
+    "type": "re\"",
     "named": false
   },
   {
@@ -7259,6 +7402,10 @@
   },
   {
     "type": "using",
+    "named": false
+  },
+  {
+    "type": "where",
     "named": false
   },
   {
