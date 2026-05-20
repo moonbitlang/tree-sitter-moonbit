@@ -159,6 +159,56 @@ fn init {
               (integer_literal))))))))
 
 ================================================================================
+reverse pipe
+================================================================================
+fn init {
+  let a = ignore <| 3
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (binary_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (atomic_expression
+            (literal
+              (integer_literal))))))))
+
+================================================================================
+reverse pipe with arrow function
+================================================================================
+fn init {
+  let v = ignore <| x => { x + 1 }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (binary_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (pipe_arrow_function_expression
+            (lowercase_identifier)
+            (block_expression
+              (binary_expression
+                (qualified_identifier
+                  (lowercase_identifier))
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))))))
+
+================================================================================
 pipe with arrow function
 ================================================================================
 fn init {

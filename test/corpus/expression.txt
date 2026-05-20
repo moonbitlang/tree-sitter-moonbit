@@ -180,6 +180,73 @@ fn main {
         (map_expression)))))
 
 ================================================================================
+list comprehension expression
+================================================================================
+fn main {
+  let xs = [for x in items if x > 0 => x + 1]
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (list_comprehension_expression
+            (list_comprehension_for_in
+              (list_comprehension_binder
+                (lowercase_identifier))
+              (qualified_identifier
+                (lowercase_identifier)))
+            (list_comprehension_guard
+              (binary_expression
+                (qualified_identifier
+                  (lowercase_identifier))
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))
+            (binary_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (atomic_expression
+                (literal
+                  (integer_literal))))))))))
+
+================================================================================
+regex match expression
+================================================================================
+fn main {
+  if s =~ (re"FAILED:", after=next) { next }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (if_expression
+        (regex_match_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (regex_match_rhs
+            (regex_pattern
+              (regex_atom_pattern
+                (regex_literal
+                  (string_fragment
+                    (unescaped_string_fragment)))))
+            (regex_match_binding
+              (lowercase_identifier)
+              (identifier
+                (lowercase_identifier)))))
+        (block_expression
+          (qualified_identifier
+            (lowercase_identifier)))))))
+
+================================================================================
 binary expression
 ================================================================================
 fn main {

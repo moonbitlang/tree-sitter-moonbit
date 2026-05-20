@@ -45,6 +45,7 @@ module.exports = grammar({
       "bitwise_xor",
       "bitwise_or",
       $.is_expression,
+      $.regex_match_expression,
       "and",
       "or",
       "pipe",
@@ -70,6 +71,7 @@ module.exports = grammar({
     [$._simple_type, $.positional_parameter],
     [$._simple_expression, $.arrow_function_expression],
     [$._simple_pattern, $.lexmatch_simple_pattern],
+    [$.list_comprehension_binder, $.for_in_expression],
   ],
 
   rules: {
@@ -607,6 +609,7 @@ module.exports = grammar({
         $.range_expression,
         $.binary_expression,
         $.lexmatch_test_expression,
+        $.regex_match_expression,
         "_"
       ),
 
@@ -752,6 +755,14 @@ module.exports = grammar({
           seq(
             $._simple_expression,
             "|>",
+            choice($._simple_expression, $.pipe_arrow_function_expression)
+          )
+        ),
+        prec.left(
+          "pipe",
+          seq(
+            $._simple_expression,
+            "<|",
             choice($._simple_expression, $.pipe_arrow_function_expression)
           )
         )
@@ -920,7 +931,34 @@ module.exports = grammar({
     constraint_expression: ($) => seq("(", $._expression, ":", $._type, ")"),
 
     array_expression: ($) =>
-      seq("[", list(",", seq(optional(".."), $._expression)), "]"),
+      choice(
+        seq("[", list(",", seq(optional(".."), $._expression)), "]"),
+        $.list_comprehension_expression
+      ),
+
+    list_comprehension_expression: ($) =>
+      seq(
+        "[",
+        $.list_comprehension_for_in,
+        optional($.list_comprehension_guard),
+        "=>",
+        $._expression,
+        "]"
+      ),
+
+    list_comprehension_for_in: ($) =>
+      seq(
+        "for",
+        strictList1(",", $.list_comprehension_binder),
+        "in",
+        $._expression,
+        optional(seq($._semicolon, strictList(",", $.for_binder))),
+        optional(seq($._semicolon, strictList(",", $.for_binder)))
+      ),
+
+    list_comprehension_binder: ($) => choice($._lowercase_identifier, "_"),
+
+    list_comprehension_guard: ($) => seq("if", $._expression),
 
     map_expression: ($) => seq("{", list(",", $.map_element_expression), "}"),
 
@@ -964,6 +1002,28 @@ module.exports = grammar({
       prec.right(
         -1,
         seq($._simple_expression, "lexmatch?", $.lexmatch_pattern)
+      ),
+
+    regex_match_expression: ($) =>
+      seq($._simple_expression, "=~", $.regex_match_rhs),
+
+    regex_match_rhs: ($) =>
+      choice(
+        $.regex_pattern,
+        seq("(", $.regex_pattern, ",", list(",", $.regex_match_binding), ")")
+      ),
+
+    regex_match_binding: ($) =>
+      choice(seq($._lowercase_identifier, "=", $.identifier), $.label),
+
+    regex_pattern: ($) => $.regex_atom_pattern,
+
+    regex_atom_pattern: ($) =>
+      choice(
+        $.regex_literal,
+        $.string_literal,
+        $.constructor_expression,
+        seq("(", $.regex_pattern, ")")
       ),
 
     case_clause: ($) =>
@@ -1490,7 +1550,8 @@ module.exports = grammar({
     function_identifier: ($) =>
       choice(
         $._lowercase_identifier,
-        seq($.type_name, "::", $._lowercase_identifier)
+        seq($.type_name, "::", $._lowercase_identifier),
+        seq($.type_name, "::", $._uppercase_identifier)
       ),
 
     type_identifier: ($) =>
