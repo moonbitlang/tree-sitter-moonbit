@@ -314,6 +314,15 @@ static enum AsiResult can_insert_semi(TSLexer *lexer,
     default: // BAR
       return ASI_REMOVE;
     }
+  case '<':
+    advance(lexer);
+    switch (lexer->lookahead) {
+    case '+': // LT_PLUS
+    case '|': // PIPE_LEFT
+      return ASI_REMOVE;
+    default:
+      return ASI_INSERT;
+    }
   case '%':
     advance(lexer);
     switch (lexer->lookahead) {

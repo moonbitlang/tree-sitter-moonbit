@@ -37,6 +37,7 @@ module.exports = grammar({
       $.apply_expression,
       $.access_expression,
       $.unary_expression,
+      "append",
       "multiplicative",
       "additive",
       "shift",
@@ -417,6 +418,7 @@ module.exports = grammar({
       seq(
         optional($.attributes),
         optional("async"),
+        optional(seq("fn", optional($.type_parameters))),
         $.function_identifier,
         optional("!"),
         optional($.type_parameters),
@@ -607,6 +609,7 @@ module.exports = grammar({
         $.as_expression,
         $.is_expression,
         $.range_expression,
+        $.append_expression,
         $.binary_expression,
         $.lexmatch_test_expression,
         $.regex_match_expression,
@@ -1004,26 +1007,46 @@ module.exports = grammar({
         seq($._simple_expression, "lexmatch?", $.lexmatch_pattern)
       ),
 
+    append_expression: ($) =>
+      prec.left("append", seq($.left_value, "<+", $._simple_expression)),
+
     regex_match_expression: ($) =>
       seq($._simple_expression, "=~", $.regex_match_rhs),
 
     regex_match_rhs: ($) =>
       choice(
-        $.regex_pattern,
-        seq("(", $.regex_pattern, ",", list(",", $.regex_match_binding), ")")
+        $.regex_atom_pattern,
+        seq("(", $.regex_as_pattern, ",", list(",", $.regex_match_binding), ")")
       ),
 
     regex_match_binding: ($) =>
       choice(seq($._lowercase_identifier, "=", $.identifier), $.label),
 
-    regex_pattern: ($) => $.regex_atom_pattern,
+    regex_pattern: ($) => $.regex_as_pattern,
+
+    regex_as_pattern: ($) =>
+      prec.right(
+        choice(
+          $.regex_or_pattern,
+          seq($.regex_atom_pattern, "as", $.identifier)
+        )
+      ),
+
+    regex_or_pattern: ($) =>
+      prec.left(
+        seq($.regex_sequence_pattern, repeat(seq("|", $.regex_sequence_pattern)))
+      ),
+
+    regex_sequence_pattern: ($) =>
+      prec.left(
+        seq($.regex_atom_pattern, repeat(seq("+", $.regex_atom_pattern)))
+      ),
 
     regex_atom_pattern: ($) =>
       choice(
         $.regex_literal,
-        $.string_literal,
         $.constructor_expression,
-        seq("(", $.regex_pattern, ")")
+        seq("(", $.regex_as_pattern, ")")
       ),
 
     case_clause: ($) =>
