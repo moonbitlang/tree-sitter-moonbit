@@ -204,6 +204,40 @@ fn init {
               (integer_literal))))))))
 
 ================================================================================
+reverse pipe with infix rhs
+================================================================================
+fn init {
+  let a = f <| x + 1
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (binary_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (binary_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (atomic_expression
+              (literal
+                (integer_literal)))))))))
+
+================================================================================
+reverse pipe chain is invalid
+:error
+================================================================================
+fn init {
+  let a = f <| g <| x
+}
+--------------------------------------------------------------------------------
+
+================================================================================
 reverse pipe with arrow function
 ================================================================================
 fn init {

@@ -6,6 +6,29 @@ const additive_operators = ["+", "-"];
 const shift_operators = ["<<", ">>"];
 const comparative_operators = [">", ">=", "<=", "<", "==", "!="];
 
+const binaryExpression = (operand) => {
+  /**
+   * @type {[string, RuleOrLiteral][]}
+   */
+  const table = [
+    ["multiplicative", choice(...multiplicative_operators)],
+    ["additive", choice(...additive_operators)],
+    ["shift", choice(...shift_operators)],
+    ["comparative", choice(...comparative_operators)],
+    ["bitwise_and", "&"],
+    ["bitwise_xor", "^"],
+    ["bitwise_or", "|"],
+    ["and", "&&"],
+    ["or", "||"],
+  ];
+
+  return choice(
+    ...table.map(([precedence, operator]) =>
+      prec.left(precedence, seq(operand, operator, operand))
+    )
+  );
+};
+
 module.exports = grammar({
   name: "moonbit",
 
@@ -71,6 +94,8 @@ module.exports = grammar({
     [$._simple_expression, $.positional_parameter],
     [$._simple_type, $.positional_parameter],
     [$._simple_expression, $.arrow_function_expression],
+    [$._simple_expression, $._non_pipe_expression],
+    [$._simple_expression, $._non_pipe_simple_expression],
     [$._simple_pattern, $.lexmatch_simple_pattern],
     [$.list_comprehension_binder, $.for_in_expression],
   ],
@@ -616,6 +641,43 @@ module.exports = grammar({
         "_"
       ),
 
+    _non_pipe_expression: ($) =>
+      choice(
+        $._non_pipe_simple_expression,
+        alias($._non_pipe_binary_expression, $.binary_expression)
+      ),
+
+    _non_pipe_simple_expression: ($) =>
+      choice(
+        $.atomic_expression,
+        $.qualified_identifier,
+        $.unary_expression,
+        $.struct_expression,
+        alias($.nonempty_block_expression, $.block_expression),
+        $.anonymous_lambda_expression,
+        $.anonymous_matrix_lambda_expression,
+        $.constructor_expression,
+        $.apply_expression,
+        $.array_access_expression,
+        $.dot_apply_expression,
+        $.dot_dot_apply_expression,
+        $.access_expression,
+        $.method_expression,
+        $.unit_expression,
+        $.tuple_expression,
+        $.parenthesized_expression,
+        $.constraint_expression,
+        $.array_expression,
+        $.map_expression,
+        $.as_expression,
+        $.is_expression,
+        $.range_expression,
+        $.append_expression,
+        $.lexmatch_test_expression,
+        $.regex_match_expression,
+        "_"
+      ),
+
     atomic_expression: ($) => choice($.string_interpolation, $.literal),
 
     string_interpolation: ($) =>
@@ -730,29 +792,12 @@ module.exports = grammar({
     unary_expression: ($) =>
       seq(choice("-", "+", "!", "not"), $._simple_expression),
 
-    binary_expression: ($) => {
-      /**
-       * @type {[string, RuleOrLiteral][]}
-       */
-      const table = [
-        ["multiplicative", choice(...multiplicative_operators)],
-        ["additive", choice(...additive_operators)],
-        ["shift", choice(...shift_operators)],
-        ["comparative", choice(...comparative_operators)],
-        ["bitwise_and", "&"],
-        ["bitwise_xor", "^"],
-        ["bitwise_or", "|"],
-        ["and", "&&"],
-        ["or", "||"],
-      ];
+    _non_pipe_binary_expression: ($) =>
+      binaryExpression($._non_pipe_expression),
 
-      return choice(
-        ...table.map(([precedence, operator]) =>
-          prec.left(
-            precedence,
-            seq($._simple_expression, operator, $._simple_expression)
-          )
-        ),
+    binary_expression: ($) =>
+      choice(
+        binaryExpression($._simple_expression),
         prec.left(
           "pipe",
           seq(
@@ -764,13 +809,12 @@ module.exports = grammar({
         prec.left(
           "pipe",
           seq(
-            $._simple_expression,
+            $._non_pipe_expression,
             "<|",
-            choice($._simple_expression, $.pipe_arrow_function_expression)
+            choice($._non_pipe_expression, $.pipe_arrow_function_expression)
           )
         )
-      );
-    },
+      ),
 
     struct_expression: ($) =>
       choice(
