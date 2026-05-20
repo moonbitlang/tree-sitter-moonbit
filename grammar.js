@@ -98,6 +98,7 @@ module.exports = grammar({
     [$._simple_expression, $._non_pipe_simple_expression],
     [$._simple_pattern, $.lexmatch_simple_pattern],
     [$.list_comprehension_binder, $.for_in_expression],
+    [$.list_comprehension_for_binder, $._expression],
   ],
 
   rules: {
@@ -986,7 +987,7 @@ module.exports = grammar({
     list_comprehension_expression: ($) =>
       seq(
         "[",
-        $.list_comprehension_for_in,
+        choice($.list_comprehension_for_in, $.list_comprehension_for),
         optional($.list_comprehension_guard),
         "=>",
         $._expression,
@@ -999,9 +1000,42 @@ module.exports = grammar({
         strictList1(",", $.list_comprehension_binder),
         "in",
         $._expression,
-        optional(seq($._semicolon, strictList(",", $.for_binder))),
-        optional(seq($._semicolon, strictList(",", $.for_binder)))
+        optional(
+          seq(
+            $._semicolon,
+            strictList(",", alias($.list_comprehension_for_binder, $.for_binder))
+          )
+        ),
+        optional(
+          seq(
+            $._semicolon,
+            strictList(",", alias($.list_comprehension_for_binder, $.for_binder))
+          )
+        )
       ),
+
+    list_comprehension_for: ($) =>
+      seq(
+        "for",
+        strictList1(",", alias($.list_comprehension_for_binder, $.for_binder)),
+        optional(
+          choice(
+            seq(
+              $._semicolon,
+              optional($._simple_expression),
+              $._semicolon,
+              strictList1(
+                ",",
+                alias($.list_comprehension_for_binder, $.for_binder)
+              )
+            ),
+            seq($._semicolon, $._simple_expression)
+          )
+        )
+      ),
+
+    list_comprehension_for_binder: ($) =>
+      seq($._lowercase_identifier, "=", $._simple_expression),
 
     list_comprehension_binder: ($) => choice($._lowercase_identifier, "_"),
 

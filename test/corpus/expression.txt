@@ -184,6 +184,8 @@ list comprehension expression
 ================================================================================
 fn main {
   let xs = [for x in items if x > 0 => x + 1]
+  let ys = [for p1 = 1, p2 = 0;; p1 = p1 + p2, p2 = p1 => p1]
+  let zs = [for i = 0; i < 10 if i % 2 == 0 => i]
 }
 --------------------------------------------------------------------------------
 
@@ -213,7 +215,64 @@ fn main {
                 (lowercase_identifier))
               (atomic_expression
                 (literal
-                  (integer_literal))))))))))
+                  (integer_literal)))))))
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (list_comprehension_expression
+            (list_comprehension_for
+              (for_binder
+                (lowercase_identifier)
+                (atomic_expression
+                  (literal
+                    (integer_literal))))
+              (for_binder
+                (lowercase_identifier)
+                (atomic_expression
+                  (literal
+                    (integer_literal))))
+              (for_binder
+                (lowercase_identifier)
+                (binary_expression
+                  (qualified_identifier
+                    (lowercase_identifier))
+                  (qualified_identifier
+                    (lowercase_identifier))))
+              (for_binder
+                (lowercase_identifier)
+                (qualified_identifier
+                  (lowercase_identifier))))
+            (qualified_identifier
+              (lowercase_identifier)))))
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (list_comprehension_expression
+            (list_comprehension_for
+              (for_binder
+                (lowercase_identifier)
+                (atomic_expression
+                  (literal
+                    (integer_literal))))
+              (binary_expression
+                (qualified_identifier
+                  (lowercase_identifier))
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))
+            (list_comprehension_guard
+              (binary_expression
+                (binary_expression
+                  (qualified_identifier
+                    (lowercase_identifier))
+                  (atomic_expression
+                    (literal
+                      (integer_literal))))
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))
+            (qualified_identifier
+              (lowercase_identifier))))))))
 
 ================================================================================
 regex match expression
