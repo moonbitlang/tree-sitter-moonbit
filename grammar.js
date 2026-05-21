@@ -6,6 +6,29 @@ const additive_operators = ["+", "-"];
 const shift_operators = ["<<", ">>"];
 const comparative_operators = [">", ">=", "<=", "<", "==", "!="];
 
+const binaryExpression = (operand) => {
+  /**
+   * @type {[string, RuleOrLiteral][]}
+   */
+  const table = [
+    ["multiplicative", choice(...multiplicative_operators)],
+    ["additive", choice(...additive_operators)],
+    ["shift", choice(...shift_operators)],
+    ["comparative", choice(...comparative_operators)],
+    ["bitwise_and", "&"],
+    ["bitwise_xor", "^"],
+    ["bitwise_or", "|"],
+    ["and", "&&"],
+    ["or", "||"],
+  ];
+
+  return choice(
+    ...table.map(([precedence, operator]) =>
+      prec.left(precedence, seq(operand, operator, operand))
+    )
+  );
+};
+
 module.exports = grammar({
   name: "moonbit",
 
@@ -37,6 +60,7 @@ module.exports = grammar({
       $.apply_expression,
       $.access_expression,
       $.unary_expression,
+      "append",
       "multiplicative",
       "additive",
       "shift",
@@ -45,6 +69,7 @@ module.exports = grammar({
       "bitwise_xor",
       "bitwise_or",
       $.is_expression,
+      $.regex_match_expression,
       "and",
       "or",
       "pipe",
@@ -69,7 +94,11 @@ module.exports = grammar({
     [$._simple_expression, $.positional_parameter],
     [$._simple_type, $.positional_parameter],
     [$._simple_expression, $.arrow_function_expression],
+    [$._simple_expression, $._non_pipe_expression],
+    [$._simple_expression, $._non_pipe_simple_expression],
     [$._simple_pattern, $.lexmatch_simple_pattern],
+    [$.list_comprehension_binder, $.for_in_expression],
+    [$.list_comprehension_for_binder, $._expression],
   ],
 
   rules: {
@@ -415,6 +444,7 @@ module.exports = grammar({
       seq(
         optional($.attributes),
         optional("async"),
+        optional(seq("fn", optional($.type_parameters))),
         $.function_identifier,
         optional("!"),
         optional($.type_parameters),
@@ -605,8 +635,47 @@ module.exports = grammar({
         $.as_expression,
         $.is_expression,
         $.range_expression,
+        $.append_expression,
         $.binary_expression,
         $.lexmatch_test_expression,
+        $.regex_match_expression,
+        "_"
+      ),
+
+    _non_pipe_expression: ($) =>
+      choice(
+        $._non_pipe_simple_expression,
+        alias($._non_pipe_binary_expression, $.binary_expression)
+      ),
+
+    _non_pipe_simple_expression: ($) =>
+      choice(
+        $.atomic_expression,
+        $.qualified_identifier,
+        $.unary_expression,
+        $.struct_expression,
+        alias($.nonempty_block_expression, $.block_expression),
+        $.anonymous_lambda_expression,
+        $.anonymous_matrix_lambda_expression,
+        $.constructor_expression,
+        $.apply_expression,
+        $.array_access_expression,
+        $.dot_apply_expression,
+        $.dot_dot_apply_expression,
+        $.access_expression,
+        $.method_expression,
+        $.unit_expression,
+        $.tuple_expression,
+        $.parenthesized_expression,
+        $.constraint_expression,
+        $.array_expression,
+        $.map_expression,
+        $.as_expression,
+        $.is_expression,
+        $.range_expression,
+        $.append_expression,
+        $.lexmatch_test_expression,
+        $.regex_match_expression,
         "_"
       ),
 
@@ -724,29 +793,12 @@ module.exports = grammar({
     unary_expression: ($) =>
       seq(choice("-", "+", "!", "not"), $._simple_expression),
 
-    binary_expression: ($) => {
-      /**
-       * @type {[string, RuleOrLiteral][]}
-       */
-      const table = [
-        ["multiplicative", choice(...multiplicative_operators)],
-        ["additive", choice(...additive_operators)],
-        ["shift", choice(...shift_operators)],
-        ["comparative", choice(...comparative_operators)],
-        ["bitwise_and", "&"],
-        ["bitwise_xor", "^"],
-        ["bitwise_or", "|"],
-        ["and", "&&"],
-        ["or", "||"],
-      ];
+    _non_pipe_binary_expression: ($) =>
+      binaryExpression($._non_pipe_expression),
 
-      return choice(
-        ...table.map(([precedence, operator]) =>
-          prec.left(
-            precedence,
-            seq($._simple_expression, operator, $._simple_expression)
-          )
-        ),
+    binary_expression: ($) =>
+      choice(
+        binaryExpression($._simple_expression),
         prec.left(
           "pipe",
           seq(
@@ -754,9 +806,16 @@ module.exports = grammar({
             "|>",
             choice($._simple_expression, $.pipe_arrow_function_expression)
           )
+        ),
+        prec.left(
+          "pipe",
+          seq(
+            $._non_pipe_expression,
+            "<|",
+            choice($._non_pipe_expression, $.pipe_arrow_function_expression)
+          )
         )
-      );
-    },
+      ),
 
     struct_expression: ($) =>
       choice(
@@ -920,7 +979,67 @@ module.exports = grammar({
     constraint_expression: ($) => seq("(", $._expression, ":", $._type, ")"),
 
     array_expression: ($) =>
-      seq("[", list(",", seq(optional(".."), $._expression)), "]"),
+      choice(
+        seq("[", list(",", seq(optional(".."), $._expression)), "]"),
+        $.list_comprehension_expression
+      ),
+
+    list_comprehension_expression: ($) =>
+      seq(
+        "[",
+        choice($.list_comprehension_for_in, $.list_comprehension_for),
+        optional($.list_comprehension_guard),
+        "=>",
+        $._expression,
+        "]"
+      ),
+
+    list_comprehension_for_in: ($) =>
+      seq(
+        "for",
+        strictList1(",", $.list_comprehension_binder),
+        "in",
+        $._expression,
+        optional(
+          seq(
+            $._semicolon,
+            strictList(",", alias($.list_comprehension_for_binder, $.for_binder))
+          )
+        ),
+        optional(
+          seq(
+            $._semicolon,
+            strictList(",", alias($.list_comprehension_for_binder, $.for_binder))
+          )
+        )
+      ),
+
+    list_comprehension_for: ($) =>
+      seq(
+        "for",
+        strictList1(",", alias($.list_comprehension_for_binder, $.for_binder)),
+        optional(
+          choice(
+            seq(
+              $._semicolon,
+              optional($._simple_expression),
+              $._semicolon,
+              strictList1(
+                ",",
+                alias($.list_comprehension_for_binder, $.for_binder)
+              )
+            ),
+            seq($._semicolon, $._simple_expression)
+          )
+        )
+      ),
+
+    list_comprehension_for_binder: ($) =>
+      seq($._lowercase_identifier, "=", $._simple_expression),
+
+    list_comprehension_binder: ($) => choice($._lowercase_identifier, "_"),
+
+    list_comprehension_guard: ($) => seq("if", $._expression),
 
     map_expression: ($) => seq("{", list(",", $.map_element_expression), "}"),
 
@@ -964,6 +1083,48 @@ module.exports = grammar({
       prec.right(
         -1,
         seq($._simple_expression, "lexmatch?", $.lexmatch_pattern)
+      ),
+
+    append_expression: ($) =>
+      prec.left("append", seq($.left_value, "<+", $._simple_expression)),
+
+    regex_match_expression: ($) =>
+      seq($._simple_expression, "=~", $.regex_match_rhs),
+
+    regex_match_rhs: ($) =>
+      choice(
+        $.regex_atom_pattern,
+        seq("(", $.regex_as_pattern, ",", list(",", $.regex_match_binding), ")")
+      ),
+
+    regex_match_binding: ($) =>
+      choice(seq($._lowercase_identifier, "=", $.identifier), $.label),
+
+    regex_pattern: ($) => $.regex_as_pattern,
+
+    regex_as_pattern: ($) =>
+      prec.right(
+        choice(
+          $.regex_or_pattern,
+          seq($.regex_atom_pattern, "as", $.identifier)
+        )
+      ),
+
+    regex_or_pattern: ($) =>
+      prec.left(
+        seq($.regex_sequence_pattern, repeat(seq("|", $.regex_sequence_pattern)))
+      ),
+
+    regex_sequence_pattern: ($) =>
+      prec.left(
+        seq($.regex_atom_pattern, repeat(seq("+", $.regex_atom_pattern)))
+      ),
+
+    regex_atom_pattern: ($) =>
+      choice(
+        $.regex_literal,
+        $.constructor_expression,
+        seq("(", $.regex_as_pattern, ")")
       ),
 
     case_clause: ($) =>
@@ -1490,7 +1651,8 @@ module.exports = grammar({
     function_identifier: ($) =>
       choice(
         $._lowercase_identifier,
-        seq($.type_name, "::", $._lowercase_identifier)
+        seq($.type_name, "::", $._lowercase_identifier),
+        seq($.type_name, "::", $._uppercase_identifier)
       ),
 
     type_identifier: ($) =>

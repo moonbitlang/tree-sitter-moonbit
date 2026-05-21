@@ -447,6 +447,38 @@ fn &Trait::method(self: Self) -> Int { 42 }
           (integer_literal))))))
 
 ================================================================================
+constructor function definition
+================================================================================
+pub fn StringBuilder::StringBuilder() -> StringBuilder {
+  StringBuilder::new()
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (visibility)
+    (function_identifier
+      (type_name
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier))))
+      (uppercase_identifier))
+    (parameters)
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression
+      (apply_expression
+        (method_expression
+          (type_name
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))
+          (lowercase_identifier))
+        (arguments)))))
+
+================================================================================
 Test
 ================================================================================
 
