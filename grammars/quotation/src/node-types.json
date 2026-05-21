@@ -20,6 +20,10 @@
         "named": true
       },
       {
+        "type": "append_expression",
+        "named": true
+      },
+      {
         "type": "apply_expression",
         "named": true
       },
@@ -121,6 +125,10 @@
       },
       {
         "type": "range_expression",
+        "named": true
+      },
+      {
+        "type": "regex_match_expression",
         "named": true
       },
       {
@@ -462,6 +470,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -535,6 +547,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -638,6 +654,133 @@
     "fields": {}
   },
   {
+    "type": "append_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_matrix_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "append_expression",
+          "named": true
+        },
+        {
+          "type": "apply_expression",
+          "named": true
+        },
+        {
+          "type": "array_access_expression",
+          "named": true
+        },
+        {
+          "type": "array_expression",
+          "named": true
+        },
+        {
+          "type": "as_expression",
+          "named": true
+        },
+        {
+          "type": "atomic_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "constraint_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_expression",
+          "named": true
+        },
+        {
+          "type": "dot_apply_expression",
+          "named": true
+        },
+        {
+          "type": "dot_dot_apply_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "left_value",
+          "named": true
+        },
+        {
+          "type": "lexmatch_test_expression",
+          "named": true
+        },
+        {
+          "type": "map_expression",
+          "named": true
+        },
+        {
+          "type": "method_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_expression_expander",
+          "named": true
+        },
+        {
+          "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
+          "named": true
+        },
+        {
+          "type": "struct_expression",
+          "named": true
+        },
+        {
+          "type": "tuple_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unit_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "apply_expression",
     "named": true,
     "fields": {},
@@ -655,6 +798,10 @@
         },
         {
           "type": "anonymous_matrix_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "append_expression",
           "named": true
         },
         {
@@ -739,6 +886,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -856,6 +1007,10 @@
         {
           "type": "_expression",
           "named": true
+        },
+        {
+          "type": "list_comprehension_expression",
+          "named": true
         }
       ]
     }
@@ -970,6 +1125,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -1043,6 +1202,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -1285,6 +1448,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -1362,6 +1529,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -1785,6 +1956,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -1869,6 +2044,10 @@
           "named": true
         },
         {
+          "type": "regex_match_expression",
+          "named": true
+        },
+        {
           "type": "struct_expression",
           "named": true
         },
@@ -1905,6 +2084,10 @@
         },
         {
           "type": "anonymous_matrix_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "append_expression",
           "named": true
         },
         {
@@ -1989,6 +2172,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -2518,7 +2705,15 @@
           "named": true
         },
         {
+          "type": "quotation_uppercase_identifier_expander",
+          "named": true
+        },
+        {
           "type": "type_name",
+          "named": true
+        },
+        {
+          "type": "uppercase_identifier",
           "named": true
         }
       ]
@@ -2576,6 +2771,10 @@
         },
         {
           "type": "anonymous_matrix_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "append_expression",
           "named": true
         },
         {
@@ -2659,6 +2858,10 @@
           "named": true
         },
         {
+          "type": "regex_match_expression",
+          "named": true
+        },
+        {
           "type": "struct_expression",
           "named": true
         },
@@ -2714,6 +2917,10 @@
         },
         {
           "type": "anonymous_matrix_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "append_expression",
           "named": true
         },
         {
@@ -2797,6 +3004,10 @@
           "named": true
         },
         {
+          "type": "regex_match_expression",
+          "named": true
+        },
+        {
           "type": "struct_expression",
           "named": true
         },
@@ -2860,6 +3071,10 @@
         },
         {
           "type": "anonymous_matrix_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "append_expression",
           "named": true
         },
         {
@@ -2940,6 +3155,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -3132,6 +3351,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -3249,6 +3472,10 @@
         },
         {
           "type": "range_pattern",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -3578,6 +3805,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -3655,6 +3886,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -3835,6 +4070,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -3915,6 +4154,10 @@
           "named": true
         },
         {
+          "type": "regex_match_expression",
+          "named": true
+        },
+        {
           "type": "struct_expression",
           "named": true
         },
@@ -3943,6 +4186,217 @@
       "types": [
         {
           "type": "lexmatch_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list_comprehension_binder",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list_comprehension_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "list_comprehension_for",
+          "named": true
+        },
+        {
+          "type": "list_comprehension_for_in",
+          "named": true
+        },
+        {
+          "type": "list_comprehension_guard",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list_comprehension_for",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_matrix_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "append_expression",
+          "named": true
+        },
+        {
+          "type": "apply_expression",
+          "named": true
+        },
+        {
+          "type": "array_access_expression",
+          "named": true
+        },
+        {
+          "type": "array_expression",
+          "named": true
+        },
+        {
+          "type": "as_expression",
+          "named": true
+        },
+        {
+          "type": "atomic_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "constraint_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_expression",
+          "named": true
+        },
+        {
+          "type": "dot_apply_expression",
+          "named": true
+        },
+        {
+          "type": "dot_dot_apply_expression",
+          "named": true
+        },
+        {
+          "type": "for_binder",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "lexmatch_test_expression",
+          "named": true
+        },
+        {
+          "type": "map_expression",
+          "named": true
+        },
+        {
+          "type": "method_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_expression_expander",
+          "named": true
+        },
+        {
+          "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
+          "named": true
+        },
+        {
+          "type": "struct_expression",
+          "named": true
+        },
+        {
+          "type": "tuple_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unit_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list_comprehension_for_in",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
+          "named": true
+        },
+        {
+          "type": "for_binder",
+          "named": true
+        },
+        {
+          "type": "list_comprehension_binder",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "list_comprehension_guard",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         }
       ]
@@ -4161,6 +4615,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -4238,6 +4696,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -5248,6 +5710,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -5321,6 +5787,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -5406,6 +5876,52 @@
     }
   },
   {
+    "type": "regex_as_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "regex_atom_pattern",
+          "named": true
+        },
+        {
+          "type": "regex_or_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "regex_atom_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "constructor_expression",
+          "named": true
+        },
+        {
+          "type": "regex_as_pattern",
+          "named": true
+        },
+        {
+          "type": "regex_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "regex_literal",
     "named": true,
     "fields": {},
@@ -5415,6 +5931,213 @@
       "types": [
         {
           "type": "string_fragment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "regex_match_binding",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "label",
+          "named": true
+        },
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "regex_match_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "access_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "anonymous_matrix_lambda_expression",
+          "named": true
+        },
+        {
+          "type": "append_expression",
+          "named": true
+        },
+        {
+          "type": "apply_expression",
+          "named": true
+        },
+        {
+          "type": "array_access_expression",
+          "named": true
+        },
+        {
+          "type": "array_expression",
+          "named": true
+        },
+        {
+          "type": "as_expression",
+          "named": true
+        },
+        {
+          "type": "atomic_expression",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "block_expression",
+          "named": true
+        },
+        {
+          "type": "constraint_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_expression",
+          "named": true
+        },
+        {
+          "type": "dot_apply_expression",
+          "named": true
+        },
+        {
+          "type": "dot_dot_apply_expression",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "lexmatch_test_expression",
+          "named": true
+        },
+        {
+          "type": "map_expression",
+          "named": true
+        },
+        {
+          "type": "method_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "qualified_identifier",
+          "named": true
+        },
+        {
+          "type": "quotation_expression_expander",
+          "named": true
+        },
+        {
+          "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_rhs",
+          "named": true
+        },
+        {
+          "type": "struct_expression",
+          "named": true
+        },
+        {
+          "type": "tuple_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "unit_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "regex_match_rhs",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "regex_as_pattern",
+          "named": true
+        },
+        {
+          "type": "regex_atom_pattern",
+          "named": true
+        },
+        {
+          "type": "regex_match_binding",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "regex_or_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "regex_sequence_pattern",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "regex_sequence_pattern",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "regex_atom_pattern",
           "named": true
         }
       ]
@@ -5984,6 +6707,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -6057,6 +6784,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -6122,6 +6853,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -6195,6 +6930,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -6504,6 +7243,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -6577,6 +7320,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -6790,6 +7537,10 @@
           "named": true
         },
         {
+          "type": "append_expression",
+          "named": true
+        },
+        {
           "type": "apply_expression",
           "named": true
         },
@@ -6875,6 +7626,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "regex_match_expression",
           "named": true
         },
         {
@@ -7049,11 +7804,19 @@
     "named": false
   },
   {
+    "type": "<+",
+    "named": false
+  },
+  {
     "type": "<<",
     "named": false
   },
   {
     "type": "<=",
+    "named": false
+  },
+  {
+    "type": "<|",
     "named": false
   },
   {
@@ -7066,6 +7829,10 @@
   },
   {
     "type": "=>",
+    "named": false
+  },
+  {
+    "type": "=~",
     "named": false
   },
   {
