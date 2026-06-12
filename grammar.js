@@ -550,6 +550,7 @@ module.exports = grammar({
         $.type_name,
         optional(seq("for", $._type)),
         "with",
+        optional(seq("fn", optional($.type_parameters))),
         $.function_identifier,
         optional("!"),
         $.parameters,
