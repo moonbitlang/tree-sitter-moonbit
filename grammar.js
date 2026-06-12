@@ -1086,7 +1086,13 @@ module.exports = grammar({
       ),
 
     append_expression: ($) =>
-      prec.left("append", seq($.left_value, "<+", $._simple_expression)),
+      choice(
+        prec.left("append", seq($.left_value, "<+", $._simple_expression)),
+        prec.left(
+          "append",
+          seq($._simple_expression, "<?", $._simple_expression)
+        )
+      ),
 
     regex_match_expression: ($) =>
       seq($._simple_expression, "=~", $.regex_match_rhs),
