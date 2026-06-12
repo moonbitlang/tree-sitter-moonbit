@@ -373,12 +373,21 @@ template writing expression
 ================================================================================
 fn main {
   logger <+ "hello"
+  maybe_logger <? "hello"
   logger
     <+
+    "world"
+  maybe_logger
+    <?
     "world"
   logger
     <+
     $|line \{x}
+  maybe_logger
+    <?
+    $|line \{x}
+  maybe_logger <? { "message": "hello", "count": count }
+  logger.info(category="app") <? { "message": "hello" }
 }
 --------------------------------------------------------------------------------
 
@@ -397,9 +406,25 @@ fn main {
               (string_fragment
                 (unescaped_string_fragment))))))
       (append_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (atomic_expression
+          (literal
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment))))))
+      (append_expression
         (left_value
           (qualified_identifier
             (lowercase_identifier)))
+        (atomic_expression
+          (literal
+            (string_literal
+              (string_fragment
+                (unescaped_string_fragment))))))
+      (append_expression
+        (qualified_identifier
+          (lowercase_identifier))
         (atomic_expression
           (literal
             (string_literal
@@ -417,7 +442,68 @@ fn main {
                 (multiline_interpolation_content
                   (interpolator
                     (qualified_identifier
-                      (lowercase_identifier))))))))))))
+                      (lowercase_identifier)))))))))
+      (append_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (atomic_expression
+          (literal
+            (multiline_string_literal
+              (multiline_interpolation_fragment
+                (multiline_interpolation_content)
+                (multiline_interpolation_content
+                  (interpolator
+                    (qualified_identifier
+                      (lowercase_identifier)))))))))
+      (append_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (map_expression
+          (map_element_expression
+            (map_element_key
+              (literal
+                (string_literal
+                  (string_fragment
+                    (unescaped_string_fragment)))))
+            (atomic_expression
+              (literal
+                (string_literal
+                  (string_fragment
+                    (unescaped_string_fragment))))))
+          (map_element_expression
+            (map_element_key
+              (literal
+                (string_literal
+                  (string_fragment
+                    (unescaped_string_fragment)))))
+            (qualified_identifier
+              (lowercase_identifier)))))
+      (append_expression
+        (dot_apply_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (dot_identifier
+            (dot_lowercase_identifier))
+          (argument
+            (labelled_argument
+              (lowercase_identifier)
+              (atomic_expression
+                (literal
+                  (string_literal
+                    (string_fragment
+                      (unescaped_string_fragment))))))))
+        (map_expression
+          (map_element_expression
+            (map_element_key
+              (literal
+                (string_literal
+                  (string_fragment
+                    (unescaped_string_fragment)))))
+            (atomic_expression
+              (literal
+                (string_literal
+                  (string_fragment
+                    (unescaped_string_fragment)))))))))))
 
 ================================================================================
 binary expression

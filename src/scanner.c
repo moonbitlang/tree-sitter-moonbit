@@ -318,6 +318,7 @@ static enum AsiResult can_insert_semi(TSLexer *lexer,
     advance(lexer);
     switch (lexer->lookahead) {
     case '+': // LT_PLUS
+    case '?': // LT_QUESTION
     case '|': // PIPE_LEFT
       return ASI_REMOVE;
     default:

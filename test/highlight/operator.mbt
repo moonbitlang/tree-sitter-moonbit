@@ -45,6 +45,10 @@ fn main {
   //        ^^ operator
   println(1 != 2)
   //        ^^ operator
+  logger <+ "hello"
+  //     ^^ operator
+  logger <? { "message": "hello" }
+  //     ^^ operator
   try {
     fail!("a")
     //  ^ operator
