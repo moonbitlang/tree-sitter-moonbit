@@ -110,3 +110,71 @@ the local `core` and `async` checkouts to confirm the CI failures are gone.
 - Run `npm run lint`.
 - Parse local `~/Workspace/moonbit/core/**/*.mbt` and
   `~/Workspace/moonbit/async/**/*.mbt` with the regenerated parser.
+
+# PR 250 CI Follow-Up: Reverse Range And For-In Loop State
+
+## Goal
+
+Address the remaining PR #250 CI failures in `test-core` and `test-async` after
+rebasing onto current `main`.
+
+## Accepted Design
+
+Extend the existing MoonBit grammar in place:
+
+- accept `>=..` as a reverse inclusive range operator beside the already
+  supported reverse exclusive `>..` operator, keeping it as one lexical token
+  to match the compiler parser;
+- extend `for_in_expression` with the same loop-state alternatives as compiler
+  `foreach_optional_loop_vars(EXPR)`: empty, `; init`, and `; init ; update`.
+  The state binders keep full expression RHSs, matching `for_binders(EXPR)`.
+
+Keep the existing named node surfaces. The new syntax should parse into the
+existing `range_expression`, `for_in_expression`, and `for_binder` nodes.
+
+Implementation note: use inline high-precedence lexical tokens for `>..` and
+`>=..` so query highlighting can still match the operator strings; model the
+for-in loop state tail as one optional `; init_binders` followed by an optional
+`; update_binders`, reusing the existing `for_binder` node for both binder
+groups. The separators use the existing semicolon token so explicit semicolons
+and ASI line breaks both work. This matches the compiler parser shape without
+adding dynamic precedence or additional named nodes.
+
+## Target Files And Surfaces
+
+- `grammar.js`: add the `>=..` operator and extend the optional `for-in` loop
+  state tail.
+- `test/corpus/for.txt`: add corpus coverage for reverse inclusive ranges and
+  `for-in` loops with both init and update binders.
+- Generated parser artifacts under `src/` and `grammars/quotation/src/` are
+  refreshed with `scripts/generate.py`.
+
+## API And Interface Diff
+
+No new named tree-sitter node types are introduced.
+
+Accepted syntax additions:
+
+- `lhs >=.. rhs`
+- `for binder in expr; state = init; state = update { ... }`
+- `for k, v in expr; state = init; state = update { ... }`
+- newline-separated `for ... in expr` loop-state binders accepted via ASI
+
+## Open Questions
+
+None for this follow-up. The failing CI logs point directly at these two grammar
+surfaces.
+
+## Next Implementation Step
+
+Refresh generated parser artifacts, extend the `for.txt` corpus, and run the
+local/CI-equivalent parse validations.
+
+## Validation Plan
+
+- Run `python3 scripts/generate.py`.
+- Run `tree-sitter test`.
+- Run `npm run lint`.
+- Parse local `~/Workspace/moonbit/core` tracked `.mbt`/`.mbti` files.
+- Parse local `~/Workspace/moonbit/async` tracked `.mbt` files.
+- Push to #250 and watch GitHub PR checks.

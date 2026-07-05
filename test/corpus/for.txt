@@ -202,6 +202,65 @@ fn init {
             (lowercase_identifier)))))))
 
 ================================================================================
+for-in with loop state
+================================================================================
+fn main {
+  for k, v in extra_env; i = inherited_env_entry_count; i = i + 1 {
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (for_in_expression
+        (lowercase_identifier)
+        (lowercase_identifier)
+        (qualified_identifier
+          (lowercase_identifier))
+        (for_binder
+          (lowercase_identifier)
+          (qualified_identifier
+            (lowercase_identifier)))
+        (for_binder
+          (lowercase_identifier)
+          (binary_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (atomic_expression
+              (literal
+                (integer_literal)))))
+        (block_expression)))))
+
+================================================================================
+for-in with line break loop state
+================================================================================
+fn main {
+  for v in values
+      i = 0 {
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (for_in_expression
+        (lowercase_identifier)
+        (qualified_identifier
+          (lowercase_identifier))
+        (for_binder
+          (lowercase_identifier)
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (block_expression)))))
+
+================================================================================
 for-else
 ================================================================================
 fn init {
@@ -342,6 +401,30 @@ for in reverse exclusive range
 ================================================================================
 fn main {
   for i in n>..0 {
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (for_in_expression
+        (lowercase_identifier)
+        (range_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (block_expression)))))
+
+================================================================================
+for in reverse inclusive range
+================================================================================
+fn main {
+  for i in n>=..0 {
   }
 }
 --------------------------------------------------------------------------------

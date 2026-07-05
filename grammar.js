@@ -94,7 +94,6 @@ module.exports = grammar({
     [$._simple_expression, $.positional_parameter],
     [$._simple_type, $.positional_parameter],
     [$._simple_expression, $.arrow_function_expression],
-    [$._simple_expression, $._non_pipe_expression],
     [$._simple_expression, $._non_pipe_simple_expression],
     [$._simple_pattern, $.lexmatch_simple_pattern],
     [$.list_comprehension_binder, $.for_in_expression],
@@ -1376,8 +1375,14 @@ module.exports = grammar({
         "for",
         strictList(",", $._lowercase_identifier),
         "in",
-        $._expression,
-        optional(seq($._semicolon, strictList(",", $.for_binder))),
+        $._non_pipe_expression,
+        optional(
+          seq(
+            $._semicolon,
+            strictList1(",", $.for_binder),
+            optional(seq($._semicolon, strictList1(",", $.for_binder)))
+          )
+        ),
         $.block_expression,
         optional(choice($.else_clause, $.nobreak_clause)),
         optional($.where_clause)
@@ -1387,7 +1392,15 @@ module.exports = grammar({
       prec.left(
         seq(
           $._simple_expression,
-          choice("..<", "..=", "..<=", "..>", "..>=", ">.."),
+          choice(
+            "..<",
+            "..=",
+            "..<=",
+            "..>",
+            "..>=",
+            token(prec(1, ">..")),
+            token(prec(1, ">=.."))
+          ),
           $._simple_expression
         )
       ),
