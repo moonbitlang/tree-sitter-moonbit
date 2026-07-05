@@ -284,6 +284,7 @@
 
 (string_interpolation) @string
 (string_literal) @string
+(bytes_literal) @string
 (multiline_string_literal) @string
 (escape_sequence) @string.escape
 
@@ -294,6 +295,8 @@
 (integer_literal) @number
 (float_literal) @number.float
 (boolean_literal) @boolean
+(byte_literal) @character
+(byte_escape_literal) @character
 (char_literal) @character
 
 ;; Comments
