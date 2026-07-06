@@ -9921,7 +9921,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_non_pipe_expression"
+          "name": "_expression"
         },
         {
           "type": "CHOICE",
@@ -9934,36 +9934,44 @@
                   "name": "_semicolon"
                 },
                 {
-                  "type": "SEQ",
+                  "type": "CHOICE",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "for_binder"
-                    },
-                    {
-                      "type": "REPEAT",
-                      "content": {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "STRING",
-                            "value": ","
-                          },
-                          {
-                            "type": "CHOICE",
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "for_binder"
+                        },
+                        {
+                          "type": "REPEAT",
+                          "content": {
+                            "type": "SEQ",
                             "members": [
                               {
-                                "type": "SYMBOL",
-                                "name": "for_binder"
+                                "type": "STRING",
+                                "value": ","
                               },
                               {
-                                "type": "STRING",
-                                "value": "$..."
+                                "type": "CHOICE",
+                                "members": [
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "for_binder"
+                                  },
+                                  {
+                                    "type": "STRING",
+                                    "value": "$..."
+                                  }
+                                ]
                               }
                             ]
                           }
-                        ]
-                      }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
                     }
                   ]
                 },

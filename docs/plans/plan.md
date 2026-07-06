@@ -178,3 +178,57 @@ local/CI-equivalent parse validations.
 - Parse local `~/Workspace/moonbit/core` tracked `.mbt`/`.mbti` files.
 - Parse local `~/Workspace/moonbit/async` tracked `.mbt` files.
 - Push to #250 and watch GitHub PR checks.
+
+# PR 250 Codex Review Follow-Up: For-In Iterable And ASI
+
+## Goal
+
+Address the two automated Codex review comments on PR #250 without expanding
+the scope beyond `for_in_expression`.
+
+## Accepted Design
+
+Restore full expression parsing after `in` in `for_in_expression`, matching the
+MoonBit compiler parser's `foreach_header(expr)` behavior. This keeps pipe
+expressions such as `for x in xs |> filter() { ... }` valid.
+
+Keep the optional for-in loop-state tail, but allow the first state-binder list
+to be empty after an inserted automatic semicolon. This matches the compiler
+parser's `series_with_follow` behavior where `for x in xs` followed by a line
+break and body `{` does not require a loop-state binder.
+
+## Target Files And Surfaces
+
+- `grammar.js`: change the for-in iterable back to `$._expression` and relax
+  the first optional state-binder list from non-empty to optional.
+- `test/corpus/for.txt`: add corpus coverage for pipe iterable expressions and
+  for-in bodies whose opening brace is on the next line.
+- Generated parser artifacts under `src/` and `grammars/quotation/src/` are
+  refreshed with `scripts/generate.py`.
+
+## API And Interface Diff
+
+No new named tree-sitter node types are introduced.
+
+Accepted/recovered syntax covered by this follow-up:
+
+- `for x in xs |> filter() { ... }`
+- `for x in xs` followed by a newline and `{ ... }`
+
+## Open Questions
+
+None. Both Codex comments were reproduced locally with the current PR head.
+
+## Next Implementation Step
+
+Patch `for_in_expression`, extend the `for.txt` corpus, regenerate artifacts,
+and re-run the same PR #250 validation sweep.
+
+## Validation Plan
+
+- Run `python3 scripts/generate.py`.
+- Run `tree-sitter test`.
+- Run `npm run lint`.
+- Parse local `~/Workspace/moonbit/core` tracked `.mbt`/`.mbti` files.
+- Parse local `~/Workspace/moonbit/async` tracked `.mbt` files.
+- Push to #250 and verify GitHub PR checks.

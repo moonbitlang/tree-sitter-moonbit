@@ -1375,11 +1375,11 @@ module.exports = grammar({
         "for",
         strictList(",", $._lowercase_identifier),
         "in",
-        $._non_pipe_expression,
+        $._expression,
         optional(
           seq(
             $._semicolon,
-            strictList1(",", $.for_binder),
+            strictList(",", $.for_binder),
             optional(seq($._semicolon, strictList1(",", $.for_binder)))
           )
         ),

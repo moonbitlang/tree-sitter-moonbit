@@ -202,6 +202,52 @@ fn init {
             (lowercase_identifier)))))))
 
 ================================================================================
+for-in with pipe iterable
+================================================================================
+fn main {
+  for x in xs |> filter() {
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (for_in_expression
+        (lowercase_identifier)
+        (binary_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (apply_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (arguments)))
+        (block_expression)))))
+
+================================================================================
+for-in with line break body
+================================================================================
+fn main {
+  for x in xs
+  {
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (for_in_expression
+        (lowercase_identifier)
+        (qualified_identifier
+          (lowercase_identifier))
+        (block_expression)))))
+
+================================================================================
 for-in with loop state
 ================================================================================
 fn main {
