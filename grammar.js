@@ -1380,7 +1380,7 @@ module.exports = grammar({
           seq(
             $._semicolon,
             strictList(",", $.for_binder),
-            optional(seq($._semicolon, strictList1(",", $.for_binder)))
+            optional(seq($._semicolon, strictList(",", $.for_binder)))
           )
         ),
         $.block_expression,

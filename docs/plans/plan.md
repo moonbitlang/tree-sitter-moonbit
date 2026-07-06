@@ -232,3 +232,52 @@ and re-run the same PR #250 validation sweep.
 - Parse local `~/Workspace/moonbit/core` tracked `.mbt`/`.mbti` files.
 - Parse local `~/Workspace/moonbit/async` tracked `.mbt` files.
 - Push to #250 and verify GitHub PR checks.
+
+# PR 250 Codex Review Follow-Up: Single State ASI
+
+## Goal
+
+Address the new automated Codex review comment on PR #250 for for-in loops with
+a single loop-state binder followed by a line-break before the body brace.
+
+## Accepted Design
+
+Keep the current for-in loop-state shape, but relax the optional update-binder
+tail the same way as the init-binder tail. When an automatic semicolon is
+inserted before the body `{`, the grammar should be able to consume it as an
+empty update tail and then parse the block body.
+
+## Target Files And Surfaces
+
+- `grammar.js`: change the optional update list in `for_in_expression` from
+  non-empty to optional.
+- `test/corpus/for.txt`: add corpus coverage for `for v in values; i = 0`
+  followed by a newline and body `{`.
+- Generated parser artifacts under `src/` and `grammars/quotation/src/` are
+  refreshed with `scripts/generate.py`.
+
+## API And Interface Diff
+
+No new named tree-sitter node types are introduced.
+
+Accepted/recovered syntax covered by this follow-up:
+
+- `for v in values; i = 0` followed by a newline and `{ ... }`
+
+## Open Questions
+
+None. The Codex review example was reproduced locally on the current PR head.
+
+## Next Implementation Step
+
+Patch the update tail, extend the `for.txt` corpus, regenerate artifacts, and
+re-run the PR #250 validation sweep.
+
+## Validation Plan
+
+- Run `python3 scripts/generate.py`.
+- Run `tree-sitter test`.
+- Run `npm run lint`.
+- Parse local `~/Workspace/moonbit/core` tracked `.mbt`/`.mbti` files.
+- Parse local `~/Workspace/moonbit/async` tracked `.mbt` files.
+- Push to #250 and verify GitHub PR checks.
