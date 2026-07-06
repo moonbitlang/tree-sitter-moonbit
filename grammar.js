@@ -94,11 +94,12 @@ module.exports = grammar({
     [$._simple_expression, $.positional_parameter],
     [$._simple_type, $.positional_parameter],
     [$._simple_expression, $.arrow_function_expression],
-    [$._simple_expression, $._non_pipe_expression],
     [$._simple_expression, $._non_pipe_simple_expression],
     [$._simple_pattern, $.lexmatch_simple_pattern],
     [$.list_comprehension_binder, $.for_in_expression],
     [$.list_comprehension_for_binder, $._expression],
+    [$.block_expression, $.map_expression],
+    [$.block_expression, $.nonempty_block_expression],
   ],
 
   rules: {
@@ -1352,6 +1353,16 @@ module.exports = grammar({
           optional($.loop_label),
           "for",
           strictList(",", $.for_binder),
+          $._semicolon,
+          optional($._expression),
+          $.block_expression,
+          optional(choice($.else_clause, $.nobreak_clause)),
+          optional($.where_clause)
+        ),
+        seq(
+          optional($.loop_label),
+          "for",
+          strictList(",", $.for_binder),
           $.block_expression,
           optional(choice($.else_clause, $.nobreak_clause)),
           optional($.where_clause)
@@ -1365,7 +1376,13 @@ module.exports = grammar({
         strictList(",", $._lowercase_identifier),
         "in",
         $._expression,
-        optional(seq($._semicolon, strictList(",", $.for_binder))),
+        optional(
+          seq(
+            $._semicolon,
+            strictList(",", $.for_binder),
+            optional(seq($._semicolon, strictList(",", $.for_binder)))
+          )
+        ),
         $.block_expression,
         optional(choice($.else_clause, $.nobreak_clause)),
         optional($.where_clause)
@@ -1375,7 +1392,15 @@ module.exports = grammar({
       prec.left(
         seq(
           $._simple_expression,
-          choice("..<", "..=", "..<=", "..>", "..>=", ">.."),
+          choice(
+            "..<",
+            "..=",
+            "..<=",
+            "..>",
+            "..>=",
+            token(prec(1, ">..")),
+            token(prec(1, ">=.."))
+          ),
           $._simple_expression
         )
       ),

@@ -110,3 +110,174 @@ the local `core` and `async` checkouts to confirm the CI failures are gone.
 - Run `npm run lint`.
 - Parse local `~/Workspace/moonbit/core/**/*.mbt` and
   `~/Workspace/moonbit/async/**/*.mbt` with the regenerated parser.
+
+# PR 250 CI Follow-Up: Reverse Range And For-In Loop State
+
+## Goal
+
+Address the remaining PR #250 CI failures in `test-core` and `test-async` after
+rebasing onto current `main`.
+
+## Accepted Design
+
+Extend the existing MoonBit grammar in place:
+
+- accept `>=..` as a reverse inclusive range operator beside the already
+  supported reverse exclusive `>..` operator, keeping it as one lexical token
+  to match the compiler parser;
+- extend `for_in_expression` with the same loop-state alternatives as compiler
+  `foreach_optional_loop_vars(EXPR)`: empty, `; init`, and `; init ; update`.
+  The state binders keep full expression RHSs, matching `for_binders(EXPR)`.
+
+Keep the existing named node surfaces. The new syntax should parse into the
+existing `range_expression`, `for_in_expression`, and `for_binder` nodes.
+
+Implementation note: use inline high-precedence lexical tokens for `>..` and
+`>=..` so query highlighting can still match the operator strings; model the
+for-in loop state tail as one optional `; init_binders` followed by an optional
+`; update_binders`, reusing the existing `for_binder` node for both binder
+groups. The separators use the existing semicolon token so explicit semicolons
+and ASI line breaks both work. This matches the compiler parser shape without
+adding dynamic precedence or additional named nodes.
+
+## Target Files And Surfaces
+
+- `grammar.js`: add the `>=..` operator and extend the optional `for-in` loop
+  state tail.
+- `test/corpus/for.txt`: add corpus coverage for reverse inclusive ranges and
+  `for-in` loops with both init and update binders.
+- Generated parser artifacts under `src/` and `grammars/quotation/src/` are
+  refreshed with `scripts/generate.py`.
+
+## API And Interface Diff
+
+No new named tree-sitter node types are introduced.
+
+Accepted syntax additions:
+
+- `lhs >=.. rhs`
+- `for binder in expr; state = init; state = update { ... }`
+- `for k, v in expr; state = init; state = update { ... }`
+- newline-separated `for ... in expr` loop-state binders accepted via ASI
+
+## Open Questions
+
+None for this follow-up. The failing CI logs point directly at these two grammar
+surfaces.
+
+## Next Implementation Step
+
+Refresh generated parser artifacts, extend the `for.txt` corpus, and run the
+local/CI-equivalent parse validations.
+
+## Validation Plan
+
+- Run `python3 scripts/generate.py`.
+- Run `tree-sitter test`.
+- Run `npm run lint`.
+- Parse local `~/Workspace/moonbit/core` tracked `.mbt`/`.mbti` files.
+- Parse local `~/Workspace/moonbit/async` tracked `.mbt` files.
+- Push to #250 and watch GitHub PR checks.
+
+# PR 250 Codex Review Follow-Up: For-In Iterable And ASI
+
+## Goal
+
+Address the two automated Codex review comments on PR #250 without expanding
+the scope beyond `for_in_expression`.
+
+## Accepted Design
+
+Restore full expression parsing after `in` in `for_in_expression`, matching the
+MoonBit compiler parser's `foreach_header(expr)` behavior. This keeps pipe
+expressions such as `for x in xs |> filter() { ... }` valid.
+
+Keep the optional for-in loop-state tail, but allow the first state-binder list
+to be empty after an inserted automatic semicolon. This matches the compiler
+parser's `series_with_follow` behavior where `for x in xs` followed by a line
+break and body `{` does not require a loop-state binder.
+
+## Target Files And Surfaces
+
+- `grammar.js`: change the for-in iterable back to `$._expression` and relax
+  the first optional state-binder list from non-empty to optional.
+- `test/corpus/for.txt`: add corpus coverage for pipe iterable expressions and
+  for-in bodies whose opening brace is on the next line.
+- Generated parser artifacts under `src/` and `grammars/quotation/src/` are
+  refreshed with `scripts/generate.py`.
+
+## API And Interface Diff
+
+No new named tree-sitter node types are introduced.
+
+Accepted/recovered syntax covered by this follow-up:
+
+- `for x in xs |> filter() { ... }`
+- `for x in xs` followed by a newline and `{ ... }`
+
+## Open Questions
+
+None. Both Codex comments were reproduced locally with the current PR head.
+
+## Next Implementation Step
+
+Patch `for_in_expression`, extend the `for.txt` corpus, regenerate artifacts,
+and re-run the same PR #250 validation sweep.
+
+## Validation Plan
+
+- Run `python3 scripts/generate.py`.
+- Run `tree-sitter test`.
+- Run `npm run lint`.
+- Parse local `~/Workspace/moonbit/core` tracked `.mbt`/`.mbti` files.
+- Parse local `~/Workspace/moonbit/async` tracked `.mbt` files.
+- Push to #250 and verify GitHub PR checks.
+
+# PR 250 Codex Review Follow-Up: Single State ASI
+
+## Goal
+
+Address the new automated Codex review comment on PR #250 for for-in loops with
+a single loop-state binder followed by a line-break before the body brace.
+
+## Accepted Design
+
+Keep the current for-in loop-state shape, but relax the optional update-binder
+tail the same way as the init-binder tail. When an automatic semicolon is
+inserted before the body `{`, the grammar should be able to consume it as an
+empty update tail and then parse the block body.
+
+## Target Files And Surfaces
+
+- `grammar.js`: change the optional update list in `for_in_expression` from
+  non-empty to optional.
+- `test/corpus/for.txt`: add corpus coverage for `for v in values; i = 0`
+  followed by a newline and body `{`.
+- Generated parser artifacts under `src/` and `grammars/quotation/src/` are
+  refreshed with `scripts/generate.py`.
+
+## API And Interface Diff
+
+No new named tree-sitter node types are introduced.
+
+Accepted/recovered syntax covered by this follow-up:
+
+- `for v in values; i = 0` followed by a newline and `{ ... }`
+
+## Open Questions
+
+None. The Codex review example was reproduced locally on the current PR head.
+
+## Next Implementation Step
+
+Patch the update tail, extend the `for.txt` corpus, regenerate artifacts, and
+re-run the PR #250 validation sweep.
+
+## Validation Plan
+
+- Run `python3 scripts/generate.py`.
+- Run `tree-sitter test`.
+- Run `npm run lint`.
+- Parse local `~/Workspace/moonbit/core` tracked `.mbt`/`.mbti` files.
+- Parse local `~/Workspace/moonbit/async` tracked `.mbt` files.
+- Push to #250 and verify GitHub PR checks.
