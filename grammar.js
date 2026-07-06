@@ -100,6 +100,7 @@ module.exports = grammar({
     [$.list_comprehension_for_binder, $._expression],
     [$.block_expression, $.map_expression],
     [$.block_expression, $.nonempty_block_expression],
+    [$.extenum_definition, $._extenum_extension_target],
   ],
 
   rules: {
@@ -116,6 +117,8 @@ module.exports = grammar({
         $.struct_definition,
         $.tuple_struct_definition,
         $.enum_definition,
+        $.extenum_definition,
+        $.extenum_extension,
         $.value_definition,
         $.const_definition,
         $.function_definition,
@@ -326,6 +329,36 @@ module.exports = grammar({
         "}",
         optional($.derive_directive)
       ),
+
+    extenum_definition: ($) =>
+      seq(
+        optional($.attributes),
+        optional("declare"),
+        optional($.visibility),
+        "extenum",
+        $.identifier,
+        optional($.type_parameters),
+        $._extenum_body,
+        optional($.derive_directive)
+      ),
+
+    extenum_extension: ($) =>
+      seq(
+        optional($.attributes),
+        optional("declare"),
+        optional($.visibility),
+        "extenum",
+        $._extenum_extension_target,
+        optional($.type_parameters),
+        "+=",
+        $._extenum_body,
+        optional($.derive_directive)
+      ),
+
+    _extenum_extension_target: ($) =>
+      choice($.identifier, seq($.package_identifier, $.dot_uppercase_identifier)),
+
+    _extenum_body: ($) => seq("{", list($._semicolon, $.enum_constructor), "}"),
 
     enum_constructor_payload: ($) =>
       choice(

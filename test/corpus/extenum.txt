@@ -1,0 +1,259 @@
+================================================================================
+extenum declaration
+================================================================================
+pub extenum Expr[T] {
+  Int(T)
+  Add(Expr[T], Expr[T])
+} derive(Debug)
+--------------------------------------------------------------------------------
+
+(structure
+  (extenum_definition
+    (visibility)
+    (identifier
+      (uppercase_identifier))
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
+    (derive_directive
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
+
+================================================================================
+extenum local extension
+================================================================================
+extenum Expr[T] += {
+  Mul(Expr[T], Expr[T])
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (extenum_extension
+    (identifier
+      (uppercase_identifier))
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))))
+
+================================================================================
+extenum foreign extension
+================================================================================
+declare pub extenum @pkg.Expr[T] += {
+  Let(String, @pkg.Expr[T], @pkg.Expr[T])
+} derive(Debug)
+--------------------------------------------------------------------------------
+
+(structure
+  (extenum_extension
+    (visibility)
+    (package_identifier)
+    (dot_uppercase_identifier)
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (package_identifier)
+              (dot_identifier
+                (dot_uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (package_identifier)
+              (dot_identifier
+                (dot_uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
+    (derive_directive
+      (derive_item
+        (type_name
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))))
+
+================================================================================
+extenum compiler sample
+================================================================================
+pub extenum Expr[T] {
+  Int(T)
+  Add(Expr[T], Expr[T])
+}
+
+extenum Expr[T] += {
+  Mul(Expr[T], Expr[T])
+}
+
+pub extenum @pkg.Expr[T] += {
+  Let(String, @pkg.Expr[T], @pkg.Expr[T])
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (extenum_definition
+    (visibility)
+    (identifier
+      (uppercase_identifier))
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))))
+  (extenum_extension
+    (identifier
+      (uppercase_identifier))
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))))))))
+  (extenum_extension
+    (visibility)
+    (package_identifier)
+    (dot_uppercase_identifier)
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (package_identifier)
+              (dot_identifier
+                (dot_uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (package_identifier)
+              (dot_identifier
+                (dot_uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))))

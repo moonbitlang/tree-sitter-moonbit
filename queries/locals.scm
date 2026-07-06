@@ -19,6 +19,7 @@
 
 (struct_definition (identifier) @local.definition)
 (enum_definition (identifier) @local.definition)
+(extenum_definition (identifier) @local.definition)
 (type_definition (identifier) @local.definition)
 (type_identifier) @local.definition
 

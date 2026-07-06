@@ -28,6 +28,8 @@
     (identifier) @name) @definition.class
    (enum_definition
     (identifier) @name) @definition.class
+   (extenum_definition
+    (identifier) @name) @definition.class
    (error_type_definition
     (identifier) @name) @definition.class
  ]
