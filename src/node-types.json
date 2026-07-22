@@ -330,6 +330,14 @@
         "named": true
       },
       {
+        "type": "extenum_definition",
+        "named": true
+      },
+      {
+        "type": "extenum_extension",
+        "named": true
+      },
+      {
         "type": "function_alias_definition",
         "named": true
       },
@@ -2309,6 +2317,84 @@
     "type": "escape_sequence",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "extenum_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "derive_directive",
+          "named": true
+        },
+        {
+          "type": "enum_constructor",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "visibility",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "extenum_extension",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "derive_directive",
+          "named": true
+        },
+        {
+          "type": "dot_uppercase_identifier",
+          "named": true
+        },
+        {
+          "type": "enum_constructor",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "package_identifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "visibility",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "external_linkage",
@@ -7534,6 +7620,10 @@
     "named": false
   },
   {
+    "type": "declare",
+    "named": false
+  },
+  {
     "type": "defer",
     "named": false
   },
@@ -7555,6 +7645,10 @@
   },
   {
     "type": "enum",
+    "named": false
+  },
+  {
+    "type": "extenum",
     "named": false
   },
   {
