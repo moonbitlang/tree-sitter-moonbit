@@ -903,7 +903,9 @@ module.exports = grammar({
         "fn",
         optional("!"),
         $.parameters,
-        optional(seq("->", $.return_type)),
+        // Anonymous functions use the same explicit effect annotations as
+        // named functions, including `raise`, `raise T`, and `noraise`.
+        optional(choice(seq("->", $.return_type), $.error_annotation)),
         $.block_expression
       ),
 
