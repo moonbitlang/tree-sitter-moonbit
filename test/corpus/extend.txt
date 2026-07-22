@@ -1,0 +1,88 @@
+================================================================================
+trait method extensions
+================================================================================
+extend Reader with @io.Reader::{read_some, read_all}
+
+pub extend Deque with Compare::{compare}
+
+extend &Transport with @io.Writer::{write}
+
+#deprecated("Use operators instead", skip_current_package=true)
+#doc(hidden)
+pub extend Deque with Eq::{op_equal, op_not_equal}
+--------------------------------------------------------------------------------
+
+(structure
+  (trait_method_extension
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (type_name
+      (qualified_type_identifier
+        (package_identifier)
+        (dot_identifier
+          (dot_uppercase_identifier))))
+    (extended_method
+      (lowercase_identifier))
+    (extended_method
+      (lowercase_identifier)))
+  (trait_method_extension
+    (visibility)
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (extended_method
+      (lowercase_identifier)))
+  (trait_method_extension
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (type_name
+      (qualified_type_identifier
+        (package_identifier)
+        (dot_identifier
+          (dot_uppercase_identifier))))
+    (extended_method
+      (lowercase_identifier)))
+  (trait_method_extension
+    (attributes
+      (attribute
+        (attribute_expression
+          (lowercase_identifier)
+          (attribute_properties
+            (attribute_property
+              (attribute_expression
+                (string_literal
+                  (string_fragment
+                    (unescaped_string_fragment)))))
+            (attribute_property
+              (lowercase_identifier)
+              (attribute_expression
+                (lowercase_identifier))))))
+      (attribute
+        (attribute_expression
+          (lowercase_identifier)
+          (attribute_properties
+            (attribute_property
+              (attribute_expression
+                (lowercase_identifier)))))))
+    (visibility)
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (extended_method
+      (lowercase_identifier))
+    (extended_method
+      (lowercase_identifier))))

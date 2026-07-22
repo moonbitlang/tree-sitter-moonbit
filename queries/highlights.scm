@@ -172,6 +172,7 @@
 (function_alias_target (lowercase_identifier) @function)
 (trait_method_declaration (function_identifier) @function)
 (impl_definition (function_identifier) @function)
+(trait_method_extension (extended_method) @function.method)
 
 ; Method definitions
 
@@ -225,7 +226,7 @@
 
 [ "package" "import" ] @keyword.import
 
-[ "fn" "test" "impl" "fnalias" ] @keyword.function
+[ "fn" "test" "impl" "fnalias" "extend" ] @keyword.function
 "return" @keyword.return
 [ "while" "loop" "for" "break" "continue" "in" ] @keyword.repeat
 

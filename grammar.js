@@ -126,6 +126,7 @@ module.exports = grammar({
         $.trait_definition,
         $.impl_definition,
         $.impl_declaration,
+        $.trait_method_extension,
         $.type_alias_definition,
         $.trait_alias_definition,
         $.function_alias_definition
@@ -603,6 +604,24 @@ module.exports = grammar({
         "for",
         $._type
       ),
+
+    // `extend` promotes selected trait methods onto a type without defining
+    // new bodies. Both local types and trait objects use the type-name syntax.
+    trait_method_extension: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "extend",
+        field("type", $.type_name),
+        "with",
+        field("trait", $.type_name),
+        "::",
+        "{",
+        list1(",", $.extended_method),
+        "}"
+      ),
+
+    extended_method: ($) => $._lowercase_identifier,
 
     _complex_expression: ($) =>
       choice(
