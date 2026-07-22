@@ -633,6 +633,7 @@ module.exports = grammar({
         $.loop_expression,
         $.match_expression,
         $.lexmatch_expression,
+        $.lexscan_expression,
         $.for_expression,
         $.for_in_expression,
         $.try_catch_expression,
@@ -1136,6 +1137,40 @@ module.exports = grammar({
         "{",
         list($._semicolon, $.lexmatch_case_clause),
         "}"
+      ),
+
+    // Unlike lexmatch, lexscan accepts regex captures as well as a binder for
+    // the complete token. Both forms share the existing regex pattern grammar.
+    lexscan_expression: ($) =>
+      seq(
+        "lexscan",
+        $._simple_expression,
+        optional(seq("with", $._lowercase_identifier)),
+        "{",
+        list($._semicolon, $.lexscan_case_clause),
+        "}"
+      ),
+
+    lexscan_case_clause: ($) =>
+      seq(
+        $.lexscan_case_pattern,
+        optional($.pattern_guard),
+        "=>",
+        $._statement_expression
+      ),
+
+    lexscan_case_pattern: ($) =>
+      choice(
+        $.regex_pattern,
+        seq(
+          "(",
+          $.regex_pattern,
+          ",",
+          list1(",", $.regex_match_binding),
+          ")"
+        ),
+        $._lowercase_identifier,
+        $.any_pattern
       ),
 
     lexmatch_test_expression: ($) =>

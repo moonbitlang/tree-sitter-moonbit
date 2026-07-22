@@ -218,7 +218,7 @@
 
 [
   "guard" "let" "letrec" "and" "const"
-  "with" "as" "is" "lexmatch?" "using" "where" "longest" "nobreak"
+  "with" "as" "is" "lexmatch?" "lexscan" "using" "where" "longest" "nobreak"
   "defer"
 ] @keyword
 

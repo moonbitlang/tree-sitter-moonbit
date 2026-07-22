@@ -1,0 +1,113 @@
+================================================================================
+lexscan expressions
+================================================================================
+fn init {
+  lexscan lexbuf {
+    re"[0-9]+" => ()
+    re"[a-z]+" if is_alpha => ()
+    Token => ()
+    x => x
+    _ => ()
+  }
+  lexscan source with longest {
+    ((re"if" | re"else") as keyword, before=prefix, after~) => prefix
+    @pkg.Token => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (lexscan_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (lexscan_case_clause
+          (lexscan_case_pattern
+            (regex_pattern
+              (regex_as_pattern
+                (regex_or_pattern
+                  (regex_sequence_pattern
+                    (regex_atom_pattern
+                      (regex_literal
+                        (string_fragment
+                          (unescaped_string_fragment)))))))))
+          (unit_expression))
+        (lexscan_case_clause
+          (lexscan_case_pattern
+            (regex_pattern
+              (regex_as_pattern
+                (regex_or_pattern
+                  (regex_sequence_pattern
+                    (regex_atom_pattern
+                      (regex_literal
+                        (string_fragment
+                          (unescaped_string_fragment)))))))))
+          (pattern_guard
+            (qualified_identifier
+              (lowercase_identifier)))
+          (unit_expression))
+        (lexscan_case_clause
+          (lexscan_case_pattern
+            (regex_pattern
+              (regex_as_pattern
+                (regex_or_pattern
+                  (regex_sequence_pattern
+                    (regex_atom_pattern
+                      (constructor_expression
+                        (uppercase_identifier))))))))
+          (unit_expression))
+        (lexscan_case_clause
+          (lexscan_case_pattern
+            (lowercase_identifier))
+          (qualified_identifier
+            (lowercase_identifier)))
+        (lexscan_case_clause
+          (lexscan_case_pattern
+            (any_pattern))
+          (unit_expression)))
+      (lexscan_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (lowercase_identifier)
+        (lexscan_case_clause
+          (lexscan_case_pattern
+            (regex_pattern
+              (regex_as_pattern
+                (regex_atom_pattern
+                  (regex_as_pattern
+                    (regex_or_pattern
+                      (regex_sequence_pattern
+                        (regex_atom_pattern
+                          (regex_literal
+                            (string_fragment
+                              (unescaped_string_fragment)))))
+                      (regex_sequence_pattern
+                        (regex_atom_pattern
+                          (regex_literal
+                            (string_fragment
+                              (unescaped_string_fragment))))))))
+                (identifier
+                  (lowercase_identifier))))
+            (regex_match_binding
+              (lowercase_identifier)
+              (identifier
+                (lowercase_identifier)))
+            (regex_match_binding
+              (label
+                (lowercase_identifier))))
+          (qualified_identifier
+            (lowercase_identifier)))
+        (lexscan_case_clause
+          (lexscan_case_pattern
+            (regex_pattern
+              (regex_as_pattern
+                (regex_or_pattern
+                  (regex_sequence_pattern
+                    (regex_atom_pattern
+                      (constructor_expression
+                        (package_identifier)
+                        (dot_uppercase_identifier))))))))
+          (unit_expression))))))
