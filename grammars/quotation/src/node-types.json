@@ -635,6 +635,10 @@
           "named": true
         },
         {
+          "type": "error_annotation",
+          "named": true
+        },
+        {
           "type": "parameters",
           "named": true
         },
