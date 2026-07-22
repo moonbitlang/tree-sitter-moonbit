@@ -316,6 +316,7 @@ does not include `extenum`.
   definitions.
 - `queries/tags.scm`: expose `extenum_definition` as a class/type definition.
 - `queries/folds.scm`: add fold coverage for both `extenum` forms.
+- `test/highlight/extenum.mbt`: assert declaration and extension highlighting.
 - `test/corpus/*`: add parser coverage for local declarations, local
   extensions, and foreign package extensions.
 - Generated parser artifacts under `src/` and `grammars/quotation/src/` are
