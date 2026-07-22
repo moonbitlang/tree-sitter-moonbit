@@ -27,6 +27,58 @@ fn init {
             (lowercase_identifier)))))))
 
 ================================================================================
+anonymous function effect annotations
+================================================================================
+fn init {
+  let pure = fn() noraise { () }
+  let fallible = fn() raise { fail("boom") }
+  let async_pure = async fn() -> Int noraise { 42 }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (anonymous_lambda_expression
+          (parameters)
+          (error_annotation)
+          (block_expression
+            (unit_expression))))
+      (let_expression
+        (lowercase_identifier)
+        (anonymous_lambda_expression
+          (parameters)
+          (error_annotation)
+          (block_expression
+            (apply_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (arguments
+                (argument
+                  (atomic_expression
+                    (literal
+                      (string_literal
+                        (string_fragment
+                          (unescaped_string_fragment)))))))))))
+      (let_expression
+        (lowercase_identifier)
+        (anonymous_lambda_expression
+          (parameters)
+          (return_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (error_annotation))
+          (block_expression
+            (atomic_expression
+              (literal
+                (integer_literal)))))))))
+
+================================================================================
 one-line
 ================================================================================
 fn init {
