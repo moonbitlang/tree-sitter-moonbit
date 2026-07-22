@@ -281,3 +281,71 @@ re-run the PR #250 validation sweep.
 - Parse local `~/Workspace/moonbit/core` tracked `.mbt`/`.mbti` files.
 - Parse local `~/Workspace/moonbit/async` tracked `.mbt` files.
 - Push to #250 and verify GitHub PR checks.
+
+# Extensible Enum Syntax
+
+## Goal
+
+Support parsing MoonBit's `extenum` declarations and extensions, matching the
+compiler grammar in `compiler/ideas`.
+
+## Accepted Design
+
+Add separate named nodes for the two semantic forms:
+
+- `extenum_definition` for open enum declarations such as
+  `pub extenum Expr[T] { ... }`
+- `extenum_extension` for constructor extensions such as
+  `extenum Expr[T] += { ... }` and `pub extenum @pkg.Expr[T] += { ... }`
+
+Both forms reuse the existing enum constructor, constructor payload, type
+parameter, visibility, attributes, and derive directive grammar. The new rules
+also accept the compiler-supported `declare` modifier before visibility.
+
+`extenum` is added only as a toplevel structure item. It is not added to block
+statement expressions because the compiler's local type declaration grammar
+does not include `extenum`.
+
+## Target Files And Surfaces
+
+- `grammar.js`: add `extenum_definition` and `extenum_extension` structure item
+  rules.
+- `queries/highlights.scm`: highlight `extenum_definition` names as type
+  definitions and `extenum_extension` targets as type references.
+- `queries/locals.scm`: bind only `extenum_definition` names as local type
+  definitions.
+- `queries/tags.scm`: expose `extenum_definition` as a class/type definition.
+- `queries/folds.scm`: add fold coverage for both `extenum` forms.
+- `test/highlight/extenum.mbt`: assert declaration and extension highlighting.
+- `test/corpus/*`: add parser coverage for local declarations, local
+  extensions, and foreign package extensions.
+- Generated parser artifacts under `src/` and `grammars/quotation/src/` are
+  refreshed only for local validation and intentionally not committed unless a
+  later explicit decision says otherwise.
+
+## API And Interface Diff
+
+Generated `src/node-types.json` gains two named node types:
+
+- `extenum_definition`
+- `extenum_extension`
+
+No existing named node types are removed or renamed. Existing enum constructor
+node shapes are reused.
+
+## Open Questions
+
+None. `declare` support is included for the new `extenum` forms only; extending
+old `struct`, `enum`, or `type` declaration rules is intentionally out of
+scope.
+
+## Next Implementation Step
+
+Patch the grammar, query files, and corpus coverage, then regenerate the parser
+for local validation.
+
+## Validation Plan
+
+- Run `python3 scripts/generate.py`.
+- Run `tree-sitter test`.
+- Run `npm run lint`.

@@ -73,6 +73,7 @@
 ; Type definitions
 
 (enum_definition (identifier) @type.definition)
+(extenum_definition (identifier) @type.definition)
 (struct_definition (identifier) @type.definition)
 (tuple_struct_definition (identifier) @type.definition)
 (type_definition (identifier) @type.definition)
@@ -84,6 +85,8 @@
 (trait_alias_targets (identifier) @type.definition)
 (trait_alias_targets (dot_identifier) @type.definition)
 (trait_alias_target (identifier) @type.definition)
+(extenum_extension (identifier) @type)
+(extenum_extension (dot_uppercase_identifier) @type)
 
 ; Builtin types
 
@@ -205,11 +208,11 @@
 [ (mutability) "mut" ] @keyword.modifier
 
 [
-  "struct" "enum" "type" "trait" "typealias" "traitalias" "suberror"
+  "struct" "enum" "extenum" "type" "trait" "typealias" "traitalias" "suberror"
 ] @keyword.type
 
 [
-  "pub" "priv" "readonly" "all" "open" "extern"
+  "pub" "priv" "readonly" "all" "open" "extern" "declare"
 ] @keyword.modifier
 
 [
