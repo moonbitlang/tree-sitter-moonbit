@@ -2375,6 +2375,18 @@
                   "type": "CHOICE",
                   "members": [
                     {
+                      "type": "STRING",
+                      "value": "declare"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
                       "type": "SYMBOL",
                       "name": "visibility"
                     },
@@ -2528,6 +2540,18 @@
                   "type": "CHOICE",
                   "members": [
                     {
+                      "type": "STRING",
+                      "value": "declare"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
                       "type": "SYMBOL",
                       "name": "visibility"
                     },
@@ -2663,6 +2687,18 @@
                     {
                       "type": "SYMBOL",
                       "name": "attributes"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "declare"
                     },
                     {
                       "type": "BLANK"
