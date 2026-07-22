@@ -74,6 +74,69 @@ fn main {
           (unit_expression))))))
 
 ================================================================================
+or-pattern default bindings
+================================================================================
+fn main {
+  match optional_value {
+    Some(value) | (None with value = default) => value
+    Some([value, ..]) | (Some([]) | None with value = default) => value
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (match_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (case_clause
+          (or_pattern
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier)))
+            (parenthesized_pattern
+              (default_pattern
+                (constructor_pattern
+                  (constructor_expression
+                    (uppercase_identifier)))
+                (lowercase_identifier)
+                (qualified_identifier
+                  (lowercase_identifier)))))
+          (qualified_identifier
+            (lowercase_identifier)))
+        (case_clause
+          (or_pattern
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (array_pattern
+                  (array_sub_pattern
+                    (lowercase_identifier))
+                  (array_sub_pattern))))
+            (parenthesized_pattern
+              (default_pattern
+                (or_pattern
+                  (constructor_pattern
+                    (constructor_expression
+                      (uppercase_identifier))
+                    (constructor_pattern_argument
+                      (array_pattern)))
+                  (constructor_pattern
+                    (constructor_expression
+                      (uppercase_identifier))))
+                (lowercase_identifier)
+                (qualified_identifier
+                  (lowercase_identifier)))))
+          (qualified_identifier
+            (lowercase_identifier)))))))
+
+================================================================================
 literal pattern
 ================================================================================
 fn main {
