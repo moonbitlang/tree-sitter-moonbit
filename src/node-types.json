@@ -382,6 +382,10 @@
         "named": true
       },
       {
+        "type": "trait_method_extension",
+        "named": true
+      },
+      {
         "type": "tuple_struct_definition",
         "named": true
       },
@@ -2467,6 +2471,21 @@
     "type": "escape_sequence",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "extended_method",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "lowercase_identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "extenum_definition",
@@ -6494,6 +6513,50 @@
     "fields": {}
   },
   {
+    "type": "trait_method_extension",
+    "named": true,
+    "fields": {
+      "trait": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attributes",
+          "named": true
+        },
+        {
+          "type": "extended_method",
+          "named": true
+        },
+        {
+          "type": "visibility",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "trait_method_parameter",
     "named": true,
     "fields": {},
@@ -7795,6 +7858,10 @@
   },
   {
     "type": "enum",
+    "named": false
+  },
+  {
+    "type": "extend",
     "named": false
   },
   {
