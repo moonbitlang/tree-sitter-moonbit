@@ -10470,6 +10470,10 @@
         {
           "type": "SYMBOL",
           "name": "or_pattern"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "default_pattern"
         }
       ]
     },
@@ -10507,6 +10511,81 @@
           {
             "type": "SYMBOL",
             "name": "_pattern"
+          }
+        ]
+      }
+    },
+    "default_pattern": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_pattern"
+          },
+          {
+            "type": "STRING",
+            "value": "with"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "default_pattern_binding"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "default_pattern_binding"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "default_pattern_binding": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_lowercase_identifier"
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_non_pipe_expression"
           }
         ]
       }
@@ -12984,6 +13063,10 @@
       {
         "type": "SYMBOL",
         "name": "as_pattern"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "default_pattern"
       }
     ],
     [
