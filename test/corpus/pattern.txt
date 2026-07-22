@@ -80,6 +80,7 @@ fn main {
   match optional_value {
     Some(value) | (None with value = default) => value
     Some([value, ..]) | (Some([]) | None with value = default) => value
+    Present(a, b) | (Missing with a = default_a, b = default_b) => (a, b)
   }
 }
 --------------------------------------------------------------------------------
@@ -104,9 +105,10 @@ fn main {
                 (constructor_pattern
                   (constructor_expression
                     (uppercase_identifier)))
-                (lowercase_identifier)
-                (qualified_identifier
-                  (lowercase_identifier)))))
+                (default_pattern_binding
+                  (lowercase_identifier)
+                  (qualified_identifier
+                    (lowercase_identifier))))))
           (qualified_identifier
             (lowercase_identifier)))
         (case_clause
@@ -130,11 +132,39 @@ fn main {
                   (constructor_pattern
                     (constructor_expression
                       (uppercase_identifier))))
-                (lowercase_identifier)
-                (qualified_identifier
-                  (lowercase_identifier)))))
+                (default_pattern_binding
+                  (lowercase_identifier)
+                  (qualified_identifier
+                    (lowercase_identifier))))))
           (qualified_identifier
-            (lowercase_identifier)))))))
+            (lowercase_identifier)))
+        (case_clause
+          (or_pattern
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier)))
+            (parenthesized_pattern
+              (default_pattern
+                (constructor_pattern
+                  (constructor_expression
+                    (uppercase_identifier)))
+                (default_pattern_binding
+                  (lowercase_identifier)
+                  (qualified_identifier
+                    (lowercase_identifier)))
+                (default_pattern_binding
+                  (lowercase_identifier)
+                  (qualified_identifier
+                    (lowercase_identifier))))))
+          (tuple_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (qualified_identifier
+              (lowercase_identifier))))))))
 
 ================================================================================
 literal pattern

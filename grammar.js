@@ -1461,13 +1461,12 @@ module.exports = grammar({
     // lower precedence than `|`, so a grouped fallback can cover several arms.
     default_pattern: ($) =>
       prec.right(
-        seq(
-          $._pattern,
-          "with",
-          $._lowercase_identifier,
-          "=",
-          $._non_pipe_expression
-        )
+        seq($._pattern, "with", list1(",", $.default_pattern_binding))
+      ),
+
+    default_pattern_binding: ($) =>
+      prec.right(
+        seq($._lowercase_identifier, "=", $._non_pipe_expression)
       ),
 
     _simple_pattern: ($) =>
