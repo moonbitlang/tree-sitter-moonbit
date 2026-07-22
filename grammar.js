@@ -80,7 +80,7 @@ module.exports = grammar({
     [$.array_access_expression, $.unary_expression],
     [$.unary_expression, $.range_expression],
     [$.unary_expression, $.as_expression],
-    [$.or_pattern, $.as_pattern],
+    [$.or_pattern, $.as_pattern, $.default_pattern],
     [$.lexmatch_or_pattern, $.lexmatch_as_pattern],
   ],
 
@@ -1445,11 +1445,29 @@ module.exports = grammar({
     // Patterns
 
     _pattern: ($) =>
-      choice($._simple_pattern, $.range_pattern, $.as_pattern, $.or_pattern),
+      choice(
+        $._simple_pattern,
+        $.range_pattern,
+        $.as_pattern,
+        $.or_pattern,
+        $.default_pattern
+      ),
 
     as_pattern: ($) => seq($._pattern, "as", $._lowercase_identifier),
 
     or_pattern: ($) => prec.right(seq($._pattern, "|", $._pattern)),
+
+    // `with` supplies bindings missing from one side of an or-pattern. It has
+    // lower precedence than `|`, so a grouped fallback can cover several arms.
+    default_pattern: ($) =>
+      prec.right(
+        seq($._pattern, "with", list1(",", $.default_pattern_binding))
+      ),
+
+    default_pattern_binding: ($) =>
+      prec.right(
+        seq($._lowercase_identifier, "=", $._non_pipe_expression)
+      ),
 
     _simple_pattern: ($) =>
       choice(
