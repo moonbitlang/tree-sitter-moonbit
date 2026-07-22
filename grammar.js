@@ -411,6 +411,9 @@ module.exports = grammar({
     function_definition: ($) => {
       const signature = seq(
         optional($.attributes),
+        // Keep declared functions in the same node so existing symbol queries
+        // treat their names exactly like implemented functions.
+        optional("declare"),
         optional($.visibility),
         optional($.external_linkage),
         optional("async"),
