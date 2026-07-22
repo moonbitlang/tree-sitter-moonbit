@@ -13,9 +13,15 @@ def main():
         process = subprocess.Popen(["tree-sitter", "test"], cwd=grammar["path"])
         processes.append(process)
 
+    exit_code = 0
     for process in processes:
-        process.wait()
+        return_code = process.wait()
+        # Wait for every grammar, but preserve the first child failure for CI.
+        if return_code != 0 and exit_code == 0:
+            exit_code = return_code
+
+    return exit_code
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

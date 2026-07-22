@@ -5,6 +5,7 @@ on:
     branches: ["main"]
     paths:
       - grammar.js
+      - scripts/**
       - src/**
       - bindings/**
       - binding.gyp
@@ -12,6 +13,7 @@ on:
   pull_request:
     paths:
       - grammar.js
+      - scripts/**
       - src/**
       - bindings/**
       - binding.gyp
@@ -28,6 +30,9 @@ jobs:
         uses: tree-sitter/setup-action/cli@v2
         with:
           tree-sitter-ref: v0.26.8
+
+      - name: Test scripts
+        run: python3 -m unittest scripts/test_exit_codes.py
 
       - name: Generate tree-sitter parser
         run: python3 scripts/generate.py
