@@ -11,13 +11,12 @@ add_library(moonbit STATIC "${MOON_HOME}/lib/runtime.c")
 target_include_directories(moonbit PUBLIC "${MOON_HOME}/include")
 
 add_custom_target(
-  ${target_name}.c
+  grep.c
   COMMAND
-    moon build --target native --directory ${CMAKE_CURRENT_SOURCE_DIR}/src/grep
-    --target-dir ${CMAKE_CURRENT_BINARY_DIR}/target
+    moon build --target native
   BYPRODUCTS
-    ${CMAKE_CURRENT_BINARY_DIR}/target/native/release/build/grep/grep.c
-    ${CMAKE_CURRENT_BINARY_DIR}/target/native/release/build/grep/grep.exe)
+    target/native/release/build/grep/grep.c
+    target/native/release/build/grep/grep.exe)
 
 add_executable(grep
   target/native/release/build/grep/grep.c
