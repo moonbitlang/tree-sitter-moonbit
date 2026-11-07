@@ -1,0 +1,37 @@
+================================================================================
+bytes literal interpolation
+================================================================================
+fn f(i : Int) -> Unit {
+  let b = b"#\{i}"
+  ()
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (atomic_expression
+          (literal
+            (bytes_literal
+              (string_fragment
+                (unescaped_string_fragment))
+              (interpolator
+                (qualified_identifier
+                  (lowercase_identifier)))))))
+      (unit_expression))))

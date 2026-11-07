@@ -1,0 +1,84 @@
+================================================================================
+list comprehension with tuple binder and empty init
+================================================================================
+fn f(xs : Array[(Int, Int)]) -> Array[Int] {
+  [ for (_, x) in xs => x ]
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (apply_type
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier)))
+              (type_arguments
+                (tuple_type
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier))))))))))
+    (return_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (block_expression
+      (array_expression
+        (list_comprehension_expression
+          (list_comprehension_for_in
+            (list_comprehension_binder
+              (tuple_pattern
+                (any_pattern)
+                (lowercase_identifier)))
+            (qualified_identifier
+              (lowercase_identifier)))
+          (qualified_identifier
+            (lowercase_identifier)))))))
+
+================================================================================
+list comprehension with empty init and update
+================================================================================
+fn g() -> Array[Int] {
+  [ for ; true ; => { 1 } ]
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (apply_type
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))
+        (type_arguments
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))))
+    (block_expression
+      (array_expression
+        (list_comprehension_expression
+          (list_comprehension_for
+            (atomic_expression
+              (literal
+                (boolean_literal))))
+          (block_expression
+            (atomic_expression
+              (literal
+                (integer_literal)))))))))

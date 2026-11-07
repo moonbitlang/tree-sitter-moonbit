@@ -101,6 +101,12 @@ module.exports = grammar({
     [$.block_expression, $.map_expression],
     [$.block_expression, $.nonempty_block_expression],
     [$.extenum_definition, $._extenum_extension_target],
+    [$.enum_wildcard_pattern, $.type_name],
+    [$.list_comprehension_for, $._expression],
+    [$.literal, $.regex_atom_pattern, $.lexmatch_regex_atom],
+    [$.regex_atom_pattern, $.constructor_pattern],
+    [$.literal, $.lexmatch_regex_atom],
+    [$.lexmatch_pattern, $.lexmatch_simple_pattern],
   ],
 
   rules: {
@@ -117,6 +123,7 @@ module.exports = grammar({
         $.struct_definition,
         $.tuple_struct_definition,
         $.enum_definition,
+        $.enumview_definition,
         $.extenum_definition,
         $.extenum_extension,
         $.value_definition,
@@ -222,7 +229,8 @@ module.exports = grammar({
 
     derive_item: ($) => seq($.type_name, optional($.arguments)),
 
-    derive_directive: ($) => seq("derive", "(", list(",", $.derive_item), ")"),
+    derive_directive: ($) =>
+      seq(optional("#"), "derive", "(", list(",", $.derive_item), ")"),
 
     type_definition: ($) =>
       seq(
@@ -330,6 +338,25 @@ module.exports = grammar({
         "}",
         optional($.derive_directive)
       ),
+
+    enumview_definition: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "enumview",
+        optional($.type_parameters),
+        $.identifier,
+        "{",
+        list($._semicolon, $.enum_constructor),
+        "}",
+        "for",
+        $._type,
+        "with",
+        $.view_function
+      ),
+
+    view_function: ($) =>
+      seq($._lowercase_identifier, $.parameters, $.block_expression),
 
     extenum_definition: ($) =>
       seq(
@@ -797,7 +824,8 @@ module.exports = grammar({
 
     string_literal: ($) => choice(seq('"', repeat($.string_fragment), '"')),
 
-    bytes_literal: ($) => seq('b"', repeat($.string_fragment), '"'),
+    bytes_literal: ($) =>
+      seq('b"', repeat(choice($.string_fragment, $.interpolator)), '"'),
 
     regex_literal: ($) => seq('re"', repeat($.string_fragment), '"'),
 
@@ -1041,6 +1069,11 @@ module.exports = grammar({
     array_expression: ($) =>
       choice(
         seq("[", list(",", seq(optional(".."), $._expression)), "]"),
+        seq(
+          "[|",
+          list(",", seq(optional(".."), $._expression)),
+          "|]"
+        ),
         $.list_comprehension_expression
       ),
 
@@ -1075,21 +1108,30 @@ module.exports = grammar({
       ),
 
     list_comprehension_for: ($) =>
-      seq(
-        "for",
-        strictList1(",", alias($.list_comprehension_for_binder, $.for_binder)),
-        optional(
-          choice(
-            seq(
-              $._semicolon,
-              optional($._simple_expression),
-              $._semicolon,
-              strictList1(
-                ",",
-                alias($.list_comprehension_for_binder, $.for_binder)
-              )
-            ),
-            seq($._semicolon, $._simple_expression)
+      choice(
+        seq(
+          "for",
+          $._semicolon,
+          optional($._simple_expression),
+          $._semicolon,
+          strictList(",", alias($.list_comprehension_for_binder, $.for_binder))
+        ),
+        seq(
+          "for",
+          strictList1(",", alias($.list_comprehension_for_binder, $.for_binder)),
+          optional(
+            choice(
+              seq(
+                $._semicolon,
+                optional($._simple_expression),
+                $._semicolon,
+                strictList(
+                  ",",
+                  alias($.list_comprehension_for_binder, $.for_binder)
+                )
+              ),
+              seq($._semicolon, $._simple_expression)
+            )
           )
         )
       ),
@@ -1097,7 +1139,8 @@ module.exports = grammar({
     list_comprehension_for_binder: ($) =>
       seq($._lowercase_identifier, "=", $._simple_expression),
 
-    list_comprehension_binder: ($) => choice($._lowercase_identifier, "_"),
+    list_comprehension_binder: ($) =>
+      choice($._lowercase_identifier, "_", $.tuple_pattern),
 
     list_comprehension_guard: ($) => seq("if", $._expression),
 
@@ -1176,7 +1219,11 @@ module.exports = grammar({
     lexmatch_test_expression: ($) =>
       prec.right(
         -1,
-        seq($._simple_expression, "lexmatch?", $.lexmatch_pattern)
+        seq(
+          $._simple_expression,
+          "lexmatch?",
+          choice($.regex_match_rhs, $.lexmatch_pattern)
+        )
       ),
 
     append_expression: ($) =>
@@ -1232,7 +1279,7 @@ module.exports = grammar({
 
     lexmatch_case_clause: ($) =>
       seq(
-        $.lexmatch_pattern,
+        choice($.regex_match_rhs, $.lexmatch_pattern),
         optional($.pattern_guard),
         "=>",
         $._statement_expression
@@ -1291,6 +1338,7 @@ module.exports = grammar({
         $.letrec_expression,
         $.and_expression,
         $.let_mut_expression,
+        $.var_expression,
         $.guard_expression,
         $.guard_let_expression,
         $.assign_expression,
@@ -1301,6 +1349,7 @@ module.exports = grammar({
         $.return_expression,
         $.raise_expression,
         $.defer_expression,
+        $.errdefer_expression,
         $.proof_assert_expression,
         $.proof_let_expression,
         $._expression,
@@ -1308,6 +1357,8 @@ module.exports = grammar({
       ),
 
     defer_expression: ($) => seq("defer", $._expression),
+
+    errdefer_expression: ($) => seq("errdefer", $._expression),
 
     proof_assert_expression: ($) =>
       seq(token(prec(1, "proof_assert")), $._expression),
@@ -1341,6 +1392,15 @@ module.exports = grammar({
       seq(
         "let",
         "mut",
+        $._lowercase_identifier,
+        optional($.type_annotation),
+        "=",
+        $._expression
+      ),
+
+    var_expression: ($) =>
+      seq(
+        "var",
         $._lowercase_identifier,
         optional($.type_annotation),
         "=",
@@ -1465,16 +1525,11 @@ module.exports = grammar({
       seq(
         optional($.loop_label),
         "for",
-        strictList(",", $._lowercase_identifier),
+        strictList(",", choice($._lowercase_identifier, "_", $.tuple_pattern)),
         "in",
         $._expression,
-        optional(
-          seq(
-            $._semicolon,
-            strictList(",", $.for_binder),
-            optional(seq($._semicolon, strictList(",", $.for_binder)))
-          )
-        ),
+        optional(seq($._semicolon, strictList(",", $.for_binder))),
+        optional(seq($._semicolon, strictList(",", $.for_binder))),
         $.block_expression,
         optional(choice($.else_clause, $.nobreak_clause)),
         optional($.where_clause)
@@ -1535,6 +1590,7 @@ module.exports = grammar({
         $.atomic_pattern,
         $._lowercase_identifier,
         $.constructor_pattern,
+        $.enum_wildcard_pattern,
         $.tuple_pattern,
         $.constraint_pattern,
         $.array_pattern,
@@ -1543,6 +1599,9 @@ module.exports = grammar({
         $.empty_struct_or_map_pattern,
         $.any_pattern
       ),
+
+    enum_wildcard_pattern: ($) =>
+      seq($.qualified_type_identifier, "::", ".."),
 
     parenthesized_pattern: ($) => seq("(", $._pattern, ")"),
 
@@ -1578,10 +1637,12 @@ module.exports = grammar({
 
     array_pattern: ($) => seq("[", list(",", $.array_sub_pattern), "]"),
 
-    bitstring_pattern: ($) => seq(/[ui]\d+(le|be)?/, "(", $._pattern, ")"),
+    bitstring_pattern: ($) =>
+      seq(choice(/[ui]\d+(le|be)?/, "v128le", "v128be"), "(", $._pattern, ")"),
 
     lexmatch_pattern: ($) =>
       choice(
+        $.lexmatch_regex_pattern,
         $.lexmatch_or_pattern,
         $.lexmatch_as_pattern,
         $.lexmatch_range_pattern,
@@ -1592,7 +1653,43 @@ module.exports = grammar({
     lexmatch_sequence_pattern: ($) =>
       prec.right(
         1,
-        seq($.lexmatch_simple_pattern, repeat1($.lexmatch_simple_pattern))
+        seq(
+          $.lexmatch_simple_pattern,
+          repeat1(
+            choice(
+              $.lexmatch_simple_pattern,
+              seq("+", $.lexmatch_simple_pattern)
+            )
+          )
+        )
+      ),
+
+    lexmatch_regex_pattern: ($) =>
+      prec.right(
+        2,
+        choice(
+          seq(
+            "(",
+            $.lexmatch_regex_sequence,
+            ",",
+            list(",", $.regex_match_binding),
+            ")"
+          ),
+          $.lexmatch_regex_sequence
+        )
+      ),
+
+    lexmatch_regex_sequence: ($) =>
+      prec.left(
+        seq($.lexmatch_regex_atom, repeat(seq("+", $.lexmatch_regex_atom)))
+      ),
+
+    lexmatch_regex_atom: ($) =>
+      prec.right(
+        choice(
+          seq($.regex_literal, optional(seq("as", $.identifier))),
+          seq("(", $.lexmatch_regex_sequence, ")")
+        )
       ),
 
     lexmatch_or_pattern: ($) =>
@@ -1606,13 +1703,14 @@ module.exports = grammar({
         2,
         seq(
           $.lexmatch_simple_pattern,
-          choice("..<", "..="),
+          choice("..<", "..=", "..<="),
           $.lexmatch_simple_pattern
         )
       ),
 
     lexmatch_simple_pattern: ($) =>
       choice(
+        $.lexmatch_regex_pattern,
         $.lexmatch_parenthesized_pattern,
         $.atomic_pattern,
         $._lowercase_identifier,
@@ -1658,7 +1756,7 @@ module.exports = grammar({
     empty_struct_or_map_pattern: (_) => seq("{", "}"),
 
     range_pattern: ($) =>
-      seq($._simple_pattern, choice("..<", "..="), $._simple_pattern),
+      seq($._simple_pattern, choice("..<", "..=", "..<="), $._simple_pattern),
 
     _type: ($) => choice($._simple_type, $.function_type),
 
@@ -1700,6 +1798,16 @@ module.exports = grammar({
     type_annotation: ($) => seq(":", $._type),
 
     error_annotation: ($) =>
+      prec.right(
+        choice(
+          $._effect_annotation,
+          "nocancel",
+          seq($._effect_annotation, "+", "nocancel"),
+          seq("nocancel", "+", $._effect_annotation)
+        )
+      ),
+
+    _effect_annotation: ($) =>
       choice("raise", "noraise", seq("raise", $._type), seq("raise", "?")),
 
     return_type: ($) =>
@@ -1828,6 +1936,7 @@ module.exports = grammar({
           $.attribute_properties
         ),
         seq($._uppercase_identifier, $.attribute_properties),
+        seq($.package_identifier, $.dot_identifier),
         $.string_literal
       ),
 

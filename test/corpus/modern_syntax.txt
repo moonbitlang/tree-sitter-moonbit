@@ -1,0 +1,151 @@
+================================================================================
+hash-prefixed derive directive
+================================================================================
+#derive(Eq, @debug.Debug)
+pub(all) enum LimitKind {
+  PackageBytes
+  Entries
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (enum_definition
+    (attributes
+      (attribute
+        (attribute_expression
+          (lowercase_identifier)
+          (attribute_properties
+            (attribute_property
+              (attribute_expression
+                (uppercase_identifier)))
+            (attribute_property
+              (attribute_expression
+                (package_identifier)
+                (dot_identifier
+                  (dot_uppercase_identifier))))))))
+    (visibility
+      (pub_attribute))
+    (identifier
+      (uppercase_identifier))
+    (enum_constructor
+      (uppercase_identifier))
+    (enum_constructor
+      (uppercase_identifier))))
+
+================================================================================
+inclusive range pattern
+================================================================================
+fn f(c : Char) -> Bool {
+  match c {
+    'a'..<='z' => true
+    _ => false
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression
+      (match_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (case_clause
+          (range_pattern
+            (atomic_pattern
+              (literal
+                (char_literal)))
+            (atomic_pattern
+              (literal
+                (char_literal))))
+          (atomic_expression
+            (literal
+              (boolean_literal))))
+        (case_clause
+          (any_pattern)
+          (atomic_expression
+            (literal
+              (boolean_literal))))))))
+
+================================================================================
+fixed array literal
+================================================================================
+fn main {
+  let a = [|1, 2, 3|]
+  let b = [||]
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal)))
+          (atomic_expression
+            (literal
+              (integer_literal)))))
+      (let_expression
+        (lowercase_identifier)
+        (array_expression)))))
+
+================================================================================
+enum wildcard pattern
+================================================================================
+fn f(p : Platform) -> Unit {
+  match p {
+    Platform::.. => panic()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression
+      (match_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (case_clause
+          (enum_wildcard_pattern
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))
+          (apply_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (arguments)))))))
