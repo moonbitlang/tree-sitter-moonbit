@@ -101,6 +101,7 @@ module.exports = grammar({
     [$.block_expression, $.map_expression],
     [$.block_expression, $.nonempty_block_expression],
     [$.extenum_definition, $._extenum_extension_target],
+    [$.enum_wildcard_pattern, $.type_name],
   ],
 
   rules: {
@@ -223,7 +224,8 @@ module.exports = grammar({
 
     derive_item: ($) => seq($.type_name, optional($.arguments)),
 
-    derive_directive: ($) => seq("derive", "(", list(",", $.derive_item), ")"),
+    derive_directive: ($) =>
+      seq(optional("#"), "derive", "(", list(",", $.derive_item), ")"),
 
     type_definition: ($) =>
       seq(
@@ -1061,6 +1063,11 @@ module.exports = grammar({
     array_expression: ($) =>
       choice(
         seq("[", list(",", seq(optional(".."), $._expression)), "]"),
+        seq(
+          "[|",
+          list(",", seq(optional(".."), $._expression)),
+          "|]"
+        ),
         $.list_comprehension_expression
       ),
 
@@ -1498,16 +1505,11 @@ module.exports = grammar({
       seq(
         optional($.loop_label),
         "for",
-        strictList(",", $._lowercase_identifier),
+        strictList(",", choice($._lowercase_identifier, "_", $.tuple_pattern)),
         "in",
         $._expression,
-        optional(
-          seq(
-            $._semicolon,
-            strictList(",", $.for_binder),
-            optional(seq($._semicolon, strictList(",", $.for_binder)))
-          )
-        ),
+        optional(seq($._semicolon, strictList(",", $.for_binder))),
+        optional(seq($._semicolon, strictList(",", $.for_binder))),
         $.block_expression,
         optional(choice($.else_clause, $.nobreak_clause)),
         optional($.where_clause)
@@ -1568,6 +1570,7 @@ module.exports = grammar({
         $.atomic_pattern,
         $._lowercase_identifier,
         $.constructor_pattern,
+        $.enum_wildcard_pattern,
         $.tuple_pattern,
         $.constraint_pattern,
         $.array_pattern,
@@ -1576,6 +1579,9 @@ module.exports = grammar({
         $.empty_struct_or_map_pattern,
         $.any_pattern
       ),
+
+    enum_wildcard_pattern: ($) =>
+      seq($.qualified_type_identifier, "::", ".."),
 
     parenthesized_pattern: ($) => seq("(", $._pattern, ")"),
 
@@ -1639,7 +1645,7 @@ module.exports = grammar({
         2,
         seq(
           $.lexmatch_simple_pattern,
-          choice("..<", "..="),
+          choice("..<", "..=", "..<="),
           $.lexmatch_simple_pattern
         )
       ),
@@ -1691,7 +1697,7 @@ module.exports = grammar({
     empty_struct_or_map_pattern: (_) => seq("{", "}"),
 
     range_pattern: ($) =>
-      seq($._simple_pattern, choice("..<", "..="), $._simple_pattern),
+      seq($._simple_pattern, choice("..<", "..=", "..<="), $._simple_pattern),
 
     _type: ($) => choice($._simple_type, $.function_type),
 
@@ -1871,6 +1877,7 @@ module.exports = grammar({
           $.attribute_properties
         ),
         seq($._uppercase_identifier, $.attribute_properties),
+        seq($.package_identifier, $.dot_identifier),
         $.string_literal
       ),
 
