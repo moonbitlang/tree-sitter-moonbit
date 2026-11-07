@@ -43,6 +43,7 @@
 
 (value_definition (lowercase_identifier) @variable)
 (let_mut_expression (lowercase_identifier) @variable)
+(var_expression (lowercase_identifier) @variable)
 (for_in_expression "for" (lowercase_identifier) @variable "in")
 (for_binder (lowercase_identifier) @variable)
 (package_statement_identifier) @variable
@@ -73,6 +74,7 @@
 ; Type definitions
 
 (enum_definition (identifier) @type.definition)
+(enumview_definition (identifier) @type.definition)
 (extenum_definition (identifier) @type.definition)
 (struct_definition (identifier) @type.definition)
 (tuple_struct_definition (identifier) @type.definition)
@@ -165,6 +167,7 @@
 ; Function definitions
 
 (function_definition (function_identifier (lowercase_identifier) @function))
+(view_function (lowercase_identifier) @function)
 (struct_constructor_declaration (lowercase_identifier) @function)
 (function_alias_targets (lowercase_identifier) @function)
 (function_alias_targets (dot_lowercase_identifier) @function)
@@ -209,7 +212,7 @@
 [ (mutability) "mut" ] @keyword.modifier
 
 [
-  "struct" "enum" "extenum" "type" "trait" "typealias" "traitalias" "suberror"
+  "struct" "enum" "extenum" "enumview" "type" "trait" "typealias" "traitalias" "suberror"
 ] @keyword.type
 
 [
@@ -217,9 +220,9 @@
 ] @keyword.modifier
 
 [
-  "guard" "let" "letrec" "and" "const"
+  "guard" "let" "letrec" "var" "and" "const"
   "with" "as" "is" "lexmatch?" "lexscan" "using" "where" "longest" "nobreak"
-  "defer"
+  "defer" "errdefer"
 ] @keyword
 
 "derive" @keyword
@@ -240,7 +243,7 @@
 
 [ "try" "raise" "catch" ] @keyword.exception
 
-[ "noraise" ] @keyword.exception
+[ "noraise" "nocancel" ] @keyword.exception
 
 ((lowercase_identifier) @keyword
  (#any-of? @keyword

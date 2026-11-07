@@ -1,0 +1,193 @@
+================================================================================
+enumview declaration
+================================================================================
+pub(all) enumview V {
+  SNil
+  SCons(String, List[Int])
+} for List[Int] with view(x : List[Int]) {
+  match x {
+    Nil => SNil
+    Cons(x, xs) => SCons(x.to_string(), xs)
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (enumview_definition
+    (visibility
+      (pub_attribute))
+    (identifier
+      (uppercase_identifier))
+    (enum_constructor
+      (uppercase_identifier))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
+    (apply_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (type_arguments
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
+    (view_function
+      (lowercase_identifier)
+      (parameters
+        (parameter
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))
+                (type_arguments
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
+      (block_expression
+        (match_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (case_clause
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier)))
+            (constructor_expression
+              (uppercase_identifier)))
+          (case_clause
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier)))
+            (apply_expression
+              (constructor_expression
+                (uppercase_identifier))
+              (arguments
+                (argument
+                  (dot_apply_expression
+                    (qualified_identifier
+                      (lowercase_identifier))
+                    (dot_identifier
+                      (dot_lowercase_identifier))))
+                (argument
+                  (qualified_identifier
+                    (lowercase_identifier)))))))))))
+
+================================================================================
+generic enumview with constrained type parameters
+================================================================================
+pub enumview[A : Show] V {
+  SNil
+  SCons(String, List[A])
+} for List[A] with view(x : List[A]) {
+  match x {
+    Nil => SNil
+    Cons(x, xs) => SCons(x.to_string(), xs)
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (enumview_definition
+    (visibility)
+    (type_parameters
+      (type_identifier
+        (identifier
+          (uppercase_identifier))
+        (constraints
+          (constraint
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (identifier
+      (uppercase_identifier))
+    (enum_constructor
+      (uppercase_identifier))
+    (enum_constructor
+      (uppercase_identifier)
+      (enum_constructor_payload
+        (constructor_parameter
+          (qualified_type_identifier
+            (identifier
+              (uppercase_identifier))))
+        (constructor_parameter
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))
+            (type_arguments
+              (qualified_type_identifier
+                (identifier
+                  (uppercase_identifier))))))))
+    (apply_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (type_arguments
+        (qualified_type_identifier
+          (identifier
+            (uppercase_identifier)))))
+    (view_function
+      (lowercase_identifier)
+      (parameters
+        (parameter
+          (positional_parameter
+            (lowercase_identifier)
+            (type_annotation
+              (apply_type
+                (qualified_type_identifier
+                  (identifier
+                    (uppercase_identifier)))
+                (type_arguments
+                  (qualified_type_identifier
+                    (identifier
+                      (uppercase_identifier)))))))))
+      (block_expression
+        (match_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (case_clause
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier)))
+            (constructor_expression
+              (uppercase_identifier)))
+          (case_clause
+            (constructor_pattern
+              (constructor_expression
+                (uppercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier))
+              (constructor_pattern_argument
+                (lowercase_identifier)))
+            (apply_expression
+              (constructor_expression
+                (uppercase_identifier))
+              (arguments
+                (argument
+                  (dot_apply_expression
+                    (qualified_identifier
+                      (lowercase_identifier))
+                    (dot_identifier
+                      (dot_lowercase_identifier))))
+                (argument
+                  (qualified_identifier
+                    (lowercase_identifier)))))))))))

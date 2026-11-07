@@ -117,6 +117,7 @@ module.exports = grammar({
         $.struct_definition,
         $.tuple_struct_definition,
         $.enum_definition,
+        $.enumview_definition,
         $.extenum_definition,
         $.extenum_extension,
         $.value_definition,
@@ -330,6 +331,25 @@ module.exports = grammar({
         "}",
         optional($.derive_directive)
       ),
+
+    enumview_definition: ($) =>
+      seq(
+        optional($.attributes),
+        optional($.visibility),
+        "enumview",
+        optional($.type_parameters),
+        $.identifier,
+        "{",
+        list($._semicolon, $.enum_constructor),
+        "}",
+        "for",
+        $._type,
+        "with",
+        $.view_function
+      ),
+
+    view_function: ($) =>
+      seq($._lowercase_identifier, $.parameters, $.block_expression),
 
     extenum_definition: ($) =>
       seq(
@@ -1291,6 +1311,7 @@ module.exports = grammar({
         $.letrec_expression,
         $.and_expression,
         $.let_mut_expression,
+        $.var_expression,
         $.guard_expression,
         $.guard_let_expression,
         $.assign_expression,
@@ -1301,6 +1322,7 @@ module.exports = grammar({
         $.return_expression,
         $.raise_expression,
         $.defer_expression,
+        $.errdefer_expression,
         $.proof_assert_expression,
         $.proof_let_expression,
         $._expression,
@@ -1308,6 +1330,8 @@ module.exports = grammar({
       ),
 
     defer_expression: ($) => seq("defer", $._expression),
+
+    errdefer_expression: ($) => seq("errdefer", $._expression),
 
     proof_assert_expression: ($) =>
       seq(token(prec(1, "proof_assert")), $._expression),
@@ -1341,6 +1365,15 @@ module.exports = grammar({
       seq(
         "let",
         "mut",
+        $._lowercase_identifier,
+        optional($.type_annotation),
+        "=",
+        $._expression
+      ),
+
+    var_expression: ($) =>
+      seq(
+        "var",
         $._lowercase_identifier,
         optional($.type_annotation),
         "=",
@@ -1700,6 +1733,16 @@ module.exports = grammar({
     type_annotation: ($) => seq(":", $._type),
 
     error_annotation: ($) =>
+      prec.right(
+        choice(
+          $._effect_annotation,
+          "nocancel",
+          seq($._effect_annotation, "+", "nocancel"),
+          seq("nocancel", "+", $._effect_annotation)
+        )
+      ),
+
+    _effect_annotation: ($) =>
       choice("raise", "noraise", seq("raise", $._type), seq("raise", "?")),
 
     return_type: ($) =>
