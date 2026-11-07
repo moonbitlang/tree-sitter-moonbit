@@ -1,0 +1,47 @@
+================================================================================
+unary exclamation starts a new statement
+================================================================================
+fn f(h : Double) -> Bool {
+  let x = foo(1)
+  !h.is_inf() &&
+  true
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (apply_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (arguments
+            (argument
+              (atomic_expression
+                (literal
+                  (integer_literal)))))))
+      (binary_expression
+        (unary_expression
+          (dot_apply_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (dot_identifier
+              (dot_lowercase_identifier))))
+        (atomic_expression
+          (literal
+            (boolean_literal)))))))

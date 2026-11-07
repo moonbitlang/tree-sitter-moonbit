@@ -1,0 +1,43 @@
+================================================================================
+v128 bitstring patterns
+================================================================================
+fn f(b : Bytes) -> Unit {
+  match b {
+    [v128le(block), .. tail] => ()
+    _ => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (block_expression
+      (match_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (lowercase_identifier)))
+            (array_sub_pattern
+              (qualified_identifier
+                (lowercase_identifier))))
+          (unit_expression))
+        (case_clause
+          (any_pattern)
+          (unit_expression))))))

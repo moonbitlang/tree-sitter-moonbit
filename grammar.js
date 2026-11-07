@@ -102,6 +102,11 @@ module.exports = grammar({
     [$.block_expression, $.nonempty_block_expression],
     [$.extenum_definition, $._extenum_extension_target],
     [$.enum_wildcard_pattern, $.type_name],
+    [$.list_comprehension_for, $._expression],
+    [$.literal, $.regex_atom_pattern, $.lexmatch_regex_atom],
+    [$.regex_atom_pattern, $.constructor_pattern],
+    [$.literal, $.lexmatch_regex_atom],
+    [$.lexmatch_pattern, $.lexmatch_simple_pattern],
   ],
 
   rules: {
@@ -819,7 +824,8 @@ module.exports = grammar({
 
     string_literal: ($) => choice(seq('"', repeat($.string_fragment), '"')),
 
-    bytes_literal: ($) => seq('b"', repeat($.string_fragment), '"'),
+    bytes_literal: ($) =>
+      seq('b"', repeat(choice($.string_fragment, $.interpolator)), '"'),
 
     regex_literal: ($) => seq('re"', repeat($.string_fragment), '"'),
 
@@ -1102,21 +1108,30 @@ module.exports = grammar({
       ),
 
     list_comprehension_for: ($) =>
-      seq(
-        "for",
-        strictList1(",", alias($.list_comprehension_for_binder, $.for_binder)),
-        optional(
-          choice(
-            seq(
-              $._semicolon,
-              optional($._simple_expression),
-              $._semicolon,
-              strictList1(
-                ",",
-                alias($.list_comprehension_for_binder, $.for_binder)
-              )
-            ),
-            seq($._semicolon, $._simple_expression)
+      choice(
+        seq(
+          "for",
+          $._semicolon,
+          optional($._simple_expression),
+          $._semicolon,
+          strictList(",", alias($.list_comprehension_for_binder, $.for_binder))
+        ),
+        seq(
+          "for",
+          strictList1(",", alias($.list_comprehension_for_binder, $.for_binder)),
+          optional(
+            choice(
+              seq(
+                $._semicolon,
+                optional($._simple_expression),
+                $._semicolon,
+                strictList(
+                  ",",
+                  alias($.list_comprehension_for_binder, $.for_binder)
+                )
+              ),
+              seq($._semicolon, $._simple_expression)
+            )
           )
         )
       ),
@@ -1124,7 +1139,8 @@ module.exports = grammar({
     list_comprehension_for_binder: ($) =>
       seq($._lowercase_identifier, "=", $._simple_expression),
 
-    list_comprehension_binder: ($) => choice($._lowercase_identifier, "_"),
+    list_comprehension_binder: ($) =>
+      choice($._lowercase_identifier, "_", $.tuple_pattern),
 
     list_comprehension_guard: ($) => seq("if", $._expression),
 
@@ -1203,7 +1219,11 @@ module.exports = grammar({
     lexmatch_test_expression: ($) =>
       prec.right(
         -1,
-        seq($._simple_expression, "lexmatch?", $.lexmatch_pattern)
+        seq(
+          $._simple_expression,
+          "lexmatch?",
+          choice($.regex_match_rhs, $.lexmatch_pattern)
+        )
       ),
 
     append_expression: ($) =>
@@ -1259,7 +1279,7 @@ module.exports = grammar({
 
     lexmatch_case_clause: ($) =>
       seq(
-        $.lexmatch_pattern,
+        choice($.regex_match_rhs, $.lexmatch_pattern),
         optional($.pattern_guard),
         "=>",
         $._statement_expression
@@ -1617,10 +1637,12 @@ module.exports = grammar({
 
     array_pattern: ($) => seq("[", list(",", $.array_sub_pattern), "]"),
 
-    bitstring_pattern: ($) => seq(/[ui]\d+(le|be)?/, "(", $._pattern, ")"),
+    bitstring_pattern: ($) =>
+      seq(choice(/[ui]\d+(le|be)?/, "v128le", "v128be"), "(", $._pattern, ")"),
 
     lexmatch_pattern: ($) =>
       choice(
+        $.lexmatch_regex_pattern,
         $.lexmatch_or_pattern,
         $.lexmatch_as_pattern,
         $.lexmatch_range_pattern,
@@ -1631,7 +1653,43 @@ module.exports = grammar({
     lexmatch_sequence_pattern: ($) =>
       prec.right(
         1,
-        seq($.lexmatch_simple_pattern, repeat1($.lexmatch_simple_pattern))
+        seq(
+          $.lexmatch_simple_pattern,
+          repeat1(
+            choice(
+              $.lexmatch_simple_pattern,
+              seq("+", $.lexmatch_simple_pattern)
+            )
+          )
+        )
+      ),
+
+    lexmatch_regex_pattern: ($) =>
+      prec.right(
+        2,
+        choice(
+          seq(
+            "(",
+            $.lexmatch_regex_sequence,
+            ",",
+            list(",", $.regex_match_binding),
+            ")"
+          ),
+          $.lexmatch_regex_sequence
+        )
+      ),
+
+    lexmatch_regex_sequence: ($) =>
+      prec.left(
+        seq($.lexmatch_regex_atom, repeat(seq("+", $.lexmatch_regex_atom)))
+      ),
+
+    lexmatch_regex_atom: ($) =>
+      prec.right(
+        choice(
+          seq($.regex_literal, optional(seq("as", $.identifier))),
+          seq("(", $.lexmatch_regex_sequence, ")")
+        )
       ),
 
     lexmatch_or_pattern: ($) =>
@@ -1652,6 +1710,7 @@ module.exports = grammar({
 
     lexmatch_simple_pattern: ($) =>
       choice(
+        $.lexmatch_regex_pattern,
         $.lexmatch_parenthesized_pattern,
         $.atomic_pattern,
         $._lowercase_identifier,
