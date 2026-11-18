@@ -13,14 +13,16 @@ jobs:
   fuzz:
     name: fuzz
     runs-on: ubuntu-latest
+    env:
+      TREE_SITTER_VERSION: v0.26.8
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
 
       - name: Install tree-sitter CLI
-        uses: tree-sitter/setup-action@v2
+        uses: tree-sitter/setup-action/cli@v2
         with:
-          tree-sitter-ref: v0.26.8
+          tree-sitter-ref: ${{ env.TREE_SITTER_VERSION }}
 
       - name: Generate tree-sitter grammar
         run: tree-sitter generate
@@ -29,3 +31,4 @@ jobs:
         uses: tree-sitter/fuzz-action@v4
         with:
           corpus: test/corpus
+          tree-sitter-version: ${{ env.TREE_SITTER_VERSION }}
