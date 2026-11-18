@@ -345,6 +345,17 @@ static enum AsiResult can_insert_semi(TSLexer *lexer,
     } else {
       return ASI_REMOVE;
     }
+  case '!':
+    advance(lexer);
+    while (iswblank(lexer->lookahead)) {
+      advance(lexer);
+    }
+    // Preserve legacy f\n!(args) / f\n!!(args), while allowing a new
+    // statement such as !predicate() after an expression on the previous line.
+    return lexer->lookahead == '(' || lexer->lookahead == '!' ||
+                   lexer->lookahead == '='
+               ? ASI_REMOVE
+               : ASI_INSERT;
   case ':':
   case ',':
   case ')':
@@ -352,7 +363,6 @@ static enum AsiResult can_insert_semi(TSLexer *lexer,
   case ';':
   case '=':
   case '?':
-  case '!':
     return ASI_REMOVE;
   case 'a':
     advance(lexer);

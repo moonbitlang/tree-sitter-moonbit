@@ -86,3 +86,26 @@ pub extend Deque with Eq::{op_equal, op_not_equal}
       (lowercase_identifier))
     (extended_method
       (lowercase_identifier))))
+
+================================================================================
+trait method extension aliases
+================================================================================
+pub extend Cmd with BitOr::{lor as pipe, land}
+--------------------------------------------------------------------------------
+
+(structure
+  (trait_method_extension
+    (visibility)
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (type_name
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier))))
+    (extended_method
+      (lowercase_identifier)
+      (lowercase_identifier))
+    (extended_method
+      (lowercase_identifier))))

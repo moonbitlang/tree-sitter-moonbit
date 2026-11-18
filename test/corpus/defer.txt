@@ -23,3 +23,40 @@ fn main {
           (lowercase_identifier))
         (dot_identifier
           (dot_lowercase_identifier))))))
+
+================================================================================
+errdefer expressions and blocks
+================================================================================
+fn acquire() -> Unit raise {
+  errdefer release()
+  errdefer { cleanup() }
+  operation()
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters)
+    (return_type
+      (qualified_type_identifier
+        (identifier
+          (uppercase_identifier)))
+      (error_annotation))
+    (block_expression
+      (defer_expression
+        (apply_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (arguments)))
+      (defer_expression
+        (block_expression
+          (apply_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (arguments))))
+      (apply_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (arguments)))))
