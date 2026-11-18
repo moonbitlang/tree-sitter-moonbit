@@ -1033,6 +1033,10 @@
           "named": true
         },
         {
+          "type": "iterator_expression",
+          "named": true
+        },
+        {
           "type": "list_comprehension_expression",
           "named": true
         }
@@ -1372,11 +1376,19 @@
           "named": true
         },
         {
+          "type": "dot_identifier",
+          "named": true
+        },
+        {
           "type": "dot_lowercase_identifier",
           "named": true
         },
         {
           "type": "lowercase_identifier",
+          "named": true
+        },
+        {
+          "type": "package_identifier",
           "named": true
         },
         {
@@ -1867,6 +1879,10 @@
         },
         {
           "type": "constructor_pattern_argument",
+          "named": true
+        },
+        {
+          "type": "type_name",
           "named": true
         }
       ]
@@ -2557,7 +2573,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -2759,6 +2775,10 @@
           "named": true
         },
         {
+          "type": "_pattern",
+          "named": true
+        },
+        {
           "type": "else_clause",
           "named": true
         },
@@ -2771,15 +2791,7 @@
           "named": true
         },
         {
-          "type": "lowercase_identifier",
-          "named": true
-        },
-        {
           "type": "nobreak_clause",
-          "named": true
-        },
-        {
-          "type": "quotation_lowercase_identifier_expander",
           "named": true
         },
         {
@@ -3538,6 +3550,10 @@
       "required": false,
       "types": [
         {
+          "type": "attributes",
+          "named": true
+        },
+        {
           "type": "import_item",
           "named": true
         },
@@ -3767,6 +3783,21 @@
         },
         {
           "type": "unit_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "iterator_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "_expression",
           "named": true
         }
       ]
@@ -4046,6 +4077,14 @@
         },
         {
           "type": "pattern_guard",
+          "named": true
+        },
+        {
+          "type": "regex_as_pattern",
+          "named": true
+        },
+        {
+          "type": "regex_match_binding",
           "named": true
         }
       ]
@@ -4656,11 +4695,23 @@
       "required": false,
       "types": [
         {
+          "type": "constructor_pattern",
+          "named": true
+        },
+        {
           "type": "lowercase_identifier",
           "named": true
         },
         {
           "type": "quotation_lowercase_identifier_expander",
+          "named": true
+        },
+        {
+          "type": "struct_pattern",
+          "named": true
+        },
+        {
+          "type": "tuple_pattern",
           "named": true
         }
       ]
@@ -4699,7 +4750,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "access_expression",
@@ -8391,6 +8442,10 @@
     "named": false
   },
   {
+    "type": "[|",
+    "named": false
+  },
+  {
     "type": "\\{",
     "named": false
   },
@@ -8479,6 +8534,10 @@
     "named": false
   },
   {
+    "type": "errdefer",
+    "named": false
+  },
+  {
     "type": "exp",
     "named": false
   },
@@ -8499,6 +8558,10 @@
     "named": false
   },
   {
+    "type": "first",
+    "named": false
+  },
+  {
     "type": "fn",
     "named": false
   },
@@ -8512,6 +8575,10 @@
   },
   {
     "type": "guard",
+    "named": false
+  },
+  {
+    "type": "guard!",
     "named": false
   },
   {
@@ -8595,6 +8662,10 @@
     "named": false
   },
   {
+    "type": "nocancel",
+    "named": false
+  },
+  {
     "type": "noraise",
     "named": false
   },
@@ -8648,6 +8719,10 @@
   },
   {
     "type": "readonly",
+    "named": false
+  },
+  {
+    "type": "reb\"",
     "named": false
   },
   {
@@ -8711,6 +8786,10 @@
     "named": false
   },
   {
+    "type": "v128le",
+    "named": false
+  },
+  {
     "type": "where",
     "named": false
   },
@@ -8732,6 +8811,10 @@
   },
   {
     "type": "|>",
+    "named": false
+  },
+  {
+    "type": "|]",
     "named": false
   },
   {
