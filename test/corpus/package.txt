@@ -247,3 +247,61 @@ options(
           (string_literal
             (string_fragment
               (unescaped_string_fragment))))))))
+
+================================================================================
+conditional package imports
+================================================================================
+#cfg(any(target="native", target="wasm"))
+import { "moonbitlang/core/async" }
+#cfg(target="native")
+import { "moonbitlang/core/async/fs" } for "test"
+--------------------------------------------------------------------------------
+
+(structure
+  (import_declaration
+    (attributes
+      (attribute
+        (attribute_expression
+          (lowercase_identifier)
+          (attribute_properties
+            (attribute_property
+              (attribute_expression
+                (lowercase_identifier)
+                (attribute_properties
+                  (attribute_property
+                    (lowercase_identifier)
+                    (attribute_expression
+                      (string_literal
+                        (string_fragment
+                          (unescaped_string_fragment)))))
+                  (attribute_property
+                    (lowercase_identifier)
+                    (attribute_expression
+                      (string_literal
+                        (string_fragment
+                          (unescaped_string_fragment))))))))))))
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment)))))
+  (import_declaration
+    (attributes
+      (attribute
+        (attribute_expression
+          (lowercase_identifier)
+          (attribute_properties
+            (attribute_property
+              (lowercase_identifier)
+              (attribute_expression
+                (string_literal
+                  (string_fragment
+                    (unescaped_string_fragment)))))))))
+    (import_item
+      (string_literal
+        (string_fragment
+          (unescaped_string_fragment))))
+    (package_import_for_clause
+      (package_import_kind
+        (string_literal
+          (string_fragment
+            (unescaped_string_fragment)))))))

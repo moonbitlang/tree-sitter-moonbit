@@ -1,0 +1,43 @@
+================================================================================
+iterator literals and spreads
+================================================================================
+fn main {
+  let empty = [||]
+  let values = [|1, 2,|]
+  let joined = [|0, ..values, ..[|3|]|]
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (iterator_expression)))
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (iterator_expression
+            (atomic_expression
+              (literal
+                (integer_literal)))
+            (atomic_expression
+              (literal
+                (integer_literal))))))
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (iterator_expression
+            (atomic_expression
+              (literal
+                (integer_literal)))
+            (qualified_identifier
+              (lowercase_identifier))
+            (array_expression
+              (iterator_expression
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))))))))

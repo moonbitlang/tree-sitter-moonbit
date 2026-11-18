@@ -882,3 +882,150 @@ fn main {
                 (lowercase_identifier)))
             (array_sub_pattern))
           (unit_expression))))))
+
+================================================================================
+inclusive range and SIMD patterns
+================================================================================
+fn classify(input : UInt16, bytes : Bytes) {
+  match input {
+    'a'..<='z' => 1
+    _..<=10 => 2
+    _ => 0
+  }
+  match bytes {
+    [v128le(block), ..tail] => consume(block, tail)
+    _ => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (parameters
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier))))))
+      (parameter
+        (positional_parameter
+          (lowercase_identifier)
+          (type_annotation
+            (qualified_type_identifier
+              (identifier
+                (uppercase_identifier)))))))
+    (block_expression
+      (match_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (case_clause
+          (range_pattern
+            (atomic_pattern
+              (literal
+                (char_literal)))
+            (atomic_pattern
+              (literal
+                (char_literal))))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (case_clause
+          (range_pattern
+            (any_pattern)
+            (atomic_pattern
+              (literal
+                (integer_literal))))
+          (atomic_expression
+            (literal
+              (integer_literal))))
+        (case_clause
+          (any_pattern)
+          (atomic_expression
+            (literal
+              (integer_literal)))))
+      (match_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (case_clause
+          (array_pattern
+            (array_sub_pattern
+              (bitstring_pattern
+                (lowercase_identifier)))
+            (array_sub_pattern
+              (qualified_identifier
+                (lowercase_identifier))))
+          (apply_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (arguments
+              (argument
+                (qualified_identifier
+                  (lowercase_identifier)))
+              (argument
+                (qualified_identifier
+                  (lowercase_identifier))))))
+        (case_clause
+          (any_pattern)
+          (unit_expression))))))
+
+================================================================================
+qualified enum and error fallback patterns
+================================================================================
+fn main {
+  match platform {
+    Linux => ()
+    @env.Platform::.. => ()
+  }
+  operation() catch {
+    @io.ReaderError::_ as err => raise err
+    _ => ()
+  }
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (match_expression
+        (qualified_identifier
+          (lowercase_identifier))
+        (case_clause
+          (constructor_pattern
+            (constructor_expression
+              (uppercase_identifier)))
+          (unit_expression))
+        (case_clause
+          (constructor_pattern
+            (type_name
+              (qualified_type_identifier
+                (package_identifier)
+                (dot_identifier
+                  (dot_uppercase_identifier)))))
+          (unit_expression)))
+      (try_catch_expression
+        (apply_expression
+          (qualified_identifier
+            (lowercase_identifier))
+          (arguments))
+        (try_catch_clause
+          (case_clause
+            (as_pattern
+              (constructor_pattern
+                (type_name
+                  (qualified_type_identifier
+                    (package_identifier)
+                    (dot_identifier
+                      (dot_uppercase_identifier)))))
+              (lowercase_identifier))
+            (raise_expression
+              (qualified_identifier
+                (lowercase_identifier))))
+          (case_clause
+            (any_pattern)
+            (unit_expression)))))))

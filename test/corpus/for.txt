@@ -772,3 +772,157 @@ fn main {
                 (integer_literal)))))
         (comment)
         (block_expression)))))
+
+================================================================================
+for-in destructuring patterns
+================================================================================
+fn main {
+  for (x, y) in points { consume(x, y) }
+  for index, (_, value) in entries { consume(index, value) }
+  for { field, .. } in records { consume(field) }
+  let values = [ for (x, y) in points if x > 0 => x + y ]
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (for_in_expression
+        (tuple_pattern
+          (lowercase_identifier)
+          (lowercase_identifier))
+        (qualified_identifier
+          (lowercase_identifier))
+        (block_expression
+          (apply_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (arguments
+              (argument
+                (qualified_identifier
+                  (lowercase_identifier)))
+              (argument
+                (qualified_identifier
+                  (lowercase_identifier)))))))
+      (for_in_expression
+        (lowercase_identifier)
+        (tuple_pattern
+          (any_pattern)
+          (lowercase_identifier))
+        (qualified_identifier
+          (lowercase_identifier))
+        (block_expression
+          (apply_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (arguments
+              (argument
+                (qualified_identifier
+                  (lowercase_identifier)))
+              (argument
+                (qualified_identifier
+                  (lowercase_identifier)))))))
+      (for_in_expression
+        (struct_pattern
+          (struct_field_pattern
+            (labeled_pattern_pun
+              (lowercase_identifier))))
+        (qualified_identifier
+          (lowercase_identifier))
+        (block_expression
+          (apply_expression
+            (qualified_identifier
+              (lowercase_identifier))
+            (arguments
+              (argument
+                (qualified_identifier
+                  (lowercase_identifier)))))))
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (list_comprehension_expression
+            (list_comprehension_for_in
+              (list_comprehension_binder
+                (tuple_pattern
+                  (lowercase_identifier)
+                  (lowercase_identifier)))
+              (qualified_identifier
+                (lowercase_identifier)))
+            (list_comprehension_guard
+              (binary_expression
+                (qualified_identifier
+                  (lowercase_identifier))
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))
+            (binary_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (qualified_identifier
+                (lowercase_identifier)))))))))
+
+================================================================================
+comprehensions with empty initialization and updates
+================================================================================
+fn main {
+  let values = [ for ; next() is Some(x); => x ]
+  let values = [ for i = 0; i < 3; => i ]
+  let values = [ for ; ready() => read() ]
+}
+--------------------------------------------------------------------------------
+
+(structure
+  (function_definition
+    (function_identifier
+      (lowercase_identifier))
+    (block_expression
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (list_comprehension_expression
+            (list_comprehension_for
+              (is_expression
+                (apply_expression
+                  (qualified_identifier
+                    (lowercase_identifier))
+                  (arguments))
+                (constructor_pattern
+                  (constructor_expression
+                    (uppercase_identifier))
+                  (constructor_pattern_argument
+                    (lowercase_identifier)))))
+            (qualified_identifier
+              (lowercase_identifier)))))
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (list_comprehension_expression
+            (list_comprehension_for
+              (for_binder
+                (lowercase_identifier)
+                (atomic_expression
+                  (literal
+                    (integer_literal))))
+              (binary_expression
+                (qualified_identifier
+                  (lowercase_identifier))
+                (atomic_expression
+                  (literal
+                    (integer_literal)))))
+            (qualified_identifier
+              (lowercase_identifier)))))
+      (let_expression
+        (lowercase_identifier)
+        (array_expression
+          (list_comprehension_expression
+            (list_comprehension_for
+              (apply_expression
+                (qualified_identifier
+                  (lowercase_identifier))
+                (arguments)))
+            (apply_expression
+              (qualified_identifier
+                (lowercase_identifier))
+              (arguments))))))))

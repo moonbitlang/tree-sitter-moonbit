@@ -217,12 +217,15 @@
 ] @keyword.modifier
 
 [
-  "guard" "let" "letrec" "and" "const"
-  "with" "as" "is" "lexmatch?" "lexscan" "using" "where" "longest" "nobreak"
-  "defer"
+  "guard" "guard!" "let" "letrec" "and" "const"
+  "with" "as" "is" "lexmatch?" "lexscan" "using" "where" "first" "longest" "nobreak"
+  "defer" "errdefer"
 ] @keyword
 
 "derive" @keyword
+
+((lexscan_expression "with" (lowercase_identifier) @keyword)
+ (#any-of? @keyword "first" "longest"))
 
 [ "package" "import" ] @keyword.import
 
@@ -240,7 +243,7 @@
 
 [ "try" "raise" "catch" ] @keyword.exception
 
-[ "noraise" ] @keyword.exception
+[ "noraise" "nocancel" ] @keyword.exception
 
 ((lowercase_identifier) @keyword
  (#any-of? @keyword
@@ -284,6 +287,7 @@
   "(" ")"
   "{" "}"
   "[" "]"
+  "[|" "|]"
 ] @punctuation.bracket
 
 ;; Literals
@@ -291,6 +295,7 @@
 (string_interpolation) @string
 (string_literal) @string
 (bytes_literal) @string
+(regex_literal) @string.regexp
 (multiline_string_literal) @string
 (escape_sequence) @string.escape
 

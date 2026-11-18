@@ -324,3 +324,36 @@ enum JsonTest4 {
           (qualified_type_identifier
             (identifier
               (uppercase_identifier))))))))
+
+================================================================================
+derive attributes with qualified traits
+================================================================================
+#derive(@debug.Debug, @json.ToJson, Eq)
+struct Item(Int)
+--------------------------------------------------------------------------------
+
+(structure
+  (tuple_struct_definition
+    (attributes
+      (attribute
+        (attribute_expression
+          (lowercase_identifier)
+          (attribute_properties
+            (attribute_property
+              (attribute_expression
+                (package_identifier)
+                (dot_identifier
+                  (dot_uppercase_identifier))))
+            (attribute_property
+              (attribute_expression
+                (package_identifier)
+                (dot_identifier
+                  (dot_uppercase_identifier))))
+            (attribute_property
+              (attribute_expression
+                (uppercase_identifier)))))))
+    (identifier
+      (uppercase_identifier))
+    (qualified_type_identifier
+      (identifier
+        (uppercase_identifier)))))
